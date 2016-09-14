@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:background="@color/myred"
+              android:clipToPadding="true"
+              android:fitsSystemWindows="true">
+
+    <com.cqfrozen.jsh.widget.MyViewPager
+        android:id="@+id/vp_home"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/mybg">
+    </com.cqfrozen.jsh.widget.MyViewPager>
+    <RadioGroup
+        android:id="@+id/rg_home"
+        android:layout_width="match_parent"
+        android:layout_height="53dp"
+        android:background="@color/white"
+        android:gravity="center"
+        android:orientation="horizontal">
+        <RadioButton
+            android:id="@+id/rb_home"
+            style="@style/RadioButtonHomeTheme"
+            android:drawableTop="@drawable/sl_home_rb"
+            android:checked="true"
+            android:text="@string/nav_home"/>
+        <RadioButton
+            android:id="@+id/rb_classify"
+            style="@style/RadioButtonHomeTheme"
+            android:drawableTop="@drawable/sl_classify_rb"
+            android:text="@string/nav_classify"/>
+        <RadioButton
+            android:id="@+id/rb_cart"
+            style="@style/RadioButtonHomeTheme"
+            android:drawableTop="@drawable/sl_cart_rb"
+            android:text="@string/nav_cart"/>
+
+        <RadioButton
+            android:id="@+id/rb_mine"
+            style="@style/RadioButtonHomeTheme"
+            android:drawableTop="@drawable/sl_mine_rb"
+            android:text="@string/nav_mine"/>
+    </RadioGroup>
+</LinearLayout>

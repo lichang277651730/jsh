@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#1DC1F8</color>
+    <color name="colorPrimaryDark">#1DC1F8</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+    <color name="red">#FF0000</color>
+    <color name="transparency">#00000000</color>
+
+
+    <!--分割线-->
+    <color name="myline">#c7c8cc</color>
+    <!--黑色字体/图片-->
+    <color name="myblack">#323232</color>
+    <!--红色字体/图片-->
+    <color name="myred">#ff2233</color>
+    <!--页面背景色-->
+    <color name="mybg">#f2f3f4</color>
+
+    <color name="mygray">#c7c8cc</color>
+</resources>

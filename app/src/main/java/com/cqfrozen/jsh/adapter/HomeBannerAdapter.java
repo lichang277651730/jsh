@@ -1,0 +1,134 @@
+package com.cqfrozen.jsh.adapter;
+
+import android.app.Activity;
+import android.content.Context;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+
+import com.cqfrozen.jsh.R;
+import com.cqfrozen.jsh.base.BaseValue;
+import com.cqfrozen.jsh.entity.HomeBannerInfo;
+import com.cqfrozen.jsh.widget.MyViewPager;
+
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
+/**
+ * Created by Administrator on 2016/9/13.
+ *首页 轮播条 数据适配器
+ */
+public class HomeBannerAdapter extends RecyclerView.Adapter<HomeBannerAdapter.MyViewHolder> implements MyViewPager.OnMyPageChangeListener {
+
+    private Context context;
+    private List<HomeBannerInfo> bannerInfos;
+    private RadioButton[] rb_points;
+    private MyViewPager viewPager;
+    private Timer timer;
+
+    public HomeBannerAdapter(Context context, List<HomeBannerInfo> bannerInfos){
+        this.context = context;
+        this.bannerInfos = bannerInfos;
+    }
+    @Override
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if(context == null){
+            context = parent.getContext();
+        }
+        return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.item_homebanner, null));
+    }
+
+    @Override
+    public void onBindViewHolder(MyViewHolder holder, int position) {
+        if(bannerInfos.size() == 0){
+            return;
+        }
+        viewPager = holder.vp_homebanner;
+        //给vp_homebanner设置adapter
+        holder.vp_homebanner.setAdapter(new HomeBannerVPAdapter(context, bannerInfos));
+        //设置圆点数
+        setPoints(holder.rg_homebanner);
+        //给vp_homebanner设置页面滑动监听事件
+        holder.vp_homebanner.setOnMyPageChangeListener(this);
+        //默认第一页 第一个点选中
+        holder.vp_homebanner.setCurrentItem(1, false);
+        rb_points[0].setChecked(true);
+        //设置无限轮播
+        setLoopPlay(holder.vp_homebanner);
+    }
+
+    @Override
+    public int getItemCount() {
+        return 1;
+    }
+
+    public class MyViewHolder extends RecyclerView.ViewHolder{
+
+        private MyViewPager vp_homebanner;
+        private RadioGroup rg_homebanner;
+        public MyViewHolder(View itemView) {
+            super(itemView);
+            vp_homebanner = (MyViewPager) itemView.findViewById(R.id.vp_homebanner);
+            rg_homebanner = (RadioGroup) itemView.findViewById(R.id.rg_homebanner);
+        }
+    }
+
+    private void setPoints(RadioGroup rg_homebanner) {
+        RadioGroup.LayoutParams params = new RadioGroup.LayoutParams(BaseValue.dp2px(10),
+                BaseValue.dp2px(10));
+        rb_points = new RadioButton[bannerInfos.size() - 2];
+        rg_homebanner.removeAllViews();
+        for(int i = 0; i < bannerInfos.size() - 2; i++){
+            RadioButton rb = new RadioButton(context);
+            rb.setLayoutParams(params);
+            rb.setBackgroundResource(R.drawable.sl_viewpager_dot);
+            rb.setButtonDrawable(R.color.transparency);
+            rb.setEnabled(false);
+            rb_points[i] = rb;
+            rg_homebanner.addView(rb);
+        }
+    }
+
+    private void setLoopPlay(final MyViewPager vp_homebanner) {
+        if(timer != null){
+            return;
+        }
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                ((Activity)context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        vp_homebanner.setCurrentItem(vp_homebanner.getCurrentItem() + 1, false);
+                    }
+                });
+            }
+        }, 4000, 4000);
+    }
+
+    @Override
+    public void onMyPageScrollStateChanged(int state) {
+
+    }
+
+    @Override
+    public void onMyPageSelected(int position) {
+        if(position == bannerInfos.size() - 1){
+            viewPager.setCurrentItem(1, false);
+        }else if(position == 0){
+            viewPager.setCurrentItem(bannerInfos.size() - 2, false);
+        }else {
+            rb_points[position - 1].setChecked(true);
+        }
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+}

@@ -1,0 +1,19 @@
+<resources>
+    <!--App name-->
+    <string name="app_name">锦晟汇</string>
+    <!--首页 底部导航页-->
+    <string name="nav_home">首页</string>
+    <string name="nav_classify">类别</string>
+    <string name="nav_cart">购物车</string>
+    <string name="nav_mine">我</string>
+    <!--RefreshLayout-->
+    <string name="pull_to_refresh">下拉刷新</string>
+    <string name="release_to_refresh">释放立即刷新</string>
+    <string name="refreshing">正在刷新...</string>
+    <string name="refresh_succeed">刷新成功</string>
+    <string name="refresh_fail">刷新失败</string>
+    <string name="more">更多</string>
+    <string name="loading">正在加载...</string>
+    <string name="cart_edit">编辑</string>
+
+</resources>

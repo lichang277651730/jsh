@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="144dp">
+    <com.cqfrozen.jsh.widget.MyViewPager
+        android:id="@+id/vp_homebanner"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+    </com.cqfrozen.jsh.widget.MyViewPager>
+    <RadioGroup
+        android:id="@+id/rg_homebanner"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="4dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+    </RadioGroup>
+</FrameLayout>
