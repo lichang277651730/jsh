@@ -45,4 +45,55 @@
         <item name="android:singleLine">true</item>
         <item name="android:background">@drawable/sl_search_bar</item>
     </style>
+
+    <!-- 字体 -->
+    <style name="text_main">
+        <item name="android:maxLines">1</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="text_14sp_black" parent="text_main">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/myblack</item>
+    </style>
+
+    <style name="text_14sp_white" parent="text_main">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="text_14sp_red" parent="text_main">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/myred</item>
+    </style>
+
+    <style name="text_15sp_black" parent="text_main">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/myblack</item>
+    </style>
+
+    <style name="text_15sp_white" parent="text_main">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="text_15sp_red" parent="text_main">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/myred</item>
+    </style>
+
+    <style name="text_16sp_black" parent="text_main">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/myblack</item>
+    </style>
+
+    <style name="text_16sp_white" parent="text_main">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="text_16sp_red" parent="text_main">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/myred</item>
+    </style>
 </resources>

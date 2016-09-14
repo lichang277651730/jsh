@@ -8,6 +8,7 @@ import android.widget.ImageView;
 
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.entity.HomeBannerInfo;
+import com.cqfrozen.jsh.util.ToastUtil;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -16,11 +17,10 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/9/13.
  */
-public class HomeBannerVPAdapter extends PagerAdapter {
+public class HomeBannerVPAdapter extends PagerAdapter{
 
     private Context context;
     private List<HomeBannerInfo> bannerInfos;
-    private ImageView[] iv_imgs;
     private final DisplayImageOptions defaultOptions;
 
     public HomeBannerVPAdapter(Context context, List<HomeBannerInfo> bannerInfos){
@@ -28,26 +28,14 @@ public class HomeBannerVPAdapter extends PagerAdapter {
         this.bannerInfos = bannerInfos;
         defaultOptions = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true)
                 .showImageOnLoading(R.color.transparency)
-                .showImageForEmptyUri(R.mipmap.banner_default)
-                .showImageOnFail(R.mipmap.banner_default)
+                .showImageForEmptyUri(R.mipmap.solid_banner)
+                .showImageOnFail(R.mipmap.solid_banner)
                 .build();
-        setImgs();
-    }
-
-    private void setImgs() {
-        iv_imgs = new ImageView[bannerInfos.size()];
-        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams
-                .MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        for(int i = 0; i < bannerInfos.size(); i++){
-            iv_imgs[i] = new ImageView(context);
-            iv_imgs[i].setLayoutParams(params);
-            iv_imgs[i].setScaleType(ImageView.ScaleType.CENTER_CROP);
-        }
     }
 
     @Override
     public int getCount() {
-        return bannerInfos.size();
+        return Integer.MAX_VALUE;
     }
 
     @Override
@@ -57,15 +45,38 @@ public class HomeBannerVPAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        container.addView(iv_imgs[position]);
+        position = position % bannerInfos.size();
+        final HomeBannerInfo bannerInfo = bannerInfos.get(position);
+        ImageView iv_img = newImageView(context);
+        iv_img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO 首页轮播条的点击事件
+                ToastUtil.showToast(context, bannerInfo.g_name);
+            }
+        });
         ImageLoader.getInstance().displayImage(bannerInfos.get(position).pic_url,
-                iv_imgs[position],
+                iv_img,
                 defaultOptions);
-        return iv_imgs[position];
+        container.addView(iv_img);
+        return iv_img;
+    }
+
+    /**
+     * 新建一张图片
+     */
+    private ImageView newImageView(Context context) {
+        ImageView iv_img = new ImageView(context);
+        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams
+                .MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        iv_img.setLayoutParams(params);
+        iv_img.setScaleType(ImageView.ScaleType.FIT_XY);
+        return iv_img;
     }
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
         container.removeView((View)object);
     }
+
 }

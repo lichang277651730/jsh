@@ -1,10 +1,12 @@
 package com.cqfrozen.jsh.base;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.os.Handler;
 
-import com.cqfrozen.jsh.http.SupportHttps;
+import com.cqfrozen.jsh.volleyhttp.SupportHttps;
 import com.cqfrozen.jsh.widget.RefreshLayout;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -17,6 +19,10 @@ import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
  */
 public class BaseApplication extends Application {
 
+    private static Context context;
+    private static int mainThreadId;
+    private static Handler handler;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -24,6 +30,9 @@ public class BaseApplication extends Application {
         RefreshLayout.setInit();//下拉刷新控件初始化
         createUIL();
         SupportHttps.setInit();//初始化https
+        context = getApplicationContext();
+        mainThreadId = android.os.Process.myPid();
+        handler = new Handler();
     }
 
     private void createUIL() {
@@ -47,5 +56,17 @@ public class BaseApplication extends Application {
         config.setToDefaults();
         res.updateConfiguration(config, res.getDisplayMetrics());
         return super.getResources();
+    }
+
+    public static Context getContext(){
+        return context;
+    }
+
+    public static Handler getHandler(){
+        return handler;
+    }
+
+    public static int getMainThreadId() {
+        return mainThreadId;
     }
 }

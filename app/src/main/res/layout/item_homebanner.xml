@@ -2,13 +2,13 @@
 <FrameLayout 
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="144dp">
-    <com.cqfrozen.jsh.widget.MyViewPager
+    android:layout_height="wrap_content">
+    <android.support.v4.view.ViewPager
         android:id="@+id/vp_homebanner"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="144dp"
         android:background="@color/white">
-    </com.cqfrozen.jsh.widget.MyViewPager>
+    </android.support.v4.view.ViewPager>
     <RadioGroup
         android:id="@+id/rg_homebanner"
         android:layout_width="match_parent"

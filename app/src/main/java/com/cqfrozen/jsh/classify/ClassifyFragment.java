@@ -1,4 +1,4 @@
-package com.cqfrozen.jsh.fragment;
+package com.cqfrozen.jsh.classify;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,15 +11,15 @@ import com.cqfrozen.jsh.base.BaseFragment;
 
 /**
  * Created by Administrator on 2016/9/12.
- * 个人中心页面 fragment
+ * 分类页面 fragment
  */
-public class MineFragment extends BaseFragment {
+public class ClassifyFragment extends BaseFragment {
 
-    private static MineFragment fragment;
+    private static ClassifyFragment fragment;
 
-    public static MineFragment getInstance(){
+    public static ClassifyFragment getInstance(){
         if(fragment == null){
-            fragment = new MineFragment();
+            fragment = new ClassifyFragment();
             Bundle bundle = new Bundle();
             fragment.setArguments(bundle);
         }
@@ -30,7 +30,7 @@ public class MineFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if(view == null){
-            view = inflater.inflate(R.layout.fragment_mine, null);
+            view = inflater.inflate(R.layout.fragment_classify, null);
         }
         return view;
     }

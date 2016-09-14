@@ -157,4 +157,8 @@ public class MyToolbar extends Toolbar {
     public Button getRightButton() {
         return btn_right;
     }
+
+    public EditText getEditText(){
+        return this.et_search;
+    }
 }

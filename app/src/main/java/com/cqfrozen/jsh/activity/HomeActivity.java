@@ -8,10 +8,10 @@ import android.widget.RadioGroup;
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.base.BaseActivity;
 import com.cqfrozen.jsh.base.BaseFragment;
-import com.cqfrozen.jsh.fragment.CartFragment;
-import com.cqfrozen.jsh.fragment.ClassifyFragment;
-import com.cqfrozen.jsh.fragment.HomeFragment;
-import com.cqfrozen.jsh.fragment.MineFragment;
+import com.cqfrozen.jsh.cart.CartFragment;
+import com.cqfrozen.jsh.center.MineFragment;
+import com.cqfrozen.jsh.classify.ClassifyFragment;
+import com.cqfrozen.jsh.home.HomeFragment;
 import com.cqfrozen.jsh.widget.MyViewPager;
 
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/9/12.
  */
-public class HomeActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener, MyViewPager.OnMyPageChangeListener {
+public class HomeActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener, MyViewPager.OnMyPageChangeListener{
 
     private MyViewPager vp_home;
     private RadioGroup rg_home;
@@ -53,7 +53,7 @@ public class HomeActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         fragments.add(ClassifyFragment.getInstance());
         fragments.add(CartFragment.getInstance());
         fragments.add(MineFragment.getInstance());
-        vp_home.setFragment(getSupportFragmentManager(), fragments);
+        vp_home.setFragemnt(getSupportFragmentManager(), fragments);
         curFragment = fragments.get(0);
     }
 
@@ -62,7 +62,7 @@ public class HomeActivity extends BaseActivity implements RadioGroup.OnCheckedCh
      */
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
-        for(int i = 0; i < rb_homes.length; i++){
+        for(int i = 0; i < 4; i++){
             if(rb_homes[i].getId() == checkedId){
                 curFragment = fragments.get(i);
                 vp_home.setCurrentItem(i, false);
@@ -79,18 +79,19 @@ public class HomeActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         }
     }
 
-    @Override
-    public void onMyPageScrollStateChanged(int state) {
-
-    }
 
     @Override
-    public void onMyPageSelected(int position) {
+    public void OnMyPageSelected(int position) {
         rb_homes[position].setChecked(true);
     }
 
     @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+    public void OnMyPonPageScrolled(int arg0, float arg1, int arg2) {
+
+    }
+
+    @Override
+    public void OnMyPageScrollStateChanged(int arg0) {
 
     }
 }

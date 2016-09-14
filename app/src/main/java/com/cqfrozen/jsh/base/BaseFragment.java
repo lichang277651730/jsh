@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.cqfrozen.jsh.http.HttpForVolley;
+import com.cqfrozen.jsh.volleyhttp.HttpForVolley;
 
 /**
  * Created by Administrator on 2016/9/12.
@@ -56,5 +56,6 @@ public class BaseFragment extends Fragment {
             ((ViewGroup)this.view.getParent()).removeView(this.view);
         }
     }
+
 
 }

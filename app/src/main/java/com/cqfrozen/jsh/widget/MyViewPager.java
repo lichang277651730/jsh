@@ -15,93 +15,99 @@ import java.util.HashMap;
 import java.util.List;
 
 public class MyViewPager extends ViewPager {
-
 	private boolean isCanScroll = true;
 	private boolean isHaveFragment = false;
+	HashMap<String, Fragment> stopMap = new HashMap<String, Fragment>();
 	private List<BaseFragment> mFragments;
-	private HashMap<String, Fragment> stopMap = new HashMap<String, Fragment>();
-	
-	public void setFragment(FragmentManager fm, List<BaseFragment> fragments){
-		this.mFragments = fragments;
+
+	public MyViewPager(Context context, AttributeSet attrs) {
+		super(context, attrs);
+		setOverScrollMode(View.OVER_SCROLL_NEVER); // 设置滑动到顶部的阴影
+	}
+
+	public MyViewPager(Context context) {
+		super(context);
+		setOverScrollMode(View.OVER_SCROLL_NEVER);// 设置滑动到顶部的阴影
+	}
+
+	/**
+	 * 设置是否可以滑动
+	 */
+	public void setScanScroll(boolean isCanScroll) {
+		this.isCanScroll = isCanScroll;
+	}
+
+	/**
+	 * 设置fragment
+	 */
+	public void setFragemnt(FragmentManager fragmentManager,
+			final List<BaseFragment> mFragments) {
+		this.mFragments = mFragments;
 		isHaveFragment = true;
+		MyFragmentPagerAdapter adapter = new MyFragmentPagerAdapter(
+				fragmentManager, mFragments);
 		setOffscreenPageLimit(0);
 		stopMap.put("Fragment", mFragments.get(0));
-		MyFragmentPagerAdapter adapter = new MyFragmentPagerAdapter(fm, mFragments);
 		setAdapter(adapter);
 		setOnMyPageChangeListener(null);
 	}
-	
-	public void setOnMyPageChangeListener(final OnMyPageChangeListener listener){
+
+	public void setOnMyPageChangeListener(final OnMyPageChangeListener listener) {
 		setOnPageChangeListener(new OnPageChangeListener() {
-			
 			@Override
 			public void onPageSelected(int position) {
-				if(listener != null){
-					listener.onMyPageSelected(position);
+				if (null != listener) {
+					listener.OnMyPageSelected(position);
 				}
-				
 				if(isHaveFragment){
 					stopMap.get("Fragment").onStop();
 					stopMap.put("Fragment", mFragments.get(position));
 					mFragments.get(position).onShow();
 				}
 			}
-			
+
 			@Override
-			public void onPageScrolled(int position, float positionOffset,
-					int positionOffsetPixels) {
-				if(listener != null){
-					listener.onPageScrolled(position, positionOffset, positionOffsetPixels);
+			public void onPageScrolled(int arg0, float arg1, int arg2) {
+				if (null != listener) {
+					listener.OnMyPonPageScrolled(arg0,arg1,arg2);
 				}
 			}
-			
+
 			@Override
-			public void onPageScrollStateChanged(int state) {
-				if(listener != null){
-					listener.onMyPageScrollStateChanged(state);
+			public void onPageScrollStateChanged(int arg0) {
+				if (null != listener) {
+					listener.OnMyPageScrollStateChanged(arg0);
 				}
 			}
 		});
 	}
-	
-	public MyViewPager(Context context) {
-		super(context);
-		setOverScrollMode(View.OVER_SCROLL_NEVER);
+
+	public interface OnMyPageChangeListener {
+		public void OnMyPageSelected(int arg0);
+		public void OnMyPonPageScrolled(int arg0, float arg1, int arg2);
+		public void OnMyPageScrollStateChanged(int arg0);
 	}
 
-	public MyViewPager(Context context, AttributeSet attrs) {
-		super(context, attrs);
-	}
-	
-	public void setScanScroll(boolean isCanScroll){
-		this.isCanScroll = isCanScroll;
-	}
-	
 	@Override
 	public void scrollTo(int x, int y) {
-		if(isCanScroll){
+		if (isCanScroll) {
 			super.scrollTo(x, y);
 		}
 	}
 
 	/**
-	 * 禁止滑动
+	 * 拦截ViewPager的触摸事件, 不做任何处理
 	 */
 	@Override
 	public boolean onTouchEvent(MotionEvent ev) {
 		return false;
 	}
 
-	public interface OnMyPageChangeListener{
-		void onMyPageScrollStateChanged(int state);
-
-		void onMyPageSelected(int position);
-
-		void onPageScrolled(int position, float positionOffset,
-							int positionOffsetPixels);
-		
+	/**
+	 * 表示不对事件进行拦截, 从而可以使嵌套在ViewPager内部的ViewPager可以响应滑动动作
+	 */
+	@Override
+	public boolean onInterceptTouchEvent(MotionEvent ev) {
+		return false;
 	}
-	
-
-
 }

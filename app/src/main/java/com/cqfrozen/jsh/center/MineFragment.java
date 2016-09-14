@@ -1,4 +1,4 @@
-package com.cqfrozen.jsh.fragment;
+package com.cqfrozen.jsh.center;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,15 +11,15 @@ import com.cqfrozen.jsh.base.BaseFragment;
 
 /**
  * Created by Administrator on 2016/9/12.
- * 购物车页面 fragment
+ * 个人中心页面 fragment
  */
-public class CartFragment extends BaseFragment {
+public class MineFragment extends BaseFragment {
 
-    private static CartFragment fragment;
+    private static MineFragment fragment;
 
-    public static CartFragment getInstance(){
+    public static MineFragment getInstance(){
         if(fragment == null){
-            fragment = new CartFragment();
+            fragment = new MineFragment();
             Bundle bundle = new Bundle();
             fragment.setArguments(bundle);
         }
@@ -30,7 +30,7 @@ public class CartFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if(view == null){
-            view = inflater.inflate(R.layout.fragment_cart, null);
+            view = inflater.inflate(R.layout.fragment_mine, null);
         }
         return view;
     }
