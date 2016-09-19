@@ -6,7 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.view.View;
 
-import com.cqfrozen.jsh.base.BaseApplication;
+import com.common.base.BaseApplication;
 
 /**
  * 工具类, 专门处理UI相关的逻辑

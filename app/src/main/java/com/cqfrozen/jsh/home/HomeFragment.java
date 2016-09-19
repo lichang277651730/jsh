@@ -12,15 +12,18 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+import com.common.base.BaseFragment;
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.adapter.HomeAdapter;
 import com.cqfrozen.jsh.adapter.HomeBannerAdapter;
 import com.cqfrozen.jsh.adapter.HomeClassifyAdapter;
-import com.cqfrozen.jsh.base.BaseFragment;
+import com.cqfrozen.jsh.adapter.HomeHotAdapter;
+import com.cqfrozen.jsh.adapter.HomePriceAdapter;
+import com.cqfrozen.jsh.adapter.HomeRecommendAdapter;
+import com.cqfrozen.jsh.entity.GoodsInfo;
 import com.cqfrozen.jsh.entity.HomeBannerInfo;
 import com.cqfrozen.jsh.entity.HomeClassifyInfo;
 import com.cqfrozen.jsh.volleyhttp.MyHttp;
-import com.cqfrozen.jsh.widget.MyToolbar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +36,8 @@ public class HomeFragment extends BaseFragment implements MyHttp.MyHttpResult ,V
     private static HomeFragment fragment;
     private List<HomeBannerInfo> bannerInfos = new ArrayList<>();
     private List<HomeClassifyInfo> classifyInfos = new ArrayList<>();
-    private MyToolbar toolbar;
+    private List<GoodsInfo> priceGoods = new ArrayList<>();
+    private List<GoodsInfo> recommendGoods = new ArrayList<>();
     private RecyclerView rv_home;
     private HomeAdapter homeAdapter;
     private EditText et_search;
@@ -53,7 +57,6 @@ public class HomeFragment extends BaseFragment implements MyHttp.MyHttpResult ,V
         if(view == null){
             view = inflater.inflate(R.layout.fragment_home, null);
             initView();
-            initToolbar();
             initRV();
             getData();
         }
@@ -61,36 +64,39 @@ public class HomeFragment extends BaseFragment implements MyHttp.MyHttpResult ,V
     }
 
     private void initView() {
-        toolbar = (MyToolbar) view.findViewById(R.id.toolbar);
         rv_home = (RecyclerView) view.findViewById(R.id.rv_home);
     }
 
-    private void initToolbar() {
-        et_search = toolbar.getEditText();
-    }
 
     private void initRV() {
         rv_home.setOverScrollMode(View.OVER_SCROLL_NEVER);
         HomeBannerAdapter homeBannerAdapter = new HomeBannerAdapter(mActivity, bannerInfos);
         HomeClassifyAdapter homeClassifyAdapter = new HomeClassifyAdapter(mActivity, classifyInfos);
-//        LinearLayoutManager manager = new LinearLayoutManager(mActivity);
+        HomeHotAdapter homeHotAdapter = new HomeHotAdapter(mActivity);
+        HomePriceAdapter homePriceAdapter = new HomePriceAdapter(mActivity, priceGoods);
+        HomeRecommendAdapter homeRecommendAdapter = new HomeRecommendAdapter(mActivity, recommendGoods);
         GridLayoutManager manager = new GridLayoutManager(getActivity(), 8);
         manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
                 if (position == 0) return 8;
                 if (position > 0 && position <= 4) return 2;
-//                if (position == 11) return 10;
+                if (position == 5) return 8;
+                if (position == 6) return 8;
+                if (position == 7) return 8;
                 return 8;
             }
         });
-        homeAdapter = new HomeAdapter(homeBannerAdapter, homeClassifyAdapter);
+        homeAdapter = new HomeAdapter(homeBannerAdapter, homeClassifyAdapter, homeHotAdapter, homePriceAdapter
+                , homeRecommendAdapter);
         rv_home.setAdapter(homeAdapter);
         rv_home.setLayoutManager(manager);
     }
 
     private void getData() {
         MyHttp.homeBanner(http, HomeAdapter.TYPE_BANNER, this);
+        MyHttp.homePriceGoods(http, HomeAdapter.TYPE_PRICE, "1", this);
+        MyHttp.homePriceGoods(http, HomeAdapter.TYPE_RECOMMEND, "2", this);
     }
 
     @Override
@@ -108,6 +114,20 @@ public class HomeFragment extends BaseFragment implements MyHttp.MyHttpResult ,V
                     return;
                 }
                 break;
+            case HomeAdapter.TYPE_PRICE:
+                priceGoods.clear();
+                priceGoods.addAll((List<GoodsInfo>) bean);
+                if (priceGoods.size() == 0) {
+                    return;
+                }
+                break;
+            case HomeAdapter.TYPE_RECOMMEND:
+                recommendGoods.clear();
+                recommendGoods.addAll((List<GoodsInfo>) bean);
+                if (recommendGoods.size() == 0) {
+                    return;
+                }
+                break;
             default:
                 break;
         }
@@ -122,4 +142,16 @@ public class HomeFragment extends BaseFragment implements MyHttp.MyHttpResult ,V
         et_search.clearFocus();
         return true;
     }
+
+
+    @Override
+    public void onShow() {
+        super.onShow();
+//        Log.d("HomeFragment", "FragmentOnShow");
+//        if(bannerInfos == null || bannerInfos.size() == 0){
+//            Log.d("HomeFragment", "FragmentOnShowgetData");
+//            getData();
+//        }
+    }
+
 }

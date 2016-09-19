@@ -2,12 +2,13 @@ package com.cqfrozen.jsh.cart;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.cqfrozen.jsh.R;
-import com.cqfrozen.jsh.base.BaseFragment;
+import com.common.base.BaseFragment;
 
 /**
  * Created by Administrator on 2016/9/12.
@@ -34,4 +35,11 @@ public class CartFragment extends BaseFragment {
         }
         return view;
     }
+
+    @Override
+    public void onShow() {
+        super.onShow();
+        Log.d("FragmentShow", "CartFragment");
+    }
+
 }

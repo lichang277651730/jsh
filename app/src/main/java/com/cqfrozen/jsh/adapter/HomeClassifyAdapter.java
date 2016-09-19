@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.entity.HomeClassifyInfo;
+import com.cqfrozen.jsh.util.ToastUtil;
+import com.cqfrozen.jsh.util.UIUtils;
 
 import java.util.List;
 
@@ -19,8 +21,10 @@ import java.util.List;
 public class HomeClassifyAdapter extends RecyclerView.Adapter<HomeClassifyAdapter.MyViewHolder> {
 
 
-    private String[] titles = new String[]{"我要订货", "常用采购", "我的积分", "我的订单"};
-    private int[] imgs = new int[]{R.mipmap.u44_normal, R.mipmap.u46_normal, R.mipmap.u47_normal, R.mipmap.u49_normal};
+//    private String[] titles = new String[]{"我要订货", "常用采购", "我的积分", "我的订单"};
+    private int[] titleIds = new int[]{R.string.home_classify_dh, R.string.home_classify_cg,
+                                        R.string.home_classify_jf, R.string.home_classify_dd};
+    private int[] imgs = new int[]{R.mipmap.list_btm_dinghuo_h, R.mipmap.list_btm_caigou_h, R.mipmap.list_btm_ifen_h, R.mipmap.list_btm_dingdan_h};
     private Context context;
     private List<HomeClassifyInfo> classifyInfos;
     public HomeClassifyAdapter(Context context, List<HomeClassifyInfo> classifyInfos){
@@ -38,8 +42,18 @@ public class HomeClassifyAdapter extends RecyclerView.Adapter<HomeClassifyAdapte
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        holder.tv_classify.setText(titles[position - 1]);
+//        final String title = titles[position - 1];
+//        holder.tv_classify.setText(titles[position - 1]);
+        final String title = UIUtils.getString(titleIds[position - 1]);
+        holder.tv_classify.setText(title);
         holder.iv_classify.setImageResource(imgs[position - 1]);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO 首页分类图标点击事件
+                ToastUtil.showToast(context, title);
+            }
+        });
     }
 
     @Override

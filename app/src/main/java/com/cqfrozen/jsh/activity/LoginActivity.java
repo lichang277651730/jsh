@@ -1,6 +1,6 @@
 package com.cqfrozen.jsh.activity;
 
-import com.cqfrozen.jsh.base.BaseActivity;
+import com.common.base.BaseActivity;
 
 /**
  * Created by Administrator on 2016/9/12.

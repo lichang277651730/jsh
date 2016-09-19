@@ -9,6 +9,8 @@
     <color name="red">#FF0000</color>
     <color name="transparency">#00000000</color>
 
+    <color name="rb_txt_pre">#55B2FF</color>
+    <color name="rb_txt_nor">#c7c8cc</color>
 
     <!--分割线-->
     <color name="myline">#c7c8cc</color>
@@ -20,4 +22,8 @@
     <color name="mybg">#f2f3f4</color>
 
     <color name="mygray">#c7c8cc</color>
+
+    <color name="item_color_press">#dcdcdc</color>
+    <color name="item_color_normal">#ffffff</color>
+
 </resources>

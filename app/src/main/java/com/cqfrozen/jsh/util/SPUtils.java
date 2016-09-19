@@ -1,7 +1,7 @@
 package com.cqfrozen.jsh.util;
 
 
-import com.cqfrozen.jsh.MyApplication;
+import com.cqfrozen.jsh.main.MyApplication;
 
 public class SPUtils {
 

@@ -2,18 +2,19 @@ package com.cqfrozen.jsh.center;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.cqfrozen.jsh.R;
-import com.cqfrozen.jsh.base.BaseFragment;
+import com.cqfrozen.jsh.main.MyFragment;
 
 /**
  * Created by Administrator on 2016/9/12.
  * 个人中心页面 fragment
  */
-public class MineFragment extends BaseFragment {
+public class MineFragment extends MyFragment {
 
     private static MineFragment fragment;
 
@@ -33,5 +34,11 @@ public class MineFragment extends BaseFragment {
             view = inflater.inflate(R.layout.fragment_mine, null);
         }
         return view;
+    }
+
+    @Override
+    public void onShow() {
+        super.onShow();
+        Log.d("FragmentShow", "MineFragment");
     }
 }

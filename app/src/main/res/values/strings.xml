@@ -1,6 +1,12 @@
 <resources>
     <!--App name-->
     <string name="app_name">锦晟汇</string>
+
+    <!--首页 分类-->
+    <string name="home_classify_dh">我要订货</string>
+    <string name="home_classify_cg">常用采购</string>
+    <string name="home_classify_jf">我的积分</string>
+    <string name="home_classify_dd">我的订单</string>
     <!--首页 底部导航页-->
     <string name="nav_home">首页</string>
     <string name="nav_classify">类别</string>
@@ -16,4 +22,18 @@
     <string name="loading">正在加载...</string>
     <string name="cart_edit">编辑</string>
 
+
+    <string name="my_msg">我的消息</string>
+    <string name="my_addresses">收货地址</string>
+    <string name="my_favorite">我的收藏</string>
+    <string name="my_orders">我的订单</string>
+
+    <string name="tabs_jy">鸡鸭类</string>
+    <string name="tabs_zr">猪肉类</string>
+    <string name="tabs_ny">牛羊类</string>
+    <string name="tabs_wz">丸子类</string>
+    <string name="tabs_sc">水产类</string>
+    <string name="tabs_ss">素食类</string>
+    <string name="tabs_xc">小吃类</string>
+    <string name="tabs_qt">其他类</string>
 </resources>

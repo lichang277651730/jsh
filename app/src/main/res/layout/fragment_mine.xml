@@ -1,11 +1,167 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
-    <TextView
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollview"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="none">
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="mine fragment"/>
-</LinearLayout>
+        android:background="@color/white"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:background="@color/colorPrimaryDark">
+
+            <ImageView
+                android:id="@+id/iv_setting"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_alignParentRight="true"
+
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="10dp"
+                android:src="@mipmap/center_setting"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="12dp"
+                android:layout_marginLeft="12dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <com.common.widget.MyHeadImageView
+                    android:id="@+id/head_img"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/center_head"/>
+
+                <TextView
+                    android:id="@+id/login_tv"
+                    style="@style/text_14sp_white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="注册/登录"/>
+
+                <TextView
+                    android:id="@+id/name_tv"
+                    style="@style/text_14sp_white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:maxLength="11"
+                    android:textSize="20sp"/>
+            </LinearLayout>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="3dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/myred"/>
+
+            <TextView
+                style="@style/text_14sp_black"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="我的订单"
+                android:textSize="17sp"/>
+
+            <TextView
+                android:id="@+id/lookall_tv"
+                style="@style/text_14sp_red"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="16dp"
+                android:text="查看全部订单>"
+                android:textColor="@color/mygray"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="@color/myline"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_myorders"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/sl_item_bg"
+                android:drawableLeft="@mipmap/icon_list_o"
+                android:drawableRight="@mipmap/toright"
+                android:drawablePadding="20dp"
+                android:gravity="center_vertical"
+                android:padding="@dimen/largePadding"
+                android:text="@string/my_orders"
+                android:textColor="@color/black"/>
+            <View style="@style/HorizontalDividerLine"/>
+
+            <TextView
+                android:id="@+id/tv_favourite"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/sl_item_bg"
+                android:drawableLeft="@mipmap/icon_favorite"
+                android:drawableRight="@mipmap/toright"
+                android:drawablePadding="20dp"
+                android:gravity="center_vertical"
+                android:padding="@dimen/largePadding"
+                android:text="@string/my_favorite"
+                android:textColor="@color/black"/>
+
+            <View style="@style/HorizontalDividerLine"/>
+
+
+            <TextView
+                android:id="@+id/tv_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/sl_item_bg"
+                android:drawableLeft="@mipmap/icon_location"
+                android:drawableRight="@mipmap/toright"
+                android:drawablePadding="20dp"
+                android:gravity="center_vertical"
+                android:padding="@dimen/largePadding"
+                android:text="@string/my_addresses"
+                android:textColor="@color/black"/>
+
+            <View style="@style/HorizontalDividerLine"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/sl_item_bg"
+                android:drawableLeft="@mipmap/icon_msg"
+                android:drawableRight="@mipmap/toright"
+                android:drawablePadding="20dp"
+                android:gravity="center_vertical"
+                android:padding="@dimen/largePadding"
+                android:text="@string/my_msg"
+                android:textColor="@color/black"/>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

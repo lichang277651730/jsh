@@ -10,14 +10,24 @@ public class HomeAdapter extends RecyclerView.Adapter{
     public static final int TYPE_BANNER = 1;
     public static final int TYPE_CLASSIFY = 2;
     public static final int TYPE_TABLE = 3;
-    public static final int TYPE_LIST = 4;
+    public static final int TYPE_PRICE = 4;
+    public static final int TYPE_RECOMMEND = 5;
+    public static final int TYPE_LIST = 6;
 
     private HomeBannerAdapter homeBannerAdapter;
-    private  HomeClassifyAdapter homeClassifyAdapter;
+    private HomeClassifyAdapter homeClassifyAdapter;
+    private HomeHotAdapter homeHotAdapter;
+    private HomePriceAdapter homePriceAdapter;
+    private HomeRecommendAdapter homeRecommendAdapter;
 
-    public HomeAdapter(HomeBannerAdapter homeBannerAdapter,  HomeClassifyAdapter homeClassifyAdapter ){
+    public HomeAdapter(HomeBannerAdapter homeBannerAdapter,  HomeClassifyAdapter homeClassifyAdapter,
+                       HomeHotAdapter homeHotAdapter, HomePriceAdapter homePriceAdapter,
+                       HomeRecommendAdapter homeRecommendAdapter){
         this.homeBannerAdapter = homeBannerAdapter;
         this.homeClassifyAdapter = homeClassifyAdapter;
+        this.homeHotAdapter = homeHotAdapter;
+        this.homePriceAdapter = homePriceAdapter;
+        this.homeRecommendAdapter = homeRecommendAdapter;
     }
 
 
@@ -29,6 +39,17 @@ public class HomeAdapter extends RecyclerView.Adapter{
         if(viewType == TYPE_CLASSIFY){
             return homeClassifyAdapter.onCreateViewHolder(parent, viewType);
         }
+        if(viewType == TYPE_TABLE){
+            return homeHotAdapter.onCreateViewHolder(parent, viewType);
+        }
+        if(viewType == TYPE_PRICE){
+            return homePriceAdapter.onCreateViewHolder(parent, viewType);
+        }
+        if(viewType == TYPE_RECOMMEND){
+            return homeRecommendAdapter.onCreateViewHolder(parent, viewType);
+        }
+
+
         return null;
     }
 
@@ -41,6 +62,15 @@ public class HomeAdapter extends RecyclerView.Adapter{
             case TYPE_CLASSIFY:
                 homeClassifyAdapter.onBindViewHolder((HomeClassifyAdapter.MyViewHolder)holder, position);
                 break;
+            case TYPE_TABLE:
+                homeHotAdapter.onBindViewHolder((HomeHotAdapter.MyViewHolder)holder, position);
+                break;
+            case TYPE_PRICE:
+                homePriceAdapter.onBindViewHolder((HomePriceAdapter.MyViewHolder)holder, position);
+                break;
+            case TYPE_RECOMMEND:
+                homeRecommendAdapter.onBindViewHolder((HomeRecommendAdapter.MyViewHolder)holder, position);
+                break;
             default:
                 break;
         }
@@ -48,7 +78,7 @@ public class HomeAdapter extends RecyclerView.Adapter{
 
     @Override
     public int getItemCount() {
-        return 5;
+        return 8;
     }
 
     @Override
@@ -58,6 +88,15 @@ public class HomeAdapter extends RecyclerView.Adapter{
         }
         if(position > 0 && position <= 4){
             return TYPE_CLASSIFY;
+        }
+        if (position == 5){
+            return TYPE_TABLE;
+        }
+        if (position == 6){
+            return TYPE_PRICE;
+        }
+        if (position == 7){
+            return TYPE_RECOMMEND;
         }
         return TYPE_LIST;
     }

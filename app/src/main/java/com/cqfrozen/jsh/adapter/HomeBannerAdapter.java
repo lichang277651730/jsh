@@ -11,7 +11,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.cqfrozen.jsh.R;
-import com.cqfrozen.jsh.base.BaseValue;
+import com.common.base.BaseValue;
 import com.cqfrozen.jsh.entity.HomeBannerInfo;
 
 import java.util.List;

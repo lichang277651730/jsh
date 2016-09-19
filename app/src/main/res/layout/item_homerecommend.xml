@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/mybg"
+              android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+        <View
+            android:layout_width="0px"
+            android:layout_height="2px"
+            android:layout_margin="15dp"
+            android:layout_weight="1"
+            android:background="@color/myline"/>
+
+        <ImageView
+            android:id="@+id/iv_table"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:scaleType="fitCenter"
+            android:src="@mipmap/list_remai_h"/>
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:textColor="@color/myblack"
+            android:text="推荐商品"/>
+
+        <View
+            android:layout_width="0px"
+            android:layout_height="2px"
+            android:layout_margin="15dp"
+            android:layout_weight="1"
+            android:background="@color/myline"/>
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginRight="8dp"
+            android:scaleType="fitCenter"
+            android:src="@mipmap/list_gengduo_shushi_h"/>
+    </LinearLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_homeprice"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:scrollbars="none">
+    </android.support.v7.widget.RecyclerView>
+</LinearLayout>

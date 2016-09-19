@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <View style="@style/HorizontalDividerLine"/>
+
+    <LinearLayout
+        android:id="@+id/headLayout"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:padding="4dp">
+
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:padding="2dp"
+            android:src="@mipmap/list_zuire_h"/>
+
+        <com.common.widget.AutoTextView
+            android:id="@+id/atv_notify"
+            style="@style/text_10sp_black"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginTop="4dp"
+            android:layout_marginLeft="10dp"/>
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:padding="2dp"
+            android:src="@mipmap/list_gengduo_h"/>
+    </LinearLayout>
+
+    <View style="@style/HorizontalDividerLine"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="@color/mybg"/>
+</LinearLayout>

@@ -6,4 +6,8 @@
         <attr name="rightButtonText" format="string"/>
         <attr name="rightText" format="string"/>
     </declare-styleable>
+
+    <declare-styleable name="RatioLayout">
+        <attr name="ratio" format="float" />
+    </declare-styleable>
 </resources>

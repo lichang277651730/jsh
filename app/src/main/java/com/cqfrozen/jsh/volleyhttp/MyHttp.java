@@ -6,11 +6,13 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.Request;
-import com.cqfrozen.jsh.MainActivity;
-import com.cqfrozen.jsh.MyApplication;
+import com.common.base.BaseValue;
+import com.common.http.HttpForVolley;
 import com.cqfrozen.jsh.activity.LoginActivity;
-import com.cqfrozen.jsh.base.BaseValue;
+import com.cqfrozen.jsh.activity.MainActivity;
+import com.cqfrozen.jsh.entity.GoodsInfo;
 import com.cqfrozen.jsh.entity.HomeBannerInfo;
+import com.cqfrozen.jsh.main.MyApplication;
 import com.cqfrozen.jsh.util.SPUtils;
 import com.google.gson.reflect.TypeToken;
 
@@ -33,14 +35,24 @@ public class MyHttp {
 
     private MyHttp(){}
 
+    /**
+     * 首页banner数据
+     */
     public static void homeBanner(HttpForVolley http, Integer which,
                                   MyHttpResult myHttpResult) {
-        String url = SERVER + "Home/index";
+        String url = SERVER + "Home/banner/area_id/5";
         Type type = new TypeToken<List<HomeBannerInfo>>(){}.getType();
         toBean(GET, http, which, null, url, myHttpResult, type);
     }
 
-
+    /**
+     * 首页特价推荐商品
+     */
+    public static void homePriceGoods(HttpForVolley http, Integer which, String id, MyHttpResult myHttpResult) {
+        String url = SERVER + "Home/homegoods/area_id/5/type/" + id;
+        Type type = new TypeToken<List<GoodsInfo>>(){}.getType();
+        toBean(GET, http, which, null, url, myHttpResult, type);
+    }
 
     private static void toBean(int method, final HttpForVolley http, Integer which,
                                HashMap<String, String> httpMap, String url,

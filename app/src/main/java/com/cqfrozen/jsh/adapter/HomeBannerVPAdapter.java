@@ -8,7 +8,6 @@ import android.widget.ImageView;
 
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.entity.HomeBannerInfo;
-import com.cqfrozen.jsh.util.ToastUtil;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -52,7 +51,6 @@ public class HomeBannerVPAdapter extends PagerAdapter{
             @Override
             public void onClick(View v) {
                 //TODO 首页轮播条的点击事件
-                ToastUtil.showToast(context, bannerInfo.g_name);
             }
         });
         ImageLoader.getInstance().displayImage(bannerInfos.get(position).pic_url,

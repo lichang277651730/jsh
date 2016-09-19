@@ -4,19 +4,31 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
-    <com.cqfrozen.jsh.widget.MyToolbar
-        android:id="@+id/toolbar"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        app:isSearchShow="false"
-        app:title="类别"
-        app:rightButtonIcon="@mipmap/icon_search">
-    </com.cqfrozen.jsh.widget.MyToolbar>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="classify fragment"/>
+        android:layout_height="44dp"
+        android:background="@color/colorPrimaryDark">
+
+        <TextView
+            style="@style/text_14sp_white"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="类别"
+            android:textSize="18sp"/>
+
+        <ImageView
+            android:id="@+id/search_img"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:paddingBottom="10dp"
+            android:paddingLeft="34dp"
+            android:paddingRight="16dp"
+            android:paddingTop="10dp"
+            android:scaleType="fitCenter"
+            android:src="@mipmap/nav_sousuo_h"/>
+    </RelativeLayout>
 </LinearLayout>
