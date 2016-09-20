@@ -87,7 +87,7 @@
                 android:textSize="17sp"/>
 
             <TextView
-                android:id="@+id/lookall_tv"
+                android:id="@+id/tv_lookall"
                 style="@style/text_14sp_red"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -96,14 +96,96 @@
                 android:textColor="@color/mygray"/>
         </LinearLayout>
 
+        <View style="@style/HorizontalDividerLine"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:orientation="horizontal">
+
+            <View style="@style/VerticalDividerLine"/>
+
+            <LinearLayout
+                android:id="@+id/table1"
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@mipmap/order_pay"/>
+
+                <TextView
+                    style="@style/text_14sp_black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="待付款"
+                    android:textSize="14sp"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="1px"
+                android:layout_height="match_parent"
+                android:background="@color/myline"/>
+
+            <LinearLayout
+                android:id="@+id/table2"
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@mipmap/order_take"/>
+
+                <TextView
+                    style="@style/text_14sp_black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="待收货"
+                    android:textSize="14sp"/>
+            </LinearLayout>
+
+            <View style="@style/VerticalDividerLine"/>
+
+            <LinearLayout
+                android:id="@+id/table3"
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@mipmap/order_eval"/>
+
+                <TextView
+                    style="@style/text_14sp_black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="待评价"
+                    android:textSize="14sp"/>
+            </LinearLayout>
+
+            <View style="@style/VerticalDividerLine"/>
+
+        </LinearLayout>
+        <View style="@style/HorizontalDividerLine"/>
         <View
             android:layout_width="match_parent"
-            android:layout_height="2px"
-            android:background="@color/myline"/>
+            android:layout_height="16dp"
+            android:background="@color/mybg"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="20dp"
             android:orientation="vertical">
 
             <TextView
@@ -160,8 +242,8 @@
                 android:drawablePadding="20dp"
                 android:gravity="center_vertical"
                 android:padding="@dimen/largePadding"
-                android:text="@string/my_msg"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                android:text="@string/my_msg"/>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

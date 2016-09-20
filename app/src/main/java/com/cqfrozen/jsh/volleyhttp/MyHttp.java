@@ -10,6 +10,7 @@ import com.common.base.BaseValue;
 import com.common.http.HttpForVolley;
 import com.cqfrozen.jsh.activity.LoginActivity;
 import com.cqfrozen.jsh.activity.MainActivity;
+import com.cqfrozen.jsh.entity.CategoryInfo;
 import com.cqfrozen.jsh.entity.GoodsInfo;
 import com.cqfrozen.jsh.entity.HomeBannerInfo;
 import com.cqfrozen.jsh.main.MyApplication;
@@ -51,6 +52,15 @@ public class MyHttp {
     public static void homePriceGoods(HttpForVolley http, Integer which, String id, MyHttpResult myHttpResult) {
         String url = SERVER + "Home/homegoods/area_id/5/type/" + id;
         Type type = new TypeToken<List<GoodsInfo>>(){}.getType();
+        toBean(GET, http, which, null, url, myHttpResult, type);
+    }
+
+    /**
+     * 商品分类数据
+     */
+    public static void goodsType(HttpForVolley http,  Integer which, MyHttpResult myHttpResult) {
+        String url = SERVER + "Goods/goodstype";
+        Type type = new TypeToken<List<CategoryInfo>>(){}.getType();
         toBean(GET, http, which, null, url, myHttpResult, type);
     }
 

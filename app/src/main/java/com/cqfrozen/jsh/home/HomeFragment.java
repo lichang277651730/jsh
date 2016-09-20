@@ -1,6 +1,7 @@
 package com.cqfrozen.jsh.home;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
@@ -11,13 +12,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.common.base.BaseFragment;
+import com.common.refresh.RefreshLayout;
+import com.common.refresh.SupportLayout;
 import com.cqfrozen.jsh.R;
+import com.cqfrozen.jsh.activity.SearchActivity;
 import com.cqfrozen.jsh.adapter.HomeAdapter;
 import com.cqfrozen.jsh.adapter.HomeBannerAdapter;
 import com.cqfrozen.jsh.adapter.HomeClassifyAdapter;
 import com.cqfrozen.jsh.adapter.HomeHotAdapter;
+import com.cqfrozen.jsh.adapter.HomePopAdapter;
 import com.cqfrozen.jsh.adapter.HomePriceAdapter;
 import com.cqfrozen.jsh.adapter.HomeRecommendAdapter;
 import com.cqfrozen.jsh.entity.GoodsInfo;
@@ -31,16 +38,22 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/9/14.
  */
-public class HomeFragment extends BaseFragment implements MyHttp.MyHttpResult ,View.OnTouchListener {
+public class HomeFragment extends BaseFragment implements MyHttp.MyHttpResult ,View.OnTouchListener, View.OnClickListener, SupportLayout.RefreshListener {
 
     private static HomeFragment fragment;
     private List<HomeBannerInfo> bannerInfos = new ArrayList<>();
     private List<HomeClassifyInfo> classifyInfos = new ArrayList<>();
     private List<GoodsInfo> priceGoods = new ArrayList<>();
     private List<GoodsInfo> recommendGoods = new ArrayList<>();
+    private List<GoodsInfo> popGoods = new ArrayList<>();
     private RecyclerView rv_home;
     private HomeAdapter homeAdapter;
     private EditText et_search;
+    private LinearLayout ll_search;
+    private RefreshLayout refresh_home;
+
+    private static final int urlNum = 4; //当前页面是刷新的url数量
+    private ImageView iv_search;
 
     public static HomeFragment getInstance(){
         if(fragment == null){
@@ -64,7 +77,15 @@ public class HomeFragment extends BaseFragment implements MyHttp.MyHttpResult ,V
     }
 
     private void initView() {
+        ll_search = (LinearLayout) view.findViewById(R.id.ll_search);
+        refresh_home = (RefreshLayout) view.findViewById(R.id.refresh_home);
+        et_search = (EditText) view.findViewById(R.id.et_search);
+        iv_search = (ImageView) view.findViewById(R.id.iv_search);
         rv_home = (RecyclerView) view.findViewById(R.id.rv_home);
+        et_search.setOnClickListener(this);
+        iv_search.setOnClickListener(this);
+        refresh_home.setOnLoadMoreListener(null);
+        refresh_home.setOnRefreshListener(this);
     }
 
 
@@ -75,20 +96,19 @@ public class HomeFragment extends BaseFragment implements MyHttp.MyHttpResult ,V
         HomeHotAdapter homeHotAdapter = new HomeHotAdapter(mActivity);
         HomePriceAdapter homePriceAdapter = new HomePriceAdapter(mActivity, priceGoods);
         HomeRecommendAdapter homeRecommendAdapter = new HomeRecommendAdapter(mActivity, recommendGoods);
+        HomePopAdapter homePopAdapter = new HomePopAdapter(mActivity, popGoods);
         GridLayoutManager manager = new GridLayoutManager(getActivity(), 8);
         manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
                 if (position == 0) return 8;
                 if (position > 0 && position <= 4) return 2;
-                if (position == 5) return 8;
-                if (position == 6) return 8;
-                if (position == 7) return 8;
+                if (position > 4 && position <= 8) return 8;
                 return 8;
             }
         });
         homeAdapter = new HomeAdapter(homeBannerAdapter, homeClassifyAdapter, homeHotAdapter, homePriceAdapter
-                , homeRecommendAdapter);
+                , homeRecommendAdapter, homePopAdapter);
         rv_home.setAdapter(homeAdapter);
         rv_home.setLayoutManager(manager);
     }
@@ -97,12 +117,18 @@ public class HomeFragment extends BaseFragment implements MyHttp.MyHttpResult ,V
         MyHttp.homeBanner(http, HomeAdapter.TYPE_BANNER, this);
         MyHttp.homePriceGoods(http, HomeAdapter.TYPE_PRICE, "1", this);
         MyHttp.homePriceGoods(http, HomeAdapter.TYPE_RECOMMEND, "2", this);
+        MyHttp.homePriceGoods(http, HomeAdapter.TYPE_POP, "3", this);
     }
 
     @Override
     public void httpResult(Integer which, int code, String msg, Object bean) {
+        refresh_home.setUrlNum();
         if(code != 0){
             showToast(msg);
+            refresh_home.setLoadFailed();
+            if(refresh_home.getUrlNum() == urlNum){
+                refresh_home.setRefreshFailed();
+            }
             return;
         }
 
@@ -128,10 +154,26 @@ public class HomeFragment extends BaseFragment implements MyHttp.MyHttpResult ,V
                     return;
                 }
                 break;
+            case HomeAdapter.TYPE_POP:
+                if (refresh_home.isLoading()&&((ArrayList<GoodsInfo>) bean).size()!=0){
+                    refresh_home.setLoadSuccess();
+                }
+                if (refresh_home.isLoading()&&((ArrayList<GoodsInfo>) bean).size()==0){
+                    refresh_home.setLoadNodata();
+                }
+                popGoods.clear();
+                popGoods.addAll((List<GoodsInfo>) bean);
+                if (popGoods.size() == 0) {
+                    return;
+                }
+                break;
             default:
                 break;
         }
         homeAdapter.notifyDataSetChanged();
+        if(refresh_home.getUrlNum() == urlNum){
+            refresh_home.setRefreshSuccess();
+        }
     }
 
     @Override
@@ -154,4 +196,20 @@ public class HomeFragment extends BaseFragment implements MyHttp.MyHttpResult ,V
 //        }
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.et_search:
+            case R.id.iv_search:
+                startActivity(new Intent(mActivity, SearchActivity.class));
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void refresh() {
+        getData();
+    }
 }

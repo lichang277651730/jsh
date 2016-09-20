@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/colorPrimaryDark"
+              android:clipToPadding="true"
+              android:fitsSystemWindows="true"
+              tools:context=".center.AddressAddActivity">
+    <include layout="@layout/include_title"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/sl_view_block"
+        android:orientation="vertical"
+        android:padding="@dimen/largePadding">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/largePadding"
+            android:paddingTop="@dimen/largePadding">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:text=" 收 件 人 "
+                android:textColor="@color/black"
+                android:textSize="16sp"/>
+
+            <View style="@style/VerticalDividerLine"/>
+
+            <com.common.widget.ClearEditText
+                android:id="@+id/et_consignee"
+                style="@style/editText_base"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:hint="请输入收件人姓名"/>
+        </LinearLayout>
+
+        <View style="@style/HorizontalDividerLine"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/largePadding"
+            android:paddingTop="@dimen/largePadding">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:text="联系电话"
+                android:textColor="@color/black"
+                android:textSize="16sp"/>
+
+            <View style="@style/VerticalDividerLine"/>
+
+            <com.common.widget.ClearEditText
+                android:id="@+id/et_phone"
+                style="@style/editText_base"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:hint="请输入收件人电话"
+                android:inputType="phone"/>
+        </LinearLayout>
+
+        <View style="@style/HorizontalDividerLine"/>
+
+
+        <LinearLayout
+            android:id="@+id/ll_city_picker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/largePadding"
+            android:paddingTop="@dimen/largePadding">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:text="联系地址"
+                android:textColor="@color/black"
+                android:textSize="16sp"/>
+            <View style="@style/VerticalDividerLine"/>
+
+
+            <TextView
+                android:id="@+id/tv_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:drawableRight="@mipmap/icon_right_64"
+                android:gravity="center_vertical"
+                android:textColor="@color/black"/>
+
+
+        </LinearLayout>
+
+        <View style="@style/HorizontalDividerLine"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/largePadding"
+            android:paddingTop="@dimen/largePadding">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:text="详细地址"
+                android:textColor="@color/black"
+                android:textSize="16sp"/>
+
+            <View style="@style/VerticalDividerLine"/>
+
+            <com.common.widget.ClearEditText
+                android:id="@+id/et_add"
+                style="@style/editText_base"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:hint="什么街多少号"/>
+        </LinearLayout>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="@color/mybg"/>
+    <RelativeLayout
+        android:id="@+id/rl_default_address"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_gravity="center_vertical"
+        android:paddingBottom="@dimen/largePadding"
+        android:paddingTop="@dimen/largePadding">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="设为默认地址"
+            android:textColor="@color/black"
+            android:textSize="20sp"/>
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="8dp"
+            android:layout_gravity="end"/>
+    </RelativeLayout>
+</LinearLayout>

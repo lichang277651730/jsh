@@ -78,15 +78,15 @@ public class HomeBannerAdapter extends RecyclerView.Adapter<HomeBannerAdapter.My
      * 设置圆点
      */
     private void setPoints(RadioGroup rg_homebanner) {
-        RadioGroup.LayoutParams params = new RadioGroup.LayoutParams(BaseValue.dp2px(10),
-                BaseValue.dp2px(10));
+        RadioGroup.LayoutParams params = new RadioGroup.LayoutParams(BaseValue.dp2px(4),
+                BaseValue.dp2px(4));
         rb_points = new RadioButton[bannerInfos.size()];
-        params.leftMargin = BaseValue.dp2px(10);
+        params.leftMargin = BaseValue.dp2px(2);
         rg_homebanner.removeAllViews();
         for(int i = 0; i < bannerInfos.size(); i++){
             RadioButton rb = new RadioButton(context);
             rb.setLayoutParams(params);
-            rb.setPadding(BaseValue.dp2px(4), 0, 0, 0);
+            rb.setPadding(BaseValue.dp2px(2), 0, 0, 0);
             rb.setBackgroundResource(R.drawable.sl_viewpager_dot);
             rb.setButtonDrawable(R.color.transparency);
             rb.setEnabled(false);

@@ -31,4 +31,14 @@
             android:scaleType="fitCenter"
             android:src="@mipmap/nav_sousuo_h"/>
     </RelativeLayout>
+    <com.shizhefei.view.indicator.ScrollIndicatorView
+        android:id="@+id/indicator_classify"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/white"/>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_classify"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </LinearLayout>

@@ -47,6 +47,16 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity android:name=".activity.SearchActivity"
+                  android:theme="@style/SwipeBackTheme"/>
+        <activity android:name=".center.OrderListActivity"
+                  android:theme="@style/SwipeBackTheme"/>
+        <activity android:name=".center.SettingActivity"
+                  android:theme="@style/SwipeBackTheme"/>
+        <activity android:name=".center.AddressListActivity"
+                  android:theme="@style/SwipeBackTheme"/>
+        <activity android:name=".center.AddressAddActivity"
+                  android:theme="@style/SwipeBackTheme"/>
     </application>
 
 </manifest>

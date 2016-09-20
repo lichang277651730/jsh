@@ -12,22 +12,25 @@ public class HomeAdapter extends RecyclerView.Adapter{
     public static final int TYPE_TABLE = 3;
     public static final int TYPE_PRICE = 4;
     public static final int TYPE_RECOMMEND = 5;
-    public static final int TYPE_LIST = 6;
+    public static final int TYPE_POP = 6;
+    public static final int TYPE_LIST = 7;
 
     private HomeBannerAdapter homeBannerAdapter;
     private HomeClassifyAdapter homeClassifyAdapter;
     private HomeHotAdapter homeHotAdapter;
     private HomePriceAdapter homePriceAdapter;
     private HomeRecommendAdapter homeRecommendAdapter;
+    private  HomePopAdapter homePopAdapter;
 
     public HomeAdapter(HomeBannerAdapter homeBannerAdapter,  HomeClassifyAdapter homeClassifyAdapter,
                        HomeHotAdapter homeHotAdapter, HomePriceAdapter homePriceAdapter,
-                       HomeRecommendAdapter homeRecommendAdapter){
+                       HomeRecommendAdapter homeRecommendAdapter,  HomePopAdapter homePopAdapter){
         this.homeBannerAdapter = homeBannerAdapter;
         this.homeClassifyAdapter = homeClassifyAdapter;
         this.homeHotAdapter = homeHotAdapter;
         this.homePriceAdapter = homePriceAdapter;
         this.homeRecommendAdapter = homeRecommendAdapter;
+        this.homePopAdapter = homePopAdapter;
     }
 
 
@@ -47,6 +50,9 @@ public class HomeAdapter extends RecyclerView.Adapter{
         }
         if(viewType == TYPE_RECOMMEND){
             return homeRecommendAdapter.onCreateViewHolder(parent, viewType);
+        }
+        if(viewType == TYPE_POP){
+            return homePopAdapter.onCreateViewHolder(parent, viewType);
         }
 
 
@@ -71,6 +77,9 @@ public class HomeAdapter extends RecyclerView.Adapter{
             case TYPE_RECOMMEND:
                 homeRecommendAdapter.onBindViewHolder((HomeRecommendAdapter.MyViewHolder)holder, position);
                 break;
+            case TYPE_POP:
+                homePopAdapter.onBindViewHolder((HomePopAdapter.MyViewHolder)holder, position);
+                break;
             default:
                 break;
         }
@@ -78,7 +87,7 @@ public class HomeAdapter extends RecyclerView.Adapter{
 
     @Override
     public int getItemCount() {
-        return 8;
+        return 9;
     }
 
     @Override
@@ -97,6 +106,9 @@ public class HomeAdapter extends RecyclerView.Adapter{
         }
         if (position == 7){
             return TYPE_RECOMMEND;
+        }
+        if (position == 8){
+            return TYPE_POP;
         }
         return TYPE_LIST;
     }

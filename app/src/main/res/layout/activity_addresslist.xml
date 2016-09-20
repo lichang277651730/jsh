@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/colorPrimaryDark"
+              android:clipToPadding="true"
+              android:fitsSystemWindows="true"
+              tools:context=".center.AddressListActivity">
+    <include layout="@layout/include_title"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_addresslist"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/white"
+        android:scrollbars="none">
+    </android.support.v7.widget.RecyclerView>
+    <TextView
+        android:id="@+id/tv_add"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/sl_red2gray_btn_bg"
+        android:gravity="center"
+        android:padding="10dp"
+        android:textSize="20sp"
+        android:text="@string/address_add"
+        android:textColor="@color/white"/>
+</LinearLayout>
