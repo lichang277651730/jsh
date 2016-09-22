@@ -3,9 +3,17 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
-    <TextView
-        android:id="@+id/tv_name"
+    <com.common.widget.RefreshLayout
+        android:id="@+id/refresh_goods"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"/>
+        android:orientation="vertical">
+        <include layout="@layout/include_httpresult"/>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_goods"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none">
+        </android.support.v7.widget.RecyclerView>
+    </com.common.widget.RefreshLayout>
 </LinearLayout>

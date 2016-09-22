@@ -26,7 +26,7 @@ public class MyFragment extends BaseFragment {
     }
 
     private void getIncludeView(){
-        if(view != null && include_framelayout != null){
+        if(view != null && include_framelayout == null){
             include_framelayout = (RelativeLayout) view.findViewById(R.id.include_framelayout);
             include_faillayout = (LinearLayout) view.findViewById(R.id.include_faillayout);
             include_fail_btn = (Button) view.findViewById(R.id.include_fail_btn);

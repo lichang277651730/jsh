@@ -1,5 +1,6 @@
 package com.cqfrozen.jsh.classify;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,10 +9,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.common.base.BaseFragment;
 import com.common.base.BaseValue;
 import com.cqfrozen.jsh.R;
+import com.cqfrozen.jsh.activity.SearchActivity;
 import com.cqfrozen.jsh.entity.CategoryInfo;
 import com.cqfrozen.jsh.util.UIUtils;
 import com.cqfrozen.jsh.volleyhttp.MyHttp;
@@ -27,13 +30,15 @@ import java.util.List;
  * Created by Administrator on 2016/9/12.
  * 分类页面 fragment
  */
-public class ClassifyFragment extends BaseFragment implements MyHttp.MyHttpResult {
+public class ClassifyFragment extends BaseFragment implements MyHttp.MyHttpResult, View
+        .OnClickListener {
 
     private static ClassifyFragment fragment;
     private ViewPager vp_classify;
     private ScrollIndicatorView indicator_classify;
     private List<CategoryInfo> categoryInfos = new ArrayList<>();
     private ClassifyIndicatorAdapter adapter;
+    private ImageView iv_search;
 
     public static ClassifyFragment getInstance(){
         if(fragment == null){
@@ -58,7 +63,9 @@ public class ClassifyFragment extends BaseFragment implements MyHttp.MyHttpResul
 
     private void initView() {
         indicator_classify = (ScrollIndicatorView) view.findViewById(R.id.indicator_classify);
+        iv_search = (ImageView) view.findViewById(R.id.iv_search);
         vp_classify = (ViewPager) view.findViewById(R.id.vp_classify);
+        iv_search.setOnClickListener(this);
     }
 
     private void initVP() {
@@ -81,6 +88,9 @@ public class ClassifyFragment extends BaseFragment implements MyHttp.MyHttpResul
     @Override
     public void onShow() {
         super.onShow();
+//        if(categoryInfos == null || categoryInfos.size() == 0){
+//            geData();
+//        }
         Log.d("FragmentShow", "ClassifyFragment" + BaseValue.density);
         Log.d("miduvalue", BaseValue.density + "");
     }
@@ -96,5 +106,16 @@ public class ClassifyFragment extends BaseFragment implements MyHttp.MyHttpResul
             return;
         }
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.iv_search:
+                startActivity(new Intent(getActivity(), SearchActivity.class));
+                break;
+            default:
+                break;
+        }
     }
 }

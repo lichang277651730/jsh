@@ -24,11 +24,10 @@ import java.util.TimerTask;
  */
 public class HomeBannerAdapter extends RecyclerView.Adapter<HomeBannerAdapter.MyViewHolder> implements ViewPager.OnPageChangeListener {
 
-    private Context context;
     private List<HomeBannerInfo> bannerInfos;
     private RadioButton[] rb_points;
     private Timer timer;
-
+    private Context context;
     public HomeBannerAdapter(Context context, List<HomeBannerInfo> bannerInfos){
         this.context = context;
         this.bannerInfos = bannerInfos;

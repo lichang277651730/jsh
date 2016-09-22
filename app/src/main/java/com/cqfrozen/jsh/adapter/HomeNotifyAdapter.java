@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import com.common.widget.AutoTextView;
 import com.cqfrozen.jsh.R;
+import com.cqfrozen.jsh.entity.HomeNotifyInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,14 +16,16 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/9/19.
  */
-public class HomeHotAdapter extends RecyclerView.Adapter<HomeHotAdapter.MyViewHolder> {
+public class HomeNotifyAdapter extends RecyclerView.Adapter<HomeNotifyAdapter.MyViewHolder> {
 
     private Context context;
     private List<String> datas;
     private String[] ary = new String[]{"全场购满399面运费", "中秋国庆放假不发货", "热卖中的商品"};
-    public HomeHotAdapter(Context context){
+    private List<HomeNotifyInfo> notifyInfos;
+    public HomeNotifyAdapter(Context context, List<HomeNotifyInfo> notifyInfos){
         this.context = context;
-        initData();
+        this.notifyInfos = notifyInfos;
+//        initData();
     }
 
     private void initData() {
@@ -42,13 +45,20 @@ public class HomeHotAdapter extends RecyclerView.Adapter<HomeHotAdapter.MyViewHo
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        holder.atv_notify.setText(ary);
+        if(notifyInfos.size() == 0){
+            return;
+        }
+        String[] atvs = new String[notifyInfos.size()];
+        for(int i = 0; i < notifyInfos.size(); i++){
+            atvs[i] = notifyInfos.get(i).title;
+        }
+        holder.atv_notify.setText(atvs);
 //        holder.atv_notify.setText(null);
     }
 
     @Override
     public int getItemCount() {
-        return ary.length;
+        return notifyInfos.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{

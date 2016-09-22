@@ -10,4 +10,13 @@
     <declare-styleable name="RatioLayout">
         <attr name="ratio" format="float" />
     </declare-styleable>
+
+    <declare-styleable name="NumberAddSubView">
+        <attr name="value" format="integer|reference"/>
+        <attr name="minValue" format="integer|reference"/>
+        <attr name="maxValue" format="integer|reference"/>
+        <attr name="editBackground" format="reference"/>
+        <attr name="buttonAddBackgroud" format="reference"/>
+        <attr name="buttonSubBackgroud" format="reference"/>
+    </declare-styleable>
 </resources>

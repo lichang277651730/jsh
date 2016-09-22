@@ -23,7 +23,7 @@ public class HomePopAdapter extends RecyclerView.Adapter<HomePopAdapter.MyViewHo
     private Context context;
     private List<GoodsInfo> priceGoods;
     public HomePopAdapter(Context context, List<GoodsInfo> priceGoods){
-        this.context = context;
+//        this.context = context;
         this.priceGoods = priceGoods;
     }
 
@@ -43,7 +43,7 @@ public class HomePopAdapter extends RecyclerView.Adapter<HomePopAdapter.MyViewHo
         holder.rv_homeprice.setOverScrollMode(View.OVER_SCROLL_NEVER);
         manager.setOrientation(LinearLayoutManager.HORIZONTAL);
         holder.rv_homeprice.setLayoutManager(manager);
-        holder.rv_homeprice.addItemDecoration(new HomeRVDividerDecortion());
+//        holder.rv_homeprice.addItemDecoration(new HomeRVDividerDecortion());
         holder.rv_homeprice.setAdapter(new GoodsAdapter(context, priceGoods));
     }
 

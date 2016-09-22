@@ -12,7 +12,9 @@ import com.cqfrozen.jsh.activity.LoginActivity;
 import com.cqfrozen.jsh.activity.MainActivity;
 import com.cqfrozen.jsh.entity.CategoryInfo;
 import com.cqfrozen.jsh.entity.GoodsInfo;
+import com.cqfrozen.jsh.entity.GoodsResultInfo;
 import com.cqfrozen.jsh.entity.HomeBannerInfo;
+import com.cqfrozen.jsh.entity.HomeNotifyInfo;
 import com.cqfrozen.jsh.main.MyApplication;
 import com.cqfrozen.jsh.util.SPUtils;
 import com.google.gson.reflect.TypeToken;
@@ -61,6 +63,26 @@ public class MyHttp {
     public static void goodsType(HttpForVolley http,  Integer which, MyHttpResult myHttpResult) {
         String url = SERVER + "Goods/goodstype";
         Type type = new TypeToken<List<CategoryInfo>>(){}.getType();
+        toBean(GET, http, which, null, url, myHttpResult, type);
+    }
+
+    /**
+     * 根据商品类型id获取相对应的商品数据
+     */
+    public static void goodstypeList(HttpForVolley http, Integer which, String area_id, int page,
+                                     String g_type_id, MyHttpResult myHttpResult) {
+        String url = SERVER + "Goods/goodstypelist/area_id/" + area_id +
+                "/page/" + page +"/g_type_id/" + g_type_id;
+        Type type = new TypeToken<GoodsResultInfo>(){}.getType();
+        toBean(GET, http, which, null, url, myHttpResult, type);
+    }
+
+    /**
+     * 获取消息通知
+     */
+    public static void noticeList(HttpForVolley http, Integer which, MyHttpResult myHttpResult) {
+        String url = SERVER + "Home/noticelist/area_id/5";
+        Type type = new TypeToken<List<HomeNotifyInfo>>(){}.getType();
         toBean(GET, http, which, null, url, myHttpResult, type);
     }
 

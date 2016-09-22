@@ -14,13 +14,13 @@
     <color name="rb_txt_pre">#55B2FF</color>
     <color name="rb_txt_nor">#c7c8cc</color>
 
-    <color name="vp_dot_nor">#55c7c8cc</color>
+    <color name="vp_dot_nor">#c7c8cc</color>
     <color name="vp_dot_sel">#55B2FF</color>
 
 
-
+    <color name="alwhite">#ddffffff</color>
     <!--分割线-->
-    <color name="myline">#c7c8cc</color>
+    <color name="myline">#ccc7c8cc</color>
     <!--黑色字体/图片-->
     <color name="myblack">#323232</color>
     <!--红色字体/图片-->
@@ -29,12 +29,25 @@
     <color name="mybg">#f2f3f4</color>
 
     <color name="mygray">#c7c8cc</color>
+    <color name="myalgray">#ddc7c8cc</color>
     <!--透明灰-->
     <color name="al_gray">#ccc7c8cc</color>
+    <!-- 洋李色 -->
+    <color name="gainsboro">#dcdcdc</color>
+    <!-- 淡灰色 -->
+    <color name="crimson">#dc143c</color>
 
     <color name="item_color_press">#dcdcdc</color>
     <color name="item_color_normal">#ffffff</color>
 
     <color name="grey_btn_color_normal">#fff1f1f1</color>
     <color name="grey_btn_color_pressed">#ffd8d8d8</color>
+    <color name="grey_btn_color_disable">#7fd8d8d8</color>
+
+    <color name="red_btn_color_normal">#ffff5454</color>
+    <color name="red_btn_color_pressed">#ffd24242</color>
+    <color name="red_btn_color_disable">#7fff5454</color>
+
+
+    <color name="white_color_disable">#7fffffff</color>
 </resources>

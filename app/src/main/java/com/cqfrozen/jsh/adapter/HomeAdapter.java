@@ -17,17 +17,17 @@ public class HomeAdapter extends RecyclerView.Adapter{
 
     private HomeBannerAdapter homeBannerAdapter;
     private HomeClassifyAdapter homeClassifyAdapter;
-    private HomeHotAdapter homeHotAdapter;
+    private HomeNotifyAdapter homeNotifyAdapter;
     private HomePriceAdapter homePriceAdapter;
     private HomeRecommendAdapter homeRecommendAdapter;
     private  HomePopAdapter homePopAdapter;
 
-    public HomeAdapter(HomeBannerAdapter homeBannerAdapter,  HomeClassifyAdapter homeClassifyAdapter,
-                       HomeHotAdapter homeHotAdapter, HomePriceAdapter homePriceAdapter,
-                       HomeRecommendAdapter homeRecommendAdapter,  HomePopAdapter homePopAdapter){
+    public HomeAdapter(HomeBannerAdapter homeBannerAdapter, HomeClassifyAdapter homeClassifyAdapter,
+                       HomeNotifyAdapter homeNotifyAdapter, HomePriceAdapter homePriceAdapter,
+                       HomeRecommendAdapter homeRecommendAdapter, HomePopAdapter homePopAdapter){
         this.homeBannerAdapter = homeBannerAdapter;
         this.homeClassifyAdapter = homeClassifyAdapter;
-        this.homeHotAdapter = homeHotAdapter;
+        this.homeNotifyAdapter = homeNotifyAdapter;
         this.homePriceAdapter = homePriceAdapter;
         this.homeRecommendAdapter = homeRecommendAdapter;
         this.homePopAdapter = homePopAdapter;
@@ -43,7 +43,7 @@ public class HomeAdapter extends RecyclerView.Adapter{
             return homeClassifyAdapter.onCreateViewHolder(parent, viewType);
         }
         if(viewType == TYPE_TABLE){
-            return homeHotAdapter.onCreateViewHolder(parent, viewType);
+            return homeNotifyAdapter.onCreateViewHolder(parent, viewType);
         }
         if(viewType == TYPE_PRICE){
             return homePriceAdapter.onCreateViewHolder(parent, viewType);
@@ -69,7 +69,7 @@ public class HomeAdapter extends RecyclerView.Adapter{
                 homeClassifyAdapter.onBindViewHolder((HomeClassifyAdapter.MyViewHolder)holder, position);
                 break;
             case TYPE_TABLE:
-                homeHotAdapter.onBindViewHolder((HomeHotAdapter.MyViewHolder)holder, position);
+                homeNotifyAdapter.onBindViewHolder((HomeNotifyAdapter.MyViewHolder)holder, position);
                 break;
             case TYPE_PRICE:
                 homePriceAdapter.onBindViewHolder((HomePriceAdapter.MyViewHolder)holder, position);

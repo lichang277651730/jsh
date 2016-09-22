@@ -132,4 +132,23 @@
         <item name="android:gravity">center_vertical</item>
         <item name="android:background">@null</item>
     </style>
+
+    <style name="customCheckbox" parent="@android:style/Widget.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/sl_cart_checkbox</item>
+    </style>
+
+    <style name="bigButton">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/sl_cart_cb_color</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingLeft">@dimen/largePadding</item>
+        <item name="android:paddingRight">@dimen/largePadding</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">48dp</item>
+    </style>
+    <style name="bigRedButton" parent="@style/bigButton">
+        <item name="android:background">@drawable/sl_btn_red_bg</item>
+    </style>
+
 </resources>

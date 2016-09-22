@@ -20,8 +20,6 @@
     <string name="refresh_fail">刷新失败</string>
     <string name="more">更多</string>
     <string name="loading">正在加载...</string>
-    <string name="cart_edit">编辑</string>
-
 
     <string name="my_msg">我的消息</string>
     <string name="my_addresses">收货地址</string>
@@ -37,4 +35,14 @@
     <string name="tabs_ss">素食类</string>
     <string name="tabs_xc">小吃类</string>
     <string name="tabs_qt">其他类</string>
+    <!--购物车-->
+    <string name="cart_title">购物车</string>
+    <string name="cart_edit">编辑</string>
+    <string name="cart_finish">完成</string>
+    <string name="cart_all">全选</string>
+    <string name="cart_total">合计</string>
+    <string name="cart_order">去结算</string>
+    <string name="cart_del">删除</string>
+
+
 </resources>

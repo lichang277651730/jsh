@@ -66,4 +66,16 @@ public class SPUtils {
 		return MyApplication.userSp.getString("userName", "");
 	}
 
+
+	/**
+	 * 保存购物车数据
+	 * @param cart_json
+	 */
+	public static void setCartData(String cart_json){
+		MyApplication.userSp.edit().putString("cart_json", cart_json).commit();
+	}
+
+	public static String getCartData(){
+		return  MyApplication.userSp.getString("cart_json", "");
+	}
 }

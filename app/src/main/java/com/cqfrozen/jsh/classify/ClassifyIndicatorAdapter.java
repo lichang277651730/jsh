@@ -22,7 +22,6 @@ import java.util.List;
  */
 public class ClassifyIndicatorAdapter extends IndicatorViewPager.IndicatorFragmentPagerAdapter {
 
-    private String[] names = {"鸡鸭类", "猪肉类", "牛羊类", "丸子类", "水产类", "素食类", "其他类"};
     private Context context;
     private List<CategoryInfo> categoryInfos;
     public ClassifyIndicatorAdapter(FragmentManager fragmentManager, Context context, List<CategoryInfo> categoryInfos) {
@@ -50,7 +49,7 @@ public class ClassifyIndicatorAdapter extends IndicatorViewPager.IndicatorFragme
 
     @Override
     public Fragment getFragmentForPage(int position) {
-        return GoodsFragment.getInstance(categoryInfos.get(position % categoryInfos.size()).t_type_name);
+        return GoodsFragment.getInstanceForClassify("5", categoryInfos.get(position % categoryInfos.size()).g_type_id);
     }
 
 

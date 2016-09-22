@@ -23,13 +23,14 @@ import com.cqfrozen.jsh.activity.SearchActivity;
 import com.cqfrozen.jsh.adapter.HomeAdapter;
 import com.cqfrozen.jsh.adapter.HomeBannerAdapter;
 import com.cqfrozen.jsh.adapter.HomeClassifyAdapter;
-import com.cqfrozen.jsh.adapter.HomeHotAdapter;
+import com.cqfrozen.jsh.adapter.HomeNotifyAdapter;
 import com.cqfrozen.jsh.adapter.HomePopAdapter;
 import com.cqfrozen.jsh.adapter.HomePriceAdapter;
 import com.cqfrozen.jsh.adapter.HomeRecommendAdapter;
 import com.cqfrozen.jsh.entity.GoodsInfo;
 import com.cqfrozen.jsh.entity.HomeBannerInfo;
 import com.cqfrozen.jsh.entity.HomeClassifyInfo;
+import com.cqfrozen.jsh.entity.HomeNotifyInfo;
 import com.cqfrozen.jsh.volleyhttp.MyHttp;
 
 import java.util.ArrayList;
@@ -43,6 +44,7 @@ public class HomeFragment extends BaseFragment implements MyHttp.MyHttpResult ,V
     private static HomeFragment fragment;
     private List<HomeBannerInfo> bannerInfos = new ArrayList<>();
     private List<HomeClassifyInfo> classifyInfos = new ArrayList<>();
+    private List<HomeNotifyInfo> notifyInfos = new ArrayList<>();
     private List<GoodsInfo> priceGoods = new ArrayList<>();
     private List<GoodsInfo> recommendGoods = new ArrayList<>();
     private List<GoodsInfo> popGoods = new ArrayList<>();
@@ -52,7 +54,7 @@ public class HomeFragment extends BaseFragment implements MyHttp.MyHttpResult ,V
     private LinearLayout ll_search;
     private RefreshLayout refresh_home;
 
-    private static final int urlNum = 4; //当前页面是刷新的url数量
+    private static final int urlNum = 5; //当前页面是刷新的url数量
     private ImageView iv_search;
 
     public static HomeFragment getInstance(){
@@ -93,11 +95,12 @@ public class HomeFragment extends BaseFragment implements MyHttp.MyHttpResult ,V
         rv_home.setOverScrollMode(View.OVER_SCROLL_NEVER);
         HomeBannerAdapter homeBannerAdapter = new HomeBannerAdapter(mActivity, bannerInfos);
         HomeClassifyAdapter homeClassifyAdapter = new HomeClassifyAdapter(mActivity, classifyInfos);
-        HomeHotAdapter homeHotAdapter = new HomeHotAdapter(mActivity);
+        HomeNotifyAdapter homeNotifyAdapter = new HomeNotifyAdapter(mActivity, notifyInfos);
         HomePriceAdapter homePriceAdapter = new HomePriceAdapter(mActivity, priceGoods);
         HomeRecommendAdapter homeRecommendAdapter = new HomeRecommendAdapter(mActivity, recommendGoods);
         HomePopAdapter homePopAdapter = new HomePopAdapter(mActivity, popGoods);
-        GridLayoutManager manager = new GridLayoutManager(getActivity(), 8);
+        GridLayoutManager manager = new GridLayoutManager(mActivity, 8);
+        rv_home.setLayoutManager(manager);
         manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
@@ -107,14 +110,14 @@ public class HomeFragment extends BaseFragment implements MyHttp.MyHttpResult ,V
                 return 8;
             }
         });
-        homeAdapter = new HomeAdapter(homeBannerAdapter, homeClassifyAdapter, homeHotAdapter, homePriceAdapter
+        homeAdapter = new HomeAdapter(homeBannerAdapter, homeClassifyAdapter, homeNotifyAdapter, homePriceAdapter
                 , homeRecommendAdapter, homePopAdapter);
         rv_home.setAdapter(homeAdapter);
-        rv_home.setLayoutManager(manager);
     }
 
     private void getData() {
         MyHttp.homeBanner(http, HomeAdapter.TYPE_BANNER, this);
+        MyHttp.noticeList(http, HomeAdapter.TYPE_TABLE, this);
         MyHttp.homePriceGoods(http, HomeAdapter.TYPE_PRICE, "1", this);
         MyHttp.homePriceGoods(http, HomeAdapter.TYPE_RECOMMEND, "2", this);
         MyHttp.homePriceGoods(http, HomeAdapter.TYPE_POP, "3", this);
@@ -137,6 +140,13 @@ public class HomeFragment extends BaseFragment implements MyHttp.MyHttpResult ,V
                 bannerInfos.clear();
                 bannerInfos.addAll((List<HomeBannerInfo>) bean);
                 if (bannerInfos.size() == 0) {
+                    return;
+                }
+                break;
+            case HomeAdapter.TYPE_TABLE:
+                notifyInfos.clear();
+                notifyInfos.addAll((List<HomeNotifyInfo>) bean);
+                if (notifyInfos.size() == 0) {
                     return;
                 }
                 break;

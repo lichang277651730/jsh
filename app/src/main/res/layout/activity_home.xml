@@ -18,13 +18,14 @@
         android:layout_weight="1"
         android:background="@color/mybg">
     </com.common.widget.MyViewPager>
+    <View style="@style/HorizontalDividerLine"/>
     <RadioGroup
         android:id="@+id/rg_home"
         android:layout_width="match_parent"
         android:layout_height="54dp"
-        android:background="@color/white"
-        android:padding="2dp"
+        android:background="@color/alwhite"
         android:gravity="center"
+        android:paddingTop="4dp"
         android:orientation="horizontal">
         <RadioButton
             android:id="@+id/rb_home"
