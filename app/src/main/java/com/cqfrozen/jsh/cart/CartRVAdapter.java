@@ -20,6 +20,7 @@ import java.util.List;
 
 /**
  * Created by Administrator on 2016/9/22.
+ *
  */
 public class CartRVAdapter extends RecyclerView.Adapter<CartRVAdapter.MyViewHolder> {
 
@@ -43,19 +44,20 @@ public class CartRVAdapter extends RecyclerView.Adapter<CartRVAdapter.MyViewHold
                 .showImageOnFail(R.mipmap.solid_goods)
                 .build();
 
-        cb_all.setOnClickListener(new View.OnClickListener() {
+        this.cb_all.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 checkAllNone(cb_all.isChecked());
             }
         });
+        showTotalPrice();
     }
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if(context == null){
             context = parent.getContext();
         }
-        return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.item_cart, parent, false));
+        return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.item_cart1, parent, false));
     }
 
     @Override
@@ -65,21 +67,13 @@ public class CartRVAdapter extends RecyclerView.Adapter<CartRVAdapter.MyViewHold
         ImageLoader.getInstance().displayImage(cartGoodsInfo.pic_url, holder.iv_goods, defaultOptions);
         holder.tv_name.setText(cartGoodsInfo.g_name);
         holder.tv_price.setText("¥" + cartGoodsInfo.now_price);
-        holder.add_sub_num.setValue(cartGoodsInfo.count);
+        holder.add_sub_num.setCurValue(cartGoodsInfo.count);
 
-        holder.add_sub_num.setOnButtonClickListener(new NumberAddSubView.OnButtonClickListener() {
+        holder.add_sub_num.setOnSubAddClickListener(new NumberAddSubView.OnSubAddClickListener() {
             @Override
-            public void onButtonAddClick(View view, int value) {
-                holder.add_sub_num.setValue(value);
-                cartGoodsInfo.count = value;
-                cartManager.update(cartGoodsInfo);
-                showTotalPrice();
-            }
-
-            @Override
-            public void onButtonSubClick(View view, int value) {
-                holder.add_sub_num.setValue(value);
-                cartGoodsInfo.count = value;
+            public void onSubAddClick(View view, int curVal) {
+                holder.add_sub_num.setCurValue(curVal);
+                cartGoodsInfo.count = curVal;
                 cartManager.update(cartGoodsInfo);
                 showTotalPrice();
             }
@@ -128,19 +122,11 @@ public class CartRVAdapter extends RecyclerView.Adapter<CartRVAdapter.MyViewHold
             return  sum;
         }
         for (CartGoodsInfo goodsInfo : cartGoodsInfos){
-            sum += goodsInfo.now_price + goodsInfo.count;
+            if(goodsInfo.isChecked){
+                sum += goodsInfo.now_price*goodsInfo.count;
+            }
         }
         return  sum;
-    }
-
-    /**
-     * 判断购物车是否为空
-     */
-    private boolean isNull(){
-        if(cartGoodsInfos == null || cartGoodsInfos.size() == 0){
-            return true;
-        }
-        return false;
     }
 
     /**
@@ -237,5 +223,15 @@ public class CartRVAdapter extends RecyclerView.Adapter<CartRVAdapter.MyViewHold
         }
         cb_all.setChecked(isChecked);
         showTotalPrice();
+    }
+
+    /**
+     * 判断购物车是否为空
+     */
+    private boolean isNull(){
+        if(cartGoodsInfos == null || cartGoodsInfos.size() == 0){
+            return true;
+        }
+        return false;
     }
 }

@@ -1,11 +1,10 @@
 package com.cqfrozen.jsh.widget;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.support.v7.widget.TintTypedArray;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,25 +21,17 @@ import com.cqfrozen.jsh.R;
  */
 public class NumberAddSubView extends LinearLayout implements View.OnClickListener {
 
-
-    public static final String TAG="NumberAddSubView";
-    public static final int DEFUALT_MAX=1000;
-
-    private TextView mEtxtNum;
-    private Button mBtnAdd;
-    private Button mBtnSub;
-
-    private OnButtonClickListener onButtonClickListener;
+    private TextView tv_num;
+    private Button btn_add;
+    private Button btn_sub;
 
     private OnSubAddClickListener listener;
-
-
     private LayoutInflater mInflater;
 
-
-    private  int value;
+    public static final int DEFUALT_MAX=1000;
+    private int curValue;
     private int minValue;
-    private int maxValue=DEFUALT_MAX;
+    private int maxValue = DEFUALT_MAX;
 
 
 
@@ -54,186 +45,147 @@ public class NumberAddSubView extends LinearLayout implements View.OnClickListen
 
     public NumberAddSubView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-
         mInflater = LayoutInflater.from(context);
         initView();
-
-        if(attrs !=null){
-
+        if(attrs != null){
             final TintTypedArray a = TintTypedArray.obtainStyledAttributes(getContext(), attrs,
                     R.styleable.NumberAddSubView, defStyleAttr, 0);
-
-
-            int val =  a.getInt(R.styleable.NumberAddSubView_value,0);
-            setValue(val);
-
-            int maxVal = a.getInt(R.styleable.NumberAddSubView_maxValue,0);
-            if(maxVal!=0)
-                setMaxValue(maxVal);
-
+            int curVal =  a.getInt(R.styleable.NumberAddSubView_curValue,0);
+            setCurValue(curVal);
             int minVal = a.getInt(R.styleable.NumberAddSubView_minValue,0);
             setMinValue(minVal);
+            int maxVal = a.getInt(R.styleable.NumberAddSubView_maxValue,0);
+            if(maxVal!=0){
+                setMaxValue(maxVal);
+            }
 
-            Drawable etBackground = a.getDrawable(R.styleable.NumberAddSubView_editBackground);
-            if(etBackground!=null)
-                setEditTextBackground(etBackground);
+            Drawable numBg = a.getDrawable(R.styleable.NumberAddSubView_numBackground);
+            if(numBg!=null){
+                setNumBg(numBg);
+            }
 
+             Drawable addBg = a.getDrawable(R.styleable.NumberAddSubView_addBackgroud);
+             if(addBg!=null){
+                 setAddBg(addBg);
+             }
 
-             Drawable buttonAddBackground = a.getDrawable(R.styleable.NumberAddSubView_buttonAddBackgroud);
-             if(buttonAddBackground!=null)
-                 setButtonAddBackgroud(buttonAddBackground);
-
-            Drawable buttonSubBackground = a.getDrawable(R.styleable.NumberAddSubView_buttonSubBackgroud);
-            if(buttonSubBackground!=null)
-                setButtonSubBackgroud(buttonSubBackground);
-
-
-
-
+            Drawable subBg = a.getDrawable(R.styleable.NumberAddSubView_subBackgroud);
+            if(subBg!=null){
+                setSubBg(subBg);
+            }
             a.recycle();
         }
     }
 
 
     private void initView(){
-
-
-
         View view = mInflater.inflate(R.layout.widet_num_add_sub,this,true);
+        tv_num = (TextView) view.findViewById(R.id.tv_num);
+        tv_num.setInputType(InputType.TYPE_NULL);
+        tv_num.setKeyListener(null);
 
-        mEtxtNum = (TextView) view.findViewById(R.id.etxt_num);
-        mEtxtNum.setInputType(InputType.TYPE_NULL);
-        mEtxtNum.setKeyListener(null);
+        btn_add = (Button) view.findViewById(R.id.btn_add);
+        btn_sub = (Button) view.findViewById(R.id.btn_sub);
 
-
-
-        mBtnAdd = (Button) view.findViewById(R.id.btn_add);
-        mBtnSub = (Button) view.findViewById(R.id.btn_sub);
-
-        mBtnAdd.setOnClickListener(this);
-        mBtnSub.setOnClickListener(this);
-
-
-
+        btn_add.setOnClickListener(this);
+        btn_sub.setOnClickListener(this);
     }
 
+    /**
+     * 设置当前数量
+     */
+    public void setCurValue(int curValue) {
+        tv_num.setText(curValue + "");
+        this.curValue = curValue;
+    }
 
     @Override
     public void onClick(View v) {
-        if(v.getId() == R.id.btn_add){
-
-            numAdd();
-
-            if(onButtonClickListener !=null){
-                onButtonClickListener.onButtonAddClick(v,this.value);
-            }
+        switch (v.getId()) {
+            case R.id.btn_add://点击+按钮
+                addNum();
+                break;
+            case R.id.btn_sub://点击-按钮
+                subNum();
+                break;
+            default:
+                break;
         }
-        else if(v.getId()==R.id.btn_sub){
-                numSub();
-            if(onButtonClickListener !=null){
-                onButtonClickListener.onButtonSubClick(v,this.value);
-            }
-
+        if(listener != null){
+            listener.onSubAddClick(v, curValue);
         }
     }
-
-
-    private void numAdd(){
-
-
-        getValue();
-
-        if(this.value<=maxValue)
-            this.value=+this.value+1;
-
-        mEtxtNum.setText(value+"");
+    /**
+     * 增加1个数
+     */
+    private void addNum() {
+        getCurValue();
+        if(curValue < maxValue){
+            curValue = curValue + 1;
+        }
+        tv_num.setText(curValue + "");
     }
 
-
-    private void numSub(){
-
-
-        getValue();
-
-        if(this.value>minValue)
-            this.value=this.value-1;
-
-        mEtxtNum.setText(value+"");
+    /**
+     * 减少1个数
+     */
+    private void subNum() {
+        getCurValue();
+        if(curValue > minValue){
+            curValue = curValue - 1;
+        }
+        tv_num.setText(curValue + "");
     }
 
-
-    public int getValue(){
-
-        String value = mEtxtNum.getText().toString();
-
-        if(value !=null && !"".equals(value))
-            this.value = Integer.parseInt(value);
-
-        return this.value;
+    /**
+     * 获取当前数量
+     */
+    public int getCurValue(){
+        String curValStr = tv_num.getText().toString();
+        if(!TextUtils.isEmpty(curValStr)){
+            this.curValue = Integer.parseInt(curValStr);
+        }
+        return this.curValue;
     }
-
-    public void setValue(int value) {
-        mEtxtNum.setText(value+"");
-        this.value = value;
-    }
-
-
-
 
     public void setMaxValue(int maxValue) {
         this.maxValue = maxValue;
     }
 
     public void setMinValue(int minValue) {
-//        setValue(minValue);
         this.minValue = minValue;
     }
 
-
-    public void setEditTextBackground(Drawable drawable){
-
-        mEtxtNum.setBackgroundDrawable(drawable);
-
+    public int getMinValue() {
+        return minValue;
     }
 
-
-    public void setEditTextBackground(int drawableId){
-
-      setEditTextBackground(getResources().getDrawable(drawableId));
-
+    public int getMaxValue() {
+        return maxValue;
     }
 
-
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    public void setButtonAddBackgroud(Drawable backgroud){
-        this.mBtnAdd.setBackground(backgroud);
+    public void setNumBg(Drawable numBg){
+        tv_num.setBackgroundDrawable(numBg);
     }
 
-
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    public void setButtonSubBackgroud(Drawable backgroud){
-        this.mBtnSub.setBackground(backgroud);
+    public void setNumBg(int drawableId){
+        setNumBg(getResources().getDrawable(drawableId));
     }
 
-
-    public void setOnButtonClickListener(OnButtonClickListener onButtonClickListener) {
-        this.onButtonClickListener = onButtonClickListener;
+    public void setAddBg(Drawable addBg){
+        this.btn_add.setBackgroundDrawable(addBg);
     }
 
-    public interface  OnButtonClickListener{
-
-        public void onButtonAddClick(View view, int value);
-        public void onButtonSubClick(View view, int value);
-
-    }
-
-    public interface OnSubAddClickListener{
-        void onSubAddClick(View view, int curVal);
+    public void setSubBg(Drawable subBg){
+        this.btn_sub.setBackgroundDrawable(subBg);
     }
 
     public void setOnSubAddClickListener(OnSubAddClickListener listener){
         this.listener = listener;
     }
 
+    public interface OnSubAddClickListener{
+        void onSubAddClick(View view, int curVal);
+    }
 
 }

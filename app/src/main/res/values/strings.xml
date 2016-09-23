@@ -42,6 +42,7 @@
     <string name="cart_all">全选</string>
     <string name="cart_total">合计</string>
     <string name="cart_order">去结算</string>
+    <string name="cart_carr">不含运费</string>
     <string name="cart_del">删除</string>
 
 

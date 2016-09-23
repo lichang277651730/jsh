@@ -84,6 +84,7 @@ public class CartFragment extends BaseFragment implements View.OnClickListener {
         btn_order = (Button) view.findViewById(R.id.btn_order);
         btn_del = (Button) view.findViewById(R.id.btn_del);
         btn_del.setOnClickListener(this);
+//        cb_all.setChecked(true);
     }
 
     private void initRV() {
@@ -107,6 +108,7 @@ public class CartFragment extends BaseFragment implements View.OnClickListener {
     public void onShow() {
         super.onShow();
         Log.d("FragmentShow", "CartFragment");
+        getData();
     }
 
     private void doFinish() {
