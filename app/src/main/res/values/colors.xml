@@ -27,6 +27,10 @@
     <color name="myred">#ff2233</color>
     <!--页面背景色-->
     <color name="mybg">#f2f3f4</color>
+    <!--输入框hint-->
+    <color name="myhint">#aaaaaa</color>
+    <!--蓝色字体-->
+    <color name="myblue">#0066bc</color>
 
     <color name="mygray">#c7c8cc</color>
     <color name="myalgray">#ddc7c8cc</color>

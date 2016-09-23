@@ -35,6 +35,9 @@ public class HttpForVolley {
 		this.activity = activity;
 		this.context = activity;
 	}
+	public HttpForVolley(Context context) {
+		this.context = context;
+	}
 
 	public HttpForVolley(Fragment fragment) {
 		this.fragment = fragment;

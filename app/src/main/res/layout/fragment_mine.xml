@@ -39,14 +39,14 @@
                 android:orientation="horizontal">
 
                 <com.common.widget.MyHeadImageView
-                    android:id="@+id/head_img"
+                    android:id="@+id/iv_head"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:scaleType="fitXY"
                     android:src="@mipmap/center_head"/>
 
                 <TextView
-                    android:id="@+id/login_tv"
+                    android:id="@+id/tv_login"
                     style="@style/text_14sp_white"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -54,7 +54,7 @@
                     android:text="注册/登录"/>
 
                 <TextView
-                    android:id="@+id/name_tv"
+                    android:id="@+id/tv_name"
                     style="@style/text_14sp_white"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

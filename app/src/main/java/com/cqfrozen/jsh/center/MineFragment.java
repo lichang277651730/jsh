@@ -3,13 +3,13 @@ package com.cqfrozen.jsh.center;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.common.widget.MyHeadImageView;
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.main.MyFragment;
 
@@ -23,6 +23,9 @@ public class MineFragment extends MyFragment implements View.OnClickListener {
     private TextView tv_lookall;
     private ImageView iv_setting;
     private TextView tv_address;
+    private MyHeadImageView iv_head;
+    private TextView tv_login;
+    private TextView tv_name;
 
     public static MineFragment getInstance(){
         if(fragment == null){
@@ -46,16 +49,43 @@ public class MineFragment extends MyFragment implements View.OnClickListener {
     private void initView() {
         tv_lookall = (TextView) view.findViewById(R.id.tv_lookall);
         iv_setting = (ImageView) view.findViewById(R.id.iv_setting);
+        iv_head = (MyHeadImageView) view.findViewById(R.id.iv_head);
+        tv_login = (TextView) view.findViewById(R.id.tv_login);
+        tv_name = (TextView) view.findViewById(R.id.tv_name);
         tv_address = (TextView) view.findViewById(R.id.tv_address);
         tv_lookall.setOnClickListener(this);
         iv_setting.setOnClickListener(this);
         tv_address.setOnClickListener(this);
+        iv_head.setOnClickListener(this);
+        tv_login.setOnClickListener(this);
     }
 
+    //每次切换到个人中心fragment时调用此方法
     @Override
     public void onShow() {
         super.onShow();
-        Log.d("FragmentShow", "MineFragment");
+        if(isLogined()){//已经登陆的用户，就初始化用户数据
+            showLogined();
+        }else {//没有登陆就将页面置为没有登陆的状态
+            showUnLogined();
+        }
+    }
+
+    private void showUnLogined() {
+        //将登陆字符显示
+        tv_login.setVisibility(View.VISIBLE);
+        //将name隐藏
+        tv_name.setVisibility(View.GONE);
+        //TODO 用户头像设为默认图片
+    }
+
+    private void showLogined() {
+        //将登陆字符gone
+        tv_login.setVisibility(View.GONE);
+        //将name显示，并设置店铺名
+        tv_name.setVisibility(View.VISIBLE);
+        tv_name.setText(getUserInfo().store_name);
+        //TODO 显示用户头像
     }
 
     @Override
@@ -69,6 +99,15 @@ public class MineFragment extends MyFragment implements View.OnClickListener {
                 break;
             case R.id.tv_address:
                 startActivity(new Intent(mActivity, AddressListActivity.class));
+                break;
+            case R.id.iv_head:
+            case R.id.tv_name:
+                if(needLogin()){
+                    //TODO 点击头像和登录名，不需要登陆，执行的业务
+                }
+                break;
+            case R.id.tv_login:
+                needLogin();
                 break;
             default:
                 break;

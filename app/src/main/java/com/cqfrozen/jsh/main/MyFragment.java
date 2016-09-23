@@ -1,5 +1,6 @@
 package com.cqfrozen.jsh.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -8,6 +9,8 @@ import android.widget.RelativeLayout;
 
 import com.common.base.BaseFragment;
 import com.cqfrozen.jsh.R;
+import com.cqfrozen.jsh.center.LoginActivity;
+import com.cqfrozen.jsh.entity.UserInfo;
 
 /**
  * Created by Administrator on 2016/9/18.
@@ -24,6 +27,43 @@ public class MyFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
+
+    /**
+     * 判断是否登陆
+     */
+    public boolean isLogined(){
+        if(MyApplication.userInfo == null){
+            return false;
+        }else {
+            return true;
+        }
+    }
+
+    /**
+     * 点击某个需要登陆的事件，就调此方法拦截
+     * true:不需要登陆
+     * false:需要登陆
+     */
+    public boolean needLogin(){
+        if(!isLogined()){
+            startActivity(new Intent(mActivity, LoginActivity.class));
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 获取登陆用户
+     */
+    public UserInfo getUserInfo(){
+        if(needLogin()){
+            return MyApplication.userInfo;
+        }
+        return null;
+    }
+
+
+
 
     private void getIncludeView(){
         if(view != null && include_framelayout == null){

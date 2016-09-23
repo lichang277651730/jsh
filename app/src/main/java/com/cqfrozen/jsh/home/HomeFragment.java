@@ -39,7 +39,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/9/14.
  */
-public class HomeFragment extends BaseFragment implements MyHttp.MyHttpResult ,View.OnTouchListener, View.OnClickListener, SupportLayout.RefreshListener {
+public class HomeFragment extends BaseFragment implements MyHttp.MyHttpResult ,View.OnTouchListener, View.OnClickListener, SupportLayout.RefreshListener, SupportLayout.LoadMoreListener {
 
     private static HomeFragment fragment;
     private List<HomeBannerInfo> bannerInfos = new ArrayList<>();
@@ -86,7 +86,7 @@ public class HomeFragment extends BaseFragment implements MyHttp.MyHttpResult ,V
         rv_home = (RecyclerView) view.findViewById(R.id.rv_home);
         et_search.setOnClickListener(this);
         iv_search.setOnClickListener(this);
-        refresh_home.setOnLoadMoreListener(null);
+        refresh_home.setOnLoadMoreListener(this);
         refresh_home.setOnRefreshListener(this);
     }
 
@@ -221,5 +221,10 @@ public class HomeFragment extends BaseFragment implements MyHttp.MyHttpResult ,V
     @Override
     public void refresh() {
         getData();
+    }
+
+    @Override
+    public void loadMore() {
+        refresh_home.setLoadNodata();
     }
 }

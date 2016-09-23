@@ -8,14 +8,16 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.common.base.BaseValue;
 import com.common.http.HttpForVolley;
-import com.cqfrozen.jsh.activity.LoginActivity;
 import com.cqfrozen.jsh.activity.MainActivity;
+import com.cqfrozen.jsh.center.LoginActivity;
 import com.cqfrozen.jsh.entity.CategoryInfo;
 import com.cqfrozen.jsh.entity.GoodsInfo;
 import com.cqfrozen.jsh.entity.GoodsResultInfo;
 import com.cqfrozen.jsh.entity.HomeBannerInfo;
 import com.cqfrozen.jsh.entity.HomeNotifyInfo;
+import com.cqfrozen.jsh.entity.SigninInfo;
 import com.cqfrozen.jsh.main.MyApplication;
+import com.cqfrozen.jsh.util.MD5Util;
 import com.cqfrozen.jsh.util.SPUtils;
 import com.google.gson.reflect.TypeToken;
 
@@ -85,6 +87,37 @@ public class MyHttp {
         Type type = new TypeToken<List<HomeNotifyInfo>>(){}.getType();
         toBean(GET, http, which, null, url, myHttpResult, type);
     }
+
+    /**
+     * 用户登陆
+     */
+    public static void userLogin(HttpForVolley http,Integer which, String mobile_num, String password,
+                                 MyHttpResult myHttpResult) {
+        String url = SERVER + "User/login";
+        params.clear();
+        params.put("mobile_num", mobile_num);
+        params.put("pass_word", MD5Util.encodeMD5(password));
+        Type type = new TypeToken<SigninInfo>(){}.getType();
+        toBean(POST, http, which, params, url, myHttpResult, type);
+    }
+
+    /**
+     * 添加购物车要调用的拦截接口，如果用户没审核
+     */
+    public static void addcart(HttpForVolley http, Integer which, Long g_id, String area_id,
+                               int count, HttpForVolley.HttpTodo
+                                       httpTodo) {
+        String url = SERVER + "Cart/addcart";
+        params.clear();
+        Log.d("UserInfoData", g_id + ":" + area_id  + ":" + count + ":" + MyApplication.token);
+        params.put("g_id", g_id + "");
+        params.put("area_id", area_id + "");
+        params.put("count", count + "");
+        params.put("token", MyApplication.token);
+//        toBean(POST, http, which, params, url, myHttpResult, null);
+        http.goTo(POST, which, params, url, httpTodo);
+    }
+
 
     private static void toBean(int method, final HttpForVolley http, Integer which,
                                HashMap<String, String> httpMap, String url,

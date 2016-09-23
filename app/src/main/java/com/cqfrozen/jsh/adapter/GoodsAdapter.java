@@ -9,12 +9,16 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.common.http.HttpForVolley;
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.cart.CartManager;
 import com.cqfrozen.jsh.entity.GoodsInfo;
 import com.cqfrozen.jsh.util.ToastUtil;
+import com.cqfrozen.jsh.volleyhttp.MyHttp;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -27,6 +31,7 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.MyViewHolder
     private List<GoodsInfo> goodsInfos;
     private final DisplayImageOptions defaultOptions;
     private CartManager cartManager;
+    private final HttpForVolley http;
 
     public GoodsAdapter(Context context, List<GoodsInfo> goodsInfos){
         this.context = context;
@@ -36,6 +41,7 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.MyViewHolder
                 .showImageForEmptyUri(R.mipmap.solid_goods)
                 .showImageOnFail(R.mipmap.solid_goods)
                 .build();
+        this.http = new HttpForVolley(context);
         this.cartManager =  CartManager.getInstance(context);
     }
     @Override
@@ -58,8 +64,32 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.MyViewHolder
         holder.iv_add_cart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cartManager.add(goodsInfo);
-                ToastUtil.showToast(context, "添加购物车成功");
+//                MyHttp.addcart(http, null, goodsInfo.g_id, "5", 1, new MyHttp.MyHttpResult() {
+//                    @Override
+//                    public void httpResult(Integer which, int code, String msg, Object bean) {
+//                        if(code != 0){
+//                            ToastUtil.showToast(context, msg);
+//                            return;
+//                        }
+//                        cartManager.add(goodsInfo);
+//                        ToastUtil.showToast(context, msg);
+////                        ToastUtil.showToast(context, ((BaseRespMsg)bean).msg);
+//                    }
+//                });
+                MyHttp.addcart(http, null, goodsInfo.g_id, "5", 1, new HttpForVolley.HttpTodo() {
+                    @Override
+                    public void httpTodo(Integer which, JSONObject response) {
+                        ToastUtil.showToast(context, response.toString());
+//                        int code = response.optInt("code");
+//                        ToastUtil.showToast(context, response.optString("msg"));
+//                        if(code != 0){
+//                            return;
+//                        }
+//                        cartManager.add(goodsInfo);
+                    }
+                });
+//                ToastUtil.showToast(context, "添加购物车成功");
+//                cartManager.add(goodsInfo);
             }
         });
     }
