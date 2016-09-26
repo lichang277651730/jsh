@@ -9,7 +9,7 @@ public class UserInfo extends BaseEntity {
     public String password;
     public String store_name;
     public String contacts;
-    public String area_id;
+    public int area_id;
     public String address;
     public String msg_code;
 

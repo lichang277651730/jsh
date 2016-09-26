@@ -10,10 +10,15 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.common.http.HttpForVolley;
 import com.cqfrozen.jsh.R;
+import com.cqfrozen.jsh.util.ToastUtil;
+import com.cqfrozen.jsh.volleyhttp.MyHttp;
 import com.cqfrozen.jsh.widget.NumberAddSubView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+
+import org.json.JSONObject;
 
 import java.util.Iterator;
 import java.util.List;
@@ -30,6 +35,7 @@ public class CartRVAdapter extends RecyclerView.Adapter<CartRVAdapter.MyViewHold
     private CheckBox cb_all;
     private final DisplayImageOptions defaultOptions;
     private final CartManager cartManager;
+    private final HttpForVolley http;
 
     public CartRVAdapter(Context context, List<CartGoodsInfo> cartGoodsInfos, TextView tv_total,
                          final CheckBox cb_all){
@@ -37,6 +43,7 @@ public class CartRVAdapter extends RecyclerView.Adapter<CartRVAdapter.MyViewHold
         this.cartGoodsInfos = cartGoodsInfos;
         this.tv_total = tv_total;
         this.cb_all = cb_all;
+        this.http = new HttpForVolley(context);
         cartManager = CartManager.getInstance(context);
         defaultOptions = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true)
                 .showImageOnLoading(R.color.transparency)
@@ -69,13 +76,32 @@ public class CartRVAdapter extends RecyclerView.Adapter<CartRVAdapter.MyViewHold
         holder.tv_price.setText("¥" + cartGoodsInfo.now_price);
         holder.add_sub_num.setCurValue(cartGoodsInfo.count);
 
+        holder.tv_brand.setText("品牌: " + cartGoodsInfo.brand_name);
+        holder.tv_size.setText("规格: " + cartGoodsInfo.weight + "/kg");
+
         holder.add_sub_num.setOnSubAddClickListener(new NumberAddSubView.OnSubAddClickListener() {
             @Override
-            public void onSubAddClick(View view, int curVal) {
-                holder.add_sub_num.setCurValue(curVal);
-                cartGoodsInfo.count = curVal;
-                cartManager.update(cartGoodsInfo);
-                showTotalPrice();
+            public void onSubAddClick(View view, final int curVal) {
+                //TODO 改5为MyApplication.userInfo.area_id
+                MyHttp.editCount(http, null, cartGoodsInfo.c_id, 5, curVal, new HttpForVolley.HttpTodo() {
+                    @Override
+                    public void httpTodo(Integer which, JSONObject response) {
+                        ToastUtil.showToast(context, response.optString("msg"));
+                        int code = response.optInt("code");
+                        if(code != 0){
+                            return;
+                        }
+                        holder.add_sub_num.setCurValue(curVal);
+                        cartGoodsInfo.count = curVal;
+                        cartManager.update(cartGoodsInfo);
+                        showTotalPrice();
+                    }
+                });
+
+//                holder.add_sub_num.setCurValue(curVal);
+//                cartGoodsInfo.count = curVal;
+//                cartManager.update(cartGoodsInfo);
+//                showTotalPrice();
             }
         });
 
@@ -102,6 +128,8 @@ public class CartRVAdapter extends RecyclerView.Adapter<CartRVAdapter.MyViewHold
         private ImageView iv_goods;
         private TextView tv_name;
         private TextView tv_price;
+        private TextView tv_brand;
+        private TextView tv_size;
         private NumberAddSubView add_sub_num;
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -109,6 +137,8 @@ public class CartRVAdapter extends RecyclerView.Adapter<CartRVAdapter.MyViewHold
             iv_goods = (ImageView)itemView.findViewById(R.id.iv_goods);
             tv_name = (TextView)itemView.findViewById(R.id.tv_name);
             tv_price = (TextView)itemView.findViewById(R.id.tv_price);
+            tv_brand = (TextView)itemView.findViewById(R.id.tv_brand);
+            tv_size = (TextView)itemView.findViewById(R.id.tv_size);
             add_sub_num = (NumberAddSubView)itemView.findViewById(R.id.add_sub_num);
         }
     }
@@ -140,6 +170,7 @@ public class CartRVAdapter extends RecyclerView.Adapter<CartRVAdapter.MyViewHold
         for(Iterator<CartGoodsInfo> iterator = cartGoodsInfos.iterator();iterator.hasNext();){
             CartGoodsInfo goodsInfo = iterator.next();
             if(goodsInfo.isChecked){
+                //TODO 请求网络删除对应数据库中购物车商品
                 int positon = cartGoodsInfos.indexOf(goodsInfo);
                 cartManager.delete(goodsInfo);
                 iterator.remove();

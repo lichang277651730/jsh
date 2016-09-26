@@ -16,72 +16,207 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="120dp"
+            android:layout_height="170dp"
             android:background="@color/colorPrimaryDark">
 
+            <ImageView
+                android:id="@+id/iv_shotcut"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="10dp"
+                android:src="@mipmap/icon_shortcut"/>
             <ImageView
                 android:id="@+id/iv_setting"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:layout_alignParentRight="true"
-
-                android:layout_marginRight="16dp"
+                android:layout_toLeftOf="@id/iv_shotcut"
+                android:layout_marginRight="8dp"
                 android:layout_marginTop="10dp"
                 android:src="@mipmap/center_setting"/>
 
+            <com.common.widget.MyHeadImageView
+                android:id="@+id/iv_head"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:scaleType="fitXY"
+                android:layout_centerInParent="true"
+                android:src="@mipmap/center_head"/>
+            <TextView
+                android:id="@+id/tv_login"
+                style="@style/text_14sp_white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="8dp"
+                android:layout_below="@id/iv_head"
+                android:text="注册/登录"/>
+            <TextView
+                android:id="@+id/tv_name"
+                style="@style/text_14sp_white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="8dp"
+                android:layout_below="@id/iv_head"
+                android:maxLength="20"/>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="12dp"
-                android:layout_marginLeft="12dp"
-                android:gravity="center_vertical"
+                android:gravity="center"
                 android:orientation="horizontal">
-
-                <com.common.widget.MyHeadImageView
-                    android:id="@+id/iv_head"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:scaleType="fitXY"
-                    android:src="@mipmap/center_head"/>
-
                 <TextView
-                    android:id="@+id/tv_login"
-                    style="@style/text_14sp_white"
+                    android:id="@+id/tv_phone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:text="注册/登录"/>
-
-                <TextView
-                    android:id="@+id/tv_name"
-                    style="@style/text_14sp_white"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:text="185 6666 6666"/>
+                <ImageView
+                    android:id="@+id/iv_verify"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:maxLength="11"
-                    android:textSize="20sp"/>
+                    android:src="@mipmap/icon_verify_yes"
+                    android:layout_marginLeft="8dp"
+                    android:scaleType="fitXY"/>
+                <TextView
+                    android:id="@+id/tv_verify"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:layout_marginLeft="4dp"
+                    android:text="已审核"/>
             </LinearLayout>
         </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="44dp"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
             android:orientation="horizontal">
 
-            <View
-                android:layout_width="3dp"
+
+            <LinearLayout
+                android:id="@+id/ll_huibi"
+                android:layout_width="0px"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="8dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="8dp"
-                android:background="@color/myred"/>
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/text_14sp_black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="汇币"
+                    android:textSize="14sp"/>
+
+                <TextView
+                    style="@style/text_14sp_black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="13.57"
+                    android:textColor="@color/myred"
+                    android:textSize="14sp"/>
+                <TextView
+                    style="@style/text_14sp_black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="+0.00"
+                    android:textSize="14sp"/>
+            </LinearLayout>
+
+            <View style="@style/VerticalDividerLine"/>
+            <LinearLayout
+                android:id="@+id/ll_fans"
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/text_14sp_black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="粉丝"
+                    android:textSize="14sp"/>
+
+                <TextView
+                    style="@style/text_14sp_black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="108"
+                    android:textColor="@color/myred"
+                    android:textSize="14sp"/>
+                <TextView
+                    style="@style/text_14sp_black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="+0"
+                    android:textSize="14sp"/>
+            </LinearLayout>
+
+
+            <View style="@style/VerticalDividerLine"/>
+
+            <LinearLayout
+                android:id="@+id/ll_sign"
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/text_14sp_black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="签到"
+                    android:textSize="14sp"/>
+
+                <TextView
+                    style="@style/text_14sp_black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1.57"
+                    android:textColor="@color/myred"
+                    android:textSize="14sp"/>
+                <TextView
+                    style="@style/text_14sp_black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="+0.00"
+                    android:textSize="14sp"/>
+            </LinearLayout>
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:background="@color/mybg"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="center_vertical"
+                android:scaleType="fitXY"
+                android:src="@mipmap/icon_myorder"/>
 
             <TextView
                 style="@style/text_14sp_black"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="8dp"
                 android:layout_weight="1"
                 android:text="我的订单"
                 android:textSize="17sp"/>
@@ -101,9 +236,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="90dp"
+            android:padding="8dp"
             android:orientation="horizontal">
-
-            <View style="@style/VerticalDividerLine"/>
 
             <LinearLayout
                 android:id="@+id/table1"
@@ -116,7 +250,7 @@
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:src="@mipmap/order_pay"/>
+                    android:src="@mipmap/icon_order_pay"/>
 
                 <TextView
                     style="@style/text_14sp_black"
@@ -126,10 +260,7 @@
                     android:textSize="14sp"/>
             </LinearLayout>
 
-            <View
-                android:layout_width="1px"
-                android:layout_height="match_parent"
-                android:background="@color/myline"/>
+            <View style="@style/VerticalDividerLine"/>
 
             <LinearLayout
                 android:id="@+id/table2"
@@ -142,7 +273,7 @@
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:src="@mipmap/order_take"/>
+                    android:src="@mipmap/icon_order_receive"/>
 
                 <TextView
                     style="@style/text_14sp_black"
@@ -165,7 +296,7 @@
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:src="@mipmap/order_eval"/>
+                    android:src="@mipmap/icon_order_evaluate"/>
 
                 <TextView
                     style="@style/text_14sp_black"
@@ -175,13 +306,11 @@
                     android:textSize="14sp"/>
             </LinearLayout>
 
-            <View style="@style/VerticalDividerLine"/>
-
         </LinearLayout>
         <View style="@style/HorizontalDividerLine"/>
         <View
             android:layout_width="match_parent"
-            android:layout_height="16dp"
+            android:layout_height="8dp"
             android:background="@color/mybg"/>
         <LinearLayout
             android:layout_width="match_parent"
@@ -193,12 +322,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/sl_item_bg"
-                android:drawableLeft="@mipmap/icon_list_o"
+                android:drawableLeft="@mipmap/icon_nor_buy"
                 android:drawableRight="@mipmap/toright"
                 android:drawablePadding="20dp"
                 android:gravity="center_vertical"
                 android:padding="@dimen/largePadding"
-                android:text="@string/my_orders"
+                android:text="@string/my_nor_buy"
                 android:textColor="@color/black"/>
             <View style="@style/HorizontalDividerLine"/>
 
@@ -207,12 +336,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/sl_item_bg"
-                android:drawableLeft="@mipmap/icon_favorite"
+                android:drawableLeft="@mipmap/icon_address"
                 android:drawableRight="@mipmap/toright"
                 android:drawablePadding="20dp"
                 android:gravity="center_vertical"
                 android:padding="@dimen/largePadding"
-                android:text="@string/my_favorite"
+                android:text="@string/my_addresses"
                 android:textColor="@color/black"/>
 
             <View style="@style/HorizontalDividerLine"/>
@@ -223,12 +352,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/sl_item_bg"
-                android:drawableLeft="@mipmap/icon_location"
+                android:drawableLeft="@mipmap/icon_shop"
                 android:drawableRight="@mipmap/toright"
                 android:drawablePadding="20dp"
                 android:gravity="center_vertical"
                 android:padding="@dimen/largePadding"
-                android:text="@string/my_addresses"
+                android:text="@string/my_shop_manager"
                 android:textColor="@color/black"/>
 
             <View style="@style/HorizontalDividerLine"/>
@@ -237,13 +366,39 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/sl_item_bg"
-                android:drawableLeft="@mipmap/icon_msg"
+                android:drawableLeft="@mipmap/icon_after_sale"
                 android:drawableRight="@mipmap/toright"
                 android:drawablePadding="20dp"
                 android:gravity="center_vertical"
                 android:padding="@dimen/largePadding"
                 android:textColor="@color/black"
-                android:text="@string/my_msg"/>
+                android:text="@string/my_after_sale"/>
+            <View style="@style/HorizontalDividerLine"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/sl_item_bg"
+                android:drawableLeft="@mipmap/icon_server_phone"
+                android:drawableRight="@mipmap/toright"
+                android:drawablePadding="20dp"
+                android:gravity="center_vertical"
+                android:padding="@dimen/largePadding"
+                android:textColor="@color/black"
+                android:text="@string/my_server_phone"/>
+            <View style="@style/HorizontalDividerLine"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/sl_item_bg"
+                android:drawableLeft="@mipmap/icon_about_us"
+                android:drawableRight="@mipmap/toright"
+                android:drawablePadding="20dp"
+                android:gravity="center_vertical"
+                android:padding="@dimen/largePadding"
+                android:textColor="@color/black"
+                android:text="@string/my_about_us"/>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

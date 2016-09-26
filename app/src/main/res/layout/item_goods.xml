@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/white"
     android:padding="2dp">
 
     <ImageView
@@ -15,7 +16,7 @@
     <TextView
         android:id="@+id/tv_name"
         android:padding="2dp"
-        android:layout_width="150dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:lineSpacingMultiplier="1.2"
         android:maxLines="1"
@@ -45,7 +46,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-
             android:textColor="@color/mygray"
             android:textStyle="bold"
             android:textSize="12sp"/>

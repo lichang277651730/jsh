@@ -9,6 +9,7 @@ import com.android.volley.Request;
 import com.common.base.BaseValue;
 import com.common.http.HttpForVolley;
 import com.cqfrozen.jsh.activity.MainActivity;
+import com.cqfrozen.jsh.cart.CartResultInfo;
 import com.cqfrozen.jsh.center.LoginActivity;
 import com.cqfrozen.jsh.entity.CategoryInfo;
 import com.cqfrozen.jsh.entity.GoodsInfo;
@@ -109,14 +110,45 @@ public class MyHttp {
                                        httpTodo) {
         String url = SERVER + "Cart/addcart";
         params.clear();
-        Log.d("UserInfoData", g_id + ":" + area_id  + ":" + count + ":" + MyApplication.token);
+//        Log.d("UserInfoData", g_id + ":" + area_id  + ":" + count + ":" + MyApplication.token);
         params.put("g_id", g_id + "");
         params.put("area_id", area_id + "");
         params.put("count", count + "");
         params.put("token", MyApplication.token);
-//        toBean(POST, http, which, params, url, myHttpResult, null);
         http.goTo(POST, which, params, url, httpTodo);
     }
+
+    /**
+     * 查询购物车数据
+     */
+    public static void queryCart(HttpForVolley http, Integer which, int page, int area_id, MyHttpResult myHttpResult) {
+        String url = SERVER + "Cart/querycart";
+        params.clear();
+        params.put("page", page + "");
+        params.put("area_id", area_id + "");
+        params.put("token", MyApplication.token);
+        Type type = new TypeToken<CartResultInfo>() {
+        }.getType();
+        toBean(POST, http, which, params, url, myHttpResult, type);
+    }
+
+    /**
+     * 修改购物车数量
+     */
+    public static void editCount(HttpForVolley http, Integer which, Long c_id, int area_id, int count, HttpForVolley.HttpTodo
+            httpTodo) {
+        String url = SERVER + "Cart/editcount";
+        params.clear();
+        Log.d("UserInfoData", c_id + ":" + 5  + ":" + count + ":" + MyApplication.token);
+        params.put("c_id", c_id + "");
+        //TODO 改5为area_id
+        params.put("area_id", 5 + "");
+        params.put("count", count + "");
+        params.put("token", MyApplication.token);
+        http.goTo(POST, which, params, url, httpTodo);
+    }
+
+
 
 
     private static void toBean(int method, final HttpForVolley http, Integer which,

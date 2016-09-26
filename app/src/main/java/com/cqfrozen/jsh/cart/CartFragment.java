@@ -2,18 +2,21 @@ package com.cqfrozen.jsh.cart;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.common.base.BaseFragment;
+import com.common.base.BaseValue;
+import com.common.widget.MyGridDecoration;
 import com.cqfrozen.jsh.R;
+import com.cqfrozen.jsh.volleyhttp.MyHttp;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +40,12 @@ public class CartFragment extends BaseFragment implements View.OnClickListener {
     private List<CartGoodsInfo> cartGoodsInfos = new ArrayList<>();
     private CartRVAdapter cartAdapter;
     private CartManager cartManager;
+    private int page = 1;
+    private int is_page = 0;//是否有下一页数据
+    private int area_id = 5;
+    private TextView tv_carr;
+    private LinearLayout include_cartnodatalayout;
+    private Button include_cartnodata_btn;
 
     public static CartFragment getInstance(){
         if(fragment == null){
@@ -63,6 +72,7 @@ public class CartFragment extends BaseFragment implements View.OnClickListener {
 
     private void initTitle() {
         btn_edit = (Button) view.findViewById(R.id.btn_edit);
+
         btn_edit.setTag(TAG_EIDT);
         btn_edit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,36 +88,97 @@ public class CartFragment extends BaseFragment implements View.OnClickListener {
     }
 
     private void initView() {
+        include_cartnodatalayout = (LinearLayout) view.findViewById(R.id.include_cartnodatalayout);
+        include_cartnodata_btn = (Button) view.findViewById(R.id.include_cartnodata_btn);
         rv_cart = (RecyclerView) view.findViewById(R.id.rv_cart);
         cb_all = (CheckBox) view.findViewById(R.id.cb_all);
         tv_total = (TextView) view.findViewById(R.id.tv_total);
         btn_order = (Button) view.findViewById(R.id.btn_order);
         btn_del = (Button) view.findViewById(R.id.btn_del);
+        tv_carr = (TextView) view.findViewById(R.id.tv_carr);
         btn_del.setOnClickListener(this);
 //        cb_all.setChecked(true);
     }
 
     private void initRV() {
         rv_cart.setOverScrollMode(View.OVER_SCROLL_NEVER);
+//        LinearLayoutManager manager = new LinearLayoutManager(mActivity);
+        GridLayoutManager manager = new GridLayoutManager(mActivity, 1);
         cartAdapter = new CartRVAdapter(mActivity, cartGoodsInfos, tv_total, cb_all);
-        LinearLayoutManager manager = new LinearLayoutManager(mActivity);
         rv_cart.setLayoutManager(manager);
+        MyGridDecoration decoration = new MyGridDecoration(BaseValue.dp2px(1), BaseValue
+                .dp2px(0), getResources().getColor(R.color.mybg), false);
+        rv_cart.addItemDecoration(decoration);
         rv_cart.setAdapter(cartAdapter);
     }
 
     private void getData() {
-        List<CartGoodsInfo> localData = cartManager.loadAllFromSp();
-        cartGoodsInfos.clear();
-        cartGoodsInfos.addAll(localData);
-        cartAdapter.showTotalPrice();
-        cartAdapter.allCheckedListen();
-        cartAdapter.notifyDataSetChanged();
+//        List<CartGoodsInfo> localData = cartManager.loadAllFromSp();//从缓存中读购物车数据
+//        if(localData == null || localData.size() == 0){//缓存中无数据,从网络中获取
+            getDataFromServer();
+//        }else {
+//            cartGoodsInfos.clear();
+//            cartGoodsInfos.addAll(localData);
+//        }
+//        cartAdapter.showTotalPrice();
+//        cartAdapter.allCheckedListen();
+//        cartAdapter.notifyDataSetChanged();
+    }
+
+    private void getDataFromServer() {
+        MyHttp.queryCart(http, null, page, area_id, new MyHttp.MyHttpResult() {
+            @Override
+            public void httpResult(Integer which, int code, String msg, Object bean) {
+                if(code != 0){
+                    showToast(msg);
+                    setNoDataView();
+                    return;
+                }
+                CartResultInfo cartResultInfo = (CartResultInfo) bean;
+                if(cartResultInfo == null || cartResultInfo.data1.size() == 0){
+                    return;
+                }
+                cartGoodsInfos.clear();
+                cartGoodsInfos.addAll(cartResultInfo.data1);
+                if(cartGoodsInfos == null || cartGoodsInfos.size() == 0){
+                    setNoDataView();//购物车为空
+                    return;
+                }
+                showDataView();
+                cartManager.add(cartGoodsInfos);
+                cartAdapter.showTotalPrice();
+                cartAdapter.allCheckedListen();
+                cartAdapter.notifyDataSetChanged();
+                is_page = cartResultInfo.is_page;
+            }
+        });
+    }
+
+    /**
+     * 购物车有数据时的页面
+     */
+    private void showDataView() {
+        include_cartnodatalayout.setVisibility(View.GONE);
+        rv_cart.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * 购物车没数据时的页面
+     */
+    private void setNoDataView() {
+        include_cartnodatalayout.setVisibility(View.VISIBLE);
+        rv_cart.setVisibility(View.GONE);
+        include_cartnodata_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO 跳转去逛逛页面
+            }
+        });
     }
 
     @Override
     public void onShow() {
         super.onShow();
-        Log.d("FragmentShow", "CartFragment");
         getData();
     }
 
@@ -116,6 +187,7 @@ public class CartFragment extends BaseFragment implements View.OnClickListener {
         btn_order.setVisibility(View.GONE);
         btn_del.setVisibility(View.VISIBLE);
         tv_total.setVisibility(View.GONE);
+        tv_carr.setVisibility(View.GONE);
         btn_edit.setTag(TAG_FINISH);
         cartAdapter.checkAllNone(false);
     }
@@ -125,6 +197,7 @@ public class CartFragment extends BaseFragment implements View.OnClickListener {
         btn_order.setVisibility(View.VISIBLE);
         btn_del.setVisibility(View.GONE);
         tv_total.setVisibility(View.VISIBLE);
+        tv_carr.setVisibility(View.VISIBLE);
         btn_edit.setTag(TAG_EIDT);
         cartAdapter.checkAllNone(true);
     }

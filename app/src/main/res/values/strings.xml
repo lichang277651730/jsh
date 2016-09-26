@@ -25,6 +25,11 @@
     <string name="my_addresses">收货地址</string>
     <string name="my_favorite">我的收藏</string>
     <string name="my_orders">我的订单</string>
+    <string name="my_nor_buy">常用采购</string>
+    <string name="my_shop_manager">店铺管理</string>
+    <string name="my_after_sale">售后规则</string>
+    <string name="my_server_phone">客服电话</string>
+    <string name="my_about_us">关于我们</string>
     <string name="address_add">添加新地址</string>
 
     <string name="tabs_jy">鸡鸭类</string>

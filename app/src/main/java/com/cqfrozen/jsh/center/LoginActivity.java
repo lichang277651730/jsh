@@ -69,6 +69,7 @@ public class LoginActivity extends MyActivity implements View.OnClickListener {
                     showToast(msg);
                     return;
                 }
+                showToast("登陆成功");
                 SigninInfo signinInfo = (SigninInfo) bean;
                 MyApplication.signinInfo = signinInfo;
                 MyApplication.token = signinInfo.getToken();

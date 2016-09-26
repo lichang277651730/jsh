@@ -77,7 +77,7 @@ public class CartManager {
     }
 
     /**
-     * 添加购物车
+     * 添加单个商品购物车
      */
     public void add(CartGoodsInfo cartGoodsInfo){
         Long goodsId = cartGoodsInfo.g_id;
@@ -92,9 +92,21 @@ public class CartManager {
         commit();
     }
 
+    /**
+     * 添加单个商品购物车
+     */
     public void add(GoodsInfo goodsInfo){
         CartGoodsInfo cartGoodsInfo = parseCartGoods(goodsInfo);
         add(cartGoodsInfo);
+    }
+
+    /**
+     * 添加一个集合的商品到购物车
+     */
+    public void add(List<CartGoodsInfo> cartGoodsInfos){
+        for (CartGoodsInfo goodsInfo : cartGoodsInfos){
+            add(goodsInfo);
+        }
     }
 
     private CartGoodsInfo parseCartGoods(GoodsInfo goodsInfo) {

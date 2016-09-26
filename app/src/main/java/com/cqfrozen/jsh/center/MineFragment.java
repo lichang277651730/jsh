@@ -3,6 +3,7 @@ package com.cqfrozen.jsh.center;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,6 +65,7 @@ public class MineFragment extends MyFragment implements View.OnClickListener {
     @Override
     public void onShow() {
         super.onShow();
+        Log.d("MineFragment", "MineFragment123123123");
         if(isLogined()){//已经登陆的用户，就初始化用户数据
             showLogined();
         }else {//没有登陆就将页面置为没有登陆的状态

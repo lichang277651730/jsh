@@ -80,8 +80,8 @@ public class GoodsFragment extends MyFragment implements MyHttp.MyHttpResult, My
     private void initRV() {
         rv_goods.setOverScrollMode(View.OVER_SCROLL_NEVER);
         GridLayoutManager manager = new GridLayoutManager(mActivity, 2);
-        GridDecoration newGridDecoration = new GridDecoration(0, BaseValue.dp2px(8),
-                getResources().getColor(R.color.mybg), true);
+        GridDecoration newGridDecoration = new GridDecoration(0, BaseValue.dp2px(1),
+                getResources().getColor(R.color.myline), true);
         rv_goods.addItemDecoration(newGridDecoration);
         goodsAdapter = new GoodsAdapter(mActivity, goodsInfos);
         rv_goods.setLayoutManager(manager);
@@ -170,6 +170,8 @@ public class GoodsFragment extends MyFragment implements MyHttp.MyHttpResult, My
     public void gotoBottom() {
         if(is_page == 1){
             getData();
+        }else if(is_page == 0){
+            showToast("没有更多数据了!~");
         }
     }
 

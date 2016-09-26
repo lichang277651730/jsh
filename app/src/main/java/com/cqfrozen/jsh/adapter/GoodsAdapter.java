@@ -64,32 +64,19 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.MyViewHolder
         holder.iv_add_cart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                MyHttp.addcart(http, null, goodsInfo.g_id, "5", 1, new MyHttp.MyHttpResult() {
-//                    @Override
-//                    public void httpResult(Integer which, int code, String msg, Object bean) {
-//                        if(code != 0){
-//                            ToastUtil.showToast(context, msg);
-//                            return;
-//                        }
-//                        cartManager.add(goodsInfo);
-//                        ToastUtil.showToast(context, msg);
-////                        ToastUtil.showToast(context, ((BaseRespMsg)bean).msg);
-//                    }
-//                });
+
+                //TODO 要替换区域id
                 MyHttp.addcart(http, null, goodsInfo.g_id, "5", 1, new HttpForVolley.HttpTodo() {
                     @Override
                     public void httpTodo(Integer which, JSONObject response) {
-                        ToastUtil.showToast(context, response.toString());
-//                        int code = response.optInt("code");
-//                        ToastUtil.showToast(context, response.optString("msg"));
-//                        if(code != 0){
-//                            return;
-//                        }
-//                        cartManager.add(goodsInfo);
+                        ToastUtil.showToast(context, response.optString("msg"));
+                        int code = response.optInt("code");
+                        if(code != 0){
+                            return;
+                        }
+                        cartManager.add(goodsInfo);
                     }
                 });
-//                ToastUtil.showToast(context, "添加购物车成功");
-//                cartManager.add(goodsInfo);
             }
         });
     }

@@ -70,7 +70,13 @@ public class ClassifyFragment extends BaseFragment implements MyHttp.MyHttpResul
 
     private void initVP() {
         vp_classify.setOverScrollMode(View.OVER_SCROLL_NEVER);
-        indicator_classify.setScrollBar(new ColorBar(mActivity, UIUtils.getColor(R.color.main), BaseValue.dp2px(4)));
+        indicator_classify.setScrollBar(new ColorBar(mActivity, UIUtils.getColor(R.color.main), BaseValue.dp2px(4)){
+
+            @Override
+            public int getWidth(int tabWidth) {
+                return tabWidth - BaseValue.dp2px(14);
+            }
+        });
         // 设置滚动监听
         indicator_classify.setOnTransitionListener(new OnTransitionTextListener().setColor(UIUtils.getColor(R.color.main), Color.BLACK));
         vp_classify.setOffscreenPageLimit(2);
