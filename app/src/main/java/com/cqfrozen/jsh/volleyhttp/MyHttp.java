@@ -148,8 +148,17 @@ public class MyHttp {
         http.goTo(POST, which, params, url, httpTodo);
     }
 
-
-
+    /**
+     * 删除购物车商品
+     */
+    public static void deleteCart(HttpForVolley http, Integer which, Long c_id,  HttpForVolley.HttpTodo
+            httpTodo) {
+        String url = SERVER + "Cart/deletecart";
+        params.clear();
+        params.put("c_id", c_id + "");
+        params.put("token", MyApplication.token);
+        http.goTo(POST, which, params, url, httpTodo);
+    }
 
     private static void toBean(int method, final HttpForVolley http, Integer which,
                                HashMap<String, String> httpMap, String url,

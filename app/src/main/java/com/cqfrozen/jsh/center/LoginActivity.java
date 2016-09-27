@@ -1,10 +1,12 @@
 package com.cqfrozen.jsh.center;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.common.widget.MyEditText;
 import com.cqfrozen.jsh.R;
@@ -23,6 +25,7 @@ public class LoginActivity extends MyActivity implements View.OnClickListener {
     private MyEditText et_password;
     private Button btn_login;
     private String phoneStr;
+    private TextView tv_regist;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,8 +38,10 @@ public class LoginActivity extends MyActivity implements View.OnClickListener {
     private void initView() {
         et_phone = (MyEditText) findViewById(R.id.et_phone);
         et_password = (MyEditText) findViewById(R.id.et_password);
+        tv_regist = (TextView) findViewById(R.id.tv_regist);
         btn_login = (Button) findViewById(R.id.btn_login);
         btn_login.setOnClickListener(this);
+        tv_regist.setOnClickListener(this);
     }
 
     @Override
@@ -44,6 +49,9 @@ public class LoginActivity extends MyActivity implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.btn_login:
                 goLogin();
+                break;
+            case R.id.tv_regist:
+                startActivity(new Intent(this, RegisterActivity.class));
                 break;
             default:
                 break;

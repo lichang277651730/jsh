@@ -56,6 +56,7 @@ public class HomeFragment extends BaseFragment implements MyHttp.MyHttpResult ,V
 
     private static final int urlNum = 5; //当前页面是刷新的url数量
     private ImageView iv_search;
+    private ImageView iv_location;
 
     public static HomeFragment getInstance(){
         if(fragment == null){
@@ -83,9 +84,11 @@ public class HomeFragment extends BaseFragment implements MyHttp.MyHttpResult ,V
         refresh_home = (RefreshLayout) view.findViewById(R.id.refresh_home);
         et_search = (EditText) view.findViewById(R.id.et_search);
         iv_search = (ImageView) view.findViewById(R.id.iv_search);
+        iv_location = (ImageView) view.findViewById(R.id.iv_location);
         rv_home = (RecyclerView) view.findViewById(R.id.rv_home);
         et_search.setOnClickListener(this);
         iv_search.setOnClickListener(this);
+        iv_location.setOnClickListener(this);
         refresh_home.setOnLoadMoreListener(this);
         refresh_home.setOnRefreshListener(this);
     }
@@ -212,6 +215,9 @@ public class HomeFragment extends BaseFragment implements MyHttp.MyHttpResult ,V
             case R.id.et_search:
             case R.id.iv_search:
                 startActivity(new Intent(mActivity, SearchActivity.class));
+                break;
+            case R.id.iv_location:
+                startActivity(new Intent(mActivity, LocationActivity.class));
                 break;
             default:
                 break;

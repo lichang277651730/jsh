@@ -1,6 +1,7 @@
 package com.cqfrozen.jsh.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Paint;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import com.common.http.HttpForVolley;
 import com.cqfrozen.jsh.R;
+import com.cqfrozen.jsh.activity.GoodsDetailActivity;
 import com.cqfrozen.jsh.cart.CartManager;
 import com.cqfrozen.jsh.entity.GoodsInfo;
 import com.cqfrozen.jsh.util.ToastUtil;
@@ -77,6 +79,16 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.MyViewHolder
                         cartManager.add(goodsInfo);
                     }
                 });
+            }
+        });
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO 跳转至商品详情页
+                Intent intent = new Intent(context, GoodsDetailActivity.class);
+                intent.putExtra("g_id", goodsInfo.g_id);
+                context.startActivity(intent);
             }
         });
     }

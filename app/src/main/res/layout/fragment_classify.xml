@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical"
+              android:id="@+id/ll_root"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
     <RelativeLayout
@@ -31,11 +32,24 @@
             android:scaleType="fitCenter"
             android:src="@mipmap/nav_sousuo_h"/>
     </RelativeLayout>
-    <com.shizhefei.view.indicator.ScrollIndicatorView
-        android:id="@+id/indicator_classify"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:background="@color/white"/>
+        android:layout_height="45dp">
+        <com.shizhefei.view.indicator.ScrollIndicatorView
+            android:id="@+id/indicator_classify"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@color/white"/>
+        <ImageView
+            android:id="@+id/iv_pop"
+            android:layout_width="45dp"
+            android:layout_height="match_parent"
+            android:padding="4dp"
+            android:layout_alignParentRight="true"
+            android:background="@color/white"
+            android:src="@mipmap/icon_classify_more"/>
+    </RelativeLayout>
+
 
     <android.support.v4.view.ViewPager
         android:id="@+id/vp_classify"

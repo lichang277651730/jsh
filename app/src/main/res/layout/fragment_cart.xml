@@ -20,11 +20,19 @@
             android:text="@string/cart_title"
             android:textSize="18sp"/>
 
+        <ImageView
+            android:id="@+id/iv_shotcut"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="10dp"
+            android:src="@mipmap/icon_shortcut"/>
         <Button
             android:id="@+id/btn_edit"
-            android:layout_width="80dp"
+            android:layout_width="60dp"
             android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
+            android:layout_toLeftOf="@id/iv_shotcut"
             android:gravity="center"
             android:background="@null"
             android:textColor="@color/white"

@@ -167,14 +167,25 @@ public class CartRVAdapter extends RecyclerView.Adapter<CartRVAdapter.MyViewHold
             return;
         }
 
-        for(Iterator<CartGoodsInfo> iterator = cartGoodsInfos.iterator();iterator.hasNext();){
-            CartGoodsInfo goodsInfo = iterator.next();
+        for(final Iterator<CartGoodsInfo> iterator = cartGoodsInfos.iterator();iterator.hasNext();){
+            final CartGoodsInfo goodsInfo = iterator.next();
             if(goodsInfo.isChecked){
-                //TODO 请求网络删除对应数据库中购物车商品
-                int positon = cartGoodsInfos.indexOf(goodsInfo);
-                cartManager.delete(goodsInfo);
-                iterator.remove();
-                notifyItemRemoved(positon);
+                MyHttp.deleteCart(http, null, goodsInfo.c_id, new HttpForVolley.HttpTodo() {
+                    @Override
+                    public void httpTodo(Integer which, JSONObject response) {
+                        ToastUtil.showToast(context, response.optString("msg"));
+                        int code = response.optInt("code");
+                        if(code != 0){
+                            return;
+                        }
+                        int positon = cartGoodsInfos.indexOf(goodsInfo);
+                        cartManager.delete(goodsInfo);
+                        iterator.remove();
+                        notifyItemRemoved(positon);
+                        showTotalPrice();
+                    }
+                });
+
             }
         }
     }
@@ -259,7 +270,7 @@ public class CartRVAdapter extends RecyclerView.Adapter<CartRVAdapter.MyViewHold
     /**
      * 判断购物车是否为空
      */
-    private boolean isNull(){
+    public boolean isNull(){
         if(cartGoodsInfos == null || cartGoodsInfos.size() == 0){
             return true;
         }

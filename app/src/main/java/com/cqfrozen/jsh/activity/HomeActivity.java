@@ -111,7 +111,6 @@ public class HomeActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         //TODO 如果有更新登陆框就要先取消
-
         if(vp_home.getCurrentItem() != 0){
             vp_home.setCurrentItem(0, false);
             rb_homes[0].setChecked(true);
@@ -143,4 +142,17 @@ public class HomeActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         return super.onKeyDown(keyCode, event);
     }
 
+    public MyViewPager getViewPager(){
+        return this.vp_home;
+    }
+
+    public void setHomeFragment(){
+        vp_home.setCurrentItem(0, false);
+        rb_homes[0].setChecked(true);
+    }
+
+    public void setClassifyFragment(){
+        vp_home.setCurrentItem(1, false);
+        rb_homes[1].setChecked(true);
+    }
 }

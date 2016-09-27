@@ -58,6 +58,12 @@
                   android:theme="@style/SwipeBackTheme"/>
         <activity android:name=".center.LoginActivity"
                   android:theme="@style/SwipeBackTheme"/>
+        <activity android:name=".center.RegisterActivity"
+                  android:theme="@style/SwipeBackTheme"/>
+        <activity android:name=".activity.GoodsDetailActivity"
+                  android:theme="@style/SwipeBackTheme"/>
+        <activity android:name=".home.LocationActivity"
+                  android:theme="@style/SwipeBackTheme"/>
     </application>
 
 </manifest>

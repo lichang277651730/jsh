@@ -1,5 +1,7 @@
 package com.cqfrozen.jsh.cart;
 
+import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
@@ -9,13 +11,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.common.base.BaseFragment;
 import com.common.base.BaseValue;
 import com.common.widget.MyGridDecoration;
 import com.cqfrozen.jsh.R;
+import com.cqfrozen.jsh.activity.HomeActivity;
+import com.cqfrozen.jsh.activity.SearchActivity;
 import com.cqfrozen.jsh.volleyhttp.MyHttp;
 
 import java.util.ArrayList;
@@ -46,6 +52,8 @@ public class CartFragment extends BaseFragment implements View.OnClickListener {
     private TextView tv_carr;
     private LinearLayout include_cartnodatalayout;
     private Button include_cartnodata_btn;
+    private PopupWindow popupWindow;
+    private ImageView iv_shotcut;
 
     public static CartFragment getInstance(){
         if(fragment == null){
@@ -91,13 +99,31 @@ public class CartFragment extends BaseFragment implements View.OnClickListener {
         include_cartnodatalayout = (LinearLayout) view.findViewById(R.id.include_cartnodatalayout);
         include_cartnodata_btn = (Button) view.findViewById(R.id.include_cartnodata_btn);
         rv_cart = (RecyclerView) view.findViewById(R.id.rv_cart);
+        iv_shotcut = (ImageView) view.findViewById(R.id.iv_shotcut);
         cb_all = (CheckBox) view.findViewById(R.id.cb_all);
         tv_total = (TextView) view.findViewById(R.id.tv_total);
         btn_order = (Button) view.findViewById(R.id.btn_order);
         btn_del = (Button) view.findViewById(R.id.btn_del);
         tv_carr = (TextView) view.findViewById(R.id.tv_carr);
         btn_del.setOnClickListener(this);
+        iv_shotcut.setOnClickListener(this);
+        createPop();
 //        cb_all.setChecked(true);
+
+    }
+
+    private void createPop() {
+        View popView = LayoutInflater.from(mActivity).inflate(R.layout.pop_shortcut, null);
+        View pop_shortcut_search = popView.findViewById(R.id.pop_shortcut_search);
+        View pop_shortcut_home = popView.findViewById(R.id.pop_shortcut_home);
+        pop_shortcut_search.setOnClickListener(this);
+        pop_shortcut_home.setOnClickListener(this);
+        popupWindow = new PopupWindow(popView, ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        popupWindow.setTouchable(true);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setFocusable(true);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable());
     }
 
     private void initRV() {
@@ -136,6 +162,7 @@ public class CartFragment extends BaseFragment implements View.OnClickListener {
                 }
                 CartResultInfo cartResultInfo = (CartResultInfo) bean;
                 if(cartResultInfo == null || cartResultInfo.data1.size() == 0){
+                    setNoDataView();//购物车为空
                     return;
                 }
                 cartGoodsInfos.clear();
@@ -172,6 +199,7 @@ public class CartFragment extends BaseFragment implements View.OnClickListener {
             @Override
             public void onClick(View v) {
                 //TODO 跳转去逛逛页面
+                ((HomeActivity)mActivity).setClassifyFragment();
             }
         });
     }
@@ -200,16 +228,39 @@ public class CartFragment extends BaseFragment implements View.OnClickListener {
         tv_carr.setVisibility(View.VISIBLE);
         btn_edit.setTag(TAG_EIDT);
         cartAdapter.checkAllNone(true);
+        if(cartAdapter.isNull()){
+            setNoDataView();
+        }
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_del:
-                cartAdapter.delete();
+            case R.id.btn_del://点击删除按钮
+                deleteCart();
+                break;
+            case R.id.iv_shotcut://点击shotcut图标
+                popupWindow.showAsDropDown(iv_shotcut, BaseValue.dp2px(-6), BaseValue.dp2px
+                        (8));
+                break;
+            case R.id.pop_shortcut_search://点击popview上的搜索
+                startActivity(new Intent(mActivity, SearchActivity.class));
+                popupWindow.dismiss();
+                break;
+            case R.id.pop_shortcut_home://点击popview上的首页
+//                ((HomeActivity)mActivity).getViewPager().setCurrentItem(0, false);
+                ((HomeActivity)mActivity).setHomeFragment();
+                popupWindow.dismiss();
                 break;
             default:
                 break;
+        }
+    }
+
+    private void deleteCart() {
+        cartAdapter.delete();
+        if(cartAdapter.isNull()){
+            setNoDataView();
         }
     }
 }
