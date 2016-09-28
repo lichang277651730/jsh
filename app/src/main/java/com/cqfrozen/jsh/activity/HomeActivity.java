@@ -3,6 +3,8 @@ package com.cqfrozen.jsh.activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.KeyEvent;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -12,9 +14,12 @@ import com.common.base.BaseFragment;
 import com.common.widget.MyViewPager;
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.cart.CartFragment;
+import com.cqfrozen.jsh.cart.CartManager;
 import com.cqfrozen.jsh.center.MineFragment;
 import com.cqfrozen.jsh.classify.ClassifyFragment;
 import com.cqfrozen.jsh.home.HomeFragment;
+import com.cqfrozen.jsh.main.MyApplication;
+import com.cqfrozen.jsh.widget.BadgeView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +39,8 @@ public class HomeActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     protected int clickCount;
     protected long clickFirstTime;
     protected long clickSecondTime;
+    private ImageView iv_cart;
+    private CartManager cartManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,11 +50,37 @@ public class HomeActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         instance = this;
         initView();
         initFragment();
+        cartManager = MyApplication.cartManager;
+        initBadgeView();
+    }
+
+    private void initBadgeView() {
+        final BadgeView badgeView = new BadgeView(this, iv_cart);
+        if(cartManager != null){
+            badgeView.setText(cartManager.getCartGoodsNum() + "");
+            badgeView.setTextSize(10);
+            badgeView.setBadgeMargin(70, 0);
+            badgeView.show();
+            cartManager.setOnNumChangeListener(new CartManager.OnNumChangeListener() {
+                @Override
+                public void onNumChangeListener(int curNum) {
+                    if(!badgeView.isShown()){
+                        badgeView.show();
+                    }
+                    if(badgeView != null && badgeView.isShown()){
+                        badgeView.setText(curNum + "");
+                    }
+                }
+            });
+        }else {
+            badgeView.setVisibility(View.GONE);
+        }
     }
 
     private void initView() {
         vp_home = (MyViewPager) findViewById(R.id.vp_home);
         rg_home = (RadioGroup) findViewById(R.id.rg_home);
+        iv_cart = (ImageView) findViewById(R.id.iv_cart);
         rb_homes[0] = (RadioButton) findViewById(R.id.rb_home);
         rb_homes[1] = (RadioButton) findViewById(R.id.rb_classify);
         rb_homes[2] = (RadioButton) findViewById(R.id.rb_cart);

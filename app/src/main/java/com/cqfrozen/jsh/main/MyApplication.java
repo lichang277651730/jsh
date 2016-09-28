@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 
 import com.common.base.BaseApplication;
 import com.cqfrozen.jsh.activity.MainActivity;
+import com.cqfrozen.jsh.cart.CartManager;
 import com.cqfrozen.jsh.constants.Constants;
 import com.cqfrozen.jsh.entity.SigninInfo;
 import com.cqfrozen.jsh.entity.UserInfo;
@@ -21,6 +22,7 @@ public class MyApplication extends BaseApplication {
     public static String token = "";
     public static UserInfo userInfo;
     public static SigninInfo signinInfo;
+    public static CartManager cartManager;
 
     @Override
     public void onCreate() {
@@ -44,6 +46,7 @@ public class MyApplication extends BaseApplication {
         userSp = getSharedPreferences(Constants.SP_FILE, Context.MODE_PRIVATE);
         Thread.setDefaultUncaughtExceptionHandler(restartHandler); // 程序崩溃时触发线程  以下用来捕获程序崩溃异常
         isMyInit = true;
+        cartManager = CartManager.getInstance(this);
     }
 
     private Thread.UncaughtExceptionHandler restartHandler = new Thread.UncaughtExceptionHandler() {

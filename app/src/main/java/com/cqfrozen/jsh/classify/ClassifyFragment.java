@@ -5,14 +5,10 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 
 import com.common.base.BaseFragment;
 import com.common.base.BaseValue;
@@ -45,9 +41,9 @@ public class ClassifyFragment extends BaseFragment implements MyHttp.MyHttpResul
     private ClassifyIndicatorAdapter adapter;
     private ImageView iv_search;
     private ImageView iv_pop;
-    private RecyclerView rv_pop;
-    private PopupWindow popupWindow;
-    private LinearLayout ll_root;
+//    private RecyclerView rv_pop;
+//    private PopupWindow popupWindow;
+//    private LinearLayout ll_root;
 
     public static ClassifyFragment getInstance(){
         if(fragment == null){
@@ -71,7 +67,7 @@ public class ClassifyFragment extends BaseFragment implements MyHttp.MyHttpResul
     }
 
     private void initView() {
-        ll_root = (LinearLayout) view.findViewById(R.id.ll_root);
+//        ll_root = (LinearLayout) view.findViewById(R.id.ll_root);
         indicator_classify = (ScrollIndicatorView) view.findViewById(R.id.indicator_classify);
         iv_search = (ImageView) view.findViewById(R.id.iv_search);
         iv_pop = (ImageView) view.findViewById(R.id.iv_pop);
@@ -107,7 +103,7 @@ public class ClassifyFragment extends BaseFragment implements MyHttp.MyHttpResul
         if(saveTime != 0 && nowTime < saveTime + 86400000L && !classifyData.isEmpty()){
             setData(classifyData);
         }else {
-            MyHttp.goodsType(http, null, this);
+            MyHttp.goodsType(http, null, "5", this);
         }
     }
 
@@ -155,7 +151,7 @@ public class ClassifyFragment extends BaseFragment implements MyHttp.MyHttpResul
                 startActivity(new Intent(getActivity(), SearchActivity.class));
                 break;
             case R.id.iv_pop:
-                popupWindow.showAtLocation(ll_root, Gravity.TOP, 50, 100);
+//                popupWindow.showAtLocation(ll_root, Gravity.TOP, 50, 100);
                 break;
             default:
                 break;

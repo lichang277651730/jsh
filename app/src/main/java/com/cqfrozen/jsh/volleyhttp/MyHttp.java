@@ -63,8 +63,8 @@ public class MyHttp {
     /**
      * 商品分类数据
      */
-    public static void goodsType(HttpForVolley http,  Integer which, MyHttpResult myHttpResult) {
-        String url = SERVER + "Goods/goodstype";
+    public static void goodsType(HttpForVolley http,  Integer which, String area_id, MyHttpResult myHttpResult) {
+        String url = SERVER + "Goods/goodstype/area_id/" + area_id;
         Type type = new TypeToken<List<CategoryInfo>>(){}.getType();
         toBean(GET, http, which, null, url, myHttpResult, type);
     }

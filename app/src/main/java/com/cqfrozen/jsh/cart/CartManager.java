@@ -20,17 +20,19 @@ public class CartManager {
     private static CartManager instance;
     private Context context;
     private SparseArray<CartGoodsInfo> cartGoods;
+    private int goodsTotalNum = 0;
+    private OnNumChangeListener listener;
 
-    private CartManager(Context context){
+    private CartManager(Context context) {
         this.context = context;
         cartGoods = new SparseArray<>();
-        initCart();
+//        initCart();
     }
 
-    public static CartManager getInstance(Context context){
-        if(instance == null){
-            synchronized (CartManager.class){
-                if(instance == null){
+    public static CartManager getInstance(Context context) {
+        if (instance == null) {
+            synchronized (CartManager.class) {
+                if (instance == null) {
                     instance = new CartManager(context);
                 }
             }
@@ -39,14 +41,13 @@ public class CartManager {
     }
 
 
-
     /**
      * 初始化购物车
      */
     private void initCart() {
         List<CartGoodsInfo> list = loadAllFromSp();
-        if(list !=  null && list.size() > 0){
-            for (CartGoodsInfo goodInfo : list){
+        if (list != null && list.size() > 0) {
+            for (CartGoodsInfo goodInfo : list) {
                 cartGoods.put(goodInfo.g_id.intValue(), goodInfo);
             }
         }
@@ -55,7 +56,7 @@ public class CartManager {
     /**
      * 清空购物车
      */
-    public void clear(){
+    public void clear() {
         cartGoods.clear();
         commit();
     }
@@ -63,7 +64,7 @@ public class CartManager {
     /**
      * 修改购物车商品
      */
-    public void update(CartGoodsInfo cartGoodsInfo){
+    public void update(CartGoodsInfo cartGoodsInfo) {
         cartGoods.put(cartGoodsInfo.g_id.intValue(), cartGoodsInfo);
         commit();
     }
@@ -71,7 +72,7 @@ public class CartManager {
     /**
      * 删除购物车数据
      */
-    public void delete(CartGoodsInfo cartGoodsInfo){
+    public void delete(CartGoodsInfo cartGoodsInfo) {
         cartGoods.delete(cartGoodsInfo.g_id.intValue());
         commit();
     }
@@ -79,12 +80,12 @@ public class CartManager {
     /**
      * 添加单个商品购物车
      */
-    public void add(CartGoodsInfo cartGoodsInfo){
+    public void add(CartGoodsInfo cartGoodsInfo) {
         Long goodsId = cartGoodsInfo.g_id;
         CartGoodsInfo temp = cartGoods.get(goodsId.intValue());
-        if(temp != null){//购物车已存在此商品，数量加1
+        if (temp != null) {//购物车已存在此商品，数量加1
             temp.count = temp.count + 1;
-        }else {//第一次添加的商品
+        } else {//第一次添加的商品
             temp = cartGoodsInfo;
             temp.count = 1;
         }
@@ -95,7 +96,7 @@ public class CartManager {
     /**
      * 添加单个商品购物车
      */
-    public void add(GoodsInfo goodsInfo){
+    public void add(GoodsInfo goodsInfo) {
         CartGoodsInfo cartGoodsInfo = parseCartGoods(goodsInfo);
         add(cartGoodsInfo);
     }
@@ -103,11 +104,12 @@ public class CartManager {
     /**
      * 添加一个集合的商品到购物车
      */
-    public void add(List<CartGoodsInfo> cartGoodsInfos){
-        for (CartGoodsInfo goodsInfo : cartGoodsInfos){
+    public void add(List<CartGoodsInfo> cartGoodsInfos) {
+        for (CartGoodsInfo goodsInfo : cartGoodsInfos) {
             add(goodsInfo);
         }
     }
+
 
     private CartGoodsInfo parseCartGoods(GoodsInfo goodsInfo) {
         CartGoodsInfo cartGoodsInfo = new CartGoodsInfo();
@@ -126,10 +128,20 @@ public class CartManager {
      */
     private void commit() {
         List<CartGoodsInfo> list = new ArrayList<>();
-        for(int i = 0; i < cartGoods.size(); i++){
+        for (int i = 0; i < cartGoods.size(); i++) {
             list.add(cartGoods.valueAt(i));
         }
-        SPUtils.setCartData(JSONUtil.toJson(list));
+//        SPUtils.setCartData(JSONUtil.toJson(list));
+        goodsTotalNum = 0;
+//        for(int i = 0; i < cartGoods.size(); i++){
+//            goodsTotalNum += cartGoods.valueAt(i).count;
+//        }
+        for (CartGoodsInfo goodsInfo : list) {
+            goodsTotalNum += goodsInfo.count;
+        }
+        if (listener != null) {
+            listener.onNumChangeListener(goodsTotalNum);
+        }
     }
 
 
@@ -139,13 +151,39 @@ public class CartManager {
     public List<CartGoodsInfo> loadAllFromSp() {
         String cart_json = SPUtils.getCartData();
         List<CartGoodsInfo> cartGoodsList = null;
-        if(!TextUtils.isEmpty(cart_json)){
+        if (!TextUtils.isEmpty(cart_json)) {
             cartGoodsList = JSONUtil.fromJson(cart_json, new TypeToken<List<CartGoodsInfo>>() {
             }.getType());
         }
         return cartGoodsList;
     }
 
+    /**
+     * 获取购物车数量
+     */
+    public int getCartGoodsNum() {
+        if (isNull()) {
+            return 0;
+        }
+//        return cartGoods.size();
+        return this.goodsTotalNum;
+    }
 
+    /**
+     * 判断购物车商品是否为空
+     */
+    public boolean isNull() {
+        if (cartGoods == null || cartGoods.size() == 0) {
+            return true;
+        }
+        return false;
+    }
 
+    public interface OnNumChangeListener {
+        void onNumChangeListener(int curNum);
+    }
+
+    public void setOnNumChangeListener(OnNumChangeListener listener) {
+        this.listener = listener;
+    }
 }

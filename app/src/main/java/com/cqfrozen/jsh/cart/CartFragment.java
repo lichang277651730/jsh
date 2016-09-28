@@ -172,6 +172,7 @@ public class CartFragment extends BaseFragment implements View.OnClickListener {
                     return;
                 }
                 showDataView();
+//                cartManager.clear();
                 cartManager.add(cartGoodsInfos);
                 cartAdapter.showTotalPrice();
                 cartAdapter.allCheckedListen();
@@ -248,7 +249,6 @@ public class CartFragment extends BaseFragment implements View.OnClickListener {
                 popupWindow.dismiss();
                 break;
             case R.id.pop_shortcut_home://点击popview上的首页
-//                ((HomeActivity)mActivity).getViewPager().setCurrentItem(0, false);
                 ((HomeActivity)mActivity).setHomeFragment();
                 popupWindow.dismiss();
                 break;
@@ -263,4 +263,5 @@ public class CartFragment extends BaseFragment implements View.OnClickListener {
             setNoDataView();
         }
     }
+
 }
