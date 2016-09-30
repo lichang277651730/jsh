@@ -5,4 +5,5 @@ package com.cqfrozen.jsh.constants;
  */
 public class Where {
     public static final int CLASSIFY = 1;
+    public static final int SEARCH = 2;
 }

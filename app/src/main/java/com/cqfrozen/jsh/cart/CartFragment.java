@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +22,7 @@ import com.common.base.BaseValue;
 import com.common.widget.MyGridDecoration;
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.activity.HomeActivity;
-import com.cqfrozen.jsh.activity.SearchActivity;
+import com.cqfrozen.jsh.home.SearchActivity;
 import com.cqfrozen.jsh.volleyhttp.MyHttp;
 
 import java.util.ArrayList;
@@ -171,12 +172,16 @@ public class CartFragment extends BaseFragment implements View.OnClickListener {
                     setNoDataView();//购物车为空
                     return;
                 }
+                for (CartGoodsInfo g : cartGoodsInfos){
+                    Log.d("CarGoodsInfo", g.count + "");
+                }
                 showDataView();
+                cartAdapter.notifyDataSetChanged();
 //                cartManager.clear();
+                //TODO 这个地方的逻辑有问题，导致购物车角标数字不正确
                 cartManager.add(cartGoodsInfos);
                 cartAdapter.showTotalPrice();
                 cartAdapter.allCheckedListen();
-                cartAdapter.notifyDataSetChanged();
                 is_page = cartResultInfo.is_page;
             }
         });
@@ -208,6 +213,7 @@ public class CartFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onShow() {
         super.onShow();
+        //TODO 这个地方的逻辑有问题，导致购物车角标数字不正确
         getData();
     }
 

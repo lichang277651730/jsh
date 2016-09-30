@@ -41,6 +41,7 @@ public class HomeActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     protected long clickSecondTime;
     private ImageView iv_cart;
     private CartManager cartManager;
+    private BadgeView badgeView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,9 +56,10 @@ public class HomeActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     }
 
     private void initBadgeView() {
-        final BadgeView badgeView = new BadgeView(this, iv_cart);
+        badgeView = new BadgeView(this, iv_cart);
         if(cartManager != null){
             badgeView.setText(cartManager.getCartGoodsNum() + "");
+            badgeView.setText(0 + "");
             badgeView.setTextSize(10);
             badgeView.setBadgeMargin(70, 0);
             badgeView.show();
@@ -188,4 +190,5 @@ public class HomeActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         vp_home.setCurrentItem(1, false);
         rb_homes[1].setChecked(true);
     }
+
 }

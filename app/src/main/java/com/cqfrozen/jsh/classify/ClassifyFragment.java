@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import com.common.base.BaseFragment;
 import com.common.base.BaseValue;
 import com.cqfrozen.jsh.R;
-import com.cqfrozen.jsh.activity.SearchActivity;
+import com.cqfrozen.jsh.home.SearchActivity;
 import com.cqfrozen.jsh.entity.CategoryInfo;
 import com.cqfrozen.jsh.util.SPUtils;
 import com.cqfrozen.jsh.util.UIUtils;

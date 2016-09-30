@@ -19,7 +19,6 @@ import com.common.base.BaseFragment;
 import com.common.refresh.RefreshLayout;
 import com.common.refresh.SupportLayout;
 import com.cqfrozen.jsh.R;
-import com.cqfrozen.jsh.activity.SearchActivity;
 import com.cqfrozen.jsh.adapter.HomeAdapter;
 import com.cqfrozen.jsh.adapter.HomeBannerAdapter;
 import com.cqfrozen.jsh.adapter.HomeClassifyAdapter;

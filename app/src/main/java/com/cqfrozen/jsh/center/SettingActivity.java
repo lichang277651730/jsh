@@ -1,5 +1,6 @@
 package com.cqfrozen.jsh.center;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -17,6 +18,7 @@ public class SettingActivity extends MyActivity implements View.OnClickListener 
 
     private TextView tv_cache;
     private LinearLayout ll_cache;
+    private LinearLayout ll_personal;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -28,7 +30,9 @@ public class SettingActivity extends MyActivity implements View.OnClickListener 
     private void initView() {
         setMyTitle("设置");
         tv_cache = (TextView) findViewById(R.id.tv_cache);
+        ll_personal = (LinearLayout) findViewById(R.id.ll_personal);
         ll_cache = (LinearLayout) findViewById(R.id.ll_cache);
+        ll_personal.setOnClickListener(this);
         ll_cache.setOnClickListener(this);
         try {
             tv_cache.setText(DataCleanManager.getTotalCacheSize(this));
@@ -47,6 +51,9 @@ public class SettingActivity extends MyActivity implements View.OnClickListener 
                 }catch (Exception e){
                     e.printStackTrace();
                 }
+                break;
+            case R.id.ll_personal:
+                startActivity(new Intent(this, InformationActivity.class));
                 break;
             default:
                 break;

@@ -16,7 +16,7 @@ import com.common.base.BaseValue;
 import com.common.widget.MyHeadImageView;
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.activity.HomeActivity;
-import com.cqfrozen.jsh.activity.SearchActivity;
+import com.cqfrozen.jsh.home.SearchActivity;
 import com.cqfrozen.jsh.main.MyFragment;
 
 /**

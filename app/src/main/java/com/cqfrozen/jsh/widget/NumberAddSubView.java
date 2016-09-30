@@ -96,8 +96,8 @@ public class NumberAddSubView extends LinearLayout implements View.OnClickListen
      * 设置当前数量
      */
     public void setCurValue(int curValue) {
-        tv_num.setText(curValue + "");
         this.curValue = curValue;
+        tv_num.setText(curValue + "");
     }
 
     @Override
@@ -156,6 +156,7 @@ public class NumberAddSubView extends LinearLayout implements View.OnClickListen
     }
 
     public void setMinValue(int minValue) {
+//        tv_num.setText(minValue);
         this.minValue = minValue;
     }
 

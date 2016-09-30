@@ -8,9 +8,11 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.common.base.BaseValue;
 import com.common.http.HttpForVolley;
+import com.cqfrozen.jsh.activity.GoodDetailResultInfo;
 import com.cqfrozen.jsh.activity.MainActivity;
 import com.cqfrozen.jsh.cart.CartResultInfo;
 import com.cqfrozen.jsh.center.LoginActivity;
+import com.cqfrozen.jsh.entity.CartCountInfo;
 import com.cqfrozen.jsh.entity.CategoryInfo;
 import com.cqfrozen.jsh.entity.GoodsInfo;
 import com.cqfrozen.jsh.entity.GoodsResultInfo;
@@ -158,6 +160,32 @@ public class MyHttp {
         params.put("c_id", c_id + "");
         params.put("token", MyApplication.token);
         http.goTo(POST, which, params, url, httpTodo);
+    }
+
+    /**
+     * 查询购物车商品数量
+     */
+    public static void cartCount(HttpForVolley http, Integer which, MyHttpResult myHttpResult) {
+        String url = SERVER + "Cart/querycartcount";
+        params.clear();
+        params.put("token", MyApplication.token);
+        Type type = new TypeToken<CartCountInfo>() {
+        }.getType();
+        toBean(POST, http, which, params, url, myHttpResult, type);
+    }
+
+    /**
+     * 根据商品id查询商品详情页数据
+     */
+    public static void ginfo(HttpForVolley http, Integer which, Long g_id, MyHttpResult myHttpResult) {
+        String url = SERVER + "Goods/ginfo";
+        params.clear();
+        params.put("g_id", g_id + "");
+        params.put("area_id", 5 + "");
+        params.put("token", MyApplication.token);
+        Type type = new TypeToken<GoodDetailResultInfo>() {
+        }.getType();
+        toBean(GET, http, which, params, url, myHttpResult, type);
     }
 
     private static void toBean(int method, final HttpForVolley http, Integer which,
