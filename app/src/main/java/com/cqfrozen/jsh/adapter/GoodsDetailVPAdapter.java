@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.cqfrozen.jsh.R;
-import com.cqfrozen.jsh.activity.GoodDetailResultInfo;
+import com.cqfrozen.jsh.entity.GoodDetailResultInfo;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 

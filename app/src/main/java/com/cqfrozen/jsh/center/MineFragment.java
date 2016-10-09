@@ -17,6 +17,7 @@ import com.common.widget.MyHeadImageView;
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.activity.HomeActivity;
 import com.cqfrozen.jsh.home.SearchActivity;
+import com.cqfrozen.jsh.main.MyApplication;
 import com.cqfrozen.jsh.main.MyFragment;
 
 /**
@@ -34,6 +35,8 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
     private TextView tv_login;
     private TextView tv_name;
     private PopupWindow popupWindow;
+    private TextView tv_normal_buy;
+    private TextView tv_shop;
 
     public static MineFragment getInstance(){
         if(fragment == null){
@@ -62,12 +65,16 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
         tv_login = (TextView) view.findViewById(R.id.tv_login);
         tv_name = (TextView) view.findViewById(R.id.tv_name);
         tv_address = (TextView) view.findViewById(R.id.tv_address);
+        tv_shop = (TextView) view.findViewById(R.id.tv_shop);
+        tv_normal_buy = (TextView) view.findViewById(R.id.tv_normal_buy);
         tv_lookall.setOnClickListener(this);
         iv_setting.setOnClickListener(this);
         iv_shotcut.setOnClickListener(this);
+        tv_shop.setOnClickListener(this);
         tv_address.setOnClickListener(this);
         iv_head.setOnClickListener(this);
         tv_login.setOnClickListener(this);
+        tv_normal_buy.setOnClickListener(this);
         createPop();
     }
 
@@ -116,15 +123,27 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
                 popupWindow.dismiss();
                 break;
             case R.id.pop_shortcut_home:
-//                ((HomeActivity)mActivity).getViewPager().setCurrentItem(0, false);
                 ((HomeActivity)mActivity).setHomeFragment();
                 popupWindow.dismiss();
                 break;
             case R.id.tv_lookall:
                 startActivity(new Intent(mActivity, OrderListActivity.class));
                 break;
-            case R.id.tv_address:
-                startActivity(new Intent(mActivity, AddressListActivity.class));
+            case R.id.tv_normal_buy://跳转至常用采购商品列表页面
+                //TODO 登陆拦截
+                if(!MyApplication.token.isEmpty()){
+                    startActivity(new Intent(getActivity(), NormalBuyActivity.class));
+                }
+                break;
+            case R.id.tv_address://收货地址
+                //TODO 登陆拦截
+                if(!MyApplication.token.isEmpty()){
+                    Log.d("MyApplication", "token:" + MyApplication.token);
+                    startActivity(new Intent(mActivity, AddressListActivity.class));
+                }
+                break;
+            case R.id.tv_shop://店铺管理
+
                 break;
             case R.id.iv_head:
             case R.id.tv_name:
@@ -135,6 +154,7 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
             case R.id.tv_login:
                 needLogin();
                 break;
+
             default:
                 break;
         }

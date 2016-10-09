@@ -23,8 +23,6 @@ public class MyFragment extends BaseFragment {
     private Button include_fail_btn;
     private LinearLayout include_nodatalayout;
     private Button include_nodata_btn;
-//    private LinearLayout include_cartnodatalayout;
-//    private Button include_cartnodata_btn;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +32,12 @@ public class MyFragment extends BaseFragment {
      * 判断是否登陆
      */
     public boolean isLogined(){
+//        //TODO 改成user
+//        if(MyApplication.token == null || MyApplication.token.isEmpty()){
+//            return false;
+//        }else {
+//            return true;
+//        }
         if(MyApplication.userInfo == null){
             return false;
         }else {
@@ -74,8 +78,6 @@ public class MyFragment extends BaseFragment {
             include_fail_btn = (Button) view.findViewById(R.id.include_fail_btn);
             include_nodatalayout = (LinearLayout) view.findViewById(R.id.include_nodatalayout);
             include_nodata_btn = (Button) view.findViewById(R.id.include_nodata_btn);
-//            include_cartnodatalayout = (LinearLayout) view.findViewById(R.id.include_cartnodatalayout);
-//            include_cartnodata_btn = (Button) view.findViewById(R.id.include_cartnodata_btn);
         }
     }
 
@@ -112,6 +114,5 @@ public class MyFragment extends BaseFragment {
 
     public interface HttpFail {
         void toHttpAgain();
-//        void goBuy();
     }
 }

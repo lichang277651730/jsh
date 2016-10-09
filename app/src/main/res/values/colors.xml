@@ -20,7 +20,7 @@
 
     <color name="alwhite">#ddffffff</color>
     <!--分割线-->
-    <color name="myline">#ccc7c8cc</color>
+    <color name="myline">#eeeeee</color>
     <!--黑色字体/图片-->
     <color name="myblack">#323232</color>
     <!--红色字体/图片-->

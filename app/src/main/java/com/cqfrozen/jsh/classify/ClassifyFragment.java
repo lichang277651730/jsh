@@ -2,19 +2,23 @@ package com.cqfrozen.jsh.classify;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 
 import com.common.base.BaseFragment;
 import com.common.base.BaseValue;
 import com.cqfrozen.jsh.R;
-import com.cqfrozen.jsh.home.SearchActivity;
 import com.cqfrozen.jsh.entity.CategoryInfo;
+import com.cqfrozen.jsh.home.SearchActivity;
 import com.cqfrozen.jsh.util.SPUtils;
 import com.cqfrozen.jsh.util.UIUtils;
 import com.cqfrozen.jsh.volleyhttp.MyHttp;
@@ -41,7 +45,9 @@ public class ClassifyFragment extends BaseFragment implements MyHttp.MyHttpResul
     private ClassifyIndicatorAdapter adapter;
     private ImageView iv_search;
     private ImageView iv_pop;
-//    private RecyclerView rv_pop;
+    private ClassifyGvAdapter gvAdapter;
+    private PopupWindow popupWindow;
+    //    private RecyclerView rv_pop;
 //    private PopupWindow popupWindow;
 //    private LinearLayout ll_root;
 
@@ -74,7 +80,7 @@ public class ClassifyFragment extends BaseFragment implements MyHttp.MyHttpResul
         vp_classify = (ViewPager) view.findViewById(R.id.vp_classify);
         iv_search.setOnClickListener(this);
         iv_pop.setOnClickListener(this);
-//        createPopMore();
+        createPopMore();
     }
 
     private void initVP() {
@@ -141,7 +147,7 @@ public class ClassifyFragment extends BaseFragment implements MyHttp.MyHttpResul
         categoryInfos.clear();
         categoryInfos.addAll(categoryList);
         adapter.notifyDataSetChanged();
-
+        gvAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -151,11 +157,35 @@ public class ClassifyFragment extends BaseFragment implements MyHttp.MyHttpResul
                 startActivity(new Intent(getActivity(), SearchActivity.class));
                 break;
             case R.id.iv_pop:
-//                popupWindow.showAtLocation(ll_root, Gravity.TOP, 50, 100);
+                popupWindow.showAtLocation(iv_pop, Gravity.TOP, 50, 100);
                 break;
             default:
                 break;
         }
+    }
+
+
+    private void createPopMore() {
+        View popView = LayoutInflater.from(mActivity).inflate(R.layout.pop_classify, null);
+        GridView gv_classify = (GridView) popView.findViewById(R.id.gv_classify);
+        popupWindow = new PopupWindow(popView, ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setTouchable(true);
+
+        gvAdapter = new ClassifyGvAdapter(getActivity(), categoryInfos);
+        gvAdapter.setOnItemClickListener(new ClassifyGvAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                vp_classify.setCurrentItem(position, false);
+                if(popupWindow != null || popupWindow.isShowing()){
+                    popupWindow.dismiss();
+                }
+            }
+        });
+        gv_classify.setAdapter(gvAdapter);
     }
 
 

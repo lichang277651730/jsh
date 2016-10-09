@@ -8,16 +8,19 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.common.base.BaseValue;
 import com.common.http.HttpForVolley;
-import com.cqfrozen.jsh.activity.GoodDetailResultInfo;
 import com.cqfrozen.jsh.activity.MainActivity;
 import com.cqfrozen.jsh.cart.CartResultInfo;
 import com.cqfrozen.jsh.center.LoginActivity;
+import com.cqfrozen.jsh.entity.AddressInfo;
 import com.cqfrozen.jsh.entity.CartCountInfo;
+import com.cqfrozen.jsh.entity.CartNotifyInfo;
 import com.cqfrozen.jsh.entity.CategoryInfo;
+import com.cqfrozen.jsh.entity.GoodDetailResultInfo;
 import com.cqfrozen.jsh.entity.GoodsInfo;
 import com.cqfrozen.jsh.entity.GoodsResultInfo;
 import com.cqfrozen.jsh.entity.HomeBannerInfo;
 import com.cqfrozen.jsh.entity.HomeNotifyInfo;
+import com.cqfrozen.jsh.entity.LocationInfo;
 import com.cqfrozen.jsh.entity.SigninInfo;
 import com.cqfrozen.jsh.main.MyApplication;
 import com.cqfrozen.jsh.util.MD5Util;
@@ -112,6 +115,7 @@ public class MyHttp {
                                        httpTodo) {
         String url = SERVER + "Cart/addcart";
         params.clear();
+        //TODO 删除log
 //        Log.d("UserInfoData", g_id + ":" + area_id  + ":" + count + ":" + MyApplication.token);
         params.put("g_id", g_id + "");
         params.put("area_id", area_id + "");
@@ -141,6 +145,7 @@ public class MyHttp {
             httpTodo) {
         String url = SERVER + "Cart/editcount";
         params.clear();
+        //TODO 删除log
         Log.d("UserInfoData", c_id + ":" + 5  + ":" + count + ":" + MyApplication.token);
         params.put("c_id", c_id + "");
         //TODO 改5为area_id
@@ -153,11 +158,16 @@ public class MyHttp {
     /**
      * 删除购物车商品
      */
-    public static void deleteCart(HttpForVolley http, Integer which, Long c_id,  HttpForVolley.HttpTodo
+    public static void deleteCart(HttpForVolley http, Integer which, int type, Long c_id,  HttpForVolley.HttpTodo
             httpTodo) {
         String url = SERVER + "Cart/deletecart";
         params.clear();
-        params.put("c_id", c_id + "");
+        if(type == 1){
+            params.put("c_id", c_id + "");
+        }else if(type == 2){
+            params.put("c_id", "");
+        }
+        params.put("type", type + "");
         params.put("token", MyApplication.token);
         http.goTo(POST, which, params, url, httpTodo);
     }
@@ -183,7 +193,68 @@ public class MyHttp {
         params.put("g_id", g_id + "");
         params.put("area_id", 5 + "");
         params.put("token", MyApplication.token);
+        Log.d("ginfoginfo", g_id + ":" + 5  + ":" + MyApplication.token);
         Type type = new TypeToken<GoodDetailResultInfo>() {
+        }.getType();
+        toBean(GET, http, which, params, url, myHttpResult, type);
+    }
+
+    /**
+     * 获取定位区域数据列表
+     */
+    public static void areaList(HttpForVolley http, Integer which, MyHttpResult myHttpResult) {
+        String url = SERVER + "Public/arealist";
+        Type type = new TypeToken<List<LocationInfo>>() {
+        }.getType();
+        toBean(GET, http, which, null, url, myHttpResult, type);
+    }
+
+    /**
+     * 购物车提示消息，购物车运费信息
+     */
+    public static void freightTips(HttpForVolley http, Integer which,  MyHttpResult myHttpResult) {
+        String url = SERVER + "Cart/freighttips";
+        params.clear();
+        params.put("token", MyApplication.token);
+        Type type = new TypeToken<CartNotifyInfo>() {
+        }.getType();
+        toBean(GET, http, which, params, url, myHttpResult, type);
+    }
+
+    /**
+     * 添加 或 取消常用采购
+     */
+    public static void addCancelComm(HttpForVolley http, Integer which, int type, Long g_id, HttpForVolley.HttpTodo
+            httpTodo) {
+        String url = SERVER + "Goods/addcancelcomm";
+        params.clear();
+        params.put("type", type + "");
+        params.put("g_id", g_id + "");
+        params.put("token", MyApplication.token);
+        http.goTo(GET, which, params, url, httpTodo);
+    }
+
+    /**
+     * 查看常用采购商品
+     */
+    public static void commonGoodsList(HttpForVolley http, Integer which, int page, MyHttpResult myHttpResult) {
+        String url = SERVER + "Goods/commongoodslist";
+        params.clear();
+        params.put("page", page + "");
+        params.put("token", MyApplication.token);
+        Type type = new TypeToken<GoodsResultInfo>() {
+        }.getType();
+        toBean(POST, http, which, params, url, myHttpResult, type);
+    }
+
+    /**
+     * 查看地址列表
+     */
+    public static void addressList(HttpForVolley http, Integer which, MyHttpResult myHttpResult) {
+        String url = SERVER + "Personal/addresslist";
+        params.clear();
+        params.put("token", MyApplication.token);
+        Type type = new TypeToken<List<AddressInfo>>() {
         }.getType();
         toBean(GET, http, which, params, url, myHttpResult, type);
     }

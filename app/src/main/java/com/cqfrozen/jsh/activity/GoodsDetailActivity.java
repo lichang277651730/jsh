@@ -5,27 +5,33 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.common.base.BaseValue;
+import com.common.http.HttpForVolley;
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.adapter.GoodsDetailVPAdapter;
+import com.cqfrozen.jsh.entity.GoodDetailResultInfo;
 import com.cqfrozen.jsh.main.MyActivity;
 import com.cqfrozen.jsh.util.SharePop;
 import com.cqfrozen.jsh.volleyhttp.MyHttp;
 import com.cqfrozen.jsh.widget.NumberAddSubView;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Administrator on 2016/9/27.
- * GoodsAdapter 的itemview点击跳转
+ * GoodsAdapter NormalBuyAdapter的itemview点击跳转
  * intent.putExtra("g_id", goodsInfo.g_id);
  */
-public class GoodsDetailActivity extends MyActivity implements View.OnClickListener, ViewPager.OnPageChangeListener {
+public class GoodsDetailActivity extends MyActivity implements View.OnClickListener, ViewPager
+        .OnPageChangeListener {
 
     private ImageView iv_share;
     private ImageView iv_back;
@@ -44,6 +50,13 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
     private TextView tv_server;
     private TextView tv_send;
     private TextView tv_sendprice;
+    private LinearLayout ll_collect;
+    private ImageView iv_collect;
+
+    private boolean canClick = true;//添加常用采购控件的是否能点击
+    private TextView tv_collect;
+    private int is_common = 0;//常用采购
+    private int type;//type=1添加常用采购  type=2取消常用采购
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,8 +86,12 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
         tv_sendprice = (TextView) findViewById(R.id.tv_sendprice);
         vp_goodspics = (ViewPager) findViewById(R.id.vp_goodspics);
         rg_goods = (RadioGroup) findViewById(R.id.rg_goods);
+        ll_collect = (LinearLayout) findViewById(R.id.ll_collect);
+        iv_collect = (ImageView) findViewById(R.id.iv_collect);
+        tv_collect = (TextView) findViewById(R.id.tv_collect);
         iv_back.setOnClickListener(this);
         iv_share.setOnClickListener(this);
+        ll_collect.setOnClickListener(this);
         asv_num.setCurValue(1);
     }
 
@@ -95,32 +112,68 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
             case R.id.iv_share:
                 setShare();
                 break;
+            case R.id.ll_collect:
+                if (!needLogin()) {
+                    return;
+                }
+                setNormalBuy();//添加常用采购
+                break;
             default:
                 break;
         }
+    }
+
+    private void setNormalBuy() {
+        if (!canClick) {
+            return;
+        }
+        canClick = false;
+        if (is_common == 0) {//添加常用采购
+            type = 1;
+        } else if (is_common == 1) {//取消常用采购
+            type = 2;
+        }
+        MyHttp.addCancelComm(http, null, type, g_id, new HttpForVolley.HttpTodo() {
+            @Override
+            public void httpTodo(Integer which, JSONObject response) {
+                canClick = true;
+                showToast(response.optString("msg"));
+                int code = response.optInt("code");
+                if (code != 0) {
+                    return;
+                }
+                if (type == 1) {
+                    iv_collect.setImageResource(R.mipmap.icon_normal_buy_yes);
+                    tv_collect.setText("已添加收藏");
+                    is_common = 1;
+                } else if (type == 2) {
+                    iv_collect.setImageResource(R.mipmap.icon_normal_buy_no);
+                    tv_collect.setText("未添加收藏");
+                    is_common = 0;
+                }
+            }
+        });
     }
 
     private void setShare() {
         SharePop.getInstance(this).showPop(iv_share);
     }
 
-
     private void getData() {
         MyHttp.ginfo(http, null, g_id, new MyHttp.MyHttpResult() {
             @Override
             public void httpResult(Integer which, int code, String msg, Object bean) {
-                if(code != 0){
+                if (code != 0) {
                     showToast(msg);
                     return;
                 }
                 GoodDetailResultInfo resultInfo = (GoodDetailResultInfo) bean;
-                showToast(resultInfo.data2.size() + "");
-                picsInfos.clear();
-                if(resultInfo == null || resultInfo.data2.size() == 0){
+                if (resultInfo == null || resultInfo.data2.size() == 0) {
                     return;
                 }
                 GoodDetailResultInfo.GoodDetailInfo goodDetailInfo = resultInfo.data1;
                 setViewInfo(goodDetailInfo);
+                picsInfos.clear();
                 picsInfos.addAll(resultInfo.data2);
                 vpAdapter.notifyDataSetChanged();
                 initPoints(picsInfos);
@@ -143,6 +196,15 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
         tv_server.setText(goodDetailInfo.shelf_life);
         tv_send.setText("满399包邮");
         tv_sendprice.setText(goodDetailInfo.c_mode);
+        is_common = goodDetailInfo.is_common;
+        if (goodDetailInfo.is_common == 0) {
+            iv_collect.setImageResource(R.mipmap.icon_normal_buy_no);
+            tv_collect.setText("未添加收藏");
+        } else if (goodDetailInfo.is_common == 1) {
+            iv_collect.setImageResource(R.mipmap.icon_normal_buy_yes);
+            tv_collect.setText("已添加收藏");
+        }
+
     }
 
     /**
@@ -154,7 +216,7 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
         rb_goods = new RadioButton[picsInfos.size()];
         params.leftMargin = BaseValue.dp2px(2);
         rg_goods.removeAllViews();
-        for(int i = 0; i < picsInfos.size(); i++){
+        for (int i = 0; i < picsInfos.size(); i++) {
             RadioButton rb = new RadioButton(this);
             rb.setLayoutParams(params);
             rb.setPadding(BaseValue.dp2px(2), 0, 0, 0);

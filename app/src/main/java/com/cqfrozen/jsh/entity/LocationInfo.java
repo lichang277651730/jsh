@@ -5,5 +5,6 @@ package com.cqfrozen.jsh.entity;
  */
 public class LocationInfo extends BaseEntity {
     public String area_code;
+    public String area_id;
     public String area_name;
 }

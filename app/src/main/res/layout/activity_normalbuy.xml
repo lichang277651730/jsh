@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/main"
+              android:clipToPadding="true"
+              android:fitsSystemWindows="true">
+    <include layout="@layout/include_title"/>
+
+    <com.common.widget.RefreshLayout
+        android:id="@+id/refresh_normalbuy"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <include layout="@layout/include_httpresult"/>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_normalbuy"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/mybg"
+            android:scrollbars="none">
+        </android.support.v7.widget.RecyclerView>
+    </com.common.widget.RefreshLayout>
+</LinearLayout>

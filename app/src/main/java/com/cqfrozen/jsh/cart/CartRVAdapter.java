@@ -3,6 +3,7 @@ package com.cqfrozen.jsh.cart;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -153,7 +154,7 @@ public class CartRVAdapter extends RecyclerView.Adapter<CartRVAdapter.MyViewHold
         }
         for (CartGoodsInfo goodsInfo : cartGoodsInfos){
             if(goodsInfo.isChecked){
-                sum += goodsInfo.now_price*goodsInfo.count;
+                sum += goodsInfo.now_price * goodsInfo.count;
             }
         }
         return  sum;
@@ -167,10 +168,34 @@ public class CartRVAdapter extends RecyclerView.Adapter<CartRVAdapter.MyViewHold
             return;
         }
 
-        for(final Iterator<CartGoodsInfo> iterator = cartGoodsInfos.iterator();iterator.hasNext();){
+        //未改之前
+//        for(final Iterator<CartGoodsInfo> iterator = cartGoodsInfos.iterator();iterator.hasNext();){
+//            final CartGoodsInfo goodsInfo = iterator.next();
+//            if(goodsInfo.isChecked){
+//                MyHttp.deleteCart(http, null, goodsInfo.c_id, new HttpForVolley.HttpTodo() {
+//                    @Override
+//                    public void httpTodo(Integer which, JSONObject response) {
+//                        ToastUtil.showToast(context, response.optString("msg"));
+//                        int code = response.optInt("code");
+//                        if(code != 0){
+//                            return;
+//                        }
+//                        int positon = cartGoodsInfos.indexOf(goodsInfo);
+//                        cartManager.delete(goodsInfo);
+//                        iterator.remove();
+//                        notifyItemRemoved(positon);
+//                        showTotalPrice();
+//                    }
+//                });
+//
+//            }
+//        }
+        //改之后
+        Log.d("cartGoodsInfosize", ":" + cartGoodsInfos.size());
+        for(final Iterator<CartGoodsInfo> iterator = cartGoodsInfos.iterator(); iterator.hasNext();){
             final CartGoodsInfo goodsInfo = iterator.next();
-            if(goodsInfo.isChecked){
-                MyHttp.deleteCart(http, null, goodsInfo.c_id, new HttpForVolley.HttpTodo() {
+            if(cartManager.isAllChecked()){
+                MyHttp.deleteCart(http, null, 2, goodsInfo.c_id, new HttpForVolley.HttpTodo() {
                     @Override
                     public void httpTodo(Integer which, JSONObject response) {
                         ToastUtil.showToast(context, response.optString("msg"));
@@ -179,14 +204,33 @@ public class CartRVAdapter extends RecyclerView.Adapter<CartRVAdapter.MyViewHold
                             return;
                         }
                         int positon = cartGoodsInfos.indexOf(goodsInfo);
-                        cartManager.delete(goodsInfo);
+                        cartManager.clear();
                         iterator.remove();
                         notifyItemRemoved(positon);
                         showTotalPrice();
                     }
                 });
-
+            }else {
+                if(goodsInfo.isChecked){
+                    Log.d("cartGoodsInfosize", ":" + "循环");
+                    MyHttp.deleteCart(http, null, 1, goodsInfo.c_id, new HttpForVolley.HttpTodo() {
+                        @Override
+                        public void httpTodo(Integer which, JSONObject response) {
+                            ToastUtil.showToast(context, response.optString("msg"));
+                            int code = response.optInt("code");
+                            if(code != 0){
+                                return;
+                            }
+                            int positon = cartGoodsInfos.indexOf(goodsInfo);
+                            cartManager.delete(goodsInfo);
+                            iterator.remove();
+                            notifyItemRemoved(positon);
+                            showTotalPrice();
+                        }
+                    });
+                }
             }
+
         }
     }
 

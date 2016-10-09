@@ -145,6 +145,7 @@
         android:layout_height="60dp"
         android:layout_gravity="center_vertical"
         android:paddingBottom="@dimen/largePadding"
+        android:background="@color/white"
         android:paddingTop="@dimen/largePadding">
         <TextView
             android:layout_width="wrap_content"
@@ -160,4 +161,8 @@
             android:layout_marginRight="8dp"
             android:layout_gravity="end"/>
     </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/mybg"/>
 </LinearLayout>

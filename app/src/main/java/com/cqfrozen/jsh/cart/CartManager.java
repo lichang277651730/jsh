@@ -2,6 +2,7 @@ package com.cqfrozen.jsh.cart;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.SparseArray;
 
 import com.cqfrozen.jsh.entity.GoodsInfo;
@@ -93,22 +94,6 @@ public class CartManager {
         commit();
     }
 
-    /**
-     * 每次点击底部导航栏购物车就调用这个方法
-     */
-    public void add(CartGoodsInfo cartGoodsInfo, boolean isLoadAgain) {
-        Long goodsId = cartGoodsInfo.g_id;
-//        CartGoodsInfo temp = cartGoods.get(goodsId.intValue());
-//        if (temp != null) {//购物车已存在此商品，数量加1
-//            temp.count = temp.count + 1;
-//        } else {//第一次添加的商品
-//            temp = cartGoodsInfo;
-//            temp.count = 1;
-//        }
-        cartGoods.clear();
-        cartGoods.put(goodsId.intValue(), cartGoodsInfo);
-        commit();
-    }
 
     /**
      * 添加单个商品购物车
@@ -122,9 +107,19 @@ public class CartManager {
      * 添加一个集合的商品到购物车
      */
     public void add(List<CartGoodsInfo> cartGoodsInfos) {
+        cartGoods.clear();
         for (CartGoodsInfo goodsInfo : cartGoodsInfos) {
             add(goodsInfo, true);
         }
+        commit();
+    }
+
+    /**
+     * 每次点击底部导航栏购物车就调用这个方法
+     */
+    public void add(CartGoodsInfo cartGoodsInfo, boolean isLoadAgain) {
+        Long goodsId = cartGoodsInfo.g_id;
+        cartGoods.put(goodsId.intValue(), cartGoodsInfo);
     }
 
 
@@ -150,12 +145,10 @@ public class CartManager {
         }
 //        SPUtils.setCartData(JSONUtil.toJson(list));
         goodsTotalNum = 0;
-//        for(int i = 0; i < cartGoods.size(); i++){
-//            goodsTotalNum += cartGoods.valueAt(i).count;
-//        }
         for (CartGoodsInfo goodsInfo : list) {
             goodsTotalNum += goodsInfo.count;
         }
+
         if (listener != null) {
             listener.onNumChangeListener(goodsTotalNum);
         }
@@ -194,6 +187,24 @@ public class CartManager {
             return true;
         }
         return false;
+    }
+
+    /**
+     * 判断购物车商品是否全选
+     */
+    public boolean isAllChecked(){
+        int checkedNum = 0;
+        for(int i = 0; i < cartGoods.size(); i++){
+            if(cartGoods.valueAt(i).isChecked){
+                checkedNum++;
+            }
+        }
+        Log.d("isAllChecked", "checkedNum:" + checkedNum + ":cartGoods:" + cartGoods.size());
+        if(checkedNum == cartGoods.size()){
+            return true;
+        }else {
+            return false;
+        }
     }
 
     public interface OnNumChangeListener {

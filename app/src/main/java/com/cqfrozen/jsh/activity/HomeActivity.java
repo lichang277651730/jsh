@@ -70,7 +70,11 @@ public class HomeActivity extends BaseActivity implements RadioGroup.OnCheckedCh
                         badgeView.show();
                     }
                     if(badgeView != null && badgeView.isShown()){
-                        badgeView.setText(curNum + "");
+                        if(curNum >= 100){
+                            badgeView.setText("99+");
+                        }else {
+                            badgeView.setText(curNum + "");
+                        }
                     }
                 }
             });

@@ -21,9 +21,10 @@ public class LocationAdapter extends BaseAdapter {
     private Context context;
     private List<LocationInfo> locationInfos;
     private List<String> datas;
-    public LocationAdapter(Context context){
+    public LocationAdapter(Context context, List<LocationInfo> locationInfos){
         this.context = context;
-        initData();
+        this.locationInfos = locationInfos;
+//        initData();
     }
 
     private void initData() {
@@ -41,17 +42,17 @@ public class LocationAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return datas.size();
+        return locationInfos.size();
     }
 
     @Override
-    public String getItem(int position) {
-        return datas.get(position);
+    public LocationInfo getItem(int position) {
+        return locationInfos.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return datas.size();
+        return locationInfos.size();
     }
 
     @Override
@@ -65,7 +66,7 @@ public class LocationAdapter extends BaseAdapter {
         }else {
             holder = (MyViewHolder) convertView.getTag();
         }
-        holder.tv_area.setText(datas.get(position));
+        holder.tv_area.setText(locationInfos.get(position).area_name);
         return convertView;
     }
 

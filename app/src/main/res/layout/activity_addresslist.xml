@@ -9,22 +9,36 @@
               android:fitsSystemWindows="true"
               tools:context=".center.AddressListActivity">
     <include layout="@layout/include_title"/>
+    <RelativeLayout
+        android:id="@+id/rl_add"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center_vertical"
+        android:background="@color/white">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_marginLeft="8dp"
+            android:textColor="@color/mygray"
+            android:text="新增地址"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="8dp"
+            android:src="@mipmap/icon_right_64"/>
+    </RelativeLayout>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_addresslist"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@color/white"
+        android:layout_height="match_parent"
+        android:background="@color/mybg"
         android:scrollbars="none">
     </android.support.v7.widget.RecyclerView>
-    <TextView
-        android:id="@+id/tv_add"
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/sl_red2gray_btn_bg"
-        android:gravity="center"
-        android:padding="10dp"
-        android:textSize="20sp"
-        android:text="@string/address_add"
-        android:textColor="@color/white"/>
+        android:layout_height="match_parent"
+        android:background="@color/mybg"/>
 </LinearLayout>

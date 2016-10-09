@@ -82,6 +82,8 @@
                   android:theme="@style/SwipeBackTheme"/>
         <activity android:name=".center.InformationActivity"
                   android:theme="@style/SwipeBackTheme"/>
+        <activity android:name=".center.NormalBuyActivity"
+                  android:theme="@style/SwipeBackTheme"/>
         <activity android:name=".activity.GoodsDetailActivity"
                   android:theme="@style/SwipeBackTheme"/>
         <activity android:name=".home.LocationActivity"

@@ -11,7 +11,7 @@ public class GoodsInfo {
     public String pic_url;
     public int is_oos;
     public String sell_count;
-//    public String weight;//规格：10kg
+    public String weight;//规格：10kg
 //    public String unit;//单位：1件
-//    public String brand_name;//品牌：金锣
+    public String brand_name;//品牌：金锣
 }

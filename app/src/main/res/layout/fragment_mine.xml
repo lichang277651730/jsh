@@ -317,7 +317,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tv_myorders"
+                android:id="@+id/tv_normal_buy"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/sl_item_bg"
@@ -331,7 +331,7 @@
             <View style="@style/HorizontalDividerLine"/>
 
             <TextView
-                android:id="@+id/tv_favourite"
+                android:id="@+id/tv_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/sl_item_bg"
@@ -347,7 +347,7 @@
 
 
             <TextView
-                android:id="@+id/tv_address"
+                android:id="@+id/tv_shop"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/sl_item_bg"

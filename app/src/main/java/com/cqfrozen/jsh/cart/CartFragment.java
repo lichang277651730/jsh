@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +21,9 @@ import com.common.base.BaseValue;
 import com.common.widget.MyGridDecoration;
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.activity.HomeActivity;
+import com.cqfrozen.jsh.entity.CartNotifyInfo;
 import com.cqfrozen.jsh.home.SearchActivity;
+import com.cqfrozen.jsh.main.MyApplication;
 import com.cqfrozen.jsh.volleyhttp.MyHttp;
 
 import java.util.ArrayList;
@@ -55,6 +56,8 @@ public class CartFragment extends BaseFragment implements View.OnClickListener {
     private Button include_cartnodata_btn;
     private PopupWindow popupWindow;
     private ImageView iv_shotcut;
+    private LinearLayout ll_notify;
+    private TextView tv_notify;
 
     public static CartFragment getInstance(){
         if(fragment == null){
@@ -98,6 +101,8 @@ public class CartFragment extends BaseFragment implements View.OnClickListener {
 
     private void initView() {
         include_cartnodatalayout = (LinearLayout) view.findViewById(R.id.include_cartnodatalayout);
+        ll_notify = (LinearLayout) view.findViewById(R.id.ll_notify);
+        tv_notify = (TextView) view.findViewById(R.id.tv_notify);
         include_cartnodata_btn = (Button) view.findViewById(R.id.include_cartnodata_btn);
         rv_cart = (RecyclerView) view.findViewById(R.id.rv_cart);
         iv_shotcut = (ImageView) view.findViewById(R.id.iv_shotcut);
@@ -125,11 +130,16 @@ public class CartFragment extends BaseFragment implements View.OnClickListener {
         popupWindow.setOutsideTouchable(true);
         popupWindow.setFocusable(true);
         popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        //TODO 以后用application里的用户判断
+        if(MyApplication.token.isEmpty()){
+            ll_notify.setVisibility(View.GONE);
+        }else {
+            ll_notify.setVisibility(View.VISIBLE);
+        }
     }
 
     private void initRV() {
         rv_cart.setOverScrollMode(View.OVER_SCROLL_NEVER);
-//        LinearLayoutManager manager = new LinearLayoutManager(mActivity);
         GridLayoutManager manager = new GridLayoutManager(mActivity, 1);
         cartAdapter = new CartRVAdapter(mActivity, cartGoodsInfos, tv_total, cb_all);
         rv_cart.setLayoutManager(manager);
@@ -140,6 +150,28 @@ public class CartFragment extends BaseFragment implements View.OnClickListener {
     }
 
     private void getData() {
+
+        //获取购物车提示消息
+        MyHttp.freightTips(http, null, new MyHttp.MyHttpResult() {
+            @Override
+            public void httpResult(Integer which, int code, String msg, Object bean) {
+                if(code != 0){
+                    showToast(msg);
+                    return;
+                }
+                CartNotifyInfo cartNotifyInfo = (CartNotifyInfo) bean;
+                if(cartNotifyInfo == null){
+                    return;
+                }
+                if(cartNotifyInfo.f_tip.isEmpty()){
+                    ll_notify.setVisibility(View.GONE);
+                }else {
+                    ll_notify.setVisibility(View.VISIBLE);
+                    tv_notify.setText(cartNotifyInfo.f_tip);
+                }
+            }
+        });
+
 //        List<CartGoodsInfo> localData = cartManager.loadAllFromSp();//从缓存中读购物车数据
 //        if(localData == null || localData.size() == 0){//缓存中无数据,从网络中获取
             getDataFromServer();
@@ -172,12 +204,8 @@ public class CartFragment extends BaseFragment implements View.OnClickListener {
                     setNoDataView();//购物车为空
                     return;
                 }
-                for (CartGoodsInfo g : cartGoodsInfos){
-                    Log.d("CarGoodsInfo", g.count + "");
-                }
                 showDataView();
                 cartAdapter.notifyDataSetChanged();
-//                cartManager.clear();
                 //TODO 这个地方的逻辑有问题，导致购物车角标数字不正确
                 cartManager.add(cartGoodsInfos);
                 cartAdapter.showTotalPrice();
@@ -215,6 +243,7 @@ public class CartFragment extends BaseFragment implements View.OnClickListener {
         super.onShow();
         //TODO 这个地方的逻辑有问题，导致购物车角标数字不正确
         getData();
+        doEdit();
     }
 
     private void doFinish() {

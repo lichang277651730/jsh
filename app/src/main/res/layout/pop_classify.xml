@@ -11,10 +11,10 @@
           android:gravity="center_vertical"
           android:textSize="16sp"
           android:text="所有类别"/>
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_pop"
+    <GridView
+        android:id="@+id/gv_classify"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scrollbars="none">
-    </android.support.v7.widget.RecyclerView>
+        android:numColumns="3">
+    </GridView>
 </LinearLayout>

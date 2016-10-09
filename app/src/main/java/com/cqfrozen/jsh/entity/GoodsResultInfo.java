@@ -7,5 +7,5 @@ import java.util.List;
  */
 public class GoodsResultInfo extends BaseEntity {
     public List<GoodsInfo> data1;
-    public int is_page;
+    public int is_page;//是否有下一页0没有 1有
 }
