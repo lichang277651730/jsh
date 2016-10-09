@@ -21,6 +21,7 @@ import com.cqfrozen.jsh.entity.GoodsResultInfo;
 import com.cqfrozen.jsh.entity.HomeBannerInfo;
 import com.cqfrozen.jsh.entity.HomeNotifyInfo;
 import com.cqfrozen.jsh.entity.LocationInfo;
+import com.cqfrozen.jsh.entity.ShopInfo;
 import com.cqfrozen.jsh.entity.SigninInfo;
 import com.cqfrozen.jsh.main.MyApplication;
 import com.cqfrozen.jsh.util.MD5Util;
@@ -255,6 +256,18 @@ public class MyHttp {
         params.clear();
         params.put("token", MyApplication.token);
         Type type = new TypeToken<List<AddressInfo>>() {
+        }.getType();
+        toBean(GET, http, which, params, url, myHttpResult, type);
+    }
+
+    /**
+     * 查看商铺列表
+     */
+    public static void storeList(HttpForVolley http, Integer which,  MyHttpResult myHttpResult) {
+        String url = SERVER + "Personal/storelist";
+        params.clear();
+        params.put("token", MyApplication.token);
+        Type type = new TypeToken<List<ShopInfo>>() {
         }.getType();
         toBean(GET, http, which, params, url, myHttpResult, type);
     }

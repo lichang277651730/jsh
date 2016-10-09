@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/colorPrimaryDark"
+              android:clipToPadding="true"
+              android:fitsSystemWindows="true"
+              tools:context=".center.ShopListActivity">
+    <include layout="@layout/include_title"/>
+    <RelativeLayout
+        android:id="@+id/rl_add"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center_vertical"
+        android:background="@color/white">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_marginLeft="8dp"
+            android:textColor="@color/mygray"
+            android:text="新增店铺"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="8dp"
+            android:src="@mipmap/icon_right_64"/>
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_shop"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/mybg"
+        android:scrollbars="none">
+    </android.support.v7.widget.RecyclerView>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/mybg"/>
+</LinearLayout>

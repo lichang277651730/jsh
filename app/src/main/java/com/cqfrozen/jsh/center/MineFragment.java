@@ -143,7 +143,10 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
                 }
                 break;
             case R.id.tv_shop://店铺管理
-
+                //TODO 登陆拦截
+                if(!MyApplication.token.isEmpty()){
+                    startActivity(new Intent(mActivity, ShopListActivity.class));
+                }
                 break;
             case R.id.iv_head:
             case R.id.tv_name:
