@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -88,7 +87,8 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.MyViewHolder
             public void onClick(View v) {
                 //TODO 跳转至商品详情页
                 Intent intent = new Intent(context, GoodsDetailActivity.class);
-                intent.putExtra("g_id", goodsInfo.g_id);
+//                intent.putExtra("g_id", goodsInfo.g_id);
+                intent.putExtra("goodsInfo", goodsInfo);
                 context.startActivity(intent);
             }
         });

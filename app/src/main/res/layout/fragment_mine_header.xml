@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="170dp"
+    android:background="@color/colorPrimaryDark">
+
+    <ImageView
+        android:id="@+id/iv_shotcut"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="10dp"
+        android:src="@mipmap/icon_shortcut"/>
+
+    <ImageView
+        android:id="@+id/iv_setting"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="10dp"
+        android:layout_toLeftOf="@id/iv_shotcut"
+        android:src="@mipmap/center_setting"/>
+
+    <com.common.widget.MyHeadImageView
+        android:id="@+id/iv_head"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_centerInParent="true"
+        android:scaleType="fitXY"
+        android:src="@mipmap/center_head"/>
+
+    <TextView
+        android:id="@+id/tv_login"
+        style="@style/text_14sp_white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/iv_head"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="8dp"
+        android:text="注册/登录"/>
+
+    <TextView
+        android:id="@+id/tv_name"
+        style="@style/text_14sp_white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/iv_head"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="8dp"
+        android:maxLength="20"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="12dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="185 6666 6666"
+            android:textColor="@color/white"
+            android:textSize="12sp"/>
+
+        <ImageView
+            android:id="@+id/iv_verify"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:scaleType="fitXY"
+            android:src="@mipmap/icon_verify_yes"/>
+
+        <TextView
+            android:id="@+id/tv_verify"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:text="已审核"
+            android:textColor="@color/white"
+            android:textSize="12sp"/>
+    </LinearLayout>
+</RelativeLayout>

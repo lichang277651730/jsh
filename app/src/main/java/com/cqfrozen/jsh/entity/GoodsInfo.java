@@ -3,7 +3,7 @@ package com.cqfrozen.jsh.entity;
 /**
  * Created by Administrator on 2016/9/13.
  */
-public class GoodsInfo {
+public class GoodsInfo extends BaseEntity{
     public Long g_id;
     public String g_name;
     public double market_price;

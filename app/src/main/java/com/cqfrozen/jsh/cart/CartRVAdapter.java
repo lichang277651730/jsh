@@ -190,11 +190,51 @@ public class CartRVAdapter extends RecyclerView.Adapter<CartRVAdapter.MyViewHold
 //
 //            }
 //        }
-        //改之后
+        //改之后 第二个版本 逻辑 没问题 只是删除视图 有点不对位
         Log.d("cartGoodsInfosize", ":" + cartGoodsInfos.size());
-        for(final Iterator<CartGoodsInfo> iterator = cartGoodsInfos.iterator(); iterator.hasNext();){
-            final CartGoodsInfo goodsInfo = iterator.next();
-            if(cartManager.isAllChecked()){
+//        for(final Iterator<CartGoodsInfo> iterator = cartGoodsInfos.iterator(); iterator.hasNext();){
+//            final CartGoodsInfo goodsInfo = iterator.next();
+//            if(cartManager.isAllChecked()){
+//                MyHttp.deleteCart(http, null, 2, goodsInfo.c_id, new HttpForVolley.HttpTodo() {
+//                    @Override
+//                    public void httpTodo(Integer which, JSONObject response) {
+//                        ToastUtil.showToast(context, response.optString("msg"));
+//                        int code = response.optInt("code");
+//                        if(code != 0){
+//                            return;
+//                        }
+//                        int positon = cartGoodsInfos.indexOf(goodsInfo);
+//                        cartManager.clear();
+//                        iterator.remove();
+//                        notifyItemRemoved(positon);
+//                        showTotalPrice();
+//                    }
+//                });
+//            }else {
+//                if(goodsInfo.isChecked){
+//                    Log.d("cartGoodsInfosize", ":" + "循环");
+//                    MyHttp.deleteCart(http, null, 1, goodsInfo.c_id, new HttpForVolley.HttpTodo() {
+//                        @Override
+//                        public void httpTodo(Integer which, JSONObject response) {
+//                            ToastUtil.showToast(context, response.optString("msg"));
+//                            int code = response.optInt("code");
+//                            if(code != 0){
+//                                return;
+//                            }
+//                            int positon = cartGoodsInfos.indexOf(goodsInfo);
+//                            cartManager.delete(goodsInfo);
+//                            iterator.remove();
+//                            notifyItemRemoved(positon);
+//                            showTotalPrice();
+//                        }
+//                    });
+//                }
+//            }
+//        }
+        //第三个版本
+        if(cartManager.isAllChecked()){
+            for(final Iterator<CartGoodsInfo> iterator = cartGoodsInfos.iterator(); iterator.hasNext();){
+                final CartGoodsInfo goodsInfo = iterator.next();
                 MyHttp.deleteCart(http, null, 2, goodsInfo.c_id, new HttpForVolley.HttpTodo() {
                     @Override
                     public void httpTodo(Integer which, JSONObject response) {
@@ -207,12 +247,14 @@ public class CartRVAdapter extends RecyclerView.Adapter<CartRVAdapter.MyViewHold
                         cartManager.clear();
                         iterator.remove();
                         notifyItemRemoved(positon);
-                        showTotalPrice();
+//                        showTotalPrice();
                     }
                 });
-            }else {
+            }
+        }else {
+            for(final Iterator<CartGoodsInfo> iterator = cartGoodsInfos.iterator(); iterator.hasNext();){
+                final CartGoodsInfo goodsInfo = iterator.next();
                 if(goodsInfo.isChecked){
-                    Log.d("cartGoodsInfosize", ":" + "循环");
                     MyHttp.deleteCart(http, null, 1, goodsInfo.c_id, new HttpForVolley.HttpTodo() {
                         @Override
                         public void httpTodo(Integer which, JSONObject response) {
@@ -225,13 +267,13 @@ public class CartRVAdapter extends RecyclerView.Adapter<CartRVAdapter.MyViewHold
                             cartManager.delete(goodsInfo);
                             iterator.remove();
                             notifyItemRemoved(positon);
-                            showTotalPrice();
+//                            showTotalPrice();
                         }
                     });
                 }
             }
-
         }
+        showTotalPrice();
     }
 
     /**

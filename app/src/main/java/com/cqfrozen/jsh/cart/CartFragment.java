@@ -294,6 +294,7 @@ public class CartFragment extends BaseFragment implements View.OnClickListener {
 
     private void deleteCart() {
         cartAdapter.delete();
+        cartAdapter.notifyDataSetChanged();
         if(cartAdapter.isNull()){
             setNoDataView();
         }

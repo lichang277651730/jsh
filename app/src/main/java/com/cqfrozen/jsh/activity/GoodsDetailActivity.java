@@ -14,9 +14,12 @@ import com.common.base.BaseValue;
 import com.common.http.HttpForVolley;
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.adapter.GoodsDetailVPAdapter;
+import com.cqfrozen.jsh.cart.CartManager;
 import com.cqfrozen.jsh.entity.GoodDetailResultInfo;
+import com.cqfrozen.jsh.entity.GoodsInfo;
 import com.cqfrozen.jsh.main.MyActivity;
 import com.cqfrozen.jsh.util.SharePop;
+import com.cqfrozen.jsh.util.ToastUtil;
 import com.cqfrozen.jsh.volleyhttp.MyHttp;
 import com.cqfrozen.jsh.widget.NumberAddSubView;
 
@@ -29,6 +32,7 @@ import java.util.List;
  * Created by Administrator on 2016/9/27.
  * GoodsAdapter NormalBuyAdapter的itemview点击跳转
  * intent.putExtra("g_id", goodsInfo.g_id);
+ * intent.putExtra("goodsInfo", goodsInfo);
  */
 public class GoodsDetailActivity extends MyActivity implements View.OnClickListener, ViewPager
         .OnPageChangeListener {
@@ -57,11 +61,16 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
     private TextView tv_collect;
     private int is_common = 0;//常用采购
     private int type;//type=1添加常用采购  type=2取消常用采购
+    private TextView tv_add_cart;
+    private CartManager cartManager;
+    private GoodsInfo goodsInfo;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goodsdetail);
+        setSwipeBackEnable(false);
+        cartManager = CartManager.getInstance(this);
         getIntentData();
         initView();
         initVP();
@@ -69,7 +78,9 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
     }
 
     private void getIntentData() {
-        g_id = getIntent().getLongExtra("g_id", 0L);
+//        g_id = getIntent().getLongExtra("g_id", 0L);
+        goodsInfo = (GoodsInfo) getIntent().getSerializableExtra("goodsInfo");
+        g_id = goodsInfo.g_id;
     }
 
     private void initView() {
@@ -89,9 +100,11 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
         ll_collect = (LinearLayout) findViewById(R.id.ll_collect);
         iv_collect = (ImageView) findViewById(R.id.iv_collect);
         tv_collect = (TextView) findViewById(R.id.tv_collect);
+        tv_add_cart = (TextView) findViewById(R.id.tv_add_cart);
         iv_back.setOnClickListener(this);
         iv_share.setOnClickListener(this);
         ll_collect.setOnClickListener(this);
+        tv_add_cart.setOnClickListener(this);
         asv_num.setCurValue(1);
     }
 
@@ -118,11 +131,38 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
                 }
                 setNormalBuy();//添加常用采购
                 break;
+            case R.id.tv_add_cart:
+                if (!needLogin()) {
+                    return;
+                }
+                addCart();//添加常用采购
+                break;
             default:
                 break;
         }
     }
 
+    /**
+     * 添加到购物车
+     */
+    private void addCart() {
+        //TODO 要替换区域id
+        MyHttp.addcart(http, null, g_id, "5", 1, new HttpForVolley.HttpTodo() {
+            @Override
+            public void httpTodo(Integer which, JSONObject response) {
+                ToastUtil.showToast(GoodsDetailActivity.this, response.optString("msg"));
+                int code = response.optInt("code");
+                if(code != 0){
+                    return;
+                }
+                cartManager.add(goodsInfo);
+            }
+        });
+    }
+
+    /**
+     * 添加或取消常用采购
+     */
     private void setNormalBuy() {
         if (!canClick) {
             return;
@@ -144,11 +184,9 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
                 }
                 if (type == 1) {
                     iv_collect.setImageResource(R.mipmap.icon_normal_buy_yes);
-                    tv_collect.setText("已添加收藏");
                     is_common = 1;
                 } else if (type == 2) {
                     iv_collect.setImageResource(R.mipmap.icon_normal_buy_no);
-                    tv_collect.setText("未添加收藏");
                     is_common = 0;
                 }
             }
@@ -199,10 +237,8 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
         is_common = goodDetailInfo.is_common;
         if (goodDetailInfo.is_common == 0) {
             iv_collect.setImageResource(R.mipmap.icon_normal_buy_no);
-            tv_collect.setText("未添加收藏");
         } else if (goodDetailInfo.is_common == 1) {
             iv_collect.setImageResource(R.mipmap.icon_normal_buy_yes);
-            tv_collect.setText("已添加收藏");
         }
 
     }

@@ -24,11 +24,11 @@ public class AddressAddActivity extends MyActivity implements View.OnClickListen
     private TextView tv_right;
     private TextView tv_location;
     private CheckBox cb_default;
-    private int is_default = 0;
     private String consigneeStr;
     private String phoneStr;
     private String addresStr;
     private String locationStr;
+    private int is_default = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -95,6 +95,7 @@ public class AddressAddActivity extends MyActivity implements View.OnClickListen
             is_default = 0;
         }
 //        MyHttp.addrAddress(http, null, );
-
+        //TODO 请求服务器 添加新的收货地址
+        showToast("添加地址");
     }
 }

@@ -64,7 +64,8 @@ public class NormalBuyAdapter extends RecyclerView.Adapter<NormalBuyAdapter.MyVi
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, GoodsDetailActivity.class);
-                intent.putExtra("g_id", goodsInfo.g_id);
+//                intent.putExtra("g_id", goodsInfo.g_id);
+                intent.putExtra("goodsInfo", goodsInfo);
                 context.startActivity(intent);
             }
         });
