@@ -58,6 +58,7 @@ public class HomeActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     private void initBadgeView() {
         badgeView = new BadgeView(this, iv_cart);
         if(cartManager != null){
+            badgeView.setVisibility(View.VISIBLE);
             badgeView.setText(cartManager.getCartGoodsNum() + "");
             badgeView.setText(0 + "");
             badgeView.setTextSize(10);

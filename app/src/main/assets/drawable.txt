@@ -1,0 +1,17 @@
+
+自定义的drawable文件夹下的所有文件的用途说明
+
+弹性下拉库
+    zoomview包下所有类
+    attrs 文件 PullToZoomView
+    values 的 ids.xml文件
+
+
+
+
+
+发布版本需要删除的东西
+    目前还没用的文件：
+        弹性下拉库
+
+

@@ -19,6 +19,6 @@ public class RegisterActivity extends MyActivity {
     }
 
     private void initView() {
-        setMyTitle("注册");
+        setMyTitle("新用户注册");
     }
 }

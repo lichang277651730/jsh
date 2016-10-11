@@ -21,6 +21,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -37,6 +38,7 @@ public class CartRVAdapter extends RecyclerView.Adapter<CartRVAdapter.MyViewHold
     private final DisplayImageOptions defaultOptions;
     private final CartManager cartManager;
     private final HttpForVolley http;
+    private ArrayList<CartGoodsInfo> checkedList = new ArrayList<>();
 
     public CartRVAdapter(Context context, List<CartGoodsInfo> cartGoodsInfos, TextView tv_total,
                          final CheckBox cb_all){
@@ -232,10 +234,8 @@ public class CartRVAdapter extends RecyclerView.Adapter<CartRVAdapter.MyViewHold
 //            }
 //        }
         //第三个版本
-        if(cartManager.isAllChecked()){
-            for(final Iterator<CartGoodsInfo> iterator = cartGoodsInfos.iterator(); iterator.hasNext();){
-                final CartGoodsInfo goodsInfo = iterator.next();
-                MyHttp.deleteCart(http, null, 2, goodsInfo.c_id, new HttpForVolley.HttpTodo() {
+        if(cartManager.isAllChecked()){//清空购物车
+            MyHttp.deleteCart(http, null, 2, 0L, new HttpForVolley.HttpTodo() {
                     @Override
                     public void httpTodo(Integer which, JSONObject response) {
                         ToastUtil.showToast(context, response.optString("msg"));
@@ -243,37 +243,55 @@ public class CartRVAdapter extends RecyclerView.Adapter<CartRVAdapter.MyViewHold
                         if(code != 0){
                             return;
                         }
-                        int positon = cartGoodsInfos.indexOf(goodsInfo);
+                        cartGoodsInfos.clear();
                         cartManager.clear();
-                        iterator.remove();
-                        notifyItemRemoved(positon);
-//                        showTotalPrice();
+                        notifyDataSetChanged();
+                        showTotalPrice();
                     }
                 });
-            }
         }else {
+            checkedList.clear();
             for(final Iterator<CartGoodsInfo> iterator = cartGoodsInfos.iterator(); iterator.hasNext();){
                 final CartGoodsInfo goodsInfo = iterator.next();
                 if(goodsInfo.isChecked){
-                    MyHttp.deleteCart(http, null, 1, goodsInfo.c_id, new HttpForVolley.HttpTodo() {
-                        @Override
-                        public void httpTodo(Integer which, JSONObject response) {
-                            ToastUtil.showToast(context, response.optString("msg"));
-                            int code = response.optInt("code");
-                            if(code != 0){
-                                return;
-                            }
-                            int positon = cartGoodsInfos.indexOf(goodsInfo);
-                            cartManager.delete(goodsInfo);
-                            iterator.remove();
-                            notifyItemRemoved(positon);
-//                            showTotalPrice();
-                        }
-                    });
+                    checkedList.add(goodsInfo);
                 }
             }
+            if(checkedList.size() == 0){
+                return;
+            }
+            //TODO 删除一个没问题，删除全部没问题，删除2个有问题，只能删除一个
+            Log.d("cartGoodsInfosize", "被选中商品个数" + checkedList.size());
+            for(int i = 0; i < checkedList.size(); i++){
+                final CartGoodsInfo checkedGoods = checkedList.get(i);
+                Log.d("cartGoodsInfosize", "被选中商品一次");
+                MyHttp.deleteCart(http, null, 1, checkedGoods.c_id, new HttpForVolley.HttpTodo() {
+                    @Override
+                    public void httpTodo(Integer which, JSONObject response) {
+                        Log.d("cartGoodsInfosize", ":" + "网络请求一次");
+                        ToastUtil.showToast(context, response.optString("msg"));
+                        int code = response.optInt("code");
+                        if(code != 0){
+                            return;
+                        }
+                        cartManager.delete(checkedGoods);
+                        cartGoodsInfos.remove(checkedGoods);
+                        notifyDataSetChanged();
+                        showTotalPrice();
+                    }
+                });
+            }
         }
-        showTotalPrice();
+    }
+
+    @Override
+    public void setHasStableIds(boolean hasStableIds) {
+        super.setHasStableIds(true);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return cartGoodsInfos.get(position).g_id;
     }
 
     /**
