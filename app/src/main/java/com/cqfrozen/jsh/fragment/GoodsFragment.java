@@ -30,15 +30,16 @@ public class GoodsFragment extends MyFragment implements MyHttp.MyHttpResult, My
 
     private TextView tv_name;
     private String title;
-    private String area_id = "5";
-    private int page = 1;
-    private String g_type_id;
     private int where;
+    private RefreshLayout refresh_goods;
     private RecyclerView rv_goods;
     private List<GoodsInfo> goodsInfos = new ArrayList<>();
     private GoodsAdapter goodsAdapter;
+
+    private String area_id = "5";
+    private String g_type_id;
+    private int page = 1;
     private int is_page = 1;
-    private RefreshLayout refresh_goods;
 
     public static GoodsFragment getInstance(String title){
         GoodsFragment fragment = new GoodsFragment();
@@ -149,6 +150,7 @@ public class GoodsFragment extends MyFragment implements MyHttp.MyHttpResult, My
     @Override
     public void onRefresh() {
         page = 1;
+        is_page = 1;
         goodsInfos.clear();
         getData();
     }

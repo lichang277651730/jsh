@@ -16,14 +16,15 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.common.base.BaseFragment;
 import com.common.base.BaseValue;
 import com.common.widget.MyGridDecoration;
+import com.common.widget.RefreshLayout;
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.activity.HomeActivity;
 import com.cqfrozen.jsh.entity.CartNotifyInfo;
 import com.cqfrozen.jsh.home.SearchActivity;
 import com.cqfrozen.jsh.main.MyApplication;
+import com.cqfrozen.jsh.main.MyFragment;
 import com.cqfrozen.jsh.volleyhttp.MyHttp;
 
 import java.util.ArrayList;
@@ -33,7 +34,7 @@ import java.util.List;
  * Created by Administrator on 2016/9/12.
  * 购物车页面 fragment
  */
-public class CartFragment extends BaseFragment implements View.OnClickListener {
+public class CartFragment extends MyFragment implements View.OnClickListener, MyFragment.HttpFail,RefreshLayout.OnRefreshListener, RefreshLayout.TopOrBottom {
 
     private static final int TAG_EIDT = 1;
     private static final int TAG_FINISH = 2;
@@ -58,6 +59,10 @@ public class CartFragment extends BaseFragment implements View.OnClickListener {
     private ImageView iv_shotcut;
     private LinearLayout ll_notify;
     private TextView tv_notify;
+    private RefreshLayout refresh_cart;
+
+//    private int page = 1;
+//    private int is_page = 1;
 
     public static CartFragment getInstance(){
         if(fragment == null){
@@ -104,6 +109,7 @@ public class CartFragment extends BaseFragment implements View.OnClickListener {
         ll_notify = (LinearLayout) view.findViewById(R.id.ll_notify);
         tv_notify = (TextView) view.findViewById(R.id.tv_notify);
         include_cartnodata_btn = (Button) view.findViewById(R.id.include_cartnodata_btn);
+        refresh_cart = (RefreshLayout) view.findViewById(R.id.refresh_cart);
         rv_cart = (RecyclerView) view.findViewById(R.id.rv_cart);
         iv_shotcut = (ImageView) view.findViewById(R.id.iv_shotcut);
         cb_all = (CheckBox) view.findViewById(R.id.cb_all);
@@ -113,6 +119,7 @@ public class CartFragment extends BaseFragment implements View.OnClickListener {
         tv_carr = (TextView) view.findViewById(R.id.tv_carr);
         btn_del.setOnClickListener(this);
         iv_shotcut.setOnClickListener(this);
+        refresh_cart.setOnRefreshListener(this);
         createPop();
 //        cb_all.setChecked(true);
 
@@ -147,6 +154,7 @@ public class CartFragment extends BaseFragment implements View.OnClickListener {
                 .dp2px(0), getResources().getColor(R.color.mybg), false);
         rv_cart.addItemDecoration(decoration);
         rv_cart.setAdapter(cartAdapter);
+        refresh_cart.setRC(rv_cart, this);
     }
 
     private void getData() {
@@ -188,17 +196,29 @@ public class CartFragment extends BaseFragment implements View.OnClickListener {
         MyHttp.queryCart(http, null, page, area_id, new MyHttp.MyHttpResult() {
             @Override
             public void httpResult(Integer which, int code, String msg, Object bean) {
-                if(code != 0){
-                    showToast(msg);
-                    setNoDataView();
+
+                if(code == 404){
+                    setHttpFail(CartFragment.this);
+                    refresh_cart.setResultState(RefreshLayout.ResultState.failed);
                     return;
                 }
+
+                if(code != 0){
+                    showToast(msg);
+//                    setNoDataView();
+                    refresh_cart.setResultState(RefreshLayout.ResultState.failed);
+                    return;
+                }
+                refresh_cart.setResultState(RefreshLayout.ResultState.success);
                 CartResultInfo cartResultInfo = (CartResultInfo) bean;
                 if(cartResultInfo == null || cartResultInfo.data1.size() == 0){
                     setNoDataView();//购物车为空
+//                    setHttpNotData(CartFragment.this);
                     return;
                 }
-                cartGoodsInfos.clear();
+//                cartGoodsInfos.clear();
+                setHttpSuccess();
+                is_page = cartResultInfo.is_page;
                 cartGoodsInfos.addAll(cartResultInfo.data1);
                 if(cartGoodsInfos == null || cartGoodsInfos.size() == 0){
                     setNoDataView();//购物车为空
@@ -206,7 +226,6 @@ public class CartFragment extends BaseFragment implements View.OnClickListener {
                 }
                 showDataView();
                 cartAdapter.notifyDataSetChanged();
-                //TODO 这个地方的逻辑有问题，导致购物车角标数字不正确
                 cartManager.add(cartGoodsInfos);
                 cartAdapter.showTotalPrice();
                 cartAdapter.allCheckedListen();
@@ -241,7 +260,9 @@ public class CartFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onShow() {
         super.onShow();
-        //TODO 这个地方的逻辑有问题，导致购物车角标数字不正确
+        cartGoodsInfos.clear();
+        is_page = 1;
+        page = 1;
         getData();
         doEdit();
     }
@@ -301,6 +322,52 @@ public class CartFragment extends BaseFragment implements View.OnClickListener {
         if(cartAdapter.isNull()){
             setNoDataView();
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        is_page = 0;
+        page = 1;
+        cartGoodsInfos.clear();
+        getData();
+//        doEdit();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if(refresh_cart != null && refresh_cart.isRefreshing){
+            refresh_cart.setResultState(RefreshLayout.ResultState.close);
+        }
+    }
+
+    @Override
+    public void toHttpAgain() {
+        getData();
+    }
+
+    @Override
+    public void gotoBottom() {
+        if(is_page == 1){
+            getData();
+        }else if(is_page == 0){
+            showToast("没有更多数据了!~");
+        }
+    }
+
+    @Override
+    public void gotoTop() {
+
+    }
+
+    @Override
+    public void move() {
+
+    }
+
+    @Override
+    public void stop() {
+
     }
 
 }

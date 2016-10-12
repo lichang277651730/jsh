@@ -46,15 +46,7 @@
         android:layout_below="@id/rl_title"
         android:background="@color/mybg"
         android:padding="6dp">
-        <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="提示"-->
-            <!--android:textSize="16sp"-->
-            <!--android:padding="4dp"-->
-            <!--android:textColor="@color/myred"-->
-            <!--android:layout_marginLeft="8dp"-->
-            <!--android:background="@drawable/shape_rectangle_red_bg"/>-->
+
         <TextView
             android:id="@+id/tv_notify"
             android:layout_width="wrap_content"
@@ -63,10 +55,14 @@
             android:gravity="center"
             android:text="购物满399元，立减运费！！"/>
     </LinearLayout>
-    <RelativeLayout
+    <com.common.widget.RefreshLayout
+        android:id="@+id/refresh_cart"
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_below="@id/ll_notify"
-        android:layout_height="match_parent">
+        android:orientation="vertical">
+        <include layout="@layout/include_cart_nodata"/>
+        <include layout="@layout/include_httpresult"/>
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_cart"
             android:layout_width="match_parent"
@@ -74,8 +70,20 @@
             android:layout_marginBottom="54dp"
             android:scrollbars="none">
         </android.support.v7.widget.RecyclerView>
-        <include layout="@layout/include_cart_nodata"/>
-    </RelativeLayout>
+    </com.common.widget.RefreshLayout>
+    <!--<RelativeLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_below="@id/ll_notify"-->
+        <!--android:layout_height="match_parent">-->
+        <!--<android.support.v7.widget.RecyclerView-->
+            <!--android:id="@+id/rv_cart"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_marginBottom="54dp"-->
+            <!--android:scrollbars="none">-->
+        <!--</android.support.v7.widget.RecyclerView>-->
+        <!--<include layout="@layout/include_cart_nodata"/>-->
+    <!--</RelativeLayout>-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="54dp"
