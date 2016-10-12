@@ -47,9 +47,6 @@ public class ClassifyFragment extends BaseFragment implements MyHttp.MyHttpResul
     private ImageView iv_pop;
     private ClassifyGvAdapter gvAdapter;
     private PopupWindow popupWindow;
-    //    private RecyclerView rv_pop;
-//    private PopupWindow popupWindow;
-//    private LinearLayout ll_root;
 
     public static ClassifyFragment getInstance(){
         if(fragment == null){
@@ -73,7 +70,6 @@ public class ClassifyFragment extends BaseFragment implements MyHttp.MyHttpResul
     }
 
     private void initView() {
-//        ll_root = (LinearLayout) view.findViewById(R.id.ll_root);
         indicator_classify = (ScrollIndicatorView) view.findViewById(R.id.indicator_classify);
         iv_search = (ImageView) view.findViewById(R.id.iv_search);
         iv_pop = (ImageView) view.findViewById(R.id.iv_pop);
@@ -187,26 +183,5 @@ public class ClassifyFragment extends BaseFragment implements MyHttp.MyHttpResul
         });
         gv_classify.setAdapter(gvAdapter);
     }
-
-
-//    private void createPopMore() {
-//        View popView = LayoutInflater.from(mActivity).inflate(R.layout.pop_classify, null);
-//        rv_pop = (RecyclerView) popView.findViewById(R.id.rv_pop);
-//        popupWindow = new PopupWindow(popView, ViewGroup.LayoutParams.MATCH_PARENT,
-//                ViewGroup.LayoutParams.WRAP_CONTENT);
-//        popupWindow.setBackgroundDrawable(new BitmapDrawable());
-//        popupWindow.setFocusable(true);
-//        popupWindow.setOutsideTouchable(true);
-//        popupWindow.setTouchable(true);
-//        rv_pop.setOverScrollMode(View.OVER_SCROLL_NEVER);
-//        ClassifyPopRVAdapter popRVAdapter = new ClassifyPopRVAdapter(mActivity,
-//                categoryInfos);
-//        GridLayoutManager manager = new GridLayoutManager(mActivity, 3);
-//        GridDecoration decoration = new GridDecoration(0, BaseValue.dp2px(1),
-//                getResources().getColor(R.color.myline), true);
-//        rv_pop.addItemDecoration(decoration);
-//        rv_pop.setLayoutManager(manager);
-//        rv_pop.setAdapter(popRVAdapter);
-//    }
 
 }

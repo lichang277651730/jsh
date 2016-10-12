@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
+import com.amap.api.location.AMapLocationClient;
 import com.common.base.BaseApplication;
+import com.common.util.CodeCountDownTimer;
 import com.cqfrozen.jsh.activity.MainActivity;
 import com.cqfrozen.jsh.cart.CartManager;
 import com.cqfrozen.jsh.constants.Constants;
@@ -23,11 +25,15 @@ public class MyApplication extends BaseApplication {
     public static UserInfo userInfo;
     public static SigninInfo signinInfo;
     public static CartManager cartManager;
+    public static CodeCountDownTimer downTimer;
+    public static AMapLocationClient locationClient;
 
     @Override
     public void onCreate() {
         super.onCreate();
         instance = this;
+        downTimer = new CodeCountDownTimer(60000, 100);
+        locationClient = new AMapLocationClient(this);
         setInit();
     }
 

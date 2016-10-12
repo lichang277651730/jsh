@@ -10,6 +10,7 @@
     <color name="transparency">#00000000</color>
     <!--主题色-->
     <color name="main">#55B2FF</color>
+    <color name="almain">#7755B2FF</color>
 
     <color name="rb_txt_pre">#55B2FF</color>
     <color name="rb_txt_nor">#c7c8cc</color>

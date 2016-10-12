@@ -78,7 +78,9 @@
                   android:theme="@style/SwipeBackTheme"/>
         <activity android:name=".center.LoginActivity"
                   android:theme="@style/SwipeBackTheme"/>
-        <activity android:name=".center.RegisterActivity"
+        <activity android:name=".center.Register1Activity"
+                  android:theme="@style/SwipeBackTheme"/>
+        <activity android:name=".center.Register2Activity"
                   android:theme="@style/SwipeBackTheme"/>
         <activity android:name=".center.InformationActivity"
                   android:theme="@style/SwipeBackTheme"/>

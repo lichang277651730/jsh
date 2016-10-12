@@ -12,6 +12,7 @@ import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.adapter.LocationAdapter;
 import com.cqfrozen.jsh.entity.LocationInfo;
 import com.cqfrozen.jsh.main.MyActivity;
+import com.cqfrozen.jsh.main.MyApplication;
 import com.cqfrozen.jsh.volleyhttp.MyHttp;
 
 import java.util.ArrayList;
@@ -32,7 +33,6 @@ public class LocationActivity extends MyActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location);
-        locationClient = new AMapLocationClient(getApplicationContext());
         initView();
         initLV();
         getData();
@@ -42,8 +42,8 @@ public class LocationActivity extends MyActivity {
         setMyTitle("重庆");
         tv_cur_address = (TextView) findViewById(R.id.tv_cur_address);
         lv_location = (ListView) findViewById(R.id.lv_location);
-        locationClient.startLocation();
-        AMapLocation mapLocation = locationClient.getLastKnownLocation();
+        MyApplication.locationClient.startLocation();
+        AMapLocation mapLocation = MyApplication.locationClient.getLastKnownLocation();
         String locationStr = mapLocation.getDistrict();
         tv_cur_address.setText(locationStr);
     }

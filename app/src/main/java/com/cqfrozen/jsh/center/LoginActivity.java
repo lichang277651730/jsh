@@ -4,8 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.common.widget.MyEditText;
@@ -21,11 +24,15 @@ import com.cqfrozen.jsh.volleyhttp.MyHttp;
  */
 public class LoginActivity extends MyActivity implements View.OnClickListener {
 
+    private static final int TAG_PWD_SHOW = 1;
+    private static final int TAG_PWD_HIDDEN = 2;
+
     private MyEditText et_phone;
     private MyEditText et_password;
     private Button btn_login;
     private String phoneStr;
     private TextView tv_regist;
+    private ImageView iv_see_pwd;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,12 +43,15 @@ public class LoginActivity extends MyActivity implements View.OnClickListener {
     }
 
     private void initView() {
+        setMyTitle("");
         et_phone = (MyEditText) findViewById(R.id.et_phone);
         et_password = (MyEditText) findViewById(R.id.et_password);
         tv_regist = (TextView) findViewById(R.id.tv_regist);
         btn_login = (Button) findViewById(R.id.btn_login);
+        iv_see_pwd = (ImageView) findViewById(R.id.iv_see_pwd);
         btn_login.setOnClickListener(this);
         tv_regist.setOnClickListener(this);
+        initShowHiddenPwdView();
     }
 
     @Override
@@ -51,7 +61,7 @@ public class LoginActivity extends MyActivity implements View.OnClickListener {
                 goLogin();
                 break;
             case R.id.tv_regist:
-                startActivity(new Intent(this, RegisterActivity.class));
+                startActivity(new Intent(this, Register1Activity.class));
                 break;
             default:
                 break;
@@ -94,4 +104,31 @@ public class LoginActivity extends MyActivity implements View.OnClickListener {
         finish();
     }
 
+    /**
+     * 显示和隐藏第一次输入的密码
+     */
+    private void initShowHiddenPwdView() {
+
+        iv_see_pwd.setTag(TAG_PWD_HIDDEN);
+        iv_see_pwd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int curPwdTad = (int) v.getTag();
+                if(curPwdTad == TAG_PWD_HIDDEN){//当前是隐藏密码，点击显示密码
+                    et_password.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    iv_see_pwd.setTag(TAG_PWD_SHOW);
+                }else if(curPwdTad == TAG_PWD_SHOW){//当前是显示密码，点击隐藏密码
+                    et_password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    iv_see_pwd.setTag(TAG_PWD_HIDDEN);
+                }
+                setSlection(et_password);
+            }
+        });
+    }
+
+    private void setSlection(MyEditText etView) {
+        if(etView.getText() != null && !etView.getText().equals("")){
+            etView.setSelection(etView.getText().length());
+        }
+    }
 }

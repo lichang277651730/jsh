@@ -2,7 +2,6 @@ package com.cqfrozen.jsh.cart;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.SparseArray;
 
 import com.cqfrozen.jsh.entity.GoodsInfo;
@@ -71,12 +70,24 @@ public class CartManager {
     }
 
     /**
-     * 删除购物车数据
+     * 删除单个购物车数据
      */
     public void delete(CartGoodsInfo cartGoodsInfo) {
         cartGoods.delete(cartGoodsInfo.g_id.intValue());
         commit();
     }
+
+    /**
+     * 删除多个购物车数据
+     */
+    public void delete(List<CartGoodsInfo> cartGoodsInfos) {
+        for(int i = 0; i < cartGoodsInfos.size(); i++){
+            delete(cartGoodsInfos.get(i));
+        }
+    }
+
+
+
 
     /**
      * 添加单个商品购物车
@@ -199,7 +210,6 @@ public class CartManager {
                 checkedNum++;
             }
         }
-        Log.d("isAllChecked", "checkedNum:" + checkedNum + ":cartGoods:" + cartGoods.size());
         if(checkedNum == cartGoods.size()){
             return true;
         }else {

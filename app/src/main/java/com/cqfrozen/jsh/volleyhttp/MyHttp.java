@@ -116,8 +116,6 @@ public class MyHttp {
                                        httpTodo) {
         String url = SERVER + "Cart/addcart";
         params.clear();
-        //TODO 删除log
-//        Log.d("UserInfoData", g_id + ":" + area_id  + ":" + count + ":" + MyApplication.token);
         params.put("g_id", g_id + "");
         params.put("area_id", area_id + "");
         params.put("count", count + "");
@@ -142,7 +140,7 @@ public class MyHttp {
     /**
      * 修改购物车数量
      */
-    public static void editCount(HttpForVolley http, Integer which, Long c_id, int area_id, int count, HttpForVolley.HttpTodo
+    public static void editCount(HttpForVolley http, Integer which, String c_id, int area_id, int count, HttpForVolley.HttpTodo
             httpTodo) {
         String url = SERVER + "Cart/editcount";
         params.clear();
@@ -159,7 +157,7 @@ public class MyHttp {
     /**
      * 删除购物车商品
      */
-    public static void deleteCart(HttpForVolley http, Integer which, int type, Long c_id,  HttpForVolley.HttpTodo
+    public static void deleteCart(HttpForVolley http, Integer which, int type, String c_id,  HttpForVolley.HttpTodo
             httpTodo) {
         String url = SERVER + "Cart/deletecart";
         params.clear();
@@ -167,6 +165,8 @@ public class MyHttp {
             params.put("c_id", c_id + "");
         }else if(type == 2){
             params.put("c_id", "");
+        }else if(type == 3){
+            params.put("c_id", c_id + "");
         }
         params.put("type", type + "");
         params.put("token", MyApplication.token);
@@ -271,6 +271,46 @@ public class MyHttp {
         }.getType();
         toBean(GET, http, which, params, url, myHttpResult, type);
     }
+
+    /**
+     * 请求验证码：
+     * type = 1 注册请求
+     */
+    public static void sendCode(HttpForVolley http, Integer which, int type, String mobile_num,  HttpForVolley.HttpTodo
+            httpTodo) {
+        String url = SERVER + "User/sendcode";
+        params.clear();
+        params.put("type", type + "");
+        params.put("mobile_num", mobile_num);
+        http.goTo(POST, which, params, url, httpTodo);
+    }
+
+    /**
+     * 注册
+     */
+    public static void register(HttpForVolley http, Integer which, String mobile_num, String password,
+                                String store_name, String contacts, String area_id, String address,
+                                String msg_code, HttpForVolley.HttpTodo httpTodo) {
+        String url = SERVER + "User/register";
+        params.clear();
+        params.put("mobile_num", mobile_num);
+        params.put("password", MD5Util.encodeMD5(password));
+        params.put("store_name", store_name);
+        params.put("contacts", contacts);
+        params.put("area_id", area_id);
+        params.put("address", address);
+        params.put("msg_code", msg_code);
+        Log.d("register_params", "mobile_num:"+ mobile_num + "," +
+                "password:"+ password + "," +
+                "store_name:"+ store_name + "," +
+                "contacts:"+ contacts + "," +
+                "area_id:"+ area_id + "," +
+                "address:"+ address + "," +
+                "msg_code:"+ msg_code);
+        http.goTo(POST, which, params, url, httpTodo);
+    }
+
+
 
     private static void toBean(int method, final HttpForVolley http, Integer which,
                                HashMap<String, String> httpMap, String url,

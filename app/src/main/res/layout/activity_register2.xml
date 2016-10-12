@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true"
+
+    android:orientation="vertical"
+    tools:context=".center.Register1Activity">
+
+    <include
+        layout="@layout/include_title"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingTop="32dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="32dp"
+            android:src="@mipmap/icon_register_shop"/>
+
+        <com.common.widget.MyEditText
+            android:id="@+id/et_shop_name"
+            style="@style/text_15sp_black"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:background="@color/transparency"
+            android:hint="店名名称"
+            android:maxLength="30"
+            android:textColor="@color/black"
+            android:textColorHint="@color/myhint"/>
+    </LinearLayout>
+
+    <View style="@style/HorizontalDividerLine"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="32dp"
+            android:src="@mipmap/icon_register_shop_manager"/>
+
+        <com.common.widget.MyEditText
+            android:id="@+id/et_shop_manager"
+            style="@style/text_15sp_black"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:layout_weight="1"
+            android:background="@color/transparency"
+            android:hint="店长姓名"
+            android:maxLength="10"
+            android:textColor="@color/black"
+            android:textColorHint="@color/myhint"/>
+
+    </LinearLayout>
+
+    <View style="@style/HorizontalDividerLine"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="32dp"
+            android:src="@mipmap/icon_register_location_area"/>
+
+        <com.common.widget.MyEditText
+            android:id="@+id/et_location"
+            style="@style/text_15sp_black"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:background="@color/transparency"
+            android:hint="所属区域"
+            android:focusable="false"
+            android:maxLength="10"
+            android:textColor="@color/black"
+            android:textColorHint="@color/myhint"/>
+
+        <TextView
+            android:id="@+id/tv_location"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            android:gravity="center"
+            android:background="@drawable/shape_bule_round_bg"
+            android:padding="4dp"
+            android:text="点击定位"
+            android:textColor="@color/white"
+            android:textSize="16sp"/>
+
+    </LinearLayout>
+
+    <View style="@style/HorizontalDividerLine"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="32dp"
+            android:src="@mipmap/icon_register_address_detail"/>
+
+        <com.common.widget.MyEditText
+            android:id="@+id/et_address"
+            style="@style/text_15sp_black"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:layout_weight="1"
+            android:background="@color/transparency"
+            android:hint="详细地址  请仔细填写 该地址为收货地址"
+            android:textColor="@color/black"
+            android:textColorHint="@color/myhint"/>
+    </LinearLayout>
+    <View style="@style/HorizontalDividerLine"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/iv_allow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="32dp"
+            android:paddingLeft="4dp"
+            android:src="@mipmap/icon_register_allow_yes"/>
+
+        <TextView
+            android:id="@+id/tv_allow"
+            style="@style/text_15sp_black"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:layout_weight="1"
+            android:maxLength="24"
+            android:text="我已阅读并同意"
+            android:textColor="@color/myblack"/>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@color/white">
+
+        <Button
+            android:id="@+id/btn_register"
+            style="@style/text_16sp_white"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/sl_blue2gray_btn_bg"
+            android:gravity="center"
+            android:text="注册"
+            android:textSize="18sp"/>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"/>
+
+
+</LinearLayout>

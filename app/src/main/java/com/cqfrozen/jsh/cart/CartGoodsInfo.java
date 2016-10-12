@@ -7,7 +7,7 @@ import com.cqfrozen.jsh.entity.BaseEntity;
  */
 public class CartGoodsInfo extends BaseEntity {
     public Long g_id;//商品id
-    public Long c_id;//购物车id
+    public String c_id;//购物车id
     public String g_name;//商品名字
     public double market_price;//市场价
     public double now_price;//现价

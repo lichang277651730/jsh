@@ -31,6 +31,10 @@ import java.util.List;
  */
 public class CartRVAdapter extends RecyclerView.Adapter<CartRVAdapter.MyViewHolder> {
 
+    private static final int TYEP_ONE = 1;//删除单个
+    private static final int TYEP_MORE = 3;//删除多个
+    private static final int TYEP_ALL = 2;//删除全部
+
     private List<CartGoodsInfo> cartGoodsInfos;
     private Context context;
     private TextView tv_total;
@@ -193,7 +197,6 @@ public class CartRVAdapter extends RecyclerView.Adapter<CartRVAdapter.MyViewHold
 //            }
 //        }
         //改之后 第二个版本 逻辑 没问题 只是删除视图 有点不对位
-        Log.d("cartGoodsInfosize", ":" + cartGoodsInfos.size());
 //        for(final Iterator<CartGoodsInfo> iterator = cartGoodsInfos.iterator(); iterator.hasNext();){
 //            final CartGoodsInfo goodsInfo = iterator.next();
 //            if(cartManager.isAllChecked()){
@@ -234,8 +237,59 @@ public class CartRVAdapter extends RecyclerView.Adapter<CartRVAdapter.MyViewHold
 //            }
 //        }
         //第三个版本
+//        if(cartManager.isAllChecked()){//清空购物车
+//            MyHttp.deleteCart(http, null, 2, 0L, new HttpForVolley.HttpTodo() {
+//                    @Override
+//                    public void httpTodo(Integer which, JSONObject response) {
+//                        ToastUtil.showToast(context, response.optString("msg"));
+//                        int code = response.optInt("code");
+//                        if(code != 0){
+//                            return;
+//                        }
+//                        cartGoodsInfos.clear();
+//                        cartManager.clear();
+//                        notifyDataSetChanged();
+//                        showTotalPrice();
+//                    }
+//                });
+//        }else {
+//            checkedList.clear();
+//            for(final Iterator<CartGoodsInfo> iterator = cartGoodsInfos.iterator(); iterator.hasNext();){
+//                final CartGoodsInfo goodsInfo = iterator.next();
+//                if(goodsInfo.isChecked){
+//                    checkedList.add(goodsInfo);
+//                }
+//            }
+//            if(checkedList.size() == 0){
+//                return;
+//            }
+//            //TODO 删除一个没问题，删除全部没问题，删除2个有问题，只能删除一个
+//            Log.d("cartGoodsInfosize", "被选中商品个数" + checkedList.size());
+//            for(int i = 0; i < checkedList.size(); i++){
+//                final CartGoodsInfo checkedGoods = checkedList.get(i);
+//                Log.d("cartGoodsInfosize", "被选中商品一次");
+//                MyHttp.deleteCart(http, null, 1, checkedGoods.c_id, new HttpForVolley.HttpTodo() {
+//                    @Override
+//                    public void httpTodo(Integer which, JSONObject response) {
+//                        Log.d("cartGoodsInfosize", ":" + "网络请求一次");
+//                        ToastUtil.showToast(context, response.optString("msg"));
+//                        int code = response.optInt("code");
+//                        if(code != 0){
+//                            return;
+//                        }
+//                        cartManager.delete(checkedGoods);
+//                        cartGoodsInfos.remove(checkedGoods);
+//                        notifyDataSetChanged();
+//                        showTotalPrice();
+//                    }
+//                });
+//            }
+//        }
+        //第四个版本
+        //TODO 删除log
+        Log.d("cartGoodsInfosize", ":" + cartGoodsInfos.size());
         if(cartManager.isAllChecked()){//清空购物车
-            MyHttp.deleteCart(http, null, 2, 0L, new HttpForVolley.HttpTodo() {
+            MyHttp.deleteCart(http, null, TYEP_ALL, "", new HttpForVolley.HttpTodo() {
                     @Override
                     public void httpTodo(Integer which, JSONObject response) {
                         ToastUtil.showToast(context, response.optString("msg"));
@@ -257,18 +311,16 @@ public class CartRVAdapter extends RecyclerView.Adapter<CartRVAdapter.MyViewHold
                     checkedList.add(goodsInfo);
                 }
             }
-            if(checkedList.size() == 0){
+            if(checkedList.size() == 0){//一个都没选，就点删除按钮
                 return;
             }
-            //TODO 删除一个没问题，删除全部没问题，删除2个有问题，只能删除一个
-            Log.d("cartGoodsInfosize", "被选中商品个数" + checkedList.size());
-            for(int i = 0; i < checkedList.size(); i++){
-                final CartGoodsInfo checkedGoods = checkedList.get(i);
-                Log.d("cartGoodsInfosize", "被选中商品一次");
-                MyHttp.deleteCart(http, null, 1, checkedGoods.c_id, new HttpForVolley.HttpTodo() {
+
+            if(checkedList.size() == 1){//删除一个
+                final CartGoodsInfo checkedGoods = checkedList.get(0);
+                MyHttp.deleteCart(http, null, TYEP_ONE, checkedList.get(0).c_id, new HttpForVolley.HttpTodo() {
                     @Override
                     public void httpTodo(Integer which, JSONObject response) {
-                        Log.d("cartGoodsInfosize", ":" + "网络请求一次");
+
                         ToastUtil.showToast(context, response.optString("msg"));
                         int code = response.optInt("code");
                         if(code != 0){
@@ -281,7 +333,40 @@ public class CartRVAdapter extends RecyclerView.Adapter<CartRVAdapter.MyViewHold
                     }
                 });
             }
+
+            if(checkedList.size() > 1){//删除多个
+                String c_id_str = parseCheckedList(checkedList);
+                MyHttp.deleteCart(http, null, TYEP_MORE, c_id_str, new HttpForVolley.HttpTodo() {
+                    @Override
+                    public void httpTodo(Integer which, JSONObject response) {
+                        ToastUtil.showToast(context, response.optString("msg"));
+                        int code = response.optInt("code");
+                        if(code != 0){
+                            return;
+                        }
+                        cartManager.delete(checkedList);
+                        cartGoodsInfos.removeAll(checkedList);
+                        notifyDataSetChanged();
+                        showTotalPrice();
+                    }
+                });
+            }
+
         }
+    }
+
+    /**
+     * 选择多个删除，将多个选中的购物车商品c_id构建成"1,2,3,4"
+     */
+    private String parseCheckedList(ArrayList<CartGoodsInfo> checkedList) {
+        String c_id_str = "";
+        for(int i = 0; i < checkedList.size(); i++){
+            c_id_str = c_id_str + checkedList.get(i).c_id + ",";
+        }
+        if(c_id_str.endsWith(",")){
+            c_id_str = c_id_str.substring(0, c_id_str.length() - 1);
+        }
+        return c_id_str;
     }
 
     @Override

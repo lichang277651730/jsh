@@ -292,9 +292,12 @@ public class CartFragment extends BaseFragment implements View.OnClickListener {
         }
     }
 
+    /**
+     * 点击删除按钮
+     */
     private void deleteCart() {
         cartAdapter.delete();
-        cartAdapter.notifyDataSetChanged();
+//        cartAdapter.notifyDataSetChanged();
         if(cartAdapter.isNull()){
             setNoDataView();
         }
