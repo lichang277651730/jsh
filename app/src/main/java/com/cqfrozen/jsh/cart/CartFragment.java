@@ -1,7 +1,5 @@
 package com.cqfrozen.jsh.cart;
 
-import android.content.Intent;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
@@ -22,9 +20,9 @@ import com.common.widget.RefreshLayout;
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.activity.HomeActivity;
 import com.cqfrozen.jsh.entity.CartNotifyInfo;
-import com.cqfrozen.jsh.home.SearchActivity;
 import com.cqfrozen.jsh.main.MyApplication;
 import com.cqfrozen.jsh.main.MyFragment;
+import com.cqfrozen.jsh.util.ShortcutPop;
 import com.cqfrozen.jsh.volleyhttp.MyHttp;
 
 import java.util.ArrayList;
@@ -120,29 +118,14 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
         btn_del.setOnClickListener(this);
         iv_shotcut.setOnClickListener(this);
         refresh_cart.setOnRefreshListener(this);
-        createPop();
 //        cb_all.setChecked(true);
-
-    }
-
-    private void createPop() {
-        View popView = LayoutInflater.from(mActivity).inflate(R.layout.pop_shortcut, null);
-        View pop_shortcut_search = popView.findViewById(R.id.pop_shortcut_search);
-        View pop_shortcut_home = popView.findViewById(R.id.pop_shortcut_home);
-        pop_shortcut_search.setOnClickListener(this);
-        pop_shortcut_home.setOnClickListener(this);
-        popupWindow = new PopupWindow(popView, ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
-        popupWindow.setTouchable(true);
-        popupWindow.setOutsideTouchable(true);
-        popupWindow.setFocusable(true);
-        popupWindow.setBackgroundDrawable(new BitmapDrawable());
         //TODO 以后用application里的用户判断
         if(MyApplication.token.isEmpty()){
             ll_notify.setVisibility(View.GONE);
         }else {
             ll_notify.setVisibility(View.VISIBLE);
         }
+
     }
 
     private void initRV() {
@@ -297,16 +280,7 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
                 deleteCart();
                 break;
             case R.id.iv_shotcut://点击shotcut图标
-                popupWindow.showAsDropDown(iv_shotcut, BaseValue.dp2px(-6), BaseValue.dp2px
-                        (8));
-                break;
-            case R.id.pop_shortcut_search://点击popview上的搜索
-                startActivity(new Intent(mActivity, SearchActivity.class));
-                popupWindow.dismiss();
-                break;
-            case R.id.pop_shortcut_home://点击popview上的首页
-                ((HomeActivity)mActivity).setHomeFragment();
-                popupWindow.dismiss();
+                ShortcutPop.getInstance(mActivity).showPop(iv_shotcut);
                 break;
             default:
                 break;
@@ -318,7 +292,6 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
      */
     private void deleteCart() {
         cartAdapter.delete();
-//        cartAdapter.notifyDataSetChanged();
         if(cartAdapter.isNull()){
             setNoDataView();
         }
@@ -330,7 +303,6 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
         page = 1;
         cartGoodsInfos.clear();
         getData();
-//        doEdit();
     }
 
     @Override

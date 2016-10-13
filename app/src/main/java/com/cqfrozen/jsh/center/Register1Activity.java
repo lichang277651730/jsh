@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.text.method.HideReturnsTransformationMethod;
-import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -15,6 +13,7 @@ import com.common.widget.MyEditText;
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.main.MyActivity;
 import com.cqfrozen.jsh.main.MyApplication;
+import com.cqfrozen.jsh.util.ShowHiddenPwdUtil;
 import com.cqfrozen.jsh.util.ValidatorUtil;
 
 /**
@@ -25,8 +24,6 @@ public class Register1Activity extends MyActivity implements View.OnClickListene
     private static final int TAG_ALLOW_YES = 1;
     private static final int TAG_ALLOW_NO = 2;
 
-    private static final int TAG_PWD_SHOW = 1;
-    private static final int TAG_PWD_HIDDEN = 2;
 
     private MyEditText et_phone;
     private MyEditText et_verify_code;
@@ -65,32 +62,9 @@ public class Register1Activity extends MyActivity implements View.OnClickListene
         tv_get_verify.setOnClickListener(this);
         btn_next.setOnClickListener(this);
         iv_see_again_pwd.setOnClickListener(this);
-        initAllow();
-        initShowHiddenPwdView();
-        initShowHiddenPwdAgainView();
-    }
-
-    private void initAllow() {
-        iv_allow.setTag(TAG_ALLOW_YES);
-        iv_allow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int curAllowTag = (int) v.getTag();
-                if(curAllowTag == TAG_ALLOW_YES){//当前是同意，点击变不同意
-                    iv_allow.setImageResource(R.mipmap.icon_register_allow_not);
-                    tv_allow.setTextColor(getResources().getColor(R.color.mygray));
-                    btn_next.setEnabled(false);
-                    iv_allow.setTag(TAG_ALLOW_NO);
-                    btn_next.setBackgroundResource(R.drawable.shape_no_press_btn_bg);
-                }else if(curAllowTag == TAG_ALLOW_NO){//当前是不同意，点击变同意
-                    iv_allow.setImageResource(R.mipmap.icon_register_allow_yes);
-                    tv_allow.setTextColor(getResources().getColor(R.color.myblack));
-                    btn_next.setEnabled(true);
-                    iv_allow.setTag(TAG_ALLOW_YES);
-                    btn_next.setBackgroundResource(R.drawable.sl_blue2gray_btn_bg);
-                }
-            }
-        });
+        ShowHiddenPwdUtil.initAllow(iv_allow, tv_allow, btn_next);
+        ShowHiddenPwdUtil.initShowHiddenPwdView(iv_see_once_pwd, et_pwd_once);
+        ShowHiddenPwdUtil.initShowHiddenPwdView(iv_see_again_pwd, et_pwd_again);
     }
 
     @Override
@@ -118,6 +92,7 @@ public class Register1Activity extends MyActivity implements View.OnClickListene
         }
         MyApplication.downTimer.going();
         MyApplication.downTimer.setTextView(tv_get_verify);
+        //TODO 打开发送验证码接口调用
 //        MyHttp.sendCode(http, null, 1, phoneStr, new HttpForVolley.HttpTodo() {
 //            @Override
 //            public void httpTodo(Integer which, JSONObject response) {
@@ -151,7 +126,7 @@ public class Register1Activity extends MyActivity implements View.OnClickListene
             showToast("请输入6-12位密码");
             return;
         }
-        if(!pwdAgainStr.equals(pwdOnceStr)){
+        if(!pwdOnceStr.equals(pwdAgainStr)){
             showToast("两次输入的密码不一致");
             return;
         }
@@ -164,53 +139,4 @@ public class Register1Activity extends MyActivity implements View.OnClickListene
 
     }
 
-    /**
-     * 显示和隐藏第一次输入的密码
-     */
-    private void initShowHiddenPwdView() {
-
-        iv_see_once_pwd.setTag(TAG_PWD_HIDDEN);
-        iv_see_once_pwd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int curPwdTad = (int) v.getTag();
-                if(curPwdTad == TAG_PWD_HIDDEN){//当前是隐藏密码，点击显示密码
-                    et_pwd_once.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                    iv_see_once_pwd.setTag(TAG_PWD_SHOW);
-                }else if(curPwdTad == TAG_PWD_SHOW){//当前是显示密码，点击隐藏密码
-                    et_pwd_once.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                    iv_see_once_pwd.setTag(TAG_PWD_HIDDEN);
-                }
-                setSlection(et_pwd_once);
-            }
-        });
-    }
-
-    private void setSlection(MyEditText etView) {
-        if(etView.getText() != null && !etView.getText().equals("")){
-            etView.setSelection(etView.getText().length());
-        }
-    }
-
-    /**
-     * 显示和隐藏确认密码
-     */
-    private void initShowHiddenPwdAgainView() {
-
-        iv_see_again_pwd.setTag(TAG_PWD_HIDDEN);
-        iv_see_again_pwd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int curPwdTad = (int) v.getTag();
-                if(curPwdTad == TAG_PWD_HIDDEN){//当前是隐藏密码，点击显示密码
-                    et_pwd_again.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                    iv_see_again_pwd.setTag(TAG_PWD_SHOW);
-                }else if(curPwdTad == TAG_PWD_SHOW){//当前是显示密码，点击隐藏密码
-                    et_pwd_again.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                    iv_see_again_pwd.setTag(TAG_PWD_HIDDEN);
-                }
-                setSlection(et_pwd_again);
-            }
-        });
-    }
 }

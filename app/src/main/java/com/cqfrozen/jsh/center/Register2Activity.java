@@ -14,6 +14,7 @@ import com.common.widget.MyEditText;
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.main.MyActivity;
 import com.cqfrozen.jsh.main.MyApplication;
+import com.cqfrozen.jsh.util.ShowHiddenPwdUtil;
 import com.cqfrozen.jsh.volleyhttp.MyHttp;
 
 import org.json.JSONObject;
@@ -82,30 +83,7 @@ public class Register2Activity extends MyActivity implements View.OnClickListene
         tv_location.setOnClickListener(this);
         tv_allow.setOnClickListener(this);
         btn_register.setOnClickListener(this);
-        initAllow();
-    }
-
-    private void initAllow() {
-        iv_allow.setTag(TAG_ALLOW_YES);
-        iv_allow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int curTag = (int) v.getTag();
-                if(curTag == TAG_ALLOW_YES){//当前是同意，点击变不同意
-                    iv_allow.setImageResource(R.mipmap.icon_register_allow_not);
-                    tv_allow.setTextColor(getResources().getColor(R.color.mygray));
-                    btn_register.setEnabled(false);
-                    iv_allow.setTag(TAG_ALLOW_NO);
-                    btn_register.setBackgroundResource(R.drawable.shape_no_press_btn_bg);
-                }else if(curTag == TAG_ALLOW_NO){//当前是不同意，点击变同意
-                    iv_allow.setImageResource(R.mipmap.icon_register_allow_yes);
-                    tv_allow.setTextColor(getResources().getColor(R.color.myblack));
-                    btn_register.setEnabled(true);
-                    iv_allow.setTag(TAG_ALLOW_YES);
-                    btn_register.setBackgroundResource(R.drawable.sl_blue2gray_btn_bg);
-                }
-            }
-        });
+        ShowHiddenPwdUtil.initAllow(iv_allow, tv_allow, btn_register);
     }
 
     @Override

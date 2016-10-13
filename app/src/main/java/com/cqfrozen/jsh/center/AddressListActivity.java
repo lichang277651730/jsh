@@ -28,6 +28,7 @@ public class AddressListActivity extends MyActivity implements View.OnClickListe
     private RecyclerView rv_addresslist;
     private List<AddressInfo> addressInfos = new ArrayList<>();
     private AddressAdapter adapter;
+    private String s_id;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,11 +55,11 @@ public class AddressListActivity extends MyActivity implements View.OnClickListe
         rv_addresslist.addItemDecoration(decoration);
         rv_addresslist.setLayoutManager(manager);
         rv_addresslist.setAdapter(adapter);
-
     }
 
     private void getData() {
         MyHttp.addressList(http, null, new MyHttp.MyHttpResult() {
+
             @Override
             public void httpResult(Integer which, int code, String msg, Object bean) {
                 if(code != 0){
@@ -70,6 +71,7 @@ public class AddressListActivity extends MyActivity implements View.OnClickListe
                 if(addressInfos == null || addressInfos.size() == 0){
                     return;
                 }
+                s_id = addressInfos.get(0).s_id;//为添加新地址需要参数：s_id
                 adapter.notifyDataSetChanged();
             }
         });
@@ -78,8 +80,10 @@ public class AddressListActivity extends MyActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.rl_add:
-                startActivity(new Intent(this, AddressAddActivity.class));
+            case R.id.rl_add://添加新收货地址
+                Intent intent = new Intent(this, AddressAddActivity.class);
+                intent.putExtra("s_id", s_id);
+                startActivity(intent);
                 break;
             default:
                 break;

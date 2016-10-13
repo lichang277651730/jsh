@@ -300,17 +300,53 @@ public class MyHttp {
         params.put("area_id", area_id);
         params.put("address", address);
         params.put("msg_code", msg_code);
-        Log.d("register_params", "mobile_num:"+ mobile_num + "," +
-                "password:"+ password + "," +
-                "store_name:"+ store_name + "," +
-                "contacts:"+ contacts + "," +
-                "area_id:"+ area_id + "," +
-                "address:"+ address + "," +
-                "msg_code:"+ msg_code);
+//        Log.d("register_params", "mobile_num:"+ mobile_num + "," +
+//                "password:"+ password + "," +
+//                "store_name:"+ store_name + "," +
+//                "contacts:"+ contacts + "," +
+//                "area_id:"+ area_id + "," +
+//                "address:"+ address + "," +
+//                "msg_code:"+ msg_code);
         http.goTo(POST, which, params, url, httpTodo);
     }
 
+    /**
+     * 用户修改密码
+     */
+    public static void pd(HttpForVolley http, Integer which, String pass_word, String new_pass_word, HttpForVolley.HttpTodo httpTodo) {
+        String url = SERVER + "User/pd";
+        params.clear();
+        params.put("pass_word", MD5Util.encodeMD5(pass_word));
+        params.put("new_pass_word", MD5Util.encodeMD5(new_pass_word));
+        params.put("token", MyApplication.token);
+        http.goTo(POST, which, params, url, httpTodo);
+    }
 
+    /**
+     * 添加收货地址
+     */
+    public static void addAddress(HttpForVolley http,Integer which, String china_name,
+                                   String mobile_num, String address, int is_default, String s_id,
+                                   String area_id,  HttpForVolley.HttpTodo httpTodo) {
+
+        String url = SERVER + "Personal/addraddress";
+        params.clear();
+        params.put("china_name", china_name);
+        params.put("mobile_num", mobile_num);
+        params.put("address", address);
+        params.put("s_id", s_id);
+        params.put("area_id", area_id);
+        params.put("is_default", is_default + "");
+        params.put("token", MyApplication.token);
+        Log.d("addAddress_params", "china_name:"+ china_name + "," +
+                "mobile_num:"+ mobile_num + "," +
+                "address:"+ address + "," +
+                "s_id:"+ s_id + "," +
+                "area_id:"+ area_id + "," +
+                "is_default:"+ is_default + "," +
+                "token:"+  MyApplication.token);
+        http.goTo(POST, which, params, url, httpTodo);
+    }
 
     private static void toBean(int method, final HttpForVolley http, Integer which,
                                HashMap<String, String> httpMap, String url,

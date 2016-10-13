@@ -102,7 +102,6 @@ public class HomeActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         fragments.add(ClassifyFragment.getInstance());
         fragments.add(CartFragment.getInstance());
         fragments.add(MineFragment.getInstance());
-//        fragments.add(MineFragment1.getInstance());
         vp_home.setFragemnt(getSupportFragmentManager(), fragments);
         curFragment = fragments.get(0);
     }

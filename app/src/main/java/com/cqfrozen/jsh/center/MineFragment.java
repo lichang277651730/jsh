@@ -1,7 +1,6 @@
 package com.cqfrozen.jsh.center;
 
 import android.content.Intent;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -12,13 +11,11 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.common.base.BaseValue;
 import com.common.widget.MyHeadImageView;
 import com.cqfrozen.jsh.R;
-import com.cqfrozen.jsh.activity.HomeActivity;
-import com.cqfrozen.jsh.home.SearchActivity;
 import com.cqfrozen.jsh.main.MyApplication;
 import com.cqfrozen.jsh.main.MyFragment;
+import com.cqfrozen.jsh.util.ShortcutPop;
 
 /**
  * Created by Administrator on 2016/9/12.
@@ -75,15 +72,13 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
         iv_head.setOnClickListener(this);
         tv_login.setOnClickListener(this);
         tv_normal_buy.setOnClickListener(this);
-        createPop();
     }
-
-
 
     //每次切换到个人中心fragment时调用此方法
     @Override
     public void onShow() {
         super.onShow();
+        //TODO 初始化用户数据
         Log.d("MineFragment", "MineFragment123123123");
         if(isLogined()){//已经登陆的用户，就初始化用户数据
             showLogined();
@@ -112,19 +107,12 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.iv_setting:
+            case R.id.iv_setting://设置
+                //TODO 登陆拦截
                 startActivity(new Intent(mActivity, SettingActivity.class));
                 break;
             case R.id.iv_shotcut:
-                popupWindow.showAsDropDown(iv_shotcut, BaseValue.dp2px(-6), BaseValue.dp2px(8));
-                break;
-            case R.id.pop_shortcut_search:
-                startActivity(new Intent(mActivity, SearchActivity.class));
-                popupWindow.dismiss();
-                break;
-            case R.id.pop_shortcut_home:
-                ((HomeActivity)mActivity).setHomeFragment();
-                popupWindow.dismiss();
+                ShortcutPop.getInstance(mActivity).showPop(iv_shotcut);
                 break;
             case R.id.tv_lookall:
                 startActivity(new Intent(mActivity, OrderListActivity.class));
@@ -162,20 +150,4 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
                 break;
         }
     }
-
-
-    private void createPop() {
-        View popView = LayoutInflater.from(mActivity).inflate(R.layout.pop_shortcut, null);
-        View pop_shortcut_search = popView.findViewById(R.id.pop_shortcut_search);
-        View pop_shortcut_home = popView.findViewById(R.id.pop_shortcut_home);
-        pop_shortcut_search.setOnClickListener(this);
-        pop_shortcut_home.setOnClickListener(this);
-        popupWindow = new PopupWindow(popView, ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
-        popupWindow.setTouchable(true);
-        popupWindow.setOutsideTouchable(true);
-        popupWindow.setFocusable(true);
-        popupWindow.setBackgroundDrawable(new BitmapDrawable());
-    }
-
 }

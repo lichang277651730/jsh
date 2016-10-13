@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<com.common.widget.ReboundScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/scrollview"
     android:layout_width="match_parent"
@@ -400,4 +400,4 @@
                 android:text="@string/my_about_us"/>
         </LinearLayout>
     </LinearLayout>
-</ScrollView>
+</com.common.widget.ReboundScrollView>

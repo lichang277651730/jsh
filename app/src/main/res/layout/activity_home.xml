@@ -21,7 +21,7 @@
     <View style="@style/HorizontalDividerLine"/>
     <RelativeLayout
         android:layout_width="match_parent"
-        android:background="@color/alwhite"
+        android:background="@color/white"
         android:paddingTop="4dp"
         android:layout_height="54dp">
         <RadioGroup

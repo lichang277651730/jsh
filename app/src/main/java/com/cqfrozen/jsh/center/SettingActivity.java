@@ -19,6 +19,7 @@ public class SettingActivity extends MyActivity implements View.OnClickListener 
     private TextView tv_cache;
     private LinearLayout ll_cache;
     private LinearLayout ll_personal;
+    private LinearLayout ll_change_pwd;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -32,6 +33,8 @@ public class SettingActivity extends MyActivity implements View.OnClickListener 
         tv_cache = (TextView) findViewById(R.id.tv_cache);
         ll_personal = (LinearLayout) findViewById(R.id.ll_personal);
         ll_cache = (LinearLayout) findViewById(R.id.ll_cache);
+        ll_change_pwd = (LinearLayout) findViewById(R.id.ll_change_pwd);
+        ll_change_pwd.setOnClickListener(this);
         ll_personal.setOnClickListener(this);
         ll_cache.setOnClickListener(this);
         try {
@@ -44,16 +47,19 @@ public class SettingActivity extends MyActivity implements View.OnClickListener 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.ll_cache:
+            case R.id.ll_personal://个人信息设置
+                startActivity(new Intent(this, InformationActivity.class));
+                break;
+            case R.id.ll_change_pwd://修改密码
+                startActivity(new Intent(this, ChangePwdActivity.class));
+                break;
+            case R.id.ll_cache://清除缓存
                 try {
                     DataCleanManager.clearAllCache(this);
                     tv_cache.setText(DataCleanManager.getTotalCacheSize(this));
                 }catch (Exception e){
                     e.printStackTrace();
                 }
-                break;
-            case R.id.ll_personal:
-                startActivity(new Intent(this, InformationActivity.class));
                 break;
             default:
                 break;
