@@ -21,6 +21,7 @@ import com.cqfrozen.jsh.entity.GoodsResultInfo;
 import com.cqfrozen.jsh.entity.HomeBannerInfo;
 import com.cqfrozen.jsh.entity.HomeNotifyInfo;
 import com.cqfrozen.jsh.entity.LocationInfo;
+import com.cqfrozen.jsh.entity.SearchKwdInfo;
 import com.cqfrozen.jsh.entity.ShopInfo;
 import com.cqfrozen.jsh.entity.SigninInfo;
 import com.cqfrozen.jsh.main.MyApplication;
@@ -83,6 +84,32 @@ public class MyHttp {
         String url = SERVER + "Goods/goodstypelist/area_id/" + area_id +
                 "/page/" + page +"/g_type_id/" + g_type_id;
         Type type = new TypeToken<GoodsResultInfo>(){}.getType();
+        toBean(GET, http, which, null, url, myHttpResult, type);
+    }
+
+
+    /**
+     * 商品搜索
+     */
+    public static void goodsSearch(HttpForVolley http,Integer which, int page, String k_w, int px_v,
+                                 int asc_desc, MyHttpResult myHttpResult) {
+        String url = SERVER + "Goods/goodssearch";
+        params.clear();
+        params.put("page", page + "");
+        params.put("k_w", k_w);
+        params.put("px_v", px_v + "");
+        params.put("asc_desc", asc_desc + "");
+        params.put("token", MyApplication.token);
+        Type type = new TypeToken<GoodsResultInfo>(){}.getType();
+        toBean(GET, http, which, params, url, myHttpResult, type);
+    }
+
+    /**
+     * 热门搜索关键字
+     */
+    public static void hotkw(HttpForVolley http, Integer which, MyHttpResult myHttpResult) {
+        String url = SERVER + "Goods/hotkw";
+        Type type = new TypeToken<List<SearchKwdInfo>>(){}.getType();
         toBean(GET, http, which, null, url, myHttpResult, type);
     }
 
@@ -387,5 +414,7 @@ public class MyHttp {
     public interface MyHttpResult{
         void httpResult(Integer which, int code, String msg, Object bean);
     }
+
+
 
 }

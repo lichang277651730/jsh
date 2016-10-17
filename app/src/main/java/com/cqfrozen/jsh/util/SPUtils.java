@@ -1,6 +1,8 @@
 package com.cqfrozen.jsh.util;
 
 
+import android.text.TextUtils;
+
 import com.cqfrozen.jsh.main.MyApplication;
 
 public class SPUtils {
@@ -64,6 +66,45 @@ public class SPUtils {
 	
 	public static String getUserName(){
 		return MyApplication.userSp.getString("userName", "");
+	}
+
+	/**
+	 * 保存搜索过的关键字
+	 */
+	public static void setSearchKwd(String keyword){
+		String[] oldAry = getSearchKwd();
+		if(oldAry == null){
+			MyApplication.userSp.edit().putString("search_keyword", keyword).commit();
+		}else {
+			boolean isContains = false;
+			for(int i = 0; i < oldAry.length; i++){
+				if(oldAry[i].equals(keyword)){
+					isContains = true;
+				}
+			}
+			if(!isContains){
+				String kwdStr = MyApplication.userSp.getString("search_keyword", "");
+				kwdStr = kwdStr + "," + keyword;
+				MyApplication.userSp.edit().putString("search_keyword", kwdStr).commit();
+			}
+		}
+	}
+
+	public static String[] getSearchKwd(){
+		String search_keyword = MyApplication.userSp.getString("search_keyword", "");
+		if(!TextUtils.isEmpty(search_keyword)){
+			return parseToStringAry(search_keyword);
+		}
+		return null;
+	}
+
+	public static void clearSearchKwd(){
+		MyApplication.userSp.edit().putString("search_keyword", "").commit();
+	}
+
+	private static String[] parseToStringAry(String data) {
+		String[] ary = data.split(",");
+		return ary;
 	}
 
 

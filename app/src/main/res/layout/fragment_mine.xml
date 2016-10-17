@@ -16,7 +16,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="170dp"
-            android:background="@color/colorPrimaryDark">
+            android:background="@color/main">
 
             <ImageView
                 android:id="@+id/iv_shotcut"
@@ -161,37 +161,37 @@
             </LinearLayout>
 
 
-            <View style="@style/VerticalDividerLine"/>
+            <!--<View style="@style/VerticalDividerLine"/>-->
 
-            <LinearLayout
-                android:id="@+id/ll_sign"
-                android:layout_width="0px"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
+            <!--<LinearLayout-->
+                <!--android:id="@+id/ll_sign"-->
+                <!--android:layout_width="0px"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_weight="1"-->
+                <!--android:gravity="center"-->
+                <!--android:orientation="vertical">-->
 
-                <TextView
-                    style="@style/text_14sp_black"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="签到"
-                    android:textSize="14sp"/>
+                <!--<TextView-->
+                    <!--style="@style/text_14sp_black"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="签到"-->
+                    <!--android:textSize="14sp"/>-->
 
-                <TextView
-                    style="@style/text_14sp_black"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="1.57"
-                    android:textColor="@color/myred"
-                    android:textSize="14sp"/>
-                <TextView
-                    style="@style/text_14sp_black"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="+0.00"
-                    android:textSize="14sp"/>
-            </LinearLayout>
+                <!--<TextView-->
+                    <!--style="@style/text_14sp_black"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="1.57"-->
+                    <!--android:textColor="@color/myred"-->
+                    <!--android:textSize="14sp"/>-->
+                <!--<TextView-->
+                    <!--style="@style/text_14sp_black"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="+0.00"-->
+                    <!--android:textSize="14sp"/>-->
+            <!--</LinearLayout>-->
 
         </LinearLayout>
         <View

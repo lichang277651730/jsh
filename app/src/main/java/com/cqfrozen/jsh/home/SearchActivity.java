@@ -4,52 +4,117 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.common.widget.MyEditText;
 import com.common.widget.MyTagView;
 import com.cqfrozen.jsh.R;
+import com.cqfrozen.jsh.entity.SearchKwdInfo;
 import com.cqfrozen.jsh.main.MyActivity;
+import com.cqfrozen.jsh.util.SPUtils;
+import com.cqfrozen.jsh.volleyhttp.MyHttp;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Administrator on 2016/9/20.
  */
-public class SearchActivity extends MyActivity implements View.OnClickListener, MyTagView.OnTagClickListener {
+public class SearchActivity extends MyActivity implements View.OnClickListener, MyTagView.OnTagClickListener, TextView.OnEditorActionListener {
 
     private MyTagView tag_hot;
+    private MyTagView tag_history;
     private String[] ary = new String[]{"周围毛肚", "周围毛肚", "周围毛肚",
                                             "九九鸭肠", "九九鸭肠", "九九鸭肠",
                                                 "王味虾饺", "王味虾饺"};
     private ImageView iv_back;
     private MyEditText et_keyword;
+    private TextView tv_gosearch;
+    private TextView tv_clear;
+    private String[] historyAry;
+    private List<SearchKwdInfo> searchKwdInfos = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+        getHistorySearchKwd();
         initView();
+        getHotKeyData();
+    }
+
+    private void getHistorySearchKwd() {
+        historyAry = SPUtils.getSearchKwd();
     }
 
     private void initView() {
         tag_hot = (MyTagView) findViewById(R.id.tag_hot);
+        tag_history = (MyTagView) findViewById(R.id.tag_history);
         iv_back = (ImageView) findViewById(R.id.iv_back);
         et_keyword = (MyEditText) findViewById(R.id.et_keyword);
+        tv_gosearch = (TextView) findViewById(R.id.tv_gosearch);
+        tv_clear = (TextView) findViewById(R.id.tv_clear);
         iv_back.setOnClickListener(this);
-        tag_hot.setMyTag(ary);
+        tv_gosearch.setOnClickListener(this);
+        if(historyAry != null){
+            tag_history.setMyTag(historyAry);
+        }
         tag_hot.setOnTagClickListener(this);
+        tag_history.setOnTagClickListener(this);
+        tv_clear.setOnClickListener(this);
+        et_keyword.setOnEditorActionListener(this);
+
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.iv_back:
+            case R.id.iv_back://返回
                 finish();
+                break;
+            case R.id.tv_gosearch://执行搜索
+                search();
+                break;
+            case R.id.tv_clear://清楚搜索历史
+                clear();
                 break;
             default:
                 break;
         }
+    }
+
+    private void getHotKeyData() {
+        MyHttp.hotkw(http, null, new MyHttp.MyHttpResult() {
+            @Override
+            public void httpResult(Integer which, int code, String msg, Object bean) {
+                if(code != 0){
+                    showToast(msg);
+                    return;
+                }
+                searchKwdInfos.addAll((List<SearchKwdInfo>)bean);
+                if(searchKwdInfos.size() == 0){
+                    return;
+                }
+                tag_hot.setMyTag(parseTags(searchKwdInfos));
+            }
+        });
+    }
+
+    private List<String> parseTags(List<SearchKwdInfo> searchKwdInfos) {
+        List<String> tagList = new ArrayList<>();
+        for(int i = 0; i < searchKwdInfos.size(); i++){
+            tagList.add(searchKwdInfos.get(i).key_words);
+        }
+        return tagList;
+    }
+
+    private void clear() {
+        SPUtils.clearSearchKwd();
+        tag_history.clearTag();
     }
 
     @Override
@@ -65,8 +130,22 @@ public class SearchActivity extends MyActivity implements View.OnClickListener, 
         if(TextUtils.isEmpty(keywordStr)){
             return;
         }
+
+        //跳至搜索结果页面
         Intent intent = new Intent(this, SearchResultActivity.class);
         intent.putExtra("keyword", keywordStr);
         startActivity(intent);
+
+        //存历史搜索缓存
+        SPUtils.setSearchKwd(keywordStr);
+        tag_history.setMyTag(SPUtils.getSearchKwd());
+    }
+
+    @Override
+    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+        if(actionId == EditorInfo.IME_ACTION_SEARCH){
+            search();
+        }
+        return false;
     }
 }

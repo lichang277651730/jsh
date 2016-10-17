@@ -12,6 +12,8 @@ import android.widget.TextView;
 import com.common.base.BaseValue;
 import com.cqfrozen.jsh.R;
 
+import java.util.List;
+
 
 /**
  * Created by Administrator on 2016/5/5.
@@ -32,6 +34,14 @@ public class MyTagView extends RelativeLayout implements View.OnClickListener {
         this.context = context;
     }
 
+    public void setMyTag(List<String> tagList){
+        String[] tagAry = new String[tagList.size()];
+        for(int i = 0; i < tagList.size(); i++){
+            tagAry[i] = tagList.get(i);
+        }
+        setMyTag(tagAry);
+    }
+
     public void setMyTag(String[] texts) {
         removeAllViews();
         for (int i = 0; i < texts.length; i++) {
@@ -42,6 +52,10 @@ public class MyTagView extends RelativeLayout implements View.OnClickListener {
             addView(tagText);
             tagText.setOnClickListener(this);
         }
+    }
+
+    public void clearTag(){
+        removeAllViews();
     }
 
     @Override

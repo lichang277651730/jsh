@@ -30,6 +30,7 @@ import java.util.List;
 
 /**
  * Created by Administrator on 2016/9/27.
+ * 商品详情页
  * GoodsAdapter NormalBuyAdapter的itemview点击跳转
  * intent.putExtra("g_id", goodsInfo.g_id);
  * intent.putExtra("goodsInfo", goodsInfo);
@@ -184,9 +185,11 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
                 }
                 if (type == 1) {
                     iv_collect.setImageResource(R.mipmap.icon_normal_buy_yes);
+                    tv_collect.setText("常用采购");
                     is_common = 1;
                 } else if (type == 2) {
                     iv_collect.setImageResource(R.mipmap.icon_normal_buy_no);
+                    tv_collect.setText("取消常用");
                     is_common = 0;
                 }
             }
@@ -237,8 +240,10 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
         is_common = goodDetailInfo.is_common;
         if (goodDetailInfo.is_common == 0) {
             iv_collect.setImageResource(R.mipmap.icon_normal_buy_no);
+            tv_collect.setText("取消常用");
         } else if (goodDetailInfo.is_common == 1) {
             iv_collect.setImageResource(R.mipmap.icon_normal_buy_yes);
+            tv_collect.setText("常用采购");
         }
 
     }

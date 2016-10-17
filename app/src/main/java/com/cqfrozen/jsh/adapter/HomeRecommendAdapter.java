@@ -39,7 +39,7 @@ public class HomeRecommendAdapter  extends RecyclerView.Adapter<HomeRecommendAda
         manager.setOrientation(LinearLayoutManager.HORIZONTAL);
         holder.rv_homeprice.setLayoutManager(manager);
 //        holder.rv_homeprice.addItemDecoration(new HomeRVDividerDecortion());
-        holder.rv_homeprice.setAdapter(new GoodsAdapter(context, priceGoods));
+        holder.rv_homeprice.setAdapter(new HomeGoodsAdapter(context, priceGoods));
     }
 
     @Override

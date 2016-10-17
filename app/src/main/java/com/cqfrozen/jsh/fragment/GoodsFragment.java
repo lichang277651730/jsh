@@ -17,6 +17,7 @@ import com.cqfrozen.jsh.adapter.GoodsAdapter;
 import com.cqfrozen.jsh.constants.Where;
 import com.cqfrozen.jsh.entity.GoodsInfo;
 import com.cqfrozen.jsh.entity.GoodsResultInfo;
+import com.cqfrozen.jsh.home.SearchResultActivity;
 import com.cqfrozen.jsh.main.MyFragment;
 import com.cqfrozen.jsh.volleyhttp.MyHttp;
 
@@ -41,6 +42,10 @@ public class GoodsFragment extends MyFragment implements MyHttp.MyHttpResult, My
     private int page = 1;
     private int is_page = 1;
 
+    private String keyword;
+    private int sort;
+    private int order;
+
     public static GoodsFragment getInstance(String title){
         GoodsFragment fragment = new GoodsFragment();
         Bundle bundle = new Bundle();
@@ -57,6 +62,31 @@ public class GoodsFragment extends MyFragment implements MyHttp.MyHttpResult, My
         bundle.putString("g_type_id", g_type_id);
         fragment.setArguments(bundle);
         return fragment;
+    }
+
+    public static GoodsFragment getInstanceForSearch(String keyword, int sort, int order) {
+        GoodsFragment fragment = new GoodsFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("keyword", keyword);
+        bundle.putInt("where", Where.SEARCH);
+        bundle.putInt("sort", sort);
+        bundle.putInt("order", order);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
+    public void setSearchValue(int sort, int order) {
+        this.sort = sort;
+        this.order = order;
+        page = 1;
+        goodsInfos.clear();
+        getData();
+    }
+
+    public void setSelection(int index){
+        if(rv_goods.getChildCount() != 0){
+            rv_goods.scrollToPosition(0);
+        }
     }
 
     @Nullable
@@ -93,13 +123,17 @@ public class GoodsFragment extends MyFragment implements MyHttp.MyHttpResult, My
     private void getData() {
         switch (this.where) {
             case Where.CLASSIFY:
+                refresh_goods.setRefreshble(true);
                 MyHttp.goodstypeList(http, null, area_id, page, g_type_id, this);
+                break;
+            case Where.SEARCH:
+                refresh_goods.setRefreshble(false);
+                MyHttp.goodsSearch(http, null, page, keyword, sort, order, this);
                 break;
             default:
                 break;
         }
     }
-
 
     private void getBundleData(Bundle bundle) {
         this.where = bundle.getInt("where");
@@ -108,6 +142,11 @@ public class GoodsFragment extends MyFragment implements MyHttp.MyHttpResult, My
                 this.area_id = bundle.getString("area_id");
                 this.g_type_id = bundle.getString("g_type_id");
                 break;
+            case Where.SEARCH:
+                this.keyword = bundle.getString("keyword");
+                this.sort = bundle.getInt("sort", SearchResultActivity.SortType.DEFAULT);
+                this.order = bundle.getInt("order", SearchResultActivity.OrderType.ASC);
+                break;
             default:
                 break;
         }
@@ -115,7 +154,6 @@ public class GoodsFragment extends MyFragment implements MyHttp.MyHttpResult, My
 
     @Override
     public void httpResult(Integer which, int code, String msg, Object bean) {
-
         if(code == 404){
             setHttpFail(this);
             refresh_goods.setResultState(RefreshLayout.ResultState.failed);
@@ -129,11 +167,14 @@ public class GoodsFragment extends MyFragment implements MyHttp.MyHttpResult, My
         }
         refresh_goods.setResultState(RefreshLayout.ResultState.success);
         GoodsResultInfo goodsResultInfo = (GoodsResultInfo) bean;
-        if(goodsResultInfo == null || goodsResultInfo.data1.size() == 0){
+//        if(goodsResultInfo == null || goodsResultInfo.data1.size() == 0){
+//            return;
+//        }
+        goodsInfos.addAll(goodsResultInfo.data1);
+        if(goodsInfos.size() == 0){
             setHttpNotData(this);
             return;
         }
-        goodsInfos.addAll(goodsResultInfo.data1);
         setHttpSuccess();
         is_page = goodsResultInfo.is_page;
         goodsAdapter.notifyDataSetChanged();
@@ -186,4 +227,5 @@ public class GoodsFragment extends MyFragment implements MyHttp.MyHttpResult, My
     public void stop() {
 
     }
+
 }

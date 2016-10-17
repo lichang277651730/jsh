@@ -6,8 +6,10 @@
               android:orientation="vertical">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="32dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="8dp"
         android:gravity="center"
+        android:padding="4dp"
         android:orientation="horizontal">
         <View
             android:layout_width="0px"
@@ -47,7 +49,7 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_homeprice"
         android:layout_width="match_parent"
-        android:layout_height="156dp"
+        android:layout_height="180dp"
         android:background="@color/white"
         android:scrollbars="none">
     </android.support.v7.widget.RecyclerView>

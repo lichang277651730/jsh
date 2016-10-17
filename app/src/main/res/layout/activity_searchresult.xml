@@ -23,40 +23,67 @@
             android:scaleType="fitCenter"
             android:src="@mipmap/toleft_white"/>
 
+        <!--<LinearLayout-->
+            <!--android:layout_width="0px"-->
+            <!--android:layout_height="32dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@drawable/shape_search_bg_pause"-->
+            <!--android:orientation="horizontal">-->
+
+
+            <!---->
+
+
+            <!--<com.common.widget.MyEditText-->
+                <!--android:id="@+id/et_keyword"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_marginLeft="10dp"-->
+                <!--android:background="@color/transparency"-->
+                <!--android:gravity="bottom"-->
+                <!--android:focusable="false"-->
+                <!--android:hint="搜索商品"-->
+                <!--android:imeOptions="actionSearch"-->
+                <!--android:maxLength="8"-->
+                <!--android:minWidth="100dp"-->
+                <!--android:paddingBottom="2.5dp"-->
+                <!--android:paddingRight="10dp"-->
+                <!--android:singleLine="true"-->
+                <!--android:textColor="@color/black"-->
+                <!--android:textSize="15sp"/>-->
+        <!--</LinearLayout>-->
         <LinearLayout
+            android:id="@+id/ll_search"
             android:layout_width="0px"
             android:layout_height="32dp"
             android:layout_weight="1"
-            android:background="@drawable/shape_search_bg_pause"
+            android:background="@drawable/shape_search_bg"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:orientation="horizontal">
 
-            <TextView
-                style="@style/text_16sp_black"
-                android:layout_width="wrap_content"
+            <ImageView
+                android:id="@+id/iv_search"
+                android:layout_width="48dp"
                 android:layout_height="match_parent"
-                android:gravity="bottom"
-                android:paddingBottom="2.5dp"
-                android:paddingLeft="15dp"
-                android:text="商品"
-                android:textSize="17sp"/>
-
+                android:padding="2dp"
+                android:scaleType="fitCenter"
+                android:src="@mipmap/nav_sousuo_h"/>
 
             <com.common.widget.MyEditText
                 android:id="@+id/et_keyword"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
                 android:background="@color/transparency"
-                android:gravity="bottom"
-                android:hint="搜索商品"
-                android:imeOptions="actionSearch"
+                android:gravity="center_vertical"
                 android:maxLength="8"
+                android:imeOptions="actionSearch"
                 android:minWidth="100dp"
-                android:paddingBottom="2.5dp"
-                android:paddingRight="10dp"
                 android:singleLine="true"
-                android:textColor="@color/black"
-                android:textSize="15sp"/>
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:textSize="15sp"
+                android:focusable="false"/>
         </LinearLayout>
         <TextView
             android:id="@+id/tv_grid2list"
@@ -83,7 +110,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:textColor="@color/main"
-            android:text="综合"/>
+            android:text="默认"/>
 
         <View
             android:layout_width="1px"
@@ -140,7 +167,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="25dp"
             android:layout_marginRight="30dp"
             android:visibility="invisible"
             android:background="@color/main"/>
@@ -159,7 +186,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
+            android:layout_marginRight="25dp"
             android:visibility="invisible"
             android:background="@color/main"/>
     </LinearLayout>

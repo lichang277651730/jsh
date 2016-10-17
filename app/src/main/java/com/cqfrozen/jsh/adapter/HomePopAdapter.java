@@ -6,12 +6,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.entity.GoodsInfo;
-import com.cqfrozen.jsh.widget.HomeRVDividerDecortion;
 
 import java.util.List;
 
@@ -37,14 +34,11 @@ public class HomePopAdapter extends RecyclerView.Adapter<HomePopAdapter.MyViewHo
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-//        holder.tv_name.setText(priceInfo.name);
-//        holder.iv_goods.setImageResource(priceInfo.imgId);
         LinearLayoutManager manager = new LinearLayoutManager(context);
         holder.rv_homeprice.setOverScrollMode(View.OVER_SCROLL_NEVER);
         manager.setOrientation(LinearLayoutManager.HORIZONTAL);
         holder.rv_homeprice.setLayoutManager(manager);
-//        holder.rv_homeprice.addItemDecoration(new HomeRVDividerDecortion());
-        holder.rv_homeprice.setAdapter(new GoodsAdapter(context, priceGoods));
+        holder.rv_homeprice.setAdapter(new HomeGoodsAdapter(context, priceGoods));
     }
 
     @Override
@@ -54,14 +48,10 @@ public class HomePopAdapter extends RecyclerView.Adapter<HomePopAdapter.MyViewHo
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
 
-        private ImageView iv_goods;
-        private TextView tv_name;
         private RecyclerView rv_homeprice;
         public MyViewHolder(View itemView) {
             super(itemView);
             rv_homeprice = (RecyclerView) itemView.findViewById(R.id.rv_homeprice);
-            iv_goods = (ImageView) itemView.findViewById(R.id.iv_goods);
-            tv_name = (TextView) itemView.findViewById(R.id.tv_name);
         }
     }
 }
