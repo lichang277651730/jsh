@@ -98,6 +98,8 @@
                   android:theme="@style/SwipeBackTheme"/>
         <activity android:name=".home.SearchResultActivity"
                   android:theme="@style/SwipeBackTheme"/>
+        <activity android:name=".cart.CartActivity"
+                  android:theme="@style/SwipeBackTheme"/>
     </application>
 
 </manifest>

@@ -23,8 +23,9 @@
 
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="250dp"
         android:layout_height="40dp"
+        android:background="@drawable/shape_login_bg"
         android:layout_gravity="center_horizontal"
         android:gravity="center"
         android:orientation="horizontal"
@@ -41,7 +42,7 @@
             android:layout_height="match_parent"
             android:background="@color/transparency"
             android:gravity="center_vertical"
-            android:hint="请输入手机号"
+            android:hint="请输入手机号码"
             android:imeOptions="actionDone"
             android:inputType="phone"
             android:maxLength="11"
@@ -54,26 +55,29 @@
 
     <View
         android:layout_width="match_parent"
-        android:background="@color/white"
+        android:background="@color/transparency"
         android:layout_height="1dp"
         android:layout_marginLeft="80dp"
         android:layout_marginRight="60dp"/>
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="250dp"
         android:layout_height="40dp"
+        android:layout_marginTop="20dp"
         android:layout_gravity="center_horizontal"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:paddingLeft="50dp">
+        android:background="@drawable/shape_login_bg"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/icon_register_verify"/>
+            android:src="@mipmap/icon_register_verify"
+            android:paddingLeft="20dp"/>
 
         <com.common.widget.MyEditText
             android:id="@+id/et_password"
-            android:layout_width="200dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="match_parent"
             android:textColor="@color/myblack"
             android:background="@color/transparency"
@@ -89,14 +93,14 @@
         <ImageView
             android:id="@+id/iv_see_pwd"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:padding="10dp"
             android:src="@mipmap/icon_register_pwd_see"/>
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
-        android:background="@color/white"
+        android:background="@color/transparency"
         android:layout_height="1dp"
         android:layout_marginLeft="80dp"
         android:layout_marginRight="60dp"/>
@@ -115,19 +119,21 @@
             android:layout_marginRight="20dp"
             android:padding="10dp"
             android:text="忘记密码"
-            android:textColor="@color/myhint"
-            android:textSize="15sp"/>
+            android:textColor="@color/main"
+            android:textSize="16sp"/>
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:background="@color/white"/>
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:background="@color/main"/>
         <TextView
             android:id="@+id/tv_regist"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="26dp"
-            android:textColor="@color/myhint"
-            android:textSize="15sp"
+            android:textColor="@color/main"
+            android:textSize="16sp"
             android:padding="10dp"
             android:text="注册"/>
     </LinearLayout>

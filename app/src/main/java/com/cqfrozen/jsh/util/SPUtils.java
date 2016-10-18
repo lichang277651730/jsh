@@ -68,6 +68,18 @@ public class SPUtils {
 		return MyApplication.userSp.getString("userName", "");
 	}
 
+	/**保存电话号码
+	 * @param phoneStr
+	 */
+	public static void setPhoneNum(String phoneStr) {
+		MyApplication.userSp.edit().putString("phoneNum", phoneStr).commit();
+	}
+
+	public static String getPhoneNum(){
+		return MyApplication.userSp.getString("phoneNum", "");
+	}
+
+
 	/**
 	 * 保存搜索过的关键字
 	 */
@@ -119,4 +131,5 @@ public class SPUtils {
 	public static String getCartData(){
 		return  MyApplication.userSp.getString("cart_json", "");
 	}
+
 }

@@ -1,5 +1,7 @@
 package com.cqfrozen.jsh.cart;
 
+import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
@@ -20,19 +22,19 @@ import com.common.widget.RefreshLayout;
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.activity.HomeActivity;
 import com.cqfrozen.jsh.entity.CartNotifyInfo;
+import com.cqfrozen.jsh.home.SearchActivity;
+import com.cqfrozen.jsh.main.MyActivity;
 import com.cqfrozen.jsh.main.MyApplication;
-import com.cqfrozen.jsh.main.MyFragment;
-import com.cqfrozen.jsh.util.ShortcutPop;
 import com.cqfrozen.jsh.volleyhttp.MyHttp;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Administrator on 2016/9/12.
- * 购物车页面 fragment
+ * Created by Administrator on 2016/10/18.
+ * 通过商品详情页点击购物车跳转至此页面
  */
-public class CartFragment extends MyFragment implements View.OnClickListener, MyFragment.HttpFail,RefreshLayout.OnRefreshListener, RefreshLayout.TopOrBottom {
+public class CartActivity extends MyActivity implements View.OnClickListener, RefreshLayout.OnRefreshListener, RefreshLayout.TopOrBottom, MyActivity.HttpFail {
 
     private static final int TAG_EIDT = 1;
     private static final int TAG_FINISH = 2;
@@ -59,34 +61,49 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
     private TextView tv_notify;
     private RefreshLayout refresh_cart;
 
-//    private int page = 1;
-//    private int is_page = 1;
-
-    public static CartFragment getInstance(){
-        if(fragment == null){
-            fragment = new CartFragment();
-            Bundle bundle = new Bundle();
-            fragment.setArguments(bundle);
-        }
-        return fragment;
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_cart);
+        setTransparencyBar(true);
+        cartManager = CartManager.getInstance(this);
+        initView();
+        initTitle();
+        initRV();
+        getData();
     }
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        if(view == null){
-            view = inflater.inflate(R.layout.fragment_cart, null);
-            cartManager = CartManager.getInstance(mActivity);
-            initView();
-            initTitle();
-            initRV();
-            getData();
+    private void initView() {
+        include_cartnodatalayout = (LinearLayout) findViewById(R.id.include_cartnodatalayout);
+        ll_notify = (LinearLayout) findViewById(R.id.ll_notify);
+        tv_notify = (TextView) findViewById(R.id.tv_notify);
+        include_cartnodata_btn = (Button) findViewById(R.id.include_cartnodata_btn);
+        refresh_cart = (RefreshLayout) findViewById(R.id.refresh_cart);
+        rv_cart = (RecyclerView) findViewById(R.id.rv_cart);
+        iv_shotcut = (ImageView) findViewById(R.id.iv_shotcut);
+        cb_all = (CheckBox) findViewById(R.id.cb_all);
+        tv_total = (TextView) findViewById(R.id.tv_total);
+        btn_order = (Button) findViewById(R.id.btn_order);
+        btn_del = (Button) findViewById(R.id.btn_del);
+        tv_carr = (TextView)findViewById(R.id.tv_carr);
+        btn_del.setOnClickListener(this);
+        iv_shotcut.setOnClickListener(this);
+        refresh_cart.setOnRefreshListener(this);
+//        cb_all.setChecked(true);
+        //TODO 以后用application里的用户判断
+        if(MyApplication.token.isEmpty()){
+            ll_notify.setVisibility(View.GONE);
+        }else {
+            ll_notify.setVisibility(View.VISIBLE);
         }
-        return view;
+
+        if(cartManager.isNull()){
+            setNoDataView();
+        }
     }
 
     private void initTitle() {
-        btn_edit = (Button) view.findViewById(R.id.btn_edit);
+        btn_edit = (Button) findViewById(R.id.btn_edit);
 
         btn_edit.setTag(TAG_EIDT);
         btn_edit.setOnClickListener(new View.OnClickListener() {
@@ -102,40 +119,10 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
         });
     }
 
-    private void initView() {
-        include_cartnodatalayout = (LinearLayout) view.findViewById(R.id.include_cartnodatalayout);
-        ll_notify = (LinearLayout) view.findViewById(R.id.ll_notify);
-        tv_notify = (TextView) view.findViewById(R.id.tv_notify);
-        include_cartnodata_btn = (Button) view.findViewById(R.id.include_cartnodata_btn);
-        refresh_cart = (RefreshLayout) view.findViewById(R.id.refresh_cart);
-        rv_cart = (RecyclerView) view.findViewById(R.id.rv_cart);
-        iv_shotcut = (ImageView) view.findViewById(R.id.iv_shotcut);
-        cb_all = (CheckBox) view.findViewById(R.id.cb_all);
-        tv_total = (TextView) view.findViewById(R.id.tv_total);
-        btn_order = (Button) view.findViewById(R.id.btn_order);
-        btn_del = (Button) view.findViewById(R.id.btn_del);
-        tv_carr = (TextView) view.findViewById(R.id.tv_carr);
-        btn_del.setOnClickListener(this);
-        iv_shotcut.setOnClickListener(this);
-        refresh_cart.setOnRefreshListener(this);
-//        cb_all.setChecked(true);
-        //TODO 以后用application里的用户判断
-        if(MyApplication.token.isEmpty()){
-            ll_notify.setVisibility(View.GONE);
-        }else {
-            ll_notify.setVisibility(View.VISIBLE);
-        }
-
-        if(cartManager.isNull()){
-            setNoDataView();
-        }
-
-    }
-
     private void initRV() {
         rv_cart.setOverScrollMode(View.OVER_SCROLL_NEVER);
-        GridLayoutManager manager = new GridLayoutManager(mActivity, 1);
-        cartAdapter = new CartRVAdapter(mActivity, cartGoodsInfos, tv_total, cb_all);
+        GridLayoutManager manager = new GridLayoutManager(this, 1);
+        cartAdapter = new CartRVAdapter(this, cartGoodsInfos, tv_total, cb_all);
         rv_cart.setLayoutManager(manager);
         MyGridDecoration decoration = new MyGridDecoration(BaseValue.dp2px(1), BaseValue
                 .dp2px(0), getResources().getColor(R.color.mybg), false);
@@ -145,7 +132,6 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
     }
 
     private void getData() {
-
         //获取购物车提示消息
         MyHttp.freightTips(http, null, new MyHttp.MyHttpResult() {
             @Override
@@ -169,7 +155,7 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
 
 //        List<CartGoodsInfo> localData = cartManager.loadAllFromSp();//从缓存中读购物车数据
 //        if(localData == null || localData.size() == 0){//缓存中无数据,从网络中获取
-            getDataFromServer();
+        getDataFromServer();
 //        }else {
 //            cartGoodsInfos.clear();
 //            cartGoodsInfos.addAll(localData);
@@ -179,19 +165,20 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
 //        cartAdapter.notifyDataSetChanged();
     }
 
+
     private void getDataFromServer() {
         MyHttp.queryCart(http, null, page, area_id, new MyHttp.MyHttpResult() {
             @Override
             public void httpResult(Integer which, int code, String msg, Object bean) {
 
                 if(code == 404){
-                    setHttpFail(CartFragment.this);
+                    setHttpFail(CartActivity.this);
                     refresh_cart.setResultState(RefreshLayout.ResultState.failed);
                     return;
                 }
 
                 if(code != 0){
-//                    showToast(msg);
+                    showToast(msg);
 //                    setNoDataView();
                     refresh_cart.setResultState(RefreshLayout.ResultState.failed);
                     return;
@@ -221,61 +208,13 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
         });
     }
 
+
     /**
      * 购物车有数据时的页面
      */
     private void showDataView() {
         include_cartnodatalayout.setVisibility(View.GONE);
         rv_cart.setVisibility(View.VISIBLE);
-    }
-
-    /**
-     * 购物车没数据时的页面
-     */
-    private void setNoDataView() {
-        include_cartnodatalayout.setVisibility(View.VISIBLE);
-        rv_cart.setVisibility(View.GONE);
-        include_cartnodata_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //TODO 跳转去逛逛页面
-                ((HomeActivity)mActivity).setClassifyFragment();
-            }
-        });
-    }
-
-    @Override
-    public void onShow() {
-        super.onShow();
-        cartGoodsInfos.clear();
-        is_page = 1;
-        page = 1;
-        getData();
-        doEdit();
-        ((HomeActivity)mActivity).setCartNum(cartManager.getCartGoodsNum());
-    }
-
-    private void doFinish() {
-        btn_edit.setText(mActivity.getString(R.string.cart_finish));
-        btn_order.setVisibility(View.GONE);
-        btn_del.setVisibility(View.VISIBLE);
-        tv_total.setVisibility(View.GONE);
-        tv_carr.setVisibility(View.GONE);
-        btn_edit.setTag(TAG_FINISH);
-        cartAdapter.checkAllNone(false);
-    }
-
-    private void doEdit() {
-        btn_edit.setText(mActivity.getString(R.string.cart_edit));
-        btn_order.setVisibility(View.VISIBLE);
-        btn_del.setVisibility(View.GONE);
-        tv_total.setVisibility(View.VISIBLE);
-        tv_carr.setVisibility(View.VISIBLE);
-        btn_edit.setTag(TAG_EIDT);
-        cartAdapter.checkAllNone(true);
-        if(cartAdapter.isNull()){
-            setNoDataView();
-        }
     }
 
     @Override
@@ -285,7 +224,19 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
                 deleteCart();
                 break;
             case R.id.iv_shotcut://点击shotcut图标
-                ShortcutPop.getInstance(mActivity).showPop(iv_shotcut);
+                showPop(iv_shotcut);
+                break;
+            case R.id.pop_shortcut_search:
+                startActivity(new Intent(this, SearchActivity.class));
+                if(popupWindow != null && popupWindow.isShowing()){
+                    popupWindow.dismiss();
+                }
+                break;
+            case R.id.pop_shortcut_home:
+                startActivity(new Intent(this, HomeActivity.class));
+                if(popupWindow != null && popupWindow.isShowing()){
+                    popupWindow.dismiss();
+                }
                 break;
             default:
                 break;
@@ -302,6 +253,45 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
         }
     }
 
+    private void doFinish() {
+        btn_edit.setText(getString(R.string.cart_finish));
+        btn_order.setVisibility(View.GONE);
+        btn_del.setVisibility(View.VISIBLE);
+        tv_total.setVisibility(View.GONE);
+        tv_carr.setVisibility(View.GONE);
+        btn_edit.setTag(TAG_FINISH);
+        cartAdapter.checkAllNone(false);
+    }
+
+    private void doEdit() {
+        btn_edit.setText(getString(R.string.cart_edit));
+        btn_order.setVisibility(View.VISIBLE);
+        btn_del.setVisibility(View.GONE);
+        tv_total.setVisibility(View.VISIBLE);
+        tv_carr.setVisibility(View.VISIBLE);
+        btn_edit.setTag(TAG_EIDT);
+        cartAdapter.checkAllNone(true);
+        if(cartAdapter.isNull()){
+            setNoDataView();
+        }
+    }
+
+    /**
+     * 购物车没数据时的页面
+     */
+    private void setNoDataView() {
+        include_cartnodatalayout.setVisibility(View.VISIBLE);
+        rv_cart.setVisibility(View.GONE);
+        include_cartnodata_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO 跳转去逛逛页面
+//                ((HomeActivity)mActivity).setClassifyFragment();
+                startActivity(new Intent(CartActivity.this, HomeActivity.class));
+            }
+        });
+    }
+
     @Override
     public void onRefresh() {
         is_page = 0;
@@ -311,16 +301,8 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
-        if(refresh_cart != null && refresh_cart.isRefreshing){
-            refresh_cart.setResultState(RefreshLayout.ResultState.close);
-        }
-    }
+    public void gotoTop() {
 
-    @Override
-    public void toHttpAgain() {
-        getData();
     }
 
     @Override
@@ -333,11 +315,6 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
     }
 
     @Override
-    public void gotoTop() {
-
-    }
-
-    @Override
     public void move() {
 
     }
@@ -345,6 +322,34 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
     @Override
     public void stop() {
 
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if(refresh_cart != null && refresh_cart.isRefreshing){
+            refresh_cart.setResultState(RefreshLayout.ResultState.close);
+        }
+    }
+
+    @Override
+    public void toHttpAgain() {
+        getData();
+    }
+
+    public void showPop(View view){
+        View popView = LayoutInflater.from(this).inflate(R.layout.pop_shortcut, null);
+        View pop_shortcut_search = popView.findViewById(R.id.pop_shortcut_search);
+        View pop_shortcut_home = popView.findViewById(R.id.pop_shortcut_home);
+        pop_shortcut_search.setOnClickListener(this);
+        pop_shortcut_home.setOnClickListener(this);
+        popupWindow = new PopupWindow(popView, ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        popupWindow.setTouchable(true);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setFocusable(true);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        popupWindow.showAsDropDown(view, BaseValue.dp2px(-6), BaseValue.dp2px(8));
     }
 
 }

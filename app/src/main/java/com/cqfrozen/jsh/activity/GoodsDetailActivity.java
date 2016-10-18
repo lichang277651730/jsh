@@ -1,5 +1,6 @@
 package com.cqfrozen.jsh.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
@@ -14,13 +15,16 @@ import com.common.base.BaseValue;
 import com.common.http.HttpForVolley;
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.adapter.GoodsDetailVPAdapter;
+import com.cqfrozen.jsh.cart.CartActivity;
 import com.cqfrozen.jsh.cart.CartManager;
+import com.cqfrozen.jsh.cart.CartResultInfo;
 import com.cqfrozen.jsh.entity.GoodDetailResultInfo;
 import com.cqfrozen.jsh.entity.GoodsInfo;
 import com.cqfrozen.jsh.main.MyActivity;
 import com.cqfrozen.jsh.util.SharePop;
 import com.cqfrozen.jsh.util.ToastUtil;
 import com.cqfrozen.jsh.volleyhttp.MyHttp;
+import com.cqfrozen.jsh.widget.BadgeView;
 import com.cqfrozen.jsh.widget.NumberAddSubView;
 
 import org.json.JSONObject;
@@ -38,8 +42,10 @@ import java.util.List;
 public class GoodsDetailActivity extends MyActivity implements View.OnClickListener, ViewPager
         .OnPageChangeListener {
 
+
     private ImageView iv_share;
     private ImageView iv_back;
+    private ImageView iv_cart;
     private Long g_id;
     private ViewPager vp_goodspics;
     private List<GoodDetailResultInfo.PicsInfo> picsInfos = new ArrayList<>();
@@ -56,6 +62,7 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
     private TextView tv_send;
     private TextView tv_sendprice;
     private LinearLayout ll_collect;
+    private LinearLayout ll_cart;
     private ImageView iv_collect;
 
     private boolean canClick = true;//添加常用采购控件的是否能点击
@@ -65,6 +72,9 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
     private TextView tv_add_cart;
     private CartManager cartManager;
     private GoodsInfo goodsInfo;
+    private BadgeView badgeView;
+    private int cartGoodsNum;
+    private int addCount = 1;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,12 +84,12 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
         cartManager = CartManager.getInstance(this);
         getIntentData();
         initView();
+        initBadgeView();
         initVP();
         getData();
     }
 
     private void getIntentData() {
-//        g_id = getIntent().getLongExtra("g_id", 0L);
         goodsInfo = (GoodsInfo) getIntent().getSerializableExtra("goodsInfo");
         g_id = goodsInfo.g_id;
     }
@@ -87,6 +97,7 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
     private void initView() {
         iv_share = (ImageView) findViewById(R.id.iv_share);
         iv_back = (ImageView) findViewById(R.id.iv_back);
+        iv_cart = (ImageView) findViewById(R.id.iv_cart);
         tv_name = (TextView) findViewById(R.id.tv_name);
         tv_price = (TextView) findViewById(R.id.tv_price);
         tv_size = (TextView) findViewById(R.id.tv_size);
@@ -99,14 +110,89 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
         vp_goodspics = (ViewPager) findViewById(R.id.vp_goodspics);
         rg_goods = (RadioGroup) findViewById(R.id.rg_goods);
         ll_collect = (LinearLayout) findViewById(R.id.ll_collect);
+        ll_cart = (LinearLayout) findViewById(R.id.ll_cart);
         iv_collect = (ImageView) findViewById(R.id.iv_collect);
         tv_collect = (TextView) findViewById(R.id.tv_collect);
         tv_add_cart = (TextView) findViewById(R.id.tv_add_cart);
         iv_back.setOnClickListener(this);
         iv_share.setOnClickListener(this);
         ll_collect.setOnClickListener(this);
+        ll_cart.setOnClickListener(this);
         tv_add_cart.setOnClickListener(this);
         asv_num.setCurValue(1);
+    }
+
+    private void initBadgeView() {
+        getCartNumFromServer();
+        badgeView = new BadgeView(this, iv_cart);
+        badgeView.setEnabled(false);
+        badgeView.setFocusable(false);
+        if(cartManager != null){
+            badgeView.setVisibility(View.VISIBLE);
+//            badgeView.setText(cartManager.getCartGoodsNum() + "");
+            badgeView.setText(0 + "");
+            badgeView.setTextSize(10);
+            badgeView.setBadgeMargin(10, 0);
+            badgeView.show();
+//            cartManager.setOnNumChangeListener(new CartManager.OnNumChangeListener() {
+//                @Override
+//                public void onNumChangeListener(int curNum) {
+//                    if(!badgeView.isShown()){
+//                        badgeView.show();
+//                    }
+//                    if(badgeView != null && badgeView.isShown()){
+//                        if(curNum >= 100){
+//                            badgeView.setText("99+");
+//                        }else {
+//                            badgeView.setText(curNum + "");
+//                        }
+//                    }
+//                }
+//            });
+        }else {
+            badgeView.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(badgeView != null){
+            getCartNumFromServer();
+        }
+    }
+
+    /**
+     * 获取购物车数量
+     */
+    private void getCartNumFromServer() {
+        MyHttp.queryCart(http, null, 1, 5, new MyHttp.MyHttpResult() {
+
+            @Override
+            public void httpResult(Integer which, int code, String msg, Object bean) {
+
+                if(code == 404){
+                    return;
+                }
+
+                if(code != 0){
+                    return;
+                }
+                CartResultInfo cartResultInfo = (CartResultInfo) bean;
+                if(cartResultInfo == null || cartResultInfo.data1.size() == 0){
+                    return;
+                }
+                int count = 0;
+                for(int i = 0; i < cartResultInfo.data1.size(); i++){
+                    count += cartResultInfo.data1.get(i).count;
+                }
+                if(count >= 100){
+                    badgeView.setText("99+");
+                }else {
+                    badgeView.setText(count + "");
+                }
+            }
+        });
     }
 
     private void initVP() {
@@ -132,6 +218,11 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
                 }
                 setNormalBuy();//添加常用采购
                 break;
+            case R.id.ll_cart://跳转到购物车页面
+                Intent intent = new Intent(getApplicationContext(), CartActivity.class);
+                startActivity(intent);
+//                finish();
+                break;
             case R.id.tv_add_cart:
                 if (!needLogin()) {
                     return;
@@ -147,8 +238,12 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
      * 添加到购物车
      */
     private void addCart() {
+        int curValue = asv_num.getCurValue();
+        if(curValue != 0){
+            addCount = curValue;
+        }
         //TODO 要替换区域id
-        MyHttp.addcart(http, null, g_id, "5", 1, new HttpForVolley.HttpTodo() {
+        MyHttp.addcart(http, null, g_id, "5", addCount, new HttpForVolley.HttpTodo() {
             @Override
             public void httpTodo(Integer which, JSONObject response) {
                 ToastUtil.showToast(GoodsDetailActivity.this, response.optString("msg"));
@@ -156,6 +251,7 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
                 if(code != 0){
                     return;
                 }
+                getCartNumFromServer();
                 cartManager.add(goodsInfo);
             }
         });

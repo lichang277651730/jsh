@@ -149,7 +149,7 @@ public class CartManager {
     /**
      * 购物车有变动，就需commit
      */
-    private void commit() {
+    public void commit() {
         List<CartGoodsInfo> list = new ArrayList<>();
         for (int i = 0; i < cartGoods.size(); i++) {
             list.add(cartGoods.valueAt(i));

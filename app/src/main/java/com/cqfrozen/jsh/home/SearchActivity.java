@@ -23,14 +23,12 @@ import java.util.List;
 
 /**
  * Created by Administrator on 2016/9/20.
+ * 搜索页面
  */
 public class SearchActivity extends MyActivity implements View.OnClickListener, MyTagView.OnTagClickListener, TextView.OnEditorActionListener {
 
     private MyTagView tag_hot;
     private MyTagView tag_history;
-    private String[] ary = new String[]{"周围毛肚", "周围毛肚", "周围毛肚",
-                                            "九九鸭肠", "九九鸭肠", "九九鸭肠",
-                                                "王味虾饺", "王味虾饺"};
     private ImageView iv_back;
     private MyEditText et_keyword;
     private TextView tv_gosearch;

@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.common.widget.MyHeadImageView;
@@ -31,7 +30,6 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
     private MyHeadImageView iv_head;
     private TextView tv_login;
     private TextView tv_name;
-    private PopupWindow popupWindow;
     private TextView tv_normal_buy;
     private TextView tv_shop;
 

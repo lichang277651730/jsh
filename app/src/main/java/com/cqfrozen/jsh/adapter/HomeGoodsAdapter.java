@@ -86,7 +86,6 @@ public class HomeGoodsAdapter extends RecyclerView.Adapter<HomeGoodsAdapter.MyVi
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO 跳转至商品详情页
                 Intent intent = new Intent(context, GoodsDetailActivity.class);
 //                intent.putExtra("g_id", goodsInfo.g_id);
                 intent.putExtra("goodsInfo", goodsInfo);

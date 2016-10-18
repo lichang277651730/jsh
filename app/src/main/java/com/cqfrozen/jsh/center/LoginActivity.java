@@ -51,6 +51,11 @@ public class LoginActivity extends MyActivity implements View.OnClickListener {
         iv_see_pwd = (ImageView) findViewById(R.id.iv_see_pwd);
         btn_login.setOnClickListener(this);
         tv_regist.setOnClickListener(this);
+        String phoneNumCache = SPUtils.getPhoneNum();
+        if(!TextUtils.isEmpty(phoneNumCache)){
+            et_phone.setText(phoneNumCache);
+            et_phone.setSelection(phoneNumCache.length());
+        }
         initShowHiddenPwdView();
     }
 
@@ -79,6 +84,7 @@ public class LoginActivity extends MyActivity implements View.OnClickListener {
             showToast("请输入登陆密码");
             return;
         }
+        SPUtils.setPhoneNum(phoneStr);
         MyHttp.userLogin(http, null, phoneStr, pwdStr, new MyHttp.MyHttpResult() {
             @Override
             public void httpResult(Integer which, int code, String msg, Object bean) {

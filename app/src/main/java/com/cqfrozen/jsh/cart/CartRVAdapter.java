@@ -84,7 +84,7 @@ public class CartRVAdapter extends RecyclerView.Adapter<CartRVAdapter.MyViewHold
         holder.add_sub_num.setCurValue(cartGoodsInfo.count);
 
         holder.tv_brand.setText("品牌: " + cartGoodsInfo.brand_name);
-        holder.tv_size.setText("规格: " + cartGoodsInfo.weight + "/kg");
+        holder.tv_size.setText("规格: " + cartGoodsInfo.weight + "kg/件");
 
         holder.add_sub_num.setOnSubAddClickListener(new NumberAddSubView.OnSubAddClickListener() {
             @Override

@@ -58,6 +58,8 @@ public class HomeActivity extends BaseActivity implements RadioGroup.OnCheckedCh
 
     private void initBadgeView() {
         badgeView = new BadgeView(this, iv_cart);
+        badgeView.setEnabled(false);
+        badgeView.setFocusable(false);
         if(cartManager != null){
             badgeView.setVisibility(View.VISIBLE);
             badgeView.setText(cartManager.getCartGoodsNum() + "");
@@ -104,7 +106,6 @@ public class HomeActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         fragments.add(CartFragment.getInstance());
         fragments.add(MineFragment.getInstance());
         vp_home.setFragemnt(getSupportFragmentManager(), fragments);
-        curFragment = fragments.get(0);
     }
 
     /**
@@ -123,11 +124,13 @@ public class HomeActivity extends BaseActivity implements RadioGroup.OnCheckedCh
 
     @Override
     protected void onResume() {
-        super.onResume();
         if(curFragment != null){
             curFragment.onShow();
         }
+        super.onResume();
     }
+
+
 
 
     @Override
@@ -197,4 +200,22 @@ public class HomeActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         rb_homes[1].setChecked(true);
     }
 
+    public void setCartFragment(){
+        vp_home.setCurrentItem(2, false);
+        rb_homes[2].setChecked(true);
+    }
+
+    /**
+     * 设置购物车角标数字
+     * @param cartGoodsNum
+     */
+    public void setCartNum(int cartGoodsNum) {
+        if(badgeView != null){
+            if(cartGoodsNum >= 100){
+                badgeView.setText("99+");
+            }else {
+                badgeView.setText(cartGoodsNum + "");
+            }
+        }
+    }
 }

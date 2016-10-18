@@ -363,9 +363,10 @@
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="30dp"
+                android:id="@+id/iv_cart"
+                android:layout_width="42dp"
                 android:layout_height="30dp"
-                android:scaleType="fitCenter"
+                android:scaleType="fitStart"
                 android:src="@mipmap/tab_gouwuche_h"/>
 
             <TextView

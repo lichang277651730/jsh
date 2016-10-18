@@ -59,7 +59,6 @@ public class ShortcutPop implements View.OnClickListener {
                 context.startActivity(new Intent(context, SearchActivity.class));
                 break;
             case R.id.pop_shortcut_home:
-//                context.startActivity(new Intent(context, SearchActivity.class));
                 ((HomeActivity)context).setHomeFragment();
                 break;
             default:

@@ -112,7 +112,7 @@ public class NormalBuyActivity extends MyActivity implements RefreshLayout.OnRef
         if(is_page == 1){
             getData();
         }else if(is_page == 0){
-            showToast("没有更多数据了!~");
+//            showToast("没有更多数据了!~");
         }
     }
 
