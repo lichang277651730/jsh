@@ -30,7 +30,7 @@ import java.util.List;
 
 /**
  * Created by Administrator on 2016/9/12.
- * 购物车页面 fragment
+ * 导航栏 购物车页面 fragment
  */
 public class CartFragment extends MyFragment implements View.OnClickListener, MyFragment.HttpFail,RefreshLayout.OnRefreshListener, RefreshLayout.TopOrBottom {
 
@@ -151,7 +151,7 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
             @Override
             public void httpResult(Integer which, int code, String msg, Object bean) {
                 if(code != 0){
-                    showToast(msg);
+//                    showToast(msg);
                     return;
                 }
                 CartNotifyInfo cartNotifyInfo = (CartNotifyInfo) bean;

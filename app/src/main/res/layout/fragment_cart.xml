@@ -71,19 +71,7 @@
             android:scrollbars="none">
         </android.support.v7.widget.RecyclerView>
     </com.common.widget.RefreshLayout>
-    <!--<RelativeLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_below="@id/ll_notify"-->
-        <!--android:layout_height="match_parent">-->
-        <!--<android.support.v7.widget.RecyclerView-->
-            <!--android:id="@+id/rv_cart"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_marginBottom="54dp"-->
-            <!--android:scrollbars="none">-->
-        <!--</android.support.v7.widget.RecyclerView>-->
-        <!--<include layout="@layout/include_cart_nodata"/>-->
-    <!--</RelativeLayout>-->
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="54dp"

@@ -4,16 +4,15 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.amap.api.location.AMapLocation;
 import com.common.http.HttpForVolley;
-import com.common.widget.ClearEditText;
+import com.common.widget.MyEditText;
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.main.MyActivity;
-import com.cqfrozen.jsh.main.MyApplication;
 import com.cqfrozen.jsh.util.ValidatorUtil;
 import com.cqfrozen.jsh.volleyhttp.MyHttp;
 
@@ -25,12 +24,11 @@ import org.json.JSONObject;
  */
 public class AddressAddActivity extends MyActivity implements View.OnClickListener {
 
-    private ClearEditText et_consignee;
-    private ClearEditText et_phone;
+    private MyEditText et_consignee;
+    private MyEditText et_phone;
     private EditText et_location;
-    private ClearEditText et_address;
+    private MyEditText et_address;
     private TextView tv_right;
-    private TextView tv_location;
     private CheckBox cb_default;
     private String consigneeStr;
     private String phoneStr;
@@ -39,6 +37,7 @@ public class AddressAddActivity extends MyActivity implements View.OnClickListen
     private int is_default = 0;
     private String s_id;
     private String adCodeStr;
+    private Button btn_save;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,29 +52,21 @@ public class AddressAddActivity extends MyActivity implements View.OnClickListen
     }
 
     private void initView() {
-        setMyTitle("添加新地址", "保存");
-        et_consignee = (ClearEditText) findViewById(R.id.et_consignee);
-        et_phone = (ClearEditText) findViewById(R.id.et_phone);
+        setMyTitle("新增地址");
+        et_consignee = (MyEditText) findViewById(R.id.et_consignee);
+        et_phone = (MyEditText) findViewById(R.id.et_phone);
         et_location = (EditText) findViewById(R.id.et_location);
-        tv_location = (TextView) findViewById(R.id.tv_location);
         cb_default = (CheckBox) findViewById(R.id.cb_default);
-        et_address = (ClearEditText) findViewById(R.id.et_address);
+        et_address = (MyEditText) findViewById(R.id.et_address);
         tv_right = (TextView) findViewById(R.id.tv_right);
-        tv_location.setOnClickListener(this);
+        btn_save = (Button) findViewById(R.id.btn_save);
         tv_right.setOnClickListener(this);
         et_location.setOnClickListener(this);
-
-        //初始化定位
-        initLocation();
 
     }
 
     private void initLocation() {
         et_location.setText("");
-        MyApplication.locationClient.startLocation();
-        AMapLocation mapLocation = MyApplication.locationClient.getLastKnownLocation();
-        String locationStr = mapLocation.getDistrict();
-        adCodeStr = mapLocation.getAdCode();
         et_location.setText(locationStr);
     }
 
@@ -83,22 +74,15 @@ public class AddressAddActivity extends MyActivity implements View.OnClickListen
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.tv_location:
-                location();
-                break;
             case R.id.et_location://跳转至定位列表
                 //TODO 跳转至定位列表
                 break;
-            case R.id.tv_right:
+            case R.id.btn_save:
                 saveAddress();
                 break;
             default:
                 break;
         }
-    }
-
-    private void location() {
-        initLocation();
     }
 
     private void saveAddress() {

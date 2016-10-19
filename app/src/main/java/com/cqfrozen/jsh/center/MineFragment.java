@@ -53,11 +53,11 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
     }
 
     private void initView() {
-        tv_lookall = (TextView) view.findViewById(R.id.tv_lookall);
         iv_setting = (ImageView) view.findViewById(R.id.iv_setting);
         iv_shotcut = (ImageView) view.findViewById(R.id.iv_shotcut);
         iv_head = (MyHeadImageView) view.findViewById(R.id.iv_head);
         tv_login = (TextView) view.findViewById(R.id.tv_login);
+        tv_lookall = (TextView) view.findViewById(R.id.tv_lookall);
         tv_name = (TextView) view.findViewById(R.id.tv_name);
         tv_address = (TextView) view.findViewById(R.id.tv_address);
         tv_shop = (TextView) view.findViewById(R.id.tv_shop);

@@ -1,41 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_marginRight="4dp"
-    android:layout_marginLeft="4dp"
-    android:layout_marginTop="4dp"
-    android:padding="4dp"
+    android:layout_height="wrap_content"
     android:background="@color/white"
-    android:layout_height="wrap_content">
-    <TextView
-        android:id="@+id/tv_name"
-        android:layout_width="150dp"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:text="张三三"/>
-    <TextView
-        android:id="@+id/tv_phone"
-        android:layout_width="wrap_content"
-        android:layout_toRightOf="@id/tv_name"
-        android:layout_alignTop="@id/tv_name"
-        android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:text="15236457854"/>
+        android:paddingTop="16dp"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="16sp"
+            android:paddingLeft="16dp"
+            android:text="张三三"/>
+        <TextView
+            android:id="@+id/tv_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            android:textSize="16sp"
+            android:text="15236457854"/>
+    </LinearLayout>
+
     <TextView
         android:id="@+id/tv_address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_name"
         android:layout_alignLeft="@id/tv_name"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="6dp"
+        android:paddingLeft="16dp"
         android:text="重庆市渝中区大坪康德国际"
-        android:textSize="12sp"
-        android:layout_marginRight="16dp"
+        android:textSize="14sp"
         android:maxLines="2"/>
-</RelativeLayout>
+    <View style="@style/HorizontalDividerLine"
+          android:layout_marginTop="10dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:paddingLeft="16dp"
+        android:gravity="center_vertical"
+        android:paddingRight="16dp"
+        android:orientation="horizontal">
+        <CheckBox
+            android:id="@+id/cb_default"
+            style="@style/customCheckbox"
+            android:layout_width="26dp"
+            android:layout_height="32dp"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="14sp"
+            android:text="默认收货地址"/>
+        <TextView
+            android:id="@+id/tv_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_address_btn_bg"
+            android:paddingRight="16dp"
+            android:paddingLeft="16dp"
+            android:paddingBottom="4dp"
+            android:paddingTop="4dp"
+            android:textSize="14sp"
+            android:text="编辑"/>
+        <TextView
+            android:id="@+id/tv_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_address_btn_bg"
+            android:paddingRight="16dp"
+            android:paddingLeft="16dp"
+            android:paddingBottom="4dp"
+            android:paddingTop="4dp"
+            android:textSize="14sp"
+            android:layout_marginLeft="16dp"
+            android:text="删除"/>
+    </LinearLayout>
+</LinearLayout>

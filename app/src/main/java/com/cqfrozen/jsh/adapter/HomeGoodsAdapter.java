@@ -11,16 +11,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.common.http.HttpForVolley;
+import com.common.widget.LabelView;
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.activity.GoodsDetailActivity;
 import com.cqfrozen.jsh.cart.CartManager;
 import com.cqfrozen.jsh.entity.GoodsInfo;
-import com.cqfrozen.jsh.util.ToastUtil;
-import com.cqfrozen.jsh.volleyhttp.MyHttp;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-
-import org.json.JSONObject;
 
 import java.util.List;
 
@@ -63,25 +60,30 @@ public class HomeGoodsAdapter extends RecyclerView.Adapter<HomeGoodsAdapter.MyVi
         holder.tv_now_price.setText("¥" + goodsInfo.now_price);
         holder.tv_market_price.setText("¥" + goodsInfo.market_price);
         holder.tv_market_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG|Paint.ANTI_ALIAS_FLAG);
+        if(goodsInfo.is_oos == 1){//不缺货
+            holder.labelview.setVisibility(View.VISIBLE);
+        }else if(goodsInfo.is_oos == 0){//缺货
+            holder.labelview.setVisibility(View.GONE);
+        }
         //点击购物车
-        holder.iv_add_cart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                //TODO 要替换区域id
-                MyHttp.addcart(http, null, goodsInfo.g_id, "5", 1, new HttpForVolley.HttpTodo() {
-                    @Override
-                    public void httpTodo(Integer which, JSONObject response) {
-                        ToastUtil.showToast(context, response.optString("msg"));
-                        int code = response.optInt("code");
-                        if(code != 0){
-                            return;
-                        }
-                        cartManager.add(goodsInfo);
-                    }
-                });
-            }
-        });
+//        holder.iv_add_cart.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                //TODO 要替换区域id
+//                MyHttp.addcart(http, null, goodsInfo.g_id, "5", 1, new HttpForVolley.HttpTodo() {
+//                    @Override
+//                    public void httpTodo(Integer which, JSONObject response) {
+//                        ToastUtil.showToast(context, response.optString("msg"));
+//                        int code = response.optInt("code");
+//                        if(code != 0){
+//                            return;
+//                        }
+//                        cartManager.add(goodsInfo);
+//                    }
+//                });
+//            }
+//        });
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,14 +107,16 @@ public class HomeGoodsAdapter extends RecyclerView.Adapter<HomeGoodsAdapter.MyVi
         private TextView tv_name;
         private TextView tv_now_price;
         private TextView tv_market_price;
-        private ImageView iv_add_cart;
+        private LabelView labelview;
+//        private ImageView iv_add_cart;
         public MyViewHolder(View itemView) {
             super(itemView);
             iv_goods = (ImageView) itemView.findViewById(R.id.iv_goods);
             tv_name = (TextView) itemView.findViewById(R.id.tv_name);
             tv_now_price = (TextView) itemView.findViewById(R.id.tv_now_price);
             tv_market_price = (TextView) itemView.findViewById(R.id.tv_market_price);
-            iv_add_cart = (ImageView) itemView.findViewById(R.id.iv_add_cart);
+            labelview = (LabelView) itemView.findViewById(R.id.labelview);
+//            iv_add_cart = (ImageView) itemView.findViewById(R.id.iv_add_cart);
         }
     }
 }

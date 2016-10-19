@@ -6,10 +6,10 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.common.base.BaseValue;
-import com.common.widget.GridDecoration;
+import com.common.widget.MyGridDecoration;
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.adapter.AddressAdapter;
 import com.cqfrozen.jsh.entity.AddressInfo;
@@ -24,7 +24,7 @@ import java.util.List;
  */
 public class AddressListActivity extends MyActivity implements View.OnClickListener {
 
-    private RelativeLayout rl_add;
+    private TextView tv_add;
     private RecyclerView rv_addresslist;
     private List<AddressInfo> addressInfos = new ArrayList<>();
     private AddressAdapter adapter;
@@ -41,17 +41,17 @@ public class AddressListActivity extends MyActivity implements View.OnClickListe
 
     private void initView() {
         setMyTitle("地址管理");
-        rl_add = (RelativeLayout) findViewById(R.id.rl_add);
+        tv_add = (TextView) findViewById(R.id.tv_add);
         rv_addresslist = (RecyclerView) findViewById(R.id.rv_addresslist);
-        rl_add.setOnClickListener(this);
+        tv_add.setOnClickListener(this);
     }
 
     private void initRV() {
         rv_addresslist.setOverScrollMode(View.OVER_SCROLL_NEVER);
         adapter = new AddressAdapter(this, addressInfos);
         GridLayoutManager manager = new GridLayoutManager(this, 1);
-        GridDecoration decoration = new GridDecoration(0, BaseValue.dp2px(6),
-                getResources().getColor(R.color.mybg), true);
+        MyGridDecoration decoration = new MyGridDecoration(BaseValue.dp2px(4), BaseValue
+                .dp2px(0), getResources().getColor(R.color.mybg), false);
         rv_addresslist.addItemDecoration(decoration);
         rv_addresslist.setLayoutManager(manager);
         rv_addresslist.setAdapter(adapter);
@@ -80,7 +80,7 @@ public class AddressListActivity extends MyActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.rl_add://添加新收货地址
+            case R.id.tv_add://添加新收货地址
                 Intent intent = new Intent(this, AddressAddActivity.class);
                 intent.putExtra("s_id", s_id);
                 startActivity(intent);
