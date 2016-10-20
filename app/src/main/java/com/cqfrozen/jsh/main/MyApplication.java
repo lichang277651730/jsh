@@ -50,7 +50,7 @@ public class MyApplication extends BaseApplication {
     private void initMy(){
         BaseApplication.initBa();
         userSp = getSharedPreferences(Constants.SP_FILE, Context.MODE_PRIVATE);
-        Thread.setDefaultUncaughtExceptionHandler(restartHandler); // 程序崩溃时触发线程  以下用来捕获程序崩溃异常
+//        Thread.setDefaultUncaughtExceptionHandler(restartHandler); // 程序崩溃时触发线程  以下用来捕获程序崩溃异常
         isMyInit = true;
         cartManager = CartManager.getInstance(this);
     }

@@ -35,7 +35,7 @@
             android:layout_weight="1"
             android:background="@color/transparency"
             android:hint="请输入收货人姓名"
-            android:maxLength="10"
+            android:maxLength="8"
             android:textColor="@color/black"
             android:textColorHint="@color/myhint"/>
     </LinearLayout>
@@ -85,18 +85,48 @@
             android:textSize="16sp"/>
 
 
-        <com.common.widget.MyEditText
-            android:id="@+id/et_location"
+        <TextView
+            android:id="@+id/tv_location"
             style="@style/text_15sp_black"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/transparency"
-            android:hint="请仔细选择收货区域"
-            android:maxLength="10"
+            android:hint="点击选择收货区域"
             android:textColor="@color/black"
-            android:textColorHint="@color/myhint"
-            android:enabled="false"/>
+            android:textColorHint="@color/myhint"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/icon_toright_blue"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/white"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:text="选择店铺"
+            android:textColor="@color/black"
+            android:layout_marginRight="10dp"
+            android:textSize="16sp"/>
+
+
+        <TextView
+            android:id="@+id/tv_shop"
+            style="@style/text_15sp_black"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/transparency"
+            android:hint="点击选择店铺"
+            android:textColor="@color/black"
+            android:textColorHint="@color/myhint"/>
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -127,6 +157,8 @@
             android:layout_weight="1"
             android:background="@color/transparency"
             android:hint="请仔细填写 该地址为收货地址"
+            android:maxLength="16"
+            android:singleLine="true"
             android:textColor="@color/black"
             android:textColorHint="@color/myhint"/>
     </LinearLayout>

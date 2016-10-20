@@ -16,6 +16,7 @@
         android:layout_height="match_parent"
         android:layout_below="@id/include_title"
         android:background="@color/mybg"
+        android:layout_marginBottom="50dp"
         android:scrollbars="none">
     </android.support.v7.widget.RecyclerView>
 

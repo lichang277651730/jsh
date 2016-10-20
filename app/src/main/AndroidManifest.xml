@@ -80,6 +80,8 @@
                   android:theme="@style/SwipeBackTheme"/>
         <activity android:name=".center.AddressAddActivity"
                   android:theme="@style/SwipeBackTheme"/>
+        <activity android:name=".center.AddressEditActivity"
+                  android:theme="@style/SwipeBackTheme"/>
         <activity android:name=".center.LoginActivity"
                   android:theme="@style/SwipeBackTheme"/>
         <activity android:name=".center.Register1Activity"

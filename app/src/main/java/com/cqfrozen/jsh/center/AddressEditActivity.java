@@ -13,10 +13,9 @@ import com.common.base.BaseValue;
 import com.common.http.HttpForVolley;
 import com.common.widget.MyEditText;
 import com.cqfrozen.jsh.R;
+import com.cqfrozen.jsh.entity.AddressInfo;
 import com.cqfrozen.jsh.entity.AreaInfo;
 import com.cqfrozen.jsh.entity.AreaStreetInfo;
-import com.cqfrozen.jsh.entity.ShopInfo;
-import com.cqfrozen.jsh.entity.ShopPVInfo;
 import com.cqfrozen.jsh.entity.StreetInfo;
 import com.cqfrozen.jsh.main.MyActivity;
 import com.cqfrozen.jsh.util.ValidatorUtil;
@@ -30,24 +29,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Administrator on 2016/9/20.
- * intent.putExtra("s_id", s_id);
+ * Created by Administrator on 2016/10/20.
+ * intent.putExtra("addressInfo", addressInfo);
  */
-public class AddressAddActivity extends MyActivity implements View.OnClickListener {
+public class AddressEditActivity extends MyActivity implements View.OnClickListener {
 
     private MyEditText et_consignee;
     private MyEditText et_phone;
     private TextView tv_location;
-    private TextView tv_shop;
     private MyEditText et_address;
     private CheckBox cb_default;
     private Button btn_save;
-    private String consigneeStr;
-    private String phoneStr;
-    private String addresStr;
-    private String locationStr;
-    private int is_default = 0;
-    private String s_id;
+    private AddressInfo addressInfo;
     private List<AreaStreetInfo> locationInfos = new ArrayList<>();
     //  区域
     private ArrayList<AreaInfo> areaInfos = new ArrayList<>();
@@ -58,11 +51,14 @@ public class AddressAddActivity extends MyActivity implements View.OnClickListen
 
     private String street_id;
     private String area_id;
-    private OptionsPickerView shopOtionPV;
+    private int is_default = 0;
+    private String s_id;
+    private String a_id;//地址id
 
-
-    private List<ShopInfo> shopInfos = new ArrayList<>();
-    private ArrayList<ShopPVInfo> shopPVInfos = new ArrayList<>();
+    private String consigneeStr;
+    private String phoneStr;
+    private String addresStr;
+    private String locationStr;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -71,38 +67,33 @@ public class AddressAddActivity extends MyActivity implements View.OnClickListen
         getIntentData();
         initView();
         getLocationData();
-        getShopData();
     }
 
     private void getIntentData() {
-        s_id = getIntent().getStringExtra("s_id");
+        addressInfo = (AddressInfo) getIntent().getSerializableExtra("addressInfo");
+        s_id = addressInfo.s_id;
+        street_id = addressInfo.st_id;
+        area_id = addressInfo.area_id;
+        a_id = addressInfo.a_id;
     }
 
     private void initView() {
-        setMyTitle("新增地址");
+        setMyTitle("修改地址");
         et_consignee = (MyEditText) findViewById(R.id.et_consignee);
         et_phone = (MyEditText) findViewById(R.id.et_phone);
         tv_location = (TextView) findViewById(R.id.tv_location);
-        tv_shop = (TextView) findViewById(R.id.tv_shop);
         et_address = (MyEditText) findViewById(R.id.et_address);
         cb_default = (CheckBox) findViewById(R.id.cb_default);
         btn_save = (Button) findViewById(R.id.btn_save);
         tv_location.setOnClickListener(this);
-        tv_shop.setOnClickListener(this);
         btn_save.setOnClickListener(this);
+        initData();
         optionsPV = new OptionsPickerView(this);
-        shopOtionPV = new OptionsPickerView(this);
 
-        shopOtionPV.setOnoptionsSelectListener(new OptionsPickerView.OnOptionsSelectListener() {
-            @Override
-            public void onOptionsSelect(int options1, int option2, int options3) {
-                String shop = shopPVInfos.get(options1).getPickerViewText();
-                tv_shop.setText(shop);
-            }
-        });
 
         optionsPV.setOnoptionsSelectListener(new OptionsPickerView
                 .OnOptionsSelectListener() {
+
             @Override
             public void onOptionsSelect(int options1, int option2, int options3) {
                 String address = "";
@@ -120,25 +111,31 @@ public class AddressAddActivity extends MyActivity implements View.OnClickListen
         });
     }
 
+    private void initData() {
+        if(addressInfo != null){
+            et_consignee.setText(TextUtils.isEmpty(addressInfo.china_name) ? "" : addressInfo.china_name);
+            et_consignee.setSelection(et_consignee.getText().toString().length());
+            et_phone.setText(TextUtils.isEmpty(addressInfo.mobile_num) ? "" : addressInfo.mobile_num);
+            et_address.setText(TextUtils.isEmpty(addressInfo.address) ? "" : addressInfo.address);
+            cb_default.setChecked(addressInfo.is_default == 1 ? true : false);
+            tv_location.setText("渝中区大坪街道");
+        }
+    }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.tv_location://弹出区域选择列表
+            case R.id.tv_location:
                 optionsPV.show();
                 break;
-            case R.id.tv_shop://弹出区域选择列表
-                shopOtionPV.show();
-                break;
             case R.id.btn_save:
-                saveAddress();
+                editAddress();
                 break;
             default:
                 break;
         }
     }
-
-    private void saveAddress() {
+    private void editAddress() {
         consigneeStr = et_consignee.getText().toString().trim();
         phoneStr = et_phone.getText().toString().trim();
         locationStr = tv_location.getText().toString().trim();
@@ -155,7 +152,7 @@ public class AddressAddActivity extends MyActivity implements View.OnClickListen
             showToast("请选择区域街道");
             return;
         }
-        if(!TextUtils.isEmpty(locationStr) && TextUtils.isEmpty(street_id)){
+        if (!TextUtils.isEmpty(locationStr) && TextUtils.isEmpty(street_id)) {
             showToast("此区域暂不支持，请重新选择");
             return;
         }
@@ -173,66 +170,20 @@ public class AddressAddActivity extends MyActivity implements View.OnClickListen
             is_default = 0;
         }
 
-        MyHttp.addAddress(http, null, consigneeStr, phoneStr, addresStr, is_default, s_id,
-                street_id, area_id,new HttpForVolley.HttpTodo() {
+        MyHttp.editrAddress(http, null, a_id, consigneeStr, phoneStr, addresStr, is_default, s_id,
+                street_id, area_id, new HttpForVolley.HttpTodo() {
 
-            @Override
-            public void httpTodo(Integer which, JSONObject response) {
+                    @Override
+                    public void httpTodo(Integer which, JSONObject response) {
 
-                showToast(response.optString("msg"));
-                int code = response.optInt("code");
-                if (code != 0) {
-                    return;
-                }
-                finish();
-            }
-        });
-    }
-
-    /**
-     * 从服务器获取店铺信息
-     */
-    private void getShopData() {
-        MyHttp.storeList(http, null, new MyHttp.MyHttpResult() {
-            @Override
-            public void httpResult(Integer which, int code, String msg, Object bean) {
-                if(code != 0){
-                    showToast(msg);
-                    return;
-                }
-                shopInfos.addAll((List<ShopInfo>)bean);
-                if(shopInfos == null || shopInfos.size() == 0){
-                    return;
-                }
-                String shop_json = BaseValue.gson.toJson(shopInfos);
-                parseShop(shop_json);
-
-                shopOtionPV.setPicker(shopPVInfos);
-                //  设置是否循环滚动
-                shopOtionPV.setCyclic(false);
-                // 设置默认选中的三级项目
-                shopOtionPV.setSelectOptions(0);
-            }
-        });
-    }
-
-    private void parseShop(String shop_json) {
-        try {
-            //  获取json中的数组
-            JSONArray jsonArray = new JSONArray(shop_json);
-            for(int i = 0; i < jsonArray.length(); i++){
-//                store_name
-                //  获取商铺的对象
-                JSONObject shopObject = jsonArray.optJSONObject(i);
-
-                String store_name = shopObject.getString("store_name");
-                String s_id = shopObject.getString("s_id");
-                shopPVInfos.add(new ShopPVInfo(store_name, s_id));
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
+                        showToast(response.optString("msg"));
+                        int code = response.optInt("code");
+                        if (code != 0) {
+                            return;
+                        }
+                        finish();
+                    }
+                });
     }
 
     /**

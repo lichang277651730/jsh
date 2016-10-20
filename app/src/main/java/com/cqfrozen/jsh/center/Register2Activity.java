@@ -8,12 +8,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.amap.api.location.AMapLocation;
 import com.common.http.HttpForVolley;
 import com.common.widget.MyEditText;
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.main.MyActivity;
-import com.cqfrozen.jsh.main.MyApplication;
 import com.cqfrozen.jsh.util.ShowHiddenPwdUtil;
 import com.cqfrozen.jsh.volleyhttp.MyHttp;
 
@@ -35,7 +33,6 @@ public class Register2Activity extends MyActivity implements View.OnClickListene
     private String pwdOnceStr;
     private MyEditText et_shop_name;
     private MyEditText et_shop_manager;
-    private MyEditText et_location;
     private MyEditText et_address;
     private TextView tv_location;
     private ImageView iv_allow;
@@ -65,7 +62,6 @@ public class Register2Activity extends MyActivity implements View.OnClickListene
         setMyTitle("新用户注册");
         et_shop_name = (MyEditText) findViewById(R.id.et_shop_name);
         et_shop_manager = (MyEditText) findViewById(R.id.et_shop_manager);
-        et_location = (MyEditText) findViewById(R.id.et_location);
         et_address = (MyEditText) findViewById(R.id.et_address);
         tv_location = (TextView) findViewById(R.id.tv_location);
         iv_allow = (ImageView) findViewById(R.id.iv_allow);
@@ -73,12 +69,12 @@ public class Register2Activity extends MyActivity implements View.OnClickListene
         btn_register = (Button) findViewById(R.id.btn_register);
 
 
-        //初始化定位
-        MyApplication.locationClient.startLocation();
-        AMapLocation mapLocation = MyApplication.locationClient.getLastKnownLocation();
-        String locationStr = mapLocation.getDistrict();
-        adCodeStr = mapLocation.getAdCode();
-        et_location.setText(locationStr);
+//        //初始化定位
+//        MyApplication.locationClient.startLocation();
+//        AMapLocation mapLocation = MyApplication.locationClient.getLastKnownLocation();
+//        String locationStr = mapLocation.getDistrict();
+//        adCodeStr = mapLocation.getAdCode();
+//        et_location.setText(locationStr);
 
         tv_location.setOnClickListener(this);
         tv_allow.setOnClickListener(this);
@@ -93,6 +89,7 @@ public class Register2Activity extends MyActivity implements View.OnClickListene
                 register();
                 break;
             case R.id.tv_location:
+
                 break;
             case R.id.tv_allow:
                 break;
@@ -104,7 +101,7 @@ public class Register2Activity extends MyActivity implements View.OnClickListene
     private void register() {
         shopNameStr = et_shop_name.getText().toString().trim();
         shopManStr = et_shop_manager.getText().toString().trim();
-        locationStr = et_location.getText().toString().trim();
+        locationStr = tv_location.getText().toString().trim();
         addressStr = et_address.getText().toString().trim();
         if(TextUtils.isEmpty(phoneStr) || TextUtils.isEmpty(verifyCodeStr) || TextUtils.isEmpty(pwdOnceStr)){
             showToast("上一步注册数据出错");
