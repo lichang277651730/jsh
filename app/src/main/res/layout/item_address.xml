@@ -35,6 +35,7 @@
         android:layout_alignLeft="@id/tv_name"
         android:layout_marginTop="6dp"
         android:paddingLeft="16dp"
+        android:paddingRight="16dp"
         android:text="重庆市渝中区大坪康德国际"
         android:textSize="14sp"
         android:maxLines="2"/>
@@ -47,11 +48,12 @@
         android:gravity="center_vertical"
         android:paddingRight="16dp"
         android:orientation="horizontal">
-        <CheckBox
-            android:id="@+id/cb_default"
-            style="@style/customCheckbox"
-            android:layout_width="26dp"
-            android:layout_height="32dp"/>
+        <ImageView
+            android:id="@+id/iv_default"
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:padding="6dp"
+            android:src="@mipmap/cart_uncheched"/>
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"

@@ -84,6 +84,8 @@
                   android:theme="@style/SwipeBackTheme"/>
         <activity android:name=".center.LoginActivity"
                   android:theme="@style/SwipeBackTheme"/>
+        <activity android:name=".center.ForgetPwdActivity"
+                  android:theme="@style/SwipeBackTheme"/>
         <activity android:name=".center.Register1Activity"
                   android:theme="@style/SwipeBackTheme"/>
         <activity android:name=".center.Register2Activity"
@@ -93,6 +95,10 @@
         <activity android:name=".center.NormalBuyActivity"
                   android:theme="@style/SwipeBackTheme"/>
         <activity android:name=".center.ShopListActivity"
+                  android:theme="@style/SwipeBackTheme"/>
+        <activity android:name=".center.ShopEditActivity"
+                  android:theme="@style/SwipeBackTheme"/>
+        <activity android:name=".center.ShopAddActivity"
                   android:theme="@style/SwipeBackTheme"/>
         <activity android:name=".center.ChangePwdActivity"
                   android:theme="@style/SwipeBackTheme"/>

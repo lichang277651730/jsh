@@ -49,7 +49,7 @@ public class ClassifyIndicatorAdapter extends IndicatorViewPager.IndicatorFragme
 
     @Override
     public Fragment getFragmentForPage(int position) {
-        return GoodsFragment.getInstanceForClassify("5", categoryInfos.get(position % categoryInfos.size()).g_type_id);
+        return GoodsFragment.getInstanceForClassify(categoryInfos.get(position % categoryInfos.size()).g_type_id);
     }
 
 

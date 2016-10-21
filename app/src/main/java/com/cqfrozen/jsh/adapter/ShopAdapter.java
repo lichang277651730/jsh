@@ -32,11 +32,29 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.MyViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
-        ShopInfo shopInfo = shopInfos.get(position);
+    public void onBindViewHolder(MyViewHolder holder, final int position) {
+        final ShopInfo shopInfo = shopInfos.get(position);
         holder.tv_name.setText(shopInfo.china_name);
         holder.tv_phone.setText(shopInfo.mobile_num);
         holder.tv_address.setText(shopInfo.address);
+
+        holder.tv_edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(onEditClickListener != null){
+                    onEditClickListener.onEdit(position, shopInfo);
+                }
+            }
+        });
+
+        holder.tv_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(onDeleteClickListener != null){
+                    onDeleteClickListener.onDelete(position, shopInfo.s_id);
+                }
+            }
+        });
     }
 
     @Override
@@ -49,11 +67,35 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.MyViewHolder> 
         private TextView tv_name;
         private TextView tv_phone;
         private TextView tv_address;
+        private TextView tv_edit;
+        private TextView tv_delete;
         public MyViewHolder(View itemView) {
             super(itemView);
             tv_name = (TextView) itemView.findViewById(R.id.tv_name);
             tv_phone = (TextView) itemView.findViewById(R.id.tv_phone);
             tv_address = (TextView) itemView.findViewById(R.id.tv_address);
+            tv_edit = (TextView) itemView.findViewById(R.id.tv_edit);
+            tv_delete = (TextView) itemView.findViewById(R.id.tv_delete);
         }
+    }
+
+    private OnDeleteClickListener onDeleteClickListener;
+
+    public interface OnDeleteClickListener{
+        void onDelete(int position, String s_id);
+    }
+
+    public void setOnDeleteClickListener(OnDeleteClickListener onDeleteClickListener) {
+        this.onDeleteClickListener = onDeleteClickListener;
+    }
+
+    private OnEditClickListener onEditClickListener;
+
+    public void setOnEditClickListener(OnEditClickListener onEditClickListener) {
+        this.onEditClickListener = onEditClickListener;
+    }
+
+    public interface OnEditClickListener{
+        void onEdit(int position, ShopInfo shopInfo);
     }
 }

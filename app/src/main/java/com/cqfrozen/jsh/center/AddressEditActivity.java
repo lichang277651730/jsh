@@ -16,6 +16,8 @@ import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.entity.AddressInfo;
 import com.cqfrozen.jsh.entity.AreaInfo;
 import com.cqfrozen.jsh.entity.AreaStreetInfo;
+import com.cqfrozen.jsh.entity.ShopInfo;
+import com.cqfrozen.jsh.entity.ShopPVInfo;
 import com.cqfrozen.jsh.entity.StreetInfo;
 import com.cqfrozen.jsh.main.MyActivity;
 import com.cqfrozen.jsh.util.ValidatorUtil;
@@ -47,7 +49,7 @@ public class AddressEditActivity extends MyActivity implements View.OnClickListe
     //  街道
     private ArrayList<StreetInfo> streetInfos;
     private ArrayList<ArrayList<StreetInfo>> streestinfoList = new ArrayList<>();
-    private OptionsPickerView optionsPV;
+    private OptionsPickerView streetOptionsPV;
 
     private String street_id;
     private String area_id;
@@ -59,6 +61,11 @@ public class AddressEditActivity extends MyActivity implements View.OnClickListe
     private String phoneStr;
     private String addresStr;
     private String locationStr;
+    private OptionsPickerView shopOptionsPV;
+    private TextView tv_shop;
+
+    private List<ShopInfo> shopInfos = new ArrayList<>();
+    private ArrayList<ShopPVInfo> shopPVInfos = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -67,6 +74,7 @@ public class AddressEditActivity extends MyActivity implements View.OnClickListe
         getIntentData();
         initView();
         getLocationData();
+        getShopData();
     }
 
     private void getIntentData() {
@@ -82,16 +90,30 @@ public class AddressEditActivity extends MyActivity implements View.OnClickListe
         et_consignee = (MyEditText) findViewById(R.id.et_consignee);
         et_phone = (MyEditText) findViewById(R.id.et_phone);
         tv_location = (TextView) findViewById(R.id.tv_location);
+        tv_shop = (TextView) findViewById(R.id.tv_shop);
         et_address = (MyEditText) findViewById(R.id.et_address);
         cb_default = (CheckBox) findViewById(R.id.cb_default);
         btn_save = (Button) findViewById(R.id.btn_save);
         tv_location.setOnClickListener(this);
+        tv_shop.setOnClickListener(this);
         btn_save.setOnClickListener(this);
         initData();
-        optionsPV = new OptionsPickerView(this);
 
+        streetOptionsPV = new OptionsPickerView(this);
+        shopOptionsPV = new OptionsPickerView(this);
 
-        optionsPV.setOnoptionsSelectListener(new OptionsPickerView
+        shopOptionsPV.setOnoptionsSelectListener(new OptionsPickerView.OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int option2, int options3) {
+                if(shopPVInfos.get(options1) != null){
+                    String shop = shopPVInfos.get(options1).getPickerViewText();
+                    s_id = shopPVInfos.get(options1).getS_id();
+                    tv_shop.setText(shop);
+                }
+            }
+        });
+
+        streetOptionsPV.setOnoptionsSelectListener(new OptionsPickerView
                 .OnOptionsSelectListener() {
 
             @Override
@@ -109,6 +131,8 @@ public class AddressEditActivity extends MyActivity implements View.OnClickListe
                 tv_location.setText(address);
             }
         });
+
+
     }
 
     private void initData() {
@@ -118,7 +142,10 @@ public class AddressEditActivity extends MyActivity implements View.OnClickListe
             et_phone.setText(TextUtils.isEmpty(addressInfo.mobile_num) ? "" : addressInfo.mobile_num);
             et_address.setText(TextUtils.isEmpty(addressInfo.address) ? "" : addressInfo.address);
             cb_default.setChecked(addressInfo.is_default == 1 ? true : false);
-            tv_location.setText("渝中区大坪街道");
+            String areaName = TextUtils.isEmpty(addressInfo.area_name) ? "" : addressInfo.area_name;
+            String streetName = TextUtils.isEmpty(addressInfo.street_name) ? "" : addressInfo.street_name;
+            tv_location.setText(areaName + " " + streetName);
+            tv_shop.setText(TextUtils.isEmpty(addressInfo.store_name) ? "" : addressInfo.store_name);
         }
     }
 
@@ -126,7 +153,10 @@ public class AddressEditActivity extends MyActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_location:
-                optionsPV.show();
+                streetOptionsPV.show();
+                break;
+            case R.id.tv_shop:
+                shopOptionsPV.show();
                 break;
             case R.id.btn_save:
                 editAddress();
@@ -156,12 +186,12 @@ public class AddressEditActivity extends MyActivity implements View.OnClickListe
             showToast("此区域暂不支持，请重新选择");
             return;
         }
-        if (TextUtils.isEmpty(addresStr)) {
-            showToast("详细地址不能为空");
-            return;
-        }
         if (TextUtils.isEmpty(s_id)) {
             showToast("门店信息有误");
+            return;
+        }
+        if (TextUtils.isEmpty(addresStr)) {
+            showToast("详细地址不能为空");
             return;
         }
         if (cb_default.isChecked()) {
@@ -181,6 +211,7 @@ public class AddressEditActivity extends MyActivity implements View.OnClickListe
                         if (code != 0) {
                             return;
                         }
+                        setResult(RESULT_OK);
                         finish();
                     }
                 });
@@ -200,14 +231,42 @@ public class AddressEditActivity extends MyActivity implements View.OnClickListe
                 String location_json = BaseValue.gson.toJson(locationInfos);
                 parseAreaStreet(location_json);
 
-                optionsPV.setPicker(areaInfos, streestinfoList, true);
+                streetOptionsPV.setPicker(areaInfos, streestinfoList, true);
                 //  设置是否循环滚动
-                optionsPV.setCyclic(false);
+                streetOptionsPV.setCyclic(false);
                 // 设置默认选中的三级项目
-                optionsPV.setSelectOptions(0, 0);
+                streetOptionsPV.setSelectOptions(0, 0);
             }
         });
     }
+
+    /**
+     * 从服务器获取店铺信息
+     */
+    private void getShopData() {
+        MyHttp.shopList(http, null, new MyHttp.MyHttpResult() {
+            @Override
+            public void httpResult(Integer which, int code, String msg, Object bean) {
+                if(code != 0){
+                    showToast(msg);
+                    return;
+                }
+                shopInfos.addAll((List<ShopInfo>)bean);
+                if(shopInfos == null || shopInfos.size() == 0){
+                    return;
+                }
+                String shop_json = BaseValue.gson.toJson(shopInfos);
+                parseShop(shop_json);
+
+                shopOptionsPV.setPicker(shopPVInfos);
+                //  设置是否循环滚动
+                shopOptionsPV.setCyclic(false);
+                // 设置默认选中的三级项目
+                shopOptionsPV.setSelectOptions(0);
+            }
+        });
+    }
+
 
     private void parseAreaStreet(String location_json) {
         try {
@@ -242,5 +301,23 @@ public class AddressEditActivity extends MyActivity implements View.OnClickListe
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    private void parseShop(String shop_json) {
+        try {
+            //  获取json中的数组
+            JSONArray jsonArray = new JSONArray(shop_json);
+            for(int i = 0; i < jsonArray.length(); i++){
+                //  获取商铺的对象
+                JSONObject shopObject = jsonArray.optJSONObject(i);
+
+                String store_name = shopObject.getString("store_name");
+                String s_id = shopObject.getString("s_id");
+                shopPVInfos.add(new ShopPVInfo(store_name, s_id));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 }

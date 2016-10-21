@@ -94,8 +94,8 @@ public class InformationActivity extends MyActivity implements View.OnClickListe
         tv_woman.setOnClickListener(this);
         tv_secret.setOnClickListener(this);
         dialog = new AlertDialog.Builder(this).create();
-        dialog.show();
         dialog.setContentView(view);
+        dialog.show();
     }
 
     @Override

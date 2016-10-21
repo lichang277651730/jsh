@@ -48,7 +48,7 @@
                     android:layout_height="60dp"
                     android:scaleType="fitXY"
                     android:layout_marginTop="35dp"
-                    android:src="@mipmap/center_head"/>
+                    android:src="@mipmap/icon_mine_head_default"/>
             </LinearLayout>
 
             <LinearLayout

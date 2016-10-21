@@ -1,5 +1,7 @@
 package com.cqfrozen.jsh.center;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -27,11 +29,15 @@ import java.util.List;
  */
 public class AddressListActivity extends MyActivity implements View.OnClickListener {
 
+    private static final int REQUEST_CODE_ADD = 1;
+    private static final int REQUEST_CODE_EDIT = 2;
+
     private TextView tv_add;
     private RecyclerView rv_addresslist;
     private List<AddressInfo> addressInfos = new ArrayList<>();
     private AddressAdapter adapter;
-    private String s_id;
+    private AlertDialog deleteDialog;
+    private AlertDialog defaultDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,23 +64,93 @@ public class AddressListActivity extends MyActivity implements View.OnClickListe
         rv_addresslist.addItemDecoration(decoration);
         rv_addresslist.setLayoutManager(manager);
         rv_addresslist.setAdapter(adapter);
+        //点击列表上每个item的删除按钮
         adapter.setOnDeleteClickListener(new AddressAdapter.OnDeleteClickListener() {
             @Override
-            public void onDelete(final int position, String a_id) {
-                MyHttp.deleterAddress(http, null, a_id, new HttpForVolley.HttpTodo() {
-                    @Override
-                    public void httpTodo(Integer which, JSONObject response) {
-                        int code = response.optInt("code");
-                        showToast(response.optString("msg"));
-                        if(code != 0){
-                            return;
-                        }
-                        addressInfos.remove(position);
-                        adapter.notifyDataSetChanged();
-                    }
-                });
+            public void onDelete(int position, String a_id) {
+                showDeleteDialog(position, a_id);
             }
         });
+
+        //点击列表上每个item的编辑按钮
+        adapter.setOnEditClickListener(new AddressAdapter.OnEditClickListener() {
+            @Override
+            public void onEdit(int position, AddressInfo addressInfo) {
+                Intent intent = new Intent(AddressListActivity.this, AddressEditActivity.class);
+                intent.putExtra("addressInfo", addressInfo);
+                startActivityForResult(intent, REQUEST_CODE_EDIT);
+            }
+        });
+
+        //点击列表上每个item的设置默认按钮
+        adapter.setOnCheckClickListener(new AddressAdapter.OnCheckClickListener() {
+            @Override
+            public void onCheck(int position, String a_id, int is_default) {
+                if(is_default != 1){
+                    showDefaultDialog(position, a_id);
+                }
+            }
+        });
+    }
+
+    private void showDefaultDialog(int position, final String a_id) {
+
+        defaultDialog = new AlertDialog.Builder(this)
+                .setMessage("确定设置此地址为默认地址吗？")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        MyHttp.setDefault(http, null, a_id, new HttpForVolley.HttpTodo() {
+                            @Override
+                            public void httpTodo(Integer which, JSONObject response) {
+                                int code = response.optInt("code");
+                                showToast(response.optString("msg"));
+                                if(code != 0){
+                                    return;
+                                }
+                                getData();
+                            }
+                        });
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                })
+                .create();
+        defaultDialog.show();
+    }
+
+    private void showDeleteDialog(final int position, final String a_id) {
+        deleteDialog = new AlertDialog.Builder(this)
+                .setMessage("确定要删除改地址吗？")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        MyHttp.deleterAddress(http, null, a_id, new HttpForVolley.HttpTodo() {
+                            @Override
+                            public void httpTodo(Integer which, JSONObject response) {
+                                int code = response.optInt("code");
+                                showToast(response.optString("msg"));
+                                if(code != 0){
+                                    return;
+                                }
+                                addressInfos.remove(position);
+                                adapter.notifyDataSetChanged();
+                            }
+                        });
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                })
+                .create();
+        deleteDialog.show();
     }
 
 
@@ -102,7 +178,6 @@ public class AddressListActivity extends MyActivity implements View.OnClickListe
                         break;
                     }
                 }
-                s_id = addressInfos.get(0).s_id;//为添加新地址需要参数：s_id
                 adapter.notifyDataSetChanged();
             }
         });
@@ -113,11 +188,20 @@ public class AddressListActivity extends MyActivity implements View.OnClickListe
         switch (v.getId()) {
             case R.id.tv_add://添加新收货地址
                 Intent intent = new Intent(this, AddressAddActivity.class);
-                intent.putExtra("s_id", s_id);
-                startActivity(intent);
+                startActivityForResult(intent, REQUEST_CODE_ADD);
                 break;
             default:
                 break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == REQUEST_CODE_ADD || requestCode == REQUEST_CODE_EDIT){
+            if(resultCode == RESULT_OK){
+                getData();
+            }
         }
     }
 }

@@ -1,16 +1,14 @@
 package com.cqfrozen.jsh.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cqfrozen.jsh.R;
-import com.cqfrozen.jsh.center.AddressEditActivity;
 import com.cqfrozen.jsh.entity.AddressInfo;
 
 import java.util.List;
@@ -41,15 +39,31 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.MyViewHo
         holder.tv_name.setText(addressInfo.china_name);
         holder.tv_phone.setText(addressInfo.mobile_num);
         holder.tv_address.setText(addressInfo.address);
-        holder.cb_default.setChecked(addressInfo.is_default == 1 ? true : false);
+
+        if(addressInfo.is_default == 1){
+            holder.iv_default.setImageResource(R.mipmap.cart_checked);
+        }else {
+            holder.iv_default.setImageResource(R.mipmap.cart_uncheched);
+        }
+
         holder.tv_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, AddressEditActivity.class);
-                intent.putExtra("addressInfo", addressInfo);
-                context.startActivity(intent);
+                if(onEditClickListener != null){
+                    onEditClickListener.onEdit(position, addressInfo);
+                }
             }
         });
+
+        holder.iv_default.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(onCheckClickListener != null){
+                    onCheckClickListener.onCheck(position, addressInfo.a_id, addressInfo.is_default);
+                }
+            }
+        });
+
         holder.tv_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,7 +86,7 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.MyViewHo
         private TextView tv_address;
         private TextView tv_edit;
         private TextView tv_delete;
-        private CheckBox cb_default;
+        private ImageView iv_default;
         public MyViewHolder(View itemView) {
             super(itemView);
             tv_name = (TextView) itemView.findViewById(R.id.tv_name);
@@ -80,7 +94,7 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.MyViewHo
             tv_address = (TextView) itemView.findViewById(R.id.tv_address);
             tv_edit = (TextView) itemView.findViewById(R.id.tv_edit);
             tv_delete = (TextView) itemView.findViewById(R.id.tv_delete);
-            cb_default = (CheckBox) itemView.findViewById(R.id.cb_default);
+            iv_default = (ImageView) itemView.findViewById(R.id.iv_default);
         }
     }
 
@@ -93,4 +107,25 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.MyViewHo
     public void setOnDeleteClickListener(OnDeleteClickListener onDeleteClickListener) {
         this.onDeleteClickListener = onDeleteClickListener;
     }
+
+    private OnEditClickListener onEditClickListener;
+
+    public void setOnEditClickListener(OnEditClickListener onEditClickListener) {
+        this.onEditClickListener = onEditClickListener;
+    }
+
+    public interface OnEditClickListener{
+        void onEdit(int position, AddressInfo addressInfo);
+    }
+
+    private OnCheckClickListener onCheckClickListener;
+
+    public void setOnCheckClickListener(OnCheckClickListener onCheckClickListener) {
+        this.onCheckClickListener = onCheckClickListener;
+    }
+
+    public interface OnCheckClickListener{
+        void onCheck(int position, String a_id, int is_default);
+    }
+
 }

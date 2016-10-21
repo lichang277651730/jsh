@@ -14,5 +14,7 @@ public class AddressInfo extends BaseEntity {
     public String st_id;
     public String area_id;
     public String store_name;
+    public String street_name;
+    public String area_name;
 
 }

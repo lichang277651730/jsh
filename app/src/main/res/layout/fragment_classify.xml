@@ -34,20 +34,19 @@
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="45dp">
+        android:layout_height="45dp"
+        android:background="@color/white">
         <com.shizhefei.view.indicator.ScrollIndicatorView
             android:id="@+id/indicator_classify"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:background="@color/white"
             android:layout_marginRight="40dp"/>
         <ImageView
             android:id="@+id/iv_pop"
             android:layout_width="45dp"
             android:layout_height="35dp"
-            android:padding="4dp"
+            android:layout_marginTop="4dp"
             android:layout_alignParentRight="true"
-            android:background="@color/white"
             android:src="@mipmap/icon_classify_shortcut"/>
     </RelativeLayout>
 

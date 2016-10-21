@@ -37,7 +37,6 @@ public class GoodsFragment extends MyFragment implements MyHttp.MyHttpResult, My
     private List<GoodsInfo> goodsInfos = new ArrayList<>();
     private GoodsAdapter goodsAdapter;
 
-    private String area_id = "5";
     private String g_type_id;
     private int page = 1;
     private int is_page = 1;
@@ -54,10 +53,9 @@ public class GoodsFragment extends MyFragment implements MyHttp.MyHttpResult, My
         return fragment;
     }
 
-    public static GoodsFragment getInstanceForClassify(String area_id, String g_type_id){
+    public static GoodsFragment getInstanceForClassify(String g_type_id){
         GoodsFragment fragment = new GoodsFragment();
         Bundle bundle = new Bundle();
-        bundle.putString("area_id", area_id);
         bundle.putInt("where", Where.CLASSIFY);
         bundle.putString("g_type_id", g_type_id);
         fragment.setArguments(bundle);
@@ -124,7 +122,7 @@ public class GoodsFragment extends MyFragment implements MyHttp.MyHttpResult, My
         switch (this.where) {
             case Where.CLASSIFY:
                 refresh_goods.setRefreshble(true);
-                MyHttp.goodstypeList(http, null, area_id, page, g_type_id, this);
+                MyHttp.goodstypeList(http, null, page, g_type_id, this);
                 break;
             case Where.SEARCH:
                 refresh_goods.setRefreshble(false);
@@ -139,7 +137,6 @@ public class GoodsFragment extends MyFragment implements MyHttp.MyHttpResult, My
         this.where = bundle.getInt("where");
         switch (this.where) {
             case Where.CLASSIFY:
-                this.area_id = bundle.getString("area_id");
                 this.g_type_id = bundle.getString("g_type_id");
                 break;
             case Where.SEARCH:

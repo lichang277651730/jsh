@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bigkoo.pickerview.OptionsPickerView;
@@ -17,7 +16,7 @@ import com.cqfrozen.jsh.entity.AreaInfo;
 import com.cqfrozen.jsh.entity.AreaStreetInfo;
 import com.cqfrozen.jsh.entity.StreetInfo;
 import com.cqfrozen.jsh.main.MyActivity;
-import com.cqfrozen.jsh.util.ShowHiddenPwdUtil;
+import com.cqfrozen.jsh.util.ValidatorUtil;
 import com.cqfrozen.jsh.volleyhttp.MyHttp;
 
 import org.json.JSONArray;
@@ -28,37 +27,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Administrator on 2016/10/12.
- *  intent.putExtra("phoneStr", phoneStr);
- * intent.putExtra("verifyCodeStr", verifyCodeStr);
- * intent.putExtra("pwdOnceStr", pwdOnceStr);
+ * Created by Administrator on 2016/10/21.
  */
-public class Register2Activity extends MyActivity implements View.OnClickListener {
+public class ShopAddActivity extends MyActivity implements View.OnClickListener {
 
-    private static final int TAG_ALLOW_YES = 1;
-    private static final int TAG_ALLOW_NO = 2;
-
-    private String phoneStr;
-    private String verifyCodeStr;
-    private String pwdOnceStr;
-    private MyEditText et_shop_name;
-    private MyEditText et_shop_manager;
-    private MyEditText et_address;
-    private MyEditText et_invite;
+    private MyEditText et_name;
+    private MyEditText et_phone;
     private TextView tv_location;
-    private ImageView iv_allow;
-    private TextView tv_allow;
-    private Button btn_register;
-    private String adCodeStr;
-    private String shopNameStr;
-    private String shopManStr;
-    private String addressStr;
-    private String inviteStr;
-    private String locationStr;
-    private OptionsPickerView streetOptionsPV;
-
-    private String street_id;
-    private String area_id;
+    private MyEditText et_shop;
+    private MyEditText et_address;
+    private Button btn_save;
 
     private List<AreaStreetInfo> locationInfos = new ArrayList<>();
     //  区域
@@ -66,38 +44,31 @@ public class Register2Activity extends MyActivity implements View.OnClickListene
     //  街道
     private ArrayList<StreetInfo> streetInfos;
     private ArrayList<ArrayList<StreetInfo>> streestinfoList = new ArrayList<>();
+    private OptionsPickerView streetOptionsPV;
+
+    private String street_id;
+    private String area_id;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register2);
-        getIntentData();
+        setContentView(R.layout.activity_shopadd);
         initView();
         getLocationData();
     }
 
-    private void getIntentData() {
-        phoneStr = getIntent().getStringExtra("phoneStr");
-        verifyCodeStr = getIntent().getStringExtra("verifyCodeStr");
-        pwdOnceStr = getIntent().getStringExtra("pwdOnceStr");
-    }
-
     private void initView() {
-        setMyTitle("新用户注册");
-        et_shop_name = (MyEditText) findViewById(R.id.et_shop_name);
-        et_shop_manager = (MyEditText) findViewById(R.id.et_shop_manager);
-        et_address = (MyEditText) findViewById(R.id.et_address);
-        et_invite = (MyEditText) findViewById(R.id.et_invite);
+        setMyTitle("新增店铺");
+        et_name = (MyEditText) findViewById(R.id.et_name);
+        et_phone = (MyEditText) findViewById(R.id.et_phone);
         tv_location = (TextView) findViewById(R.id.tv_location);
-        iv_allow = (ImageView) findViewById(R.id.iv_allow);
-        tv_allow = (TextView) findViewById(R.id.tv_allow);
-        btn_register = (Button) findViewById(R.id.btn_register);
-        streetOptionsPV = new OptionsPickerView(this);
+        et_shop = (MyEditText) findViewById(R.id.et_shop);
+        et_address = (MyEditText) findViewById(R.id.et_address);
+        btn_save = (Button) findViewById(R.id.btn_save);
 
         tv_location.setOnClickListener(this);
-        tv_allow.setOnClickListener(this);
-        btn_register.setOnClickListener(this);
-        ShowHiddenPwdUtil.initAllow(iv_allow, tv_allow, btn_register);
+        btn_save.setOnClickListener(this);
+        streetOptionsPV = new OptionsPickerView(this);
 
         streetOptionsPV.setOnoptionsSelectListener(new OptionsPickerView
                 .OnOptionsSelectListener() {
@@ -121,57 +92,60 @@ public class Register2Activity extends MyActivity implements View.OnClickListene
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_register:
-                register();
-                break;
-            case R.id.tv_location:
+            case R.id.tv_location://弹出区域选择列表
                 streetOptionsPV.show();
+                break;
+            case R.id.btn_save:
+                saveShop();
                 break;
             default:
                 break;
         }
     }
 
-    private void register() {
-        shopNameStr = et_shop_name.getText().toString().trim();
-        shopManStr = et_shop_manager.getText().toString().trim();
-        locationStr = tv_location.getText().toString().trim();
-        addressStr = et_address.getText().toString().trim();
-        inviteStr = et_invite.getText().toString().trim();
-        if(TextUtils.isEmpty(phoneStr) || TextUtils.isEmpty(verifyCodeStr) || TextUtils.isEmpty(pwdOnceStr)){
-            showToast("上一步注册数据出错");
+    private void saveShop() {
+        String nameStr = et_name.getText().toString().trim();
+        String phoneStr = et_phone.getText().toString().trim();
+        String locationStr = tv_location.getText().toString().trim();
+        String shopStr = et_shop.getText().toString().trim();
+        String addressStr = et_address.getText().toString().trim();
+        if (TextUtils.isEmpty(nameStr)) {
+            showToast("店长名不能为空");
+            return;
+        }
+        if (!ValidatorUtil.isMobile(phoneStr)) {
+            showToast("请输入正确电话号码");
+            return;
+        }
+        if (TextUtils.isEmpty(locationStr)) {
+            showToast("请选择区域街道");
+            return;
+        }
+        if(!TextUtils.isEmpty(locationStr) && TextUtils.isEmpty(street_id)){
+            showToast("此区域暂不支持，请重新选择");
+            return;
+        }
+        if (TextUtils.isEmpty(shopStr)) {
+            showToast("请输入店铺名");
+            return;
+        }
+        if (TextUtils.isEmpty(addressStr)) {
+            showToast("店铺地址不能为空");
             return;
         }
 
-        if(TextUtils.isEmpty(shopNameStr) || shopNameStr.length() > 30){
-            showToast("店名不正确");
-            return;
-        }
+        MyHttp.addStore(http, null, nameStr, phoneStr, street_id, area_id, shopStr, addressStr, new HttpForVolley.HttpTodo() {
 
-        if(TextUtils.isEmpty(shopManStr) || shopManStr.length() > 10){
-            showToast("姓名不正确");
-            return;
-        }
-
-        if(TextUtils.isEmpty(locationStr) || TextUtils.isEmpty(area_id) || TextUtils.isEmpty(street_id)){
-            showToast("选择区域有误，请重新选择");
-            return;
-        }
-
-        if(TextUtils.isEmpty(addressStr)){
-            showToast("请填写收货地址");
-            return;
-        }
-
-        MyHttp.register(http, null, phoneStr, pwdOnceStr, shopNameStr, shopManStr, area_id, street_id, addressStr,
-                verifyCodeStr, TextUtils.isEmpty(inviteStr) ? "" : inviteStr, new HttpForVolley.HttpTodo() {
                     @Override
                     public void httpTodo(Integer which, JSONObject response) {
+
                         showToast(response.optString("msg"));
                         int code = response.optInt("code");
-                        if(code != 0){
+                        if (code != 0) {
                             return;
                         }
+                        setResult(RESULT_OK);
+                        finish();
                     }
                 });
     }

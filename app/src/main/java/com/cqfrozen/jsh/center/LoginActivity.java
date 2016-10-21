@@ -32,6 +32,7 @@ public class LoginActivity extends MyActivity implements View.OnClickListener {
     private Button btn_login;
     private String phoneStr;
     private TextView tv_regist;
+    private TextView tv_forget;
     private ImageView iv_see_pwd;
 
     @Override
@@ -46,11 +47,13 @@ public class LoginActivity extends MyActivity implements View.OnClickListener {
         setMyTitle("");
         et_phone = (MyEditText) findViewById(R.id.et_phone);
         et_password = (MyEditText) findViewById(R.id.et_password);
+        tv_forget = (TextView) findViewById(R.id.tv_forget);
         tv_regist = (TextView) findViewById(R.id.tv_regist);
         btn_login = (Button) findViewById(R.id.btn_login);
         iv_see_pwd = (ImageView) findViewById(R.id.iv_see_pwd);
-        btn_login.setOnClickListener(this);
+        tv_forget.setOnClickListener(this);
         tv_regist.setOnClickListener(this);
+        btn_login.setOnClickListener(this);
         String phoneNumCache = SPUtils.getPhoneNum();
         if(!TextUtils.isEmpty(phoneNumCache)){
             et_phone.setText(phoneNumCache);
@@ -62,11 +65,14 @@ public class LoginActivity extends MyActivity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_login:
-                goLogin();
+            case R.id.tv_forget:
+                startActivity(new Intent(this, ForgetPwdActivity.class));
                 break;
             case R.id.tv_regist:
                 startActivity(new Intent(this, Register1Activity.class));
+                break;
+            case R.id.btn_login:
+                goLogin();
                 break;
             default:
                 break;

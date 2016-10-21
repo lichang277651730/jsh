@@ -167,7 +167,7 @@ public class CartActivity extends MyActivity implements View.OnClickListener, Re
 
 
     private void getDataFromServer() {
-        MyHttp.queryCart(http, null, page, area_id, new MyHttp.MyHttpResult() {
+        MyHttp.queryCart(http, null, page, new MyHttp.MyHttpResult() {
             @Override
             public void httpResult(Integer which, int code, String msg, Object bean) {
 

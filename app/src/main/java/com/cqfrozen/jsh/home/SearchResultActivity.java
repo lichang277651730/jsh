@@ -134,7 +134,7 @@ public class SearchResultActivity extends MyActivity implements View.OnClickList
         tv_all.setTextColor(getResources().getColor(R.color.black));
         tv_price.setTextColor(getResources().getColor(R.color.black));
         tv_sales.setTextColor(getResources().getColor(R.color.black));
-        iv_price_sort.setImageResource(R.mipmap.sort_default);
+        iv_price_sort.setImageResource(R.mipmap.icon_search_price_default);
 
         v_all.setVisibility(View.INVISIBLE);
         v_price.setVisibility(View.INVISIBLE);
@@ -152,10 +152,10 @@ public class SearchResultActivity extends MyActivity implements View.OnClickList
                 sort = SortType.PRICE;
                 if(OrderType.DESC == order){
                     order = OrderType.ASC;
-                    iv_price_sort.setImageResource(R.mipmap.sort_asc);
+                    iv_price_sort.setImageResource(R.mipmap.icon_search_price_asc);
                 }else if(OrderType.ASC == order){
                     order = OrderType.DESC;
-                    iv_price_sort.setImageResource(R.mipmap.sort_desc);
+                    iv_price_sort.setImageResource(R.mipmap.icon_search_price_desc);
                 }
                 break;
             case R.id.tv_sales:

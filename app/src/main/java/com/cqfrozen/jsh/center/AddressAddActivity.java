@@ -31,7 +31,7 @@ import java.util.List;
 
 /**
  * Created by Administrator on 2016/9/20.
- * intent.putExtra("s_id", s_id);
+ * 添加收货地址页面
  */
 public class AddressAddActivity extends MyActivity implements View.OnClickListener {
 
@@ -54,7 +54,7 @@ public class AddressAddActivity extends MyActivity implements View.OnClickListen
     //  街道
     private ArrayList<StreetInfo> streetInfos;
     private ArrayList<ArrayList<StreetInfo>> streestinfoList = new ArrayList<>();
-    private OptionsPickerView optionsPV;
+    private OptionsPickerView streetOptionsPV;
 
     private String street_id;
     private String area_id;
@@ -68,14 +68,9 @@ public class AddressAddActivity extends MyActivity implements View.OnClickListen
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addressadd);
-        getIntentData();
         initView();
         getLocationData();
         getShopData();
-    }
-
-    private void getIntentData() {
-        s_id = getIntent().getStringExtra("s_id");
     }
 
     private void initView() {
@@ -90,18 +85,21 @@ public class AddressAddActivity extends MyActivity implements View.OnClickListen
         tv_location.setOnClickListener(this);
         tv_shop.setOnClickListener(this);
         btn_save.setOnClickListener(this);
-        optionsPV = new OptionsPickerView(this);
+        streetOptionsPV = new OptionsPickerView(this);
         shopOtionPV = new OptionsPickerView(this);
 
         shopOtionPV.setOnoptionsSelectListener(new OptionsPickerView.OnOptionsSelectListener() {
             @Override
             public void onOptionsSelect(int options1, int option2, int options3) {
-                String shop = shopPVInfos.get(options1).getPickerViewText();
-                tv_shop.setText(shop);
+                if(shopPVInfos.get(options1) != null){
+                    String shop = shopPVInfos.get(options1).getPickerViewText();
+                    s_id = shopPVInfos.get(options1).getS_id();
+                    tv_shop.setText(shop);
+                }
             }
         });
 
-        optionsPV.setOnoptionsSelectListener(new OptionsPickerView
+        streetOptionsPV.setOnoptionsSelectListener(new OptionsPickerView
                 .OnOptionsSelectListener() {
             @Override
             public void onOptionsSelect(int options1, int option2, int options3) {
@@ -125,7 +123,7 @@ public class AddressAddActivity extends MyActivity implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_location://弹出区域选择列表
-                optionsPV.show();
+                streetOptionsPV.show();
                 break;
             case R.id.tv_shop://弹出区域选择列表
                 shopOtionPV.show();
@@ -159,12 +157,12 @@ public class AddressAddActivity extends MyActivity implements View.OnClickListen
             showToast("此区域暂不支持，请重新选择");
             return;
         }
-        if (TextUtils.isEmpty(addresStr)) {
-            showToast("详细地址不能为空");
+        if (TextUtils.isEmpty(s_id)) {
+            showToast("请选择门店");
             return;
         }
-        if (TextUtils.isEmpty(s_id)) {
-            showToast("门店信息有误");
+        if (TextUtils.isEmpty(addresStr)) {
+            showToast("详细地址不能为空");
             return;
         }
         if (cb_default.isChecked()) {
@@ -184,6 +182,7 @@ public class AddressAddActivity extends MyActivity implements View.OnClickListen
                 if (code != 0) {
                     return;
                 }
+                setResult(RESULT_OK);
                 finish();
             }
         });
@@ -193,7 +192,7 @@ public class AddressAddActivity extends MyActivity implements View.OnClickListen
      * 从服务器获取店铺信息
      */
     private void getShopData() {
-        MyHttp.storeList(http, null, new MyHttp.MyHttpResult() {
+        MyHttp.shopList(http, null, new MyHttp.MyHttpResult() {
             @Override
             public void httpResult(Integer which, int code, String msg, Object bean) {
                 if(code != 0){
@@ -221,7 +220,6 @@ public class AddressAddActivity extends MyActivity implements View.OnClickListen
             //  获取json中的数组
             JSONArray jsonArray = new JSONArray(shop_json);
             for(int i = 0; i < jsonArray.length(); i++){
-//                store_name
                 //  获取商铺的对象
                 JSONObject shopObject = jsonArray.optJSONObject(i);
 
@@ -249,11 +247,11 @@ public class AddressAddActivity extends MyActivity implements View.OnClickListen
                 String location_json = BaseValue.gson.toJson(locationInfos);
                 parseAreaStreet(location_json);
 
-                optionsPV.setPicker(areaInfos, streestinfoList, true);
+                streetOptionsPV.setPicker(areaInfos, streestinfoList, true);
                 //  设置是否循环滚动
-                optionsPV.setCyclic(false);
+                streetOptionsPV.setCyclic(false);
                 // 设置默认选中的三级项目
-                optionsPV.setSelectOptions(0, 0);
+                streetOptionsPV.setSelectOptions(0, 0);
             }
         });
     }

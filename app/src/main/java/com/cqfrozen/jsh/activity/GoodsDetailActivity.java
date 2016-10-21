@@ -166,7 +166,7 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
      * 获取购物车数量
      */
     private void getCartNumFromServer() {
-        MyHttp.queryCart(http, null, 1, 5, new MyHttp.MyHttpResult() {
+        MyHttp.queryCart(http, null, 1, new MyHttp.MyHttpResult() {
 
             @Override
             public void httpResult(Integer which, int code, String msg, Object bean) {

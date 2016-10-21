@@ -49,7 +49,6 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
     private CartManager cartManager;
     private int page = 1;
     private int is_page = 0;//是否有下一页数据
-    private int area_id = 5;
     private TextView tv_carr;
     private LinearLayout include_cartnodatalayout;
     private Button include_cartnodata_btn;
@@ -180,7 +179,7 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
     }
 
     private void getDataFromServer() {
-        MyHttp.queryCart(http, null, page, area_id, new MyHttp.MyHttpResult() {
+        MyHttp.queryCart(http, null, page, new MyHttp.MyHttpResult() {
             @Override
             public void httpResult(Integer which, int code, String msg, Object bean) {
 

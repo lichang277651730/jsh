@@ -54,25 +54,32 @@ public class MyHttp {
      */
     public static void homeBanner(HttpForVolley http, Integer which,
                                   MyHttpResult myHttpResult) {
-        String url = SERVER + "Home/banner/area_id/5";
+        String url = SERVER + "Home/banner";
+        params.clear();
+        params.put("token", MyApplication.token);
         Type type = new TypeToken<List<HomeBannerInfo>>(){}.getType();
-        toBean(GET, http, which, null, url, myHttpResult, type);
+        toBean(GET, http, which, params, url, myHttpResult, type);
     }
 
     /**
      * 首页特价推荐商品
      */
-    public static void homePriceGoods(HttpForVolley http, Integer which, String id, MyHttpResult myHttpResult) {
-        String url = SERVER + "Home/homegoods/area_id/5/type/" + id;
+    public static void homePriceGoods(HttpForVolley http, Integer which, String type_id, MyHttpResult myHttpResult) {
+        String url = SERVER + "Home/homegoods";
+        params.clear();
+        params.put("token", MyApplication.token);
+        params.put("type", type_id);
         Type type = new TypeToken<List<GoodsInfo>>(){}.getType();
-        toBean(GET, http, which, null, url, myHttpResult, type);
+        toBean(GET, http, which, params, url, myHttpResult, type);
     }
 
     /**
      * 商品分类数据
      */
-    public static void goodsType(HttpForVolley http,  Integer which, String area_id, MyHttpResult myHttpResult) {
-        String url = SERVER + "Goods/goodstype/area_id/" + area_id;
+    public static void goodsType(HttpForVolley http,  Integer which, MyHttpResult myHttpResult) {
+        String url = SERVER + "Goods/goodstype";
+        params.clear();
+        params.put("token", MyApplication.token);
         Type type = new TypeToken<List<CategoryInfo>>(){}.getType();
         toBean(GET, http, which, null, url, myHttpResult, type);
     }
@@ -80,12 +87,15 @@ public class MyHttp {
     /**
      * 根据商品类型id获取相对应的商品数据
      */
-    public static void goodstypeList(HttpForVolley http, Integer which, String area_id, int page,
+    public static void goodstypeList(HttpForVolley http, Integer which, int page,
                                      String g_type_id, MyHttpResult myHttpResult) {
-        String url = SERVER + "Goods/goodstypelist/area_id/" + area_id +
-                "/page/" + page +"/g_type_id/" + g_type_id;
+        String url = SERVER + "Goods/goodstypelist";
+        params.clear();
+        params.put("page", page + "");
+        params.put("g_type_id", g_type_id + "");
+        params.put("token", MyApplication.token);
         Type type = new TypeToken<GoodsResultInfo>(){}.getType();
-        toBean(GET, http, which, null, url, myHttpResult, type);
+        toBean(GET, http, which, params, url, myHttpResult, type);
     }
 
 
@@ -110,17 +120,21 @@ public class MyHttp {
      */
     public static void hotkw(HttpForVolley http, Integer which, MyHttpResult myHttpResult) {
         String url = SERVER + "Goods/hotkw";
+        params.clear();
+        params.put("token", MyApplication.token);
         Type type = new TypeToken<List<SearchKwdInfo>>(){}.getType();
-        toBean(GET, http, which, null, url, myHttpResult, type);
+        toBean(GET, http, which, params, url, myHttpResult, type);
     }
 
     /**
      * 获取消息通知
      */
     public static void noticeList(HttpForVolley http, Integer which, MyHttpResult myHttpResult) {
-        String url = SERVER + "Home/noticelist/area_id/5";
+        String url = SERVER + "Home/noticelist";
+        params.clear();
+        params.put("token", MyApplication.token);
         Type type = new TypeToken<List<HomeNotifyInfo>>(){}.getType();
-        toBean(GET, http, which, null, url, myHttpResult, type);
+        toBean(GET, http, which, params, url, myHttpResult, type);
     }
 
     /**
@@ -132,6 +146,7 @@ public class MyHttp {
         params.clear();
         params.put("mobile_num", mobile_num);
         params.put("pass_word", MD5Util.encodeMD5(password));
+
         Type type = new TypeToken<SigninInfo>(){}.getType();
         toBean(POST, http, which, params, url, myHttpResult, type);
     }
@@ -145,7 +160,6 @@ public class MyHttp {
         String url = SERVER + "Cart/addcart";
         params.clear();
         params.put("g_id", g_id + "");
-        params.put("area_id", area_id + "");
         params.put("count", count + "");
         params.put("token", MyApplication.token);
         http.goTo(POST, which, params, url, httpTodo);
@@ -154,11 +168,10 @@ public class MyHttp {
     /**
      * 查询购物车数据
      */
-    public static void queryCart(HttpForVolley http, Integer which, int page, int area_id, MyHttpResult myHttpResult) {
+    public static void queryCart(HttpForVolley http, Integer which, int page, MyHttpResult myHttpResult) {
         String url = SERVER + "Cart/querycart";
         params.clear();
         params.put("page", page + "");
-        params.put("area_id", area_id + "");
         params.put("token", MyApplication.token);
         Type type = new TypeToken<CartResultInfo>() {
         }.getType();
@@ -168,15 +181,11 @@ public class MyHttp {
     /**
      * 修改购物车数量
      */
-    public static void editCount(HttpForVolley http, Integer which, String c_id, int area_id, int count, HttpForVolley.HttpTodo
+    public static void editCount(HttpForVolley http, Integer which, String c_id, int count, HttpForVolley.HttpTodo
             httpTodo) {
         String url = SERVER + "Cart/editcount";
         params.clear();
-        //TODO 删除log
-        Log.d("UserInfoData", c_id + ":" + 5  + ":" + count + ":" + MyApplication.token);
         params.put("c_id", c_id + "");
-        //TODO 改5为area_id
-        params.put("area_id", 5 + "");
         params.put("count", count + "");
         params.put("token", MyApplication.token);
         http.goTo(POST, which, params, url, httpTodo);
@@ -220,9 +229,7 @@ public class MyHttp {
         String url = SERVER + "Goods/ginfo";
         params.clear();
         params.put("g_id", g_id + "");
-        params.put("area_id", 5 + "");
         params.put("token", MyApplication.token);
-        Log.d("ginfoginfo", g_id + ":" + 5  + ":" + MyApplication.token);
         Type type = new TypeToken<GoodDetailResultInfo>() {
         }.getType();
         toBean(GET, http, which, params, url, myHttpResult, type);
@@ -233,6 +240,8 @@ public class MyHttp {
      */
     public static void areaList(HttpForVolley http, Integer which, MyHttpResult myHttpResult) {
         String url = SERVER + "Public/arealist";
+        params.clear();
+        params.put("token", MyApplication.token);
         Type type = new TypeToken<List<LocationInfo>>() {
         }.getType();
         toBean(GET, http, which, null, url, myHttpResult, type);
@@ -279,15 +288,54 @@ public class MyHttp {
     /**
      * 查看商铺列表
      */
-    public static void storeList(HttpForVolley http, Integer which,  MyHttpResult myHttpResult) {
+    public static void shopList(HttpForVolley http, Integer which, MyHttpResult myHttpResult) {
         String url = SERVER + "Personal/storelist";
         params.clear();
         params.put("token", MyApplication.token);
-        Log.d("addAddress_params", "token:"+  MyApplication.token);
         Type type = new TypeToken<List<ShopInfo>>() {
         }.getType();
         toBean(GET, http, which, params, url, myHttpResult, type);
     }
+
+    /**
+     * 删除地址
+     */
+    public static void deleteStore(HttpForVolley http, Integer which, String s_id, HttpForVolley.HttpTodo
+            httpTodo) {
+        String url = SERVER + "Personal/deletestore";
+        params.clear();
+        params.put("s_id", s_id);
+        params.put("token", MyApplication.token);
+        http.goTo(GET, which, params, url, httpTodo);
+    }
+
+    /**
+     * 增加店铺
+     */
+    public static void addStore(HttpForVolley http, Integer which, String china_name, String mobile_num,
+                                String st_id, String area_id, String store_name, String address,
+                                HttpForVolley.HttpTodo httpTodo) {
+        String url = SERVER + "Personal/addstore";
+        params.clear();
+        params.put("china_name", china_name);
+        params.put("mobile_num", mobile_num);
+        params.put("address", address);
+        params.put("st_id", st_id);
+        params.put("area_id", area_id);
+        params.put("store_name", store_name);
+        params.put("token", MyApplication.token);
+//        Log.d("addAddress_params", "china_name:"+ china_name + "," +
+//                "mobile_num:"+ mobile_num + "," +
+//                "address:"+ address + "," +
+//                "s_id:"+ s_id + "," +
+//                "area_id:"+ area_id + "," +
+//                "st_id:"+ st_id + "," +
+//                "is_default:"+ is_default + "," +
+//                "token:"+  MyApplication.token);
+        http.goTo(POST, which, params, url, httpTodo);
+    }
+
+
 
     /**
      * 请求验证码：
@@ -302,12 +350,13 @@ public class MyHttp {
         http.goTo(POST, which, params, url, httpTodo);
     }
 
+
     /**
      * 注册
      */
     public static void register(HttpForVolley http, Integer which, String mobile_num, String password,
-                                String store_name, String contacts, String area_id, String address,
-                                String msg_code, HttpForVolley.HttpTodo httpTodo) {
+                                String store_name, String contacts, String area_id, String st_id,
+                                String address, String msg_code, String code, HttpForVolley.HttpTodo httpTodo) {
         String url = SERVER + "User/register";
         params.clear();
         params.put("mobile_num", mobile_num);
@@ -315,14 +364,18 @@ public class MyHttp {
         params.put("store_name", store_name);
         params.put("contacts", contacts);
         params.put("area_id", area_id);
+        params.put("st_id", st_id);
         params.put("address", address);
         params.put("msg_code", msg_code);
+        params.put("code", code);
 //        Log.d("register_params", "mobile_num:"+ mobile_num + "," +
 //                "password:"+ password + "," +
 //                "store_name:"+ store_name + "," +
 //                "contacts:"+ contacts + "," +
 //                "area_id:"+ area_id + "," +
+//                "st_id:"+ st_id + "," +
 //                "address:"+ address + "," +
+//                "code:"+ code + "," +
 //                "msg_code:"+ msg_code);
         http.goTo(POST, which, params, url, httpTodo);
     }
@@ -330,7 +383,8 @@ public class MyHttp {
     /**
      * 用户修改密码
      */
-    public static void pd(HttpForVolley http, Integer which, String pass_word, String new_pass_word, HttpForVolley.HttpTodo httpTodo) {
+    public static void pd(HttpForVolley http, Integer which, String pass_word,
+                          String new_pass_word, HttpForVolley.HttpTodo httpTodo) {
         String url = SERVER + "User/pd";
         params.clear();
         params.put("pass_word", MD5Util.encodeMD5(pass_word));
@@ -340,13 +394,27 @@ public class MyHttp {
     }
 
     /**
+     * 用户在登陆
+     */
+    public static void editPwd(HttpForVolley http, Integer which, String mobile_num, String msg_code,
+                               String pass_word, HttpForVolley.HttpTodo httpTodo) {
+        //TODO 改url地址
+        String url = SERVER + "User/pd";
+        params.clear();
+        params.put("pass_word", MD5Util.encodeMD5(pass_word));
+        params.put("mobile_num", mobile_num);
+        params.put("msg_code", msg_code);
+        http.goTo(POST, which, params, url, httpTodo);
+    }
+
+
+    /**
      * 查看地址列表
      */
     public static void addressList(HttpForVolley http, Integer which, MyHttpResult myHttpResult) {
         String url = SERVER + "Personal/addresslist";
         params.clear();
         params.put("token", MyApplication.token);
-        Log.d("addAddress_params", "token:"+  MyApplication.token);
         Type type = new TypeToken<List<AddressInfo>>() {
         }.getType();
         toBean(GET, http, which, params, url, myHttpResult, type);
@@ -368,14 +436,14 @@ public class MyHttp {
         params.put("area_id", area_id);
         params.put("is_default", is_default + "");
         params.put("token", MyApplication.token);
-        Log.d("addAddress_params", "china_name:"+ china_name + "," +
-                "mobile_num:"+ mobile_num + "," +
-                "address:"+ address + "," +
-                "s_id:"+ s_id + "," +
-                "area_id:"+ area_id + "," +
-                "st_id:"+ st_id + "," +
-                "is_default:"+ is_default + "," +
-                "token:"+  MyApplication.token);
+//        Log.d("addAddress_params", "china_name:"+ china_name + "," +
+//                "mobile_num:"+ mobile_num + "," +
+//                "address:"+ address + "," +
+//                "s_id:"+ s_id + "," +
+//                "area_id:"+ area_id + "," +
+//                "st_id:"+ st_id + "," +
+//                "is_default:"+ is_default + "," +
+//                "token:"+  MyApplication.token);
         http.goTo(POST, which, params, url, httpTodo);
     }
 
@@ -396,27 +464,41 @@ public class MyHttp {
         params.put("area_id", area_id);
         params.put("is_default", is_default + "");
         params.put("token", MyApplication.token);
-        Log.d("addAddress_params", "china_name:"+ china_name + "," +
-                "a_id:"+ a_id + "," +
-                "mobile_num:"+ mobile_num + "," +
-                "address:"+ address + "," +
-                "s_id:"+ s_id + "," +
-                "area_id:"+ area_id + "," +
-                "st_id:"+ st_id + "," +
-                "is_default:"+ is_default + "," +
-                "token:"+  MyApplication.token);
+//        Log.d("addAddress_params", "china_name:"+ china_name + "," +
+//                "a_id:"+ a_id + "," +
+//                "mobile_num:"+ mobile_num + "," +
+//                "address:"+ address + "," +
+//                "s_id:"+ s_id + "," +
+//                "area_id:"+ area_id + "," +
+//                "st_id:"+ st_id + "," +
+//                "is_default:"+ is_default + "," +
+//                "token:"+  MyApplication.token);
         http.goTo(POST, which, params, url, httpTodo);
     }
 
     /**
      * 删除地址
      */
-    public static void deleterAddress(HttpForVolley http, Integer which, String a_id,  HttpForVolley.HttpTodo httpTodo) {
+    public static void deleterAddress(HttpForVolley http, Integer which, String a_id, HttpForVolley.HttpTodo httpTodo) {
         String url = SERVER + "Personal/deleteraddress";
         params.clear();
         params.put("a_id", a_id);
         params.put("token", MyApplication.token);
         http.goTo(GET, which, params, url, httpTodo);
+    }
+
+
+    /**
+     * 设置默认地址
+     */
+    public static void setDefault(HttpForVolley http, Integer which, String a_id, HttpForVolley.HttpTodo httpTodo) {
+        String url = SERVER + "Personal/setdefault";
+        params.clear();
+        params.put("a_id", a_id);
+        params.put("token", MyApplication.token);
+                Log.d("addAddress_params", "a_id:"+ a_id + "," +
+                "token:"+  MyApplication.token);
+        http.goTo(POST, which, params, url, httpTodo);
     }
 
     /**
@@ -438,7 +520,6 @@ public class MyHttp {
             public void httpTodo(Integer which, JSONObject response) {
                 //统一处理登录逻辑  code 1请求失败  2 登录失败  0请求成功s
                 int code = response.optInt("code", 1);
-                Log.d("codeInt", code + "");
                 if(code == 2 && (http.getContext().getClass() != MainActivity.class)){
                     Context context = http.getContext();
                     Toast.makeText(context, "登录失效，请重新登录", Toast.LENGTH_SHORT).show();
