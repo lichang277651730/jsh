@@ -36,6 +36,8 @@ public class ShopEditActivity extends MyActivity {
     private ArrayList<ArrayList<StreetInfo>> streestinfoList = new ArrayList<>();
     private OptionsPickerView streetOptionsPV;
 
+    private int iiii = 0;
+
     private String street_id;
     private String area_id;
 
