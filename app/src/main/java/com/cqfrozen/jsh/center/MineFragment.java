@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.common.widget.MyHeadImageView;
@@ -32,6 +33,12 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
     private TextView tv_name;
     private TextView tv_normal_buy;
     private TextView tv_shop;
+    private TextView tv_phone;
+    private TextView tv_verify;
+    private TextView tv_huibi;
+    private TextView tv_fans;
+    private LinearLayout ll_huibi;
+    private LinearLayout ll_fans;
 
     public static MineFragment getInstance(){
         if(fragment == null){
@@ -59,6 +66,12 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
         tv_login = (TextView) view.findViewById(R.id.tv_login);
         tv_lookall = (TextView) view.findViewById(R.id.tv_lookall);
         tv_name = (TextView) view.findViewById(R.id.tv_name);
+        tv_phone = (TextView) view.findViewById(R.id.tv_phone);
+        tv_verify = (TextView) view.findViewById(R.id.tv_verify);
+        ll_huibi = (LinearLayout) view.findViewById(R.id.ll_huibi);
+        tv_huibi = (TextView) view.findViewById(R.id.tv_huibi);
+        ll_fans = (LinearLayout) view.findViewById(R.id.ll_fans);
+        tv_fans = (TextView) view.findViewById(R.id.tv_fans);
         tv_address = (TextView) view.findViewById(R.id.tv_address);
         tv_shop = (TextView) view.findViewById(R.id.tv_shop);
         tv_normal_buy = (TextView) view.findViewById(R.id.tv_normal_buy);
@@ -70,14 +83,14 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
         iv_head.setOnClickListener(this);
         tv_login.setOnClickListener(this);
         tv_normal_buy.setOnClickListener(this);
+        ll_huibi.setOnClickListener(this);
+        ll_fans.setOnClickListener(this);
     }
 
     //每次切换到个人中心fragment时调用此方法
     @Override
     public void onShow() {
         super.onShow();
-        //TODO 初始化用户数据
-        Log.d("MineFragment", "MineFragment123123123");
         if(isLogined()){//已经登陆的用户，就初始化用户数据
             showLogined();
         }else {//没有登陆就将页面置为没有登陆的状态
@@ -90,6 +103,7 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
         tv_login.setVisibility(View.VISIBLE);
         //将name隐藏
         tv_name.setVisibility(View.GONE);
+
         //TODO 用户头像设为默认图片
     }
 
@@ -99,7 +113,11 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
         //将name显示，并设置店铺名
         tv_name.setVisibility(View.VISIBLE);
         tv_name.setText(getUserInfo().store_name);
-        //TODO 显示用户头像
+        tv_phone.setText(getUserInfo().mobile_num);
+        tv_verify.setText(getUserInfo().verify_name);
+        tv_huibi.setText(getUserInfo().hb_count + "");
+        tv_fans.setText(getUserInfo().inotal_fans_count + "");
+        //TODO 显示用户头像 显示订单角标数字
     }
 
     @Override
@@ -107,6 +125,7 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
         switch (v.getId()) {
             case R.id.iv_setting://设置
                 //TODO 登陆拦截
+
                 startActivity(new Intent(mActivity, SettingActivity.class));
                 break;
             case R.id.iv_shotcut:
@@ -143,7 +162,19 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
             case R.id.tv_login:
                 needLogin();
                 break;
-
+            case R.id.ll_huibi://汇币列表
+                if(isLogined()){
+                    Intent intent = new Intent(mActivity, HuibiListActivity.class);
+                    intent.putExtra("hb_count", getUserInfo().hb_count);
+                    startActivity(intent);
+                }
+                break;
+            case R.id.ll_fans://粉丝列表
+                if(isLogined()){
+                    Intent intent = new Intent(mActivity, FansListActity.class);
+                    startActivity(intent);
+                }
+                break;
             default:
                 break;
         }

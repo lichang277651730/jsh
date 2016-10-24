@@ -116,8 +116,7 @@ public class MyActivity extends BaseActivity {
      * @return  true 已经登陆  false 没有登陆
      */
     public boolean isLogined(){
-        //TODO 将token改成user
-        if(MyApplication.token == null || MyApplication.token.isEmpty()){
+        if(MyApplication.userInfo == null){
             return false;
         }else {
             return true;

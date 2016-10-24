@@ -1,5 +1,6 @@
 package com.cqfrozen.jsh.cart;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
@@ -20,8 +21,11 @@ import com.common.widget.RefreshLayout;
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.activity.HomeActivity;
 import com.cqfrozen.jsh.entity.CartNotifyInfo;
+import com.cqfrozen.jsh.entity.OrderCartBean;
+import com.cqfrozen.jsh.entity.OrderInfo;
 import com.cqfrozen.jsh.main.MyApplication;
 import com.cqfrozen.jsh.main.MyFragment;
+import com.cqfrozen.jsh.order.OrderConfirmActivity;
 import com.cqfrozen.jsh.util.ShortcutPop;
 import com.cqfrozen.jsh.volleyhttp.MyHttp;
 
@@ -57,7 +61,7 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
     private LinearLayout ll_notify;
     private TextView tv_notify;
     private RefreshLayout refresh_cart;
-
+    private List<OrderCartBean> orderCartBeanList = new ArrayList<>();
 //    private int page = 1;
 //    private int is_page = 1;
 
@@ -117,6 +121,7 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
         btn_del.setOnClickListener(this);
         iv_shotcut.setOnClickListener(this);
         refresh_cart.setOnRefreshListener(this);
+        btn_order.setOnClickListener(this);
 //        cb_all.setChecked(true);
         //TODO 以后用application里的用户判断
         if(MyApplication.token.isEmpty()){
@@ -286,9 +291,47 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
             case R.id.iv_shotcut://点击shotcut图标
                 ShortcutPop.getInstance(mActivity).showPop(iv_shotcut);
                 break;
+            case R.id.btn_order://去结算
+                goOrder();
+                break;
             default:
                 break;
         }
+    }
+
+    private void goOrder() {
+        List<CartGoodsInfo> checkedGoods = cartManager.getCheckedGoods();
+        if(checkedGoods.size() == 0){
+            showToast("未选择任何商品");
+            return;
+        }
+        final String carDataJson = parseCartData(checkedGoods);
+        long timestamp = System.currentTimeMillis();
+
+        MyHttp.orderInfo(http, null, carDataJson, timestamp, new MyHttp.MyHttpResult() {
+            @Override
+            public void httpResult(Integer which, int code, String msg, Object bean) {
+                if(code != 0){
+                    showToast(msg);
+                    return;
+                }
+                OrderInfo orderInfo = (OrderInfo) bean;
+                Intent intent = new Intent(mActivity, OrderConfirmActivity.class);
+                intent.putExtra("orderInfo", orderInfo);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private String parseCartData(List<CartGoodsInfo> checkedGoods) {
+        String cartString = "";
+        for (CartGoodsInfo goodsInfo : checkedGoods){
+            cartString = cartString + goodsInfo.c_id + ",";
+        }
+        if(cartString.endsWith(",")){
+            cartString = cartString.substring(0, cartString.length() - 1);
+        }
+        return cartString;
     }
 
     /**

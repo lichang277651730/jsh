@@ -150,5 +150,8 @@
     <style name="bigRedButton" parent="@style/bigButton">
         <item name="android:background">@drawable/sl_btn_red_bg</item>
     </style>
+    <style name="bigBlueButton" parent="@style/bigButton">
+        <item name="android:background">@drawable/sl_btn_blue_bg</item>
+    </style>
 
 </resources>

@@ -20,12 +20,14 @@ public class CartManager {
     private static CartManager instance;
     private Context context;
     private SparseArray<CartGoodsInfo> cartGoods;
+    private List<CartGoodsInfo> checkedGoods;
     private int goodsTotalNum = 0;
     private OnNumChangeListener listener;
 
     private CartManager(Context context) {
         this.context = context;
         cartGoods = new SparseArray<>();
+        checkedGoods = new ArrayList<>();
 //        initCart();
     }
 
@@ -177,6 +179,19 @@ public class CartManager {
             }.getType());
         }
         return cartGoodsList;
+    }
+
+    /**
+     * 获取购物车选中的商品
+     */
+    public List<CartGoodsInfo> getCheckedGoods(){
+        checkedGoods.clear();
+        for(int i = 0; i < cartGoods.size(); i++){
+            if(cartGoods.valueAt(i).isChecked){
+                checkedGoods.add(cartGoods.valueAt(i));
+            }
+        }
+        return checkedGoods;
     }
 
     /**

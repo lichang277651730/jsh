@@ -242,8 +242,8 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
         if(curValue != 0){
             addCount = curValue;
         }
-        //TODO 要替换区域id
-        MyHttp.addcart(http, null, g_id, "5", addCount, new HttpForVolley.HttpTodo() {
+
+        MyHttp.addcart(http, null, g_id, addCount, new HttpForVolley.HttpTodo() {
             @Override
             public void httpTodo(Integer which, JSONObject response) {
                 ToastUtil.showToast(GoodsDetailActivity.this, response.optString("msg"));

@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import com.common.widget.MyEditText;
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.entity.SigninInfo;
+import com.cqfrozen.jsh.entity.UserInfo;
 import com.cqfrozen.jsh.main.MyActivity;
 import com.cqfrozen.jsh.main.MyApplication;
 import com.cqfrozen.jsh.util.SPUtils;
@@ -104,7 +106,7 @@ public class LoginActivity extends MyActivity implements View.OnClickListener {
                 MyApplication.signinInfo = signinInfo;
                 MyApplication.token = signinInfo.getToken();
                 et_phone.setEnabled(false);
-                getLoginUserInfo(signinInfo.getUser_id());
+                getLoginUserInfo();
             }
         });
     }
@@ -112,8 +114,22 @@ public class LoginActivity extends MyActivity implements View.OnClickListener {
     /**
      * 通过user_id去查找用户信息
      */
-    private void getLoginUserInfo(String user_id) {
-        finish();
+    private void getLoginUserInfo() {
+        MyHttp.user(http, null, new MyHttp.MyHttpResult() {
+            @Override
+            public void httpResult(Integer which, int code, String msg, Object bean) {
+                et_phone.setEnabled(true);
+                if (code != 0) {
+                    showToast(msg);
+                    return;
+                }
+                SPUtils.setToken(MyApplication.token);
+                MyApplication.userInfo = (UserInfo) bean;
+                Log.d("userInfo", ((UserInfo) bean).toString());
+                finish();
+            }
+        });
+
     }
 
     /**

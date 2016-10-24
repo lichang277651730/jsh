@@ -79,7 +79,7 @@ public class ShopListActivity extends MyActivity implements View.OnClickListener
             @Override
             public void onEdit(int position, ShopInfo shopInfo) {
                 Intent intent = new Intent(ShopListActivity.this, ShopEditActivity.class);
-                intent.putExtra("addressInfo", shopInfo);
+                intent.putExtra("shopInfo", shopInfo);
                 startActivityForResult(intent, REQUEST_CODE_EDIT);
             }
         });
@@ -92,6 +92,7 @@ public class ShopListActivity extends MyActivity implements View.OnClickListener
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         MyHttp.deleteStore(http, null, s_id, new HttpForVolley.HttpTodo() {
+
                             @Override
                             public void httpTodo(Integer which, JSONObject response) {
                                 int code = response.optInt("code");

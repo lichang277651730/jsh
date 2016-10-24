@@ -74,6 +74,10 @@
         </activity>
         <activity android:name=".center.OrderListActivity"
                   android:theme="@style/SwipeBackTheme"/>
+        <activity android:name=".order.OrderGooodsListActivity"
+                  android:theme="@style/SwipeBackTheme"/>
+        <activity android:name=".order.OrderAddressListActivity"
+                  android:theme="@style/SwipeBackTheme"/>
         <activity android:name=".center.SettingActivity"
                   android:theme="@style/SwipeBackTheme"/>
         <activity android:name=".center.AddressListActivity"
@@ -111,6 +115,12 @@
         <activity android:name=".home.SearchResultActivity"
                   android:theme="@style/SwipeBackTheme"/>
         <activity android:name=".cart.CartActivity"
+                  android:theme="@style/SwipeBackTheme"/>
+        <activity android:name=".order.OrderConfirmActivity"
+                  android:theme="@style/SwipeBackTheme"/>
+        <activity android:name=".center.HuibiListActivity"
+                  android:theme="@style/SwipeBackTheme"/>
+        <activity android:name=".center.FansListActity"
                   android:theme="@style/SwipeBackTheme"/>
     </application>
 

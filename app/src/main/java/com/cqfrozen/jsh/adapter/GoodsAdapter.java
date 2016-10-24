@@ -73,8 +73,7 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.MyViewHolder
             @Override
             public void onClick(View v) {
 
-                //TODO 要替换区域id
-                MyHttp.addcart(http, null, goodsInfo.g_id, "5", 1, new HttpForVolley.HttpTodo() {
+                MyHttp.addcart(http, null, goodsInfo.g_id, 1, new HttpForVolley.HttpTodo() {
                     @Override
                     public void httpTodo(Integer which, JSONObject response) {
                         ToastUtil.showToast(context, response.optString("msg"));

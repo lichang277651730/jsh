@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp">
+   <TextView
+       android:id="@+id/tv_desc"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:textSize="16sp"
+       android:text="兄弟伙下单送0.03粮票"/>
+   <TextView
+       android:id="@+id/tv_time"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_below="@id/tv_desc"
+       android:layout_marginTop="8dp"
+       android:textSize="14sp"
+       android:text="2016-10-19 14:51:17"/>
+   <TextView
+       android:id="@+id/tv_count"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_alignParentRight="true"
+       android:layout_centerVertical="true"
+       android:textSize="20sp"
+       android:textColor="@color/myred"
+       android:text="+10"/>
+</RelativeLayout>

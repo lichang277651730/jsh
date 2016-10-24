@@ -21,13 +21,17 @@ import com.cqfrozen.jsh.entity.GoodsInfo;
 import com.cqfrozen.jsh.entity.GoodsResultInfo;
 import com.cqfrozen.jsh.entity.HomeBannerInfo;
 import com.cqfrozen.jsh.entity.HomeNotifyInfo;
+import com.cqfrozen.jsh.entity.HuibiResultInfo;
 import com.cqfrozen.jsh.entity.LocationInfo;
+import com.cqfrozen.jsh.entity.OrderInfo;
 import com.cqfrozen.jsh.entity.SearchKwdInfo;
 import com.cqfrozen.jsh.entity.ShopInfo;
 import com.cqfrozen.jsh.entity.SigninInfo;
+import com.cqfrozen.jsh.entity.UserInfo;
 import com.cqfrozen.jsh.main.MyApplication;
 import com.cqfrozen.jsh.util.MD5Util;
 import com.cqfrozen.jsh.util.SPUtils;
+import com.cqfrozen.jsh.util.SignUtil;
 import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONObject;
@@ -81,7 +85,7 @@ public class MyHttp {
         params.clear();
         params.put("token", MyApplication.token);
         Type type = new TypeToken<List<CategoryInfo>>(){}.getType();
-        toBean(GET, http, which, null, url, myHttpResult, type);
+        toBean(GET, http, which, params, url, myHttpResult, type);
     }
 
     /**
@@ -140,7 +144,7 @@ public class MyHttp {
     /**
      * 用户登陆
      */
-    public static void userLogin(HttpForVolley http,Integer which, String mobile_num, String password,
+    public static void userLogin(HttpForVolley http, Integer which, String mobile_num, String password,
                                  MyHttpResult myHttpResult) {
         String url = SERVER + "User/login";
         params.clear();
@@ -152,9 +156,21 @@ public class MyHttp {
     }
 
     /**
+     * 获取用户信息
+     */
+    public static void user(HttpForVolley http, Integer which, MyHttpResult myHttpResult) {
+        String url = SERVER + "Personal/user";
+        params.clear();
+        params.put("token", MyApplication.token);
+        Type type = new TypeToken<UserInfo>(){}.getType();
+        toBean(POST, http, which, params, url, myHttpResult, type);
+    }
+
+
+    /**
      * 添加购物车要调用的拦截接口，如果用户没审核
      */
-    public static void addcart(HttpForVolley http, Integer which, Long g_id, String area_id,
+    public static void addcart(HttpForVolley http, Integer which, Long g_id,
                                int count, HttpForVolley.HttpTodo
                                        httpTodo) {
         String url = SERVER + "Cart/addcart";
@@ -292,6 +308,7 @@ public class MyHttp {
         String url = SERVER + "Personal/storelist";
         params.clear();
         params.put("token", MyApplication.token);
+        Log.d("shopListtoken", MyApplication.token);
         Type type = new TypeToken<List<ShopInfo>>() {
         }.getType();
         toBean(GET, http, which, params, url, myHttpResult, type);
@@ -321,6 +338,33 @@ public class MyHttp {
         params.put("mobile_num", mobile_num);
         params.put("address", address);
         params.put("st_id", st_id);
+        params.put("area_id", area_id);
+        params.put("store_name", store_name);
+        params.put("token", MyApplication.token);
+//        Log.d("addAddress_params", "china_name:"+ china_name + "," +
+//                "mobile_num:"+ mobile_num + "," +
+//                "address:"+ address + "," +
+//                "s_id:"+ s_id + "," +
+//                "area_id:"+ area_id + "," +
+//                "st_id:"+ st_id + "," +
+//                "is_default:"+ is_default + "," +
+//                "token:"+  MyApplication.token);
+        http.goTo(POST, which, params, url, httpTodo);
+    }
+
+    /**
+     * 修改店铺
+     */
+    public static void updateStore(HttpForVolley http, Integer which, String s_id, String china_name, String mobile_num,
+                                String st_id, String area_id, String store_name, String address,
+                                HttpForVolley.HttpTodo httpTodo) {
+        String url = SERVER + "Personal/updatestore";
+        params.clear();
+        params.put("china_name", china_name);
+        params.put("mobile_num", mobile_num);
+        params.put("address", address);
+        params.put("st_id", st_id);
+        params.put("s_id", s_id);
         params.put("area_id", area_id);
         params.put("store_name", store_name);
         params.put("token", MyApplication.token);
@@ -398,7 +442,6 @@ public class MyHttp {
      */
     public static void editPwd(HttpForVolley http, Integer which, String mobile_num, String msg_code,
                                String pass_word, HttpForVolley.HttpTodo httpTodo) {
-        //TODO 改url地址
         String url = SERVER + "User/pd";
         params.clear();
         params.put("pass_word", MD5Util.encodeMD5(pass_word));
@@ -496,8 +539,8 @@ public class MyHttp {
         params.clear();
         params.put("a_id", a_id);
         params.put("token", MyApplication.token);
-                Log.d("addAddress_params", "a_id:"+ a_id + "," +
-                "token:"+  MyApplication.token);
+//                Log.d("addAddress_params", "a_id:"+ a_id + "," +
+//                "token:"+  MyApplication.token);
         http.goTo(POST, which, params, url, httpTodo);
     }
 
@@ -510,6 +553,48 @@ public class MyHttp {
         }.getType();
         toBean(GET, http, which, null, url, myHttpResult, type);
     }
+
+
+    /**
+     * 购物车点击去结算
+     */
+    public static void orderInfo(HttpForVolley http, Integer which, String cartdata, long timestamp,
+                                 MyHttpResult myHttpResult) {
+        String url = SERVER + "Order/settlement";
+        params.clear();
+        params.put("cartdata", cartdata);
+        params.put("timestamp", timestamp + "");
+        params.put("token", MyApplication.token);
+        String sign = SignUtil.getOrderSignInfo(cartdata, timestamp, MyApplication.token);
+        params.put("sign", sign);
+//        Log.d("addAddress_params", "cartdata:"+ cartdata + "," +
+//                "timestamp:"+ timestamp + "," +
+//                "sign:"+ sign + "," +
+//                "token:"+  MyApplication.token);
+        Type type = new TypeToken<OrderInfo>() {
+        }.getType();
+        toBean(POST, http, which, params, url, myHttpResult, type);
+    }
+
+    /**
+     * 汇币明细
+     * type = 1 收入
+     * type = 2 支出
+     */
+    public static void searchHBinfo(HttpForVolley http, Integer which, int type, int page, MyHttpResult myHttpResult) {
+        String url = SERVER + "HbPersonal/searchhbinfo";
+        params.clear();
+        params.put("type", type + "");
+        params.put("page", page + "");
+        params.put("token", MyApplication.token);
+//        Log.d("addAddress_params", "page:"+ page + "," +
+//                "type:"+ type + "," +
+//                "token:"+  MyApplication.token);
+        Type beanType = new TypeToken<HuibiResultInfo>() {
+        }.getType();
+        toBean(GET, http, which, params, url, myHttpResult, beanType);
+    }
+
 
     private static void toBean(int method, final HttpForVolley http, Integer which,
                                HashMap<String, String> httpMap, String url,
@@ -546,10 +631,9 @@ public class MyHttp {
         });
     }
 
+
     public interface MyHttpResult{
         void httpResult(Integer which, int code, String msg, Object bean);
     }
-
-
 
 }

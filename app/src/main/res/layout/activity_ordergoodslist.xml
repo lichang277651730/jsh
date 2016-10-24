@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/main"
+                android:clipToPadding="true"
+                android:fitsSystemWindows="true"
+                android:orientation="vertical"
+                tools:context=".center.AddressListActivity">
+    <include layout="@layout/include_title"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_ordergoods"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/include_title"
+        android:background="@color/mybg"
+        android:scrollbars="none">
+    </android.support.v7.widget.RecyclerView>
+</LinearLayout>

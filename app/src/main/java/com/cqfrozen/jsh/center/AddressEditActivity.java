@@ -122,6 +122,7 @@ public class AddressEditActivity extends MyActivity implements View.OnClickListe
                 if(streestinfoList.get(options1) == null || streestinfoList.get(options1).size() == 0){
                     streestinfoList.get(options1).add(new StreetInfo("", ""));
                     address = areaInfos.get(options1).getPickerViewText();
+                    street_id = "";
                 }else {
                     address = areaInfos.get(options1).getPickerViewText()
                             + " " + streestinfoList.get(options1).get(option2).getPickerViewText();
@@ -146,6 +147,9 @@ public class AddressEditActivity extends MyActivity implements View.OnClickListe
             String streetName = TextUtils.isEmpty(addressInfo.street_name) ? "" : addressInfo.street_name;
             tv_location.setText(areaName + " " + streetName);
             tv_shop.setText(TextUtils.isEmpty(addressInfo.store_name) ? "" : addressInfo.store_name);
+            if(cb_default.isChecked()){
+                cb_default.setEnabled(false);
+            }
         }
     }
 

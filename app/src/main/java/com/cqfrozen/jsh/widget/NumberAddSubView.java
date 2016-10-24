@@ -13,7 +13,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.cqfrozen.jsh.R;
-import com.cqfrozen.jsh.util.ToastUtil;
 
 
 /**
@@ -120,6 +119,9 @@ public class NumberAddSubView extends LinearLayout implements View.OnClickListen
      * 增加1个数
      */
     private void addNum() {
+        if(!btn_sub.isEnabled()){
+            btn_sub.setEnabled(true);
+        }
         getCurValue();
         if(curValue < maxValue){
             curValue = curValue + 1;
@@ -132,10 +134,14 @@ public class NumberAddSubView extends LinearLayout implements View.OnClickListen
      */
     private void subNum() {
         getCurValue();
+        if(curValue == 1){
+            btn_sub.setEnabled(false);
+        }
         if(curValue > minValue){
             curValue = curValue - 1;
         }else {
-            ToastUtil.showToast(getContext(), "数量不能再少了哦,亲！~");
+//            ToastUtil.showToast(getContext(), "数量不能再少了哦,亲！~");
+            btn_sub.setEnabled(false);
         }
         tv_num.setText(curValue + "");
     }
