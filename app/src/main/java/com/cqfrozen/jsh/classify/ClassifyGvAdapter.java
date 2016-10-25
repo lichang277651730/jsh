@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.entity.CategoryInfo;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.List;
 
@@ -21,10 +23,16 @@ public class ClassifyGvAdapter extends BaseAdapter {
 
     private Context context;
     private List<CategoryInfo> categoryInfos;
+    private final DisplayImageOptions defaultOptions;
 
     public ClassifyGvAdapter(Context context, List<CategoryInfo> categoryInfos){
         this.context = context;
         this.categoryInfos = categoryInfos;
+        defaultOptions = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true)
+                .showImageOnLoading(R.color.transparency)
+                .showImageForEmptyUri(R.mipmap.icon_home_articleclassify)
+                .showImageOnFail(R.mipmap.icon_home_articleclassify)
+                .build();
     }
 
     @Override
@@ -57,7 +65,8 @@ public class ClassifyGvAdapter extends BaseAdapter {
         }
         CategoryInfo categoryInfo = categoryInfos.get(position);
         holder.tv_name.setText(categoryInfo.t_type_name);
-
+        ImageLoader.getInstance().displayImage(categoryInfo.pic_url,holder.iv_icon,
+                defaultOptions);
         holder.ll_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

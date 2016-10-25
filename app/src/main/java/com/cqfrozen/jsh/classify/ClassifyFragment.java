@@ -102,11 +102,11 @@ public class ClassifyFragment extends BaseFragment implements MyHttp.MyHttpResul
         long nowTime = System.currentTimeMillis();
         Long saveTime = SPUtils.getClassifyTime();
         String classifyData = SPUtils.getClassifyData();
-        if(saveTime != 0 && nowTime < saveTime + 86400000L && !classifyData.isEmpty()){
-            setData(classifyData);
-        }else {
+//        if(saveTime != 0 && nowTime < saveTime + 86400000L && !classifyData.isEmpty()){
+//            setData(classifyData);
+//        }else {
             MyHttp.goodsType(http, null, this);
-        }
+//        }
     }
 
     @Override

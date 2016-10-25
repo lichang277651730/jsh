@@ -36,4 +36,5 @@ dependencies {
     compile files('libs/QQShare2.jar')
     compile files('libs/QQShare1.jar')
     compile 'com.bigkoo:pickerview:2.1.1'
+    compile 'com.xw.repo:PullToRefresh:2.1@aar'
 }

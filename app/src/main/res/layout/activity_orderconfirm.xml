@@ -11,14 +11,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".center.OrderListActivity">
+        tools:context=".order.OrderListActivity">
 
         <include layout="@layout/include_title"/>
 
         <RelativeLayout
             android:id="@+id/rl_address"
             android:layout_width="match_parent"
-            android:layout_height="72dp"
+            android:layout_height="wrap_content"
             android:background="@color/white">
 
             <TextView
@@ -43,6 +43,7 @@
                 android:textSize="16sp"/>
 
             <TextView
+                android:id="@+id/tv_default_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@id/tv_phone"
@@ -238,6 +239,7 @@
             android:paddingRight="16dp"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
+            android:gravity="center"
             android:orientation="horizontal">
 
             <TextView
@@ -311,7 +313,7 @@
         android:layout_alignParentBottom="true"
         android:background="@color/white"
         android:orientation="horizontal"
-        android:gravity="center_vertical">
+        android:gravity="center">
         <LinearLayout
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -365,23 +367,16 @@
                     android:text="￥201"
                     android:layout_marginRight="8dp"/>
             </LinearLayout>
-            <TextView
-                android:id="@+id/tv_hastime"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textSize="14sp"
-                android:text="剩余 30分 15秒"/>
 
         </LinearLayout>
 
         <Button
-            android:id="@+id/btn_order"
-            android:layout_width="100dp"
+            android:id="@+id/btn_buy"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:text="去付款"
+            android:text="提交订单"
             style="@style/bigBlueButton"/>
     </LinearLayout>
 </RelativeLayout>

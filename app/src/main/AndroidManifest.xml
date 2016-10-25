@@ -72,11 +72,13 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".center.OrderListActivity"
+        <activity android:name=".order.OrderListActivity"
                   android:theme="@style/SwipeBackTheme"/>
         <activity android:name=".order.OrderGooodsListActivity"
                   android:theme="@style/SwipeBackTheme"/>
         <activity android:name=".order.OrderAddressListActivity"
+                  android:theme="@style/SwipeBackTheme"/>
+        <activity android:name=".order.OrderBuyResultActivity"
                   android:theme="@style/SwipeBackTheme"/>
         <activity android:name=".center.SettingActivity"
                   android:theme="@style/SwipeBackTheme"/>

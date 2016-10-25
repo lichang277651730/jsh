@@ -3,7 +3,6 @@ package com.cqfrozen.jsh.cart;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -174,120 +173,6 @@ public class CartRVAdapter extends RecyclerView.Adapter<CartRVAdapter.MyViewHold
             return;
         }
 
-        //未改之前
-//        for(final Iterator<CartGoodsInfo> iterator = cartGoodsInfos.iterator();iterator.hasNext();){
-//            final CartGoodsInfo goodsInfo = iterator.next();
-//            if(goodsInfo.isChecked){
-//                MyHttp.deleteCart(http, null, goodsInfo.c_id, new HttpForVolley.HttpTodo() {
-//                    @Override
-//                    public void httpTodo(Integer which, JSONObject response) {
-//                        ToastUtil.showToast(context, response.optString("msg"));
-//                        int code = response.optInt("code");
-//                        if(code != 0){
-//                            return;
-//                        }
-//                        int positon = cartGoodsInfos.indexOf(goodsInfo);
-//                        cartManager.delete(goodsInfo);
-//                        iterator.remove();
-//                        notifyItemRemoved(positon);
-//                        showTotalPrice();
-//                    }
-//                });
-//
-//            }
-//        }
-        //改之后 第二个版本 逻辑 没问题 只是删除视图 有点不对位
-//        for(final Iterator<CartGoodsInfo> iterator = cartGoodsInfos.iterator(); iterator.hasNext();){
-//            final CartGoodsInfo goodsInfo = iterator.next();
-//            if(cartManager.isAllChecked()){
-//                MyHttp.deleteCart(http, null, 2, goodsInfo.c_id, new HttpForVolley.HttpTodo() {
-//                    @Override
-//                    public void httpTodo(Integer which, JSONObject response) {
-//                        ToastUtil.showToast(context, response.optString("msg"));
-//                        int code = response.optInt("code");
-//                        if(code != 0){
-//                            return;
-//                        }
-//                        int positon = cartGoodsInfos.indexOf(goodsInfo);
-//                        cartManager.clear();
-//                        iterator.remove();
-//                        notifyItemRemoved(positon);
-//                        showTotalPrice();
-//                    }
-//                });
-//            }else {
-//                if(goodsInfo.isChecked){
-//                    Log.d("cartGoodsInfosize", ":" + "循环");
-//                    MyHttp.deleteCart(http, null, 1, goodsInfo.c_id, new HttpForVolley.HttpTodo() {
-//                        @Override
-//                        public void httpTodo(Integer which, JSONObject response) {
-//                            ToastUtil.showToast(context, response.optString("msg"));
-//                            int code = response.optInt("code");
-//                            if(code != 0){
-//                                return;
-//                            }
-//                            int positon = cartGoodsInfos.indexOf(goodsInfo);
-//                            cartManager.delete(goodsInfo);
-//                            iterator.remove();
-//                            notifyItemRemoved(positon);
-//                            showTotalPrice();
-//                        }
-//                    });
-//                }
-//            }
-//        }
-        //第三个版本
-//        if(cartManager.isAllChecked()){//清空购物车
-//            MyHttp.deleteCart(http, null, 2, 0L, new HttpForVolley.HttpTodo() {
-//                    @Override
-//                    public void httpTodo(Integer which, JSONObject response) {
-//                        ToastUtil.showToast(context, response.optString("msg"));
-//                        int code = response.optInt("code");
-//                        if(code != 0){
-//                            return;
-//                        }
-//                        cartGoodsInfos.clear();
-//                        cartManager.clear();
-//                        notifyDataSetChanged();
-//                        showTotalPrice();
-//                    }
-//                });
-//        }else {
-//            checkedList.clear();
-//            for(final Iterator<CartGoodsInfo> iterator = cartGoodsInfos.iterator(); iterator.hasNext();){
-//                final CartGoodsInfo goodsInfo = iterator.next();
-//                if(goodsInfo.isChecked){
-//                    checkedList.add(goodsInfo);
-//                }
-//            }
-//            if(checkedList.size() == 0){
-//                return;
-//            }
-//            //TODO 删除一个没问题，删除全部没问题，删除2个有问题，只能删除一个
-//            Log.d("cartGoodsInfosize", "被选中商品个数" + checkedList.size());
-//            for(int i = 0; i < checkedList.size(); i++){
-//                final CartGoodsInfo checkedGoods = checkedList.get(i);
-//                Log.d("cartGoodsInfosize", "被选中商品一次");
-//                MyHttp.deleteCart(http, null, 1, checkedGoods.c_id, new HttpForVolley.HttpTodo() {
-//                    @Override
-//                    public void httpTodo(Integer which, JSONObject response) {
-//                        Log.d("cartGoodsInfosize", ":" + "网络请求一次");
-//                        ToastUtil.showToast(context, response.optString("msg"));
-//                        int code = response.optInt("code");
-//                        if(code != 0){
-//                            return;
-//                        }
-//                        cartManager.delete(checkedGoods);
-//                        cartGoodsInfos.remove(checkedGoods);
-//                        notifyDataSetChanged();
-//                        showTotalPrice();
-//                    }
-//                });
-//            }
-//        }
-        //第四个版本
-        //TODO 删除log
-        Log.d("cartGoodsInfosize", ":" + cartGoodsInfos.size());
         if(cartManager.isAllChecked()){//清空购物车
             MyHttp.deleteCart(http, null, TYEP_ALL, "", new HttpForVolley.HttpTodo() {
                     @Override

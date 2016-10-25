@@ -1,5 +1,7 @@
 package com.cqfrozen.jsh.activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.KeyEvent;
@@ -30,10 +32,10 @@ import java.util.List;
  */
 public class HomeActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener, MyViewPager.OnMyPageChangeListener{
 
-    private MyViewPager vp_home;
+    private static MyViewPager vp_home;
     private RadioGroup rg_home;
     private List<BaseFragment> fragments;
-    private RadioButton[] rb_homes = new RadioButton[4];
+    private static RadioButton[] rb_homes = new RadioButton[4];
     private BaseFragment curFragment;//当前选择页面
 
     private static HomeActivity instance;
@@ -217,5 +219,12 @@ public class HomeActivity extends BaseActivity implements RadioGroup.OnCheckedCh
                 badgeView.setText(cartGoodsNum + "");
             }
         }
+    }
+
+    public static void startActivity(Context context, int position){
+        Intent intent = new Intent(context, HomeActivity.class);
+        context.startActivity(intent);
+        vp_home.setCurrentItem(position, false);
+        rb_homes[position].setChecked(true);
     }
 }

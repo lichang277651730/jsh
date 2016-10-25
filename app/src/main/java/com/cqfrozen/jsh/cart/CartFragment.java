@@ -257,6 +257,7 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
         getData();
         doEdit();
         ((HomeActivity)mActivity).setCartNum(cartManager.getCartGoodsNum());
+        cartAdapter.showTotalPrice();
     }
 
     private void doFinish() {
@@ -305,10 +306,10 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
             showToast("未选择任何商品");
             return;
         }
-        final String carDataJson = parseCartData(checkedGoods);
+        final String carDataAry = parseCartData(checkedGoods);
         long timestamp = System.currentTimeMillis();
 
-        MyHttp.orderInfo(http, null, carDataJson, timestamp, new MyHttp.MyHttpResult() {
+        MyHttp.orderInfo(http, null, carDataAry, timestamp, new MyHttp.MyHttpResult() {
             @Override
             public void httpResult(Integer which, int code, String msg, Object bean) {
                 if(code != 0){
@@ -318,6 +319,7 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
                 OrderInfo orderInfo = (OrderInfo) bean;
                 Intent intent = new Intent(mActivity, OrderConfirmActivity.class);
                 intent.putExtra("orderInfo", orderInfo);
+                intent.putExtra("carDataAry", carDataAry);
                 startActivity(intent);
             }
         });

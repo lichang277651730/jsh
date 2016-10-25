@@ -15,6 +15,7 @@ import com.common.widget.MyHeadImageView;
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.main.MyApplication;
 import com.cqfrozen.jsh.main.MyFragment;
+import com.cqfrozen.jsh.order.OrderListActivity;
 import com.cqfrozen.jsh.util.ShortcutPop;
 
 /**
@@ -75,6 +76,9 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
         tv_address = (TextView) view.findViewById(R.id.tv_address);
         tv_shop = (TextView) view.findViewById(R.id.tv_shop);
         tv_normal_buy = (TextView) view.findViewById(R.id.tv_normal_buy);
+
+        initBadgeViews();
+
         tv_lookall.setOnClickListener(this);
         iv_setting.setOnClickListener(this);
         iv_shotcut.setOnClickListener(this);
@@ -85,6 +89,23 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
         tv_normal_buy.setOnClickListener(this);
         ll_huibi.setOnClickListener(this);
         ll_fans.setOnClickListener(this);
+    }
+
+    private void initBadgeViews() {
+//        BadgeView badgeView = new BadgeView(this, iv_cart);
+//        badgeView.setEnabled(false);
+//        badgeView.setFocusable(false);
+//        if(cartManager != null){
+//            badgeView.setVisibility(View.VISIBLE);
+//            badgeView.setText(cartManager.getCartGoodsNum() + "");
+//            badgeView.setText(0 + "");
+//            badgeView.setTextSize(10);
+//            badgeView.setBadgeMargin(70, 0);
+//            badgeView.show();
+//
+//        }else {
+//            badgeView.setVisibility(View.GONE);
+//        }
     }
 
     //每次切换到个人中心fragment时调用此方法

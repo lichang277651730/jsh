@@ -39,6 +39,8 @@
             android:textColor="@color/black"
             android:textColorHint="@color/myhint"/>
     </LinearLayout>
+    <View style="@style/HorizontalDividerLine"
+          android:paddingLeft="16dp"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
@@ -68,6 +70,8 @@
             android:textColor="@color/black"
             android:textColorHint="@color/myhint"/>
     </LinearLayout>
+    <View style="@style/HorizontalDividerLine"
+          android:paddingLeft="16dp"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
@@ -100,6 +104,8 @@
             android:layout_height="wrap_content"
             android:src="@mipmap/icon_toright_blue"/>
     </LinearLayout>
+    <View style="@style/HorizontalDividerLine"
+          android:paddingLeft="16dp"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
@@ -129,6 +135,8 @@
             android:textColor="@color/black"
             android:textColorHint="@color/myhint"/>
     </LinearLayout>
+    <View style="@style/HorizontalDividerLine"
+          android:paddingLeft="16dp"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
@@ -159,7 +167,8 @@
             android:textColor="@color/black"
             android:textColorHint="@color/myhint"/>
     </LinearLayout>
-
+    <View style="@style/HorizontalDividerLine"
+          android:paddingLeft="16dp"/>
     <RelativeLayout
         android:layout_width="match_parent"
         android:background="@color/white"

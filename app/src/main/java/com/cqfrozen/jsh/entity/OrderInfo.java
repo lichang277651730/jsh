@@ -32,6 +32,7 @@ public class OrderInfo extends BaseEntity {
     }
 
     public class OrderAddressBean extends BaseEntity{
+        public String a_id;
         public String st_id;
         public String s_id;
         public String store_name;
@@ -43,7 +44,5 @@ public class OrderInfo extends BaseEntity {
         public String c_area_name;
         public String d_area_name;
     }
-
-
 
 }

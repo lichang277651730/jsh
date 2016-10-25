@@ -1,4 +1,4 @@
-package com.cqfrozen.jsh.center;
+package com.cqfrozen.jsh.order;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -29,7 +29,6 @@ public class OrderListActivity extends MyActivity {
         setContentView(R.layout.activity_orderlist);
         initView();
         initVP();
-        getData();
     }
 
     private void initView() {
@@ -49,13 +48,10 @@ public class OrderListActivity extends MyActivity {
         });
         // 设置滚动监听
         indicator_order.setOnTransitionListener(new OnTransitionTextListener().setColor(UIUtils.getColor(R.color.main), Color.BLACK));
-        vp_order.setOffscreenPageLimit(2);
+        vp_order.setOffscreenPageLimit(1);
         IndicatorViewPager indicatorViewPager = new IndicatorViewPager(indicator_order, vp_order);
         indicatorViewPager.setClickIndicatorAnim(false);
         indicatorViewPager.setAdapter(new OrderIndicatorAdapter(getSupportFragmentManager(), this));
     }
 
-    private void getData() {
-
-    }
 }

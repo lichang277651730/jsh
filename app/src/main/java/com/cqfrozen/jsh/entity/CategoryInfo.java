@@ -6,5 +6,6 @@ package com.cqfrozen.jsh.entity;
 public class CategoryInfo extends BaseEntity {
     public String g_type_id;
     public String is_tj;
+    public String pic_url;
     public String t_type_name;
 }

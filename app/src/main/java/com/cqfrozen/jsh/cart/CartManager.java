@@ -232,6 +232,30 @@ public class CartManager {
         }
     }
 
+
+    //根据购物车数组id 删除对应的商品 1101,1102,3005
+    public void delete(String carDataAry) {
+        String[] deleteAry = carDataAry.split(",");
+        List<String> delete_c_id_list = new ArrayList<>();
+        delete_c_id_list.clear();
+        for(int i = 0; i < deleteAry.length; i++){
+            delete_c_id_list.add(deleteAry[i]);
+        }
+        List<String> delete_g_id_list = new ArrayList<>();
+        delete_g_id_list.clear();
+        for(int i = 0; i < cartGoods.size(); i++){
+            CartGoodsInfo cartGoodsInfo = cartGoods.valueAt(i);
+            String c_id = cartGoodsInfo.c_id;
+            if(delete_c_id_list.contains(c_id)){
+                delete_g_id_list.add(cartGoodsInfo.g_id + "");
+            }
+        }
+        for(int i = 0; i < delete_g_id_list.size(); i++){
+            cartGoods.delete(Integer.parseInt(delete_c_id_list.get(i)));
+        }
+        commit();
+    }
+
     public interface OnNumChangeListener {
         void onNumChangeListener(int curNum);
     }

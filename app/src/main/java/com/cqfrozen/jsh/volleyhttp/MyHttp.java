@@ -2,7 +2,6 @@ package com.cqfrozen.jsh.volleyhttp;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -23,7 +22,10 @@ import com.cqfrozen.jsh.entity.HomeBannerInfo;
 import com.cqfrozen.jsh.entity.HomeNotifyInfo;
 import com.cqfrozen.jsh.entity.HuibiResultInfo;
 import com.cqfrozen.jsh.entity.LocationInfo;
+import com.cqfrozen.jsh.entity.OrderBuyResultInfo;
+import com.cqfrozen.jsh.entity.OrderDetailInfo;
 import com.cqfrozen.jsh.entity.OrderInfo;
+import com.cqfrozen.jsh.entity.OrderResultInfo;
 import com.cqfrozen.jsh.entity.SearchKwdInfo;
 import com.cqfrozen.jsh.entity.ShopInfo;
 import com.cqfrozen.jsh.entity.SigninInfo;
@@ -48,6 +50,7 @@ public class MyHttp {
     private static final String SERVER = "http://test.cqfrozen.com/api/index.php/";
     private static final int GET = Request.Method.GET;
     private static final int POST = Request.Method.POST;
+    private static final int p_type = 1;
 
     private static HashMap<String, String> params = new HashMap<String, String>();
 
@@ -149,8 +152,11 @@ public class MyHttp {
         String url = SERVER + "User/login";
         params.clear();
         params.put("mobile_num", mobile_num);
+        params.put("p_type", 1 + "");//android端登陆
         params.put("pass_word", MD5Util.encodeMD5(password));
-
+//        Log.d("addAddress_params", "mobile_num:"+ mobile_num + "," +
+//                "p_type:"+ 1 + "," +
+//                "pass_word:"+ MD5Util.encodeMD5(password));
         Type type = new TypeToken<SigninInfo>(){}.getType();
         toBean(POST, http, which, params, url, myHttpResult, type);
     }
@@ -308,7 +314,7 @@ public class MyHttp {
         String url = SERVER + "Personal/storelist";
         params.clear();
         params.put("token", MyApplication.token);
-        Log.d("shopListtoken", MyApplication.token);
+//        Log.d("shopListtoken", MyApplication.token);
         Type type = new TypeToken<List<ShopInfo>>() {
         }.getType();
         toBean(GET, http, which, params, url, myHttpResult, type);
@@ -412,6 +418,7 @@ public class MyHttp {
         params.put("address", address);
         params.put("msg_code", msg_code);
         params.put("code", code);
+        params.put("p_type", 1 + "");//android端注册
 //        Log.d("register_params", "mobile_num:"+ mobile_num + "," +
 //                "password:"+ password + "," +
 //                "store_name:"+ store_name + "," +
@@ -577,6 +584,72 @@ public class MyHttp {
     }
 
     /**
+     * 去付款，即添加订单
+     */
+    public static void addOrder(HttpForVolley http, Integer which, String cartdata, long timestamp,
+                                String a_id, String msg_content, int is_use_hb,
+                                int pay_mode, MyHttpResult myHttpResult) {
+        String url = SERVER + "Order/addorder";
+        params.clear();
+        params.put("cartdata", cartdata);
+        params.put("timestamp", timestamp + "");
+        params.put("a_id", a_id);
+        params.put("msg_content", msg_content);
+        params.put("is_use_hb", is_use_hb + "");
+        params.put("pay_mode", pay_mode + "");
+        params.put("ptype", p_type + "");//0微信 1 android, 2 ios，3其他
+        params.put("token", MyApplication.token);
+        String sign = SignUtil.getOrderBuySignInfo(a_id, cartdata, is_use_hb, msg_content, pay_mode, p_type, timestamp, MyApplication.token);
+        params.put("sign", sign);
+//        Log.d("addAddress_params", "a_id:"+ a_id + "," +
+//                "cartdata:"+ cartdata + "," +
+//                "is_use_hb:"+ is_use_hb + "," +
+//                "msg_content:"+ msg_content + "," +
+//                "pay_mode:"+ pay_mode + "," +
+//                "p_type:"+ p_type + "," +
+//                "timestamp:"+ timestamp + "," +
+//                "token:"+  MyApplication.token +
+//                "sign:"+ sign);
+        Type type = new TypeToken<OrderBuyResultInfo>() {
+        }.getType();
+        toBean(POST, http, which, params, url, myHttpResult, type);
+    }
+
+    /**
+     * 查询订单
+     */
+    public static void searchOrder(HttpForVolley http, Integer which, int tv, int page, MyHttpResult myHttpResult) {
+        String url = SERVER + "Order/searchorder";
+        params.clear();
+        params.put("tv", tv + "");
+        params.put("page", page + "");
+        params.put("token", MyApplication.token);
+//        Log.d("addAddress_params", "tv:"+ tv + "," +
+//                "page:"+ page + "," +
+//                "token:"+  MyApplication.token);
+        Type type = new TypeToken<OrderResultInfo>() {
+        }.getType();
+        toBean(POST, http, which, params, url, myHttpResult, type);
+    }
+
+    /**
+     * 通过订单id查询订单
+     */
+    public static void orderSuccess(HttpForVolley http, Integer which, String o_id,
+                                    MyHttpResult myHttpResult) {
+        String url = SERVER + "Order/ordersuccess";
+        params.clear();
+        params.put("o_id", o_id);
+        params.put("token", MyApplication.token);
+//        Log.d("addAddress_params", "o_id:"+ o_id + "," +
+//                "token:"+  MyApplication.token);
+        Type type = new TypeToken<OrderDetailInfo>() {
+        }.getType();
+        toBean(GET, http, which, params, url, myHttpResult, type);
+    }
+
+
+    /**
      * 汇币明细
      * type = 1 收入
      * type = 2 支出
@@ -595,7 +668,6 @@ public class MyHttp {
         toBean(GET, http, which, params, url, myHttpResult, beanType);
     }
 
-
     private static void toBean(int method, final HttpForVolley http, Integer which,
                                HashMap<String, String> httpMap, String url,
                                final MyHttpResult myHttpResult, final Type bean) {
@@ -603,6 +675,7 @@ public class MyHttp {
 
             @Override
             public void httpTodo(Integer which, JSONObject response) {
+//                Log.d("addAddress_params", response.toString());
                 //统一处理登录逻辑  code 1请求失败  2 登录失败  0请求成功s
                 int code = response.optInt("code", 1);
                 if(code == 2 && (http.getContext().getClass() != MainActivity.class)){

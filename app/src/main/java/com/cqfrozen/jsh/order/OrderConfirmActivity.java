@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -16,8 +17,11 @@ import com.common.widget.MyEditText;
 import com.common.widget.MyGridDecoration;
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.adapter.OrderRVAdapter;
+import com.cqfrozen.jsh.cart.CartManager;
+import com.cqfrozen.jsh.entity.OrderBuyResultInfo;
 import com.cqfrozen.jsh.entity.OrderInfo;
 import com.cqfrozen.jsh.main.MyActivity;
+import com.cqfrozen.jsh.volleyhttp.MyHttp;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,8 +29,11 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/10/24.
  *  intent.putExtra("orderInfo", orderInfo);
+ *  intent.putExtra("carDataAry", carDataAry);
  */
 public class OrderConfirmActivity extends MyActivity implements View.OnClickListener {
+
+    private static final int REUEST_CODE_ADDRESS = 1;
 
     private OrderInfo orderInfo;
     private TextView tv_name;
@@ -47,7 +54,14 @@ public class OrderConfirmActivity extends MyActivity implements View.OnClickList
     private TextView tv_goods_price;
     private RelativeLayout rl_address;
     private RelativeLayout rl_order;
+    private TextView tv_default_address;
+    private Button btn_buy;
 
+    private String curAddressId = "";
+    private int pay_mode = 1;//支付方式 1货到付款，2微信支付，3支付宝
+    private int is_use_hb = 0;//是否使用汇币(0否，1是)
+    private String msg_content = "";//用户留言
+    private String carDataAry = "";//购物车数组 2002，2003,1001
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,6 +73,7 @@ public class OrderConfirmActivity extends MyActivity implements View.OnClickList
 
     private void getIntentData() {
         orderInfo = (OrderInfo) getIntent().getSerializableExtra("orderInfo");
+        carDataAry =  getIntent().getStringExtra("carDataAry");
         addressList = orderInfo.address;
         goodsList.add(orderInfo.goods.get(0));
         if(addressList != null){
@@ -68,7 +83,7 @@ public class OrderConfirmActivity extends MyActivity implements View.OnClickList
                 }
             }
         }
-
+        curAddressId = defaultAddress.a_id;
     }
 
     private void initView() {
@@ -76,6 +91,7 @@ public class OrderConfirmActivity extends MyActivity implements View.OnClickList
         tv_name = (TextView) findViewById(R.id.tv_name);
         tv_phone = (TextView) findViewById(R.id.tv_phone);
         tv_address = (TextView) findViewById(R.id.tv_address);
+        tv_default_address = (TextView) findViewById(R.id.tv_default_address);
         rv_order = (RecyclerView) findViewById(R.id.rv_order);
         tv_count = (TextView) findViewById(R.id.tv_count);
         tv_freight = (TextView) findViewById(R.id.tv_freight);
@@ -88,9 +104,11 @@ public class OrderConfirmActivity extends MyActivity implements View.OnClickList
         et_words = (MyEditText) findViewById(R.id.et_words);
         rl_address = (RelativeLayout) findViewById(R.id.rl_address);
         rl_order = (RelativeLayout) findViewById(R.id.rl_order);
+        btn_buy = (Button) findViewById(R.id.btn_buy);
 
         rl_address.setOnClickListener(this);
         rl_order.setOnClickListener(this);
+        btn_buy.setOnClickListener(this);
 
         rv_order.setOverScrollMode(View.OVER_SCROLL_NEVER);
         GridLayoutManager manager = new GridLayoutManager(this, 1);
@@ -109,11 +127,13 @@ public class OrderConfirmActivity extends MyActivity implements View.OnClickList
                     tv_freight.setText(orderInfo == null ? "" : "￥" + orderInfo.weight_amount);
                     tv_goods_price.setText(orderInfo == null ? "" : "￥" + orderInfo.goods_amount);
                     tv_freight_again.setText(orderInfo == null ? "" : "运费:￥" + orderInfo.weight_amount);
+                    is_use_hb = 0;//不使用汇币
                 }else {
                     tv_order_sum.setText(orderInfo == null ? "" : "￥" + orderInfo.order_amount_hb);
                     tv_freight.setText(orderInfo == null ? "" : "￥" + orderInfo.weight_amount_hb);
                     tv_goods_price.setText(orderInfo == null ? "" : "￥" + orderInfo.goods_amount_hb);
                     tv_freight_again.setText(orderInfo == null ? "" : "运费:￥" + orderInfo.weight_amount_hb);
+                    is_use_hb = 1;//使用汇币
                 }
             }
         });
@@ -139,18 +159,60 @@ public class OrderConfirmActivity extends MyActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.rl_address:
+            case R.id.rl_address://订单选择地址列表
                 Intent intent1 = new Intent(this, OrderAddressListActivity.class);
                 intent1.putExtra("orderInfo", orderInfo);
-                startActivity(intent1);
+                startActivityForResult(intent1, REUEST_CODE_ADDRESS);
                 break;
-            case R.id.rl_order:
+            case R.id.rl_order://订单商品列表
                 Intent intent2 = new Intent(this, OrderGooodsListActivity.class);
                 intent2.putExtra("orderInfo", orderInfo);
                 startActivity(intent2);
                 break;
+            case R.id.btn_buy://订单商品列表
+                goBuy();
+                break;
             default:
                 break;
+        }
+    }
+
+    private void goBuy() {
+        long timestamp = System.currentTimeMillis();
+        msg_content = et_words.getText().toString().trim();
+        MyHttp.addOrder(http, null, carDataAry, timestamp, curAddressId,
+                msg_content, is_use_hb, pay_mode, new MyHttp.MyHttpResult() {
+                    @Override
+                    public void httpResult(Integer which, int code, String msg, Object bean) {
+                        showToast(msg);
+                        if(code != 0){
+                            return;
+                        }
+                        CartManager.getInstance(OrderConfirmActivity.this).delete(carDataAry);
+                        OrderBuyResultInfo orderBuyResultInfo = (OrderBuyResultInfo) bean;
+                        Intent intent = new Intent(OrderConfirmActivity.this, OrderBuyResultActivity.class);
+                        intent.putExtra("order_id", orderBuyResultInfo.o_id);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == REUEST_CODE_ADDRESS && resultCode == RESULT_OK){
+            int position = data.getIntExtra("position", 0);
+            OrderInfo.OrderAddressBean orderAddressBean = addressList.get(position);
+            tv_name.setText(orderAddressBean.china_name);
+            tv_phone.setText(orderAddressBean.mobile_num);
+            tv_address.setText(orderAddressBean.address);
+            if(orderAddressBean.is_default == 1){
+                tv_default_address.setVisibility(View.VISIBLE);
+            }else {
+                tv_default_address.setVisibility(View.GONE);
+            }
+            curAddressId = orderAddressBean.a_id;
         }
     }
 }

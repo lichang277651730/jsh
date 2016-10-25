@@ -1,4 +1,4 @@
-package com.cqfrozen.jsh.center;
+package com.cqfrozen.jsh.order;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.cqfrozen.jsh.R;
-import com.cqfrozen.jsh.fragment.OrderFragment;
 import com.cqfrozen.jsh.util.UIUtils;
 import com.shizhefei.view.indicator.IndicatorViewPager;
 
@@ -45,7 +44,7 @@ public class OrderIndicatorAdapter extends IndicatorViewPager.IndicatorFragmentP
 
     @Override
     public Fragment getFragmentForPage(int position) {
-        return OrderFragment.getInstance(names[position % names.length]);
+        return OrderFragment.getInstance(position);
     }
 
     @Override
