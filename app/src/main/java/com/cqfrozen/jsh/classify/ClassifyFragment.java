@@ -119,6 +119,7 @@ public class ClassifyFragment extends BaseFragment implements MyHttp.MyHttpResul
 //        if(categoryInfos == null || categoryInfos.size() == 0){
 //            geData();
 //        }
+        adapter.notifyDataSetChanged();
     }
 
     @Override

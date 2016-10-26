@@ -28,7 +28,6 @@ public class OrderInfo extends BaseEntity {
         public String weight;
         public String market_price;
         public String count;
-
     }
 
     public class OrderAddressBean extends BaseEntity{

@@ -22,9 +22,11 @@ import com.common.widget.RefreshLayout;
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.activity.HomeActivity;
 import com.cqfrozen.jsh.entity.CartNotifyInfo;
+import com.cqfrozen.jsh.entity.OrderInfo;
 import com.cqfrozen.jsh.home.SearchActivity;
 import com.cqfrozen.jsh.main.MyActivity;
 import com.cqfrozen.jsh.main.MyApplication;
+import com.cqfrozen.jsh.order.OrderConfirmActivity;
 import com.cqfrozen.jsh.volleyhttp.MyHttp;
 
 import java.util.ArrayList;
@@ -38,6 +40,8 @@ public class CartActivity extends MyActivity implements View.OnClickListener, Re
 
     private static final int TAG_EIDT = 1;
     private static final int TAG_FINISH = 2;
+
+    private static final int REQUEST_CODE_CART_ACTIVITY = 1;
 
     private static CartFragment fragment;
     private Button btn_edit;
@@ -87,6 +91,7 @@ public class CartActivity extends MyActivity implements View.OnClickListener, Re
         btn_del = (Button) findViewById(R.id.btn_del);
         tv_carr = (TextView)findViewById(R.id.tv_carr);
         btn_del.setOnClickListener(this);
+        btn_order.setOnClickListener(this);
         iv_shotcut.setOnClickListener(this);
         refresh_cart.setOnRefreshListener(this);
 //        cb_all.setChecked(true);
@@ -100,6 +105,7 @@ public class CartActivity extends MyActivity implements View.OnClickListener, Re
         if(cartManager.isNull()){
             setNoDataView();
         }
+
     }
 
     private void initTitle() {
@@ -223,6 +229,9 @@ public class CartActivity extends MyActivity implements View.OnClickListener, Re
             case R.id.btn_del://点击删除按钮
                 deleteCart();
                 break;
+            case R.id.btn_order://点击删除按钮
+                goOrder();
+                break;
             case R.id.iv_shotcut://点击shotcut图标
                 showPop(iv_shotcut);
                 break;
@@ -241,6 +250,44 @@ public class CartActivity extends MyActivity implements View.OnClickListener, Re
             default:
                 break;
         }
+    }
+
+    private void goOrder() {
+        List<CartGoodsInfo> checkedGoods = cartManager.getCheckedGoods();
+        if(checkedGoods.size() == 0){
+            showToast("未选择任何商品");
+            return;
+        }
+        final String carDataAry = parseCartData(checkedGoods);
+        long timestamp = System.currentTimeMillis();
+
+        MyHttp.settlement(http, null, carDataAry, timestamp, new MyHttp.MyHttpResult() {
+            @Override
+            public void httpResult(Integer which, int code, String msg, Object bean) {
+                if(code != 0){
+                    showToast(msg);
+                    return;
+                }
+                OrderInfo orderInfo = (OrderInfo) bean;
+//                cartAdapter.showTotalPrice();
+                Intent intent = new Intent(CartActivity.this, OrderConfirmActivity.class);
+                intent.putExtra("orderInfo", orderInfo);
+                intent.putExtra("carDataAry", carDataAry);
+//                startActivityForResult(intent, REQUEST_CODE_CART_ACTIVITY);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private String parseCartData(List<CartGoodsInfo> checkedGoods) {
+        String cartString = "";
+        for (CartGoodsInfo goodsInfo : checkedGoods){
+            cartString = cartString + goodsInfo.c_id + ",";
+        }
+        if(cartString.endsWith(",")){
+            cartString = cartString.substring(0, cartString.length() - 1);
+        }
+        return cartString;
     }
 
     /**
@@ -352,4 +399,11 @@ public class CartActivity extends MyActivity implements View.OnClickListener, Re
         popupWindow.showAsDropDown(view, BaseValue.dp2px(-6), BaseValue.dp2px(8));
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == REQUEST_CODE_CART_ACTIVITY && resultCode == RESULT_OK){
+            getDataFromServer();
+        }
+    }
 }

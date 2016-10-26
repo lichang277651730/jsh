@@ -39,7 +39,7 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:layout_weight="1"
-            android:text="汇币明细"/>
+            android:text="粮票明细"/>
         <View style="@style/VerticalDividerLine"
             android:layout_marginBottom="4dp"
             android:layout_marginTop="4dp"/>
@@ -51,10 +51,30 @@
             android:gravity="center"
             android:text="使用记录"/>
     </LinearLayout>
-    <ListView
-        android:id="@+id/lv_huibi"
+    <View style="@style/HorizontalDividerLine"/>
+    <com.common.widget.RefreshLayout
+        android:id="@+id/refresh_huibi"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white">
-    </ListView>
+        android:layout_below="@id/ll_notify"
+        android:orientation="vertical">
+        <!--<include layout="@layout/include_httpresult"/>-->
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_huibi"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/mybg"
+            android:scrollbars="none">
+        </android.support.v7.widget.RecyclerView>
+    </com.common.widget.RefreshLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/mybg"/>
+    <!--<ListView-->
+        <!--android:id="@+id/lv_huibi"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:background="@color/white">-->
+    <!--</ListView>-->
 </LinearLayout>

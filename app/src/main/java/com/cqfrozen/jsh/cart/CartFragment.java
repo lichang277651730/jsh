@@ -309,7 +309,7 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
         final String carDataAry = parseCartData(checkedGoods);
         long timestamp = System.currentTimeMillis();
 
-        MyHttp.orderInfo(http, null, carDataAry, timestamp, new MyHttp.MyHttpResult() {
+        MyHttp.settlement(http, null, carDataAry, timestamp, new MyHttp.MyHttpResult() {
             @Override
             public void httpResult(Integer which, int code, String msg, Object bean) {
                 if(code != 0){

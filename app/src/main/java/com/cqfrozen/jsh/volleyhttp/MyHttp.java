@@ -2,6 +2,7 @@ package com.cqfrozen.jsh.volleyhttp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -15,6 +16,8 @@ import com.cqfrozen.jsh.entity.AreaStreetInfo;
 import com.cqfrozen.jsh.entity.CartCountInfo;
 import com.cqfrozen.jsh.entity.CartNotifyInfo;
 import com.cqfrozen.jsh.entity.CategoryInfo;
+import com.cqfrozen.jsh.entity.CommentResultInfo;
+import com.cqfrozen.jsh.entity.FansResultInfo;
 import com.cqfrozen.jsh.entity.GoodDetailResultInfo;
 import com.cqfrozen.jsh.entity.GoodsInfo;
 import com.cqfrozen.jsh.entity.GoodsResultInfo;
@@ -22,8 +25,10 @@ import com.cqfrozen.jsh.entity.HomeBannerInfo;
 import com.cqfrozen.jsh.entity.HomeNotifyInfo;
 import com.cqfrozen.jsh.entity.HuibiResultInfo;
 import com.cqfrozen.jsh.entity.LocationInfo;
+import com.cqfrozen.jsh.entity.MyFansPageInfo;
 import com.cqfrozen.jsh.entity.OrderBuyResultInfo;
 import com.cqfrozen.jsh.entity.OrderDetailInfo;
+import com.cqfrozen.jsh.entity.OrderDetailPageInfo;
 import com.cqfrozen.jsh.entity.OrderInfo;
 import com.cqfrozen.jsh.entity.OrderResultInfo;
 import com.cqfrozen.jsh.entity.SearchKwdInfo;
@@ -256,6 +261,24 @@ public class MyHttp {
         }.getType();
         toBean(GET, http, which, params, url, myHttpResult, type);
     }
+
+    /**
+     * 对应g_id商品的评价列表
+     */
+    public static void pjList(HttpForVolley http, Integer which, int page, Long g_id, MyHttpResult myHttpResult) {
+        String url = SERVER + "Goods/pjlist";
+        params.clear();
+        params.put("g_id", g_id + "");
+        params.put("page", page + "");
+        params.put("token", MyApplication.token);
+                Log.d("addAddress_params", "g_id:"+ g_id + "," +
+                "page:"+ page + "," +
+                "token:"+  MyApplication.token);
+        Type type = new TypeToken<CommentResultInfo>() {
+        }.getType();
+        toBean(GET, http, which, params, url, myHttpResult, type);
+    }
+
 
     /**
      * 获取定位区域数据列表
@@ -565,7 +588,7 @@ public class MyHttp {
     /**
      * 购物车点击去结算
      */
-    public static void orderInfo(HttpForVolley http, Integer which, String cartdata, long timestamp,
+    public static void settlement(HttpForVolley http, Integer which, String cartdata, long timestamp,
                                  MyHttpResult myHttpResult) {
         String url = SERVER + "Order/settlement";
         params.clear();
@@ -650,6 +673,22 @@ public class MyHttp {
 
 
     /**
+     * 订单详情页
+     */
+    public static void orderInfo(HttpForVolley http, Integer which, String o_id,  MyHttpResult myHttpResult) {
+        String url = SERVER + "Order/orderinfo";
+        params.clear();
+        params.put("o_id", o_id);
+        params.put("token", MyApplication.token);
+//        Log.d("addAddress_params", "o_id:"+ o_id + "," +
+//                "token:"+  MyApplication.token);
+        Type type = new TypeToken<OrderDetailPageInfo>() {
+        }.getType();
+        toBean(GET, http, which, params, url, myHttpResult, type);
+    }
+
+
+    /**
      * 汇币明细
      * type = 1 收入
      * type = 2 支出
@@ -667,6 +706,38 @@ public class MyHttp {
         }.getType();
         toBean(GET, http, which, params, url, myHttpResult, beanType);
     }
+
+    /**
+     * 我的兄弟伙上半页面信息
+     */
+    public static void myFans(HttpForVolley http, Integer which, MyHttpResult myHttpResult) {
+        String url = SERVER + "HbPersonal/myfans";
+        params.clear();
+        params.put("token", MyApplication.token);
+        Log.d("addAddress_params",
+                "token:"+  MyApplication.token);
+        Type beanType = new TypeToken<MyFansPageInfo>() {
+        }.getType();
+        toBean(GET, http, which, params, url, myHttpResult, beanType);
+    }
+
+    /**
+     * 一级粉丝 二级粉丝
+     */
+    public static void searchFans(HttpForVolley http, Integer which, int page, int level, MyHttpResult myHttpResult) {
+        String url = SERVER + "HbPersonal/searchfans";
+        params.clear();
+        params.put("page", page + "");
+        params.put("level", level + "");
+        params.put("token", MyApplication.token);
+//        Log.d("addAddress_params","page:"+  page +
+//                  "level:"+  level +
+//                  "token:"+  MyApplication.token);
+        Type beanType = new TypeToken<FansResultInfo>() {
+        }.getType();
+        toBean(GET, http, which, params, url, myHttpResult, beanType);
+    }
+
 
     private static void toBean(int method, final HttpForVolley http, Integer which,
                                HashMap<String, String> httpMap, String url,
@@ -703,7 +774,6 @@ public class MyHttp {
 
         });
     }
-
 
     public interface MyHttpResult{
         void httpResult(Integer which, int code, String msg, Object bean);

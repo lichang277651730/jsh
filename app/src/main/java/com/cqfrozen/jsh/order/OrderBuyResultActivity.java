@@ -1,5 +1,6 @@
 package com.cqfrozen.jsh.order;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -79,9 +80,11 @@ public class OrderBuyResultActivity extends MyActivity implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_order_detail://订单详情
+                Intent intent = new Intent(this, OrderDetailActivity.class);
+                intent.putExtra("o_id", order_id);
+                startActivity(intent);
                 break;
             case R.id.btn_go_home://返回首页
-//                startActivity(new Intent(this, HomeActivity.class));
                 HomeActivity.startActivity(this, 0);
                 break;
             default:

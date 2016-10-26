@@ -16,7 +16,6 @@ import com.common.base.BaseValue;
 import com.common.widget.MyEditText;
 import com.common.widget.MyGridDecoration;
 import com.cqfrozen.jsh.R;
-import com.cqfrozen.jsh.adapter.OrderRVAdapter;
 import com.cqfrozen.jsh.cart.CartManager;
 import com.cqfrozen.jsh.entity.OrderBuyResultInfo;
 import com.cqfrozen.jsh.entity.OrderInfo;
@@ -215,4 +214,6 @@ public class OrderConfirmActivity extends MyActivity implements View.OnClickList
             curAddressId = orderAddressBean.a_id;
         }
     }
+
+
 }

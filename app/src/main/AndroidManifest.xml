@@ -63,7 +63,16 @@
         android:theme="@style/AppBaseTheme">
 
         <!-- ======================业务Activity ======================= -->
-        <activity android:name=".activity.HomeActivity"
+        <!--<activity android:name=".activity.HomeActivity"-->
+                  <!--android:launchMode="singleTask"-->
+                  <!--android:theme="@style/SwipeBackTheme">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN"/>-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER"/>-->
+            <!--</intent-filter>-->
+        <!--</activity>-->
+        <activity android:name=".center.LoginActivity"
                   android:launchMode="singleTask"
                   android:theme="@style/SwipeBackTheme">
             <intent-filter>
@@ -72,6 +81,9 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity android:name=".activity.HomeActivity"
+                  android:launchMode="singleTask"
+                  android:theme="@style/SwipeBackTheme"/>
         <activity android:name=".order.OrderListActivity"
                   android:theme="@style/SwipeBackTheme"/>
         <activity android:name=".order.OrderGooodsListActivity"
@@ -79,6 +91,8 @@
         <activity android:name=".order.OrderAddressListActivity"
                   android:theme="@style/SwipeBackTheme"/>
         <activity android:name=".order.OrderBuyResultActivity"
+                  android:theme="@style/SwipeBackTheme"/>
+        <activity android:name=".order.OrderDetailActivity"
                   android:theme="@style/SwipeBackTheme"/>
         <activity android:name=".center.SettingActivity"
                   android:theme="@style/SwipeBackTheme"/>
@@ -88,8 +102,8 @@
                   android:theme="@style/SwipeBackTheme"/>
         <activity android:name=".center.AddressEditActivity"
                   android:theme="@style/SwipeBackTheme"/>
-        <activity android:name=".center.LoginActivity"
-                  android:theme="@style/SwipeBackTheme"/>
+        <!--<activity android:name=".center.LoginActivity"-->
+                  <!--android:theme="@style/SwipeBackTheme"/>-->
         <activity android:name=".center.ForgetPwdActivity"
                   android:theme="@style/SwipeBackTheme"/>
         <activity android:name=".center.Register1Activity"
@@ -123,6 +137,8 @@
         <activity android:name=".center.HuibiListActivity"
                   android:theme="@style/SwipeBackTheme"/>
         <activity android:name=".center.FansListActity"
+                  android:theme="@style/SwipeBackTheme"/>
+        <activity android:name=".activity.CommentListActivity"
                   android:theme="@style/SwipeBackTheme"/>
     </application>
 

@@ -24,10 +24,4 @@ public class UserInfo extends BaseEntity {
     public int ds_count;//订单代收货数量
     public int dp_count;//订单代评价数量
 
-    @Override
-    public String toString() {
-        return "UserInfo{" +
-                "area_name='" + mobile_num + '\'' +
-                '}';
-    }
 }

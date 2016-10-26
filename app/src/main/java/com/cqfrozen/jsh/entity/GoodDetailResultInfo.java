@@ -23,14 +23,8 @@ public class GoodDetailResultInfo extends BaseEntity {
         public String brand_name;//"盛合",（品牌）
         public String shelf_life;//"12个月",（保质期）
         public String c_mode;//存储方式
+        public String pj_count;//评价数
 
-        @Override
-        public String toString() {
-            return "GoodDetailInfo{" +
-                    "is_common=" + is_common +
-                    ", g_name='" + g_name + '\'' +
-                    '}';
-        }
     }
 
     public class PicsInfo{

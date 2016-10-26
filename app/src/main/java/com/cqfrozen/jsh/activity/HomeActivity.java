@@ -50,7 +50,7 @@ public class HomeActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        setSwipeBackEnable(false);
+        setSwipeBackEnable(true);
         instance = this;
         initView();
         initFragment();
@@ -99,6 +99,7 @@ public class HomeActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         rb_homes[3] = (RadioButton) findViewById(R.id.rb_mine);
         vp_home.setOnMyPageChangeListener(this);
         rg_home.setOnCheckedChangeListener(this);
+        vp_home.setOffscreenPageLimit(1);
     }
 
     private void initFragment() {

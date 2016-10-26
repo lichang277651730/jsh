@@ -46,7 +46,6 @@
         android:layout_below="@id/rl_title"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="60dp"
         android:scrollbars="none">
     <LinearLayout
         android:layout_width="match_parent"
@@ -309,20 +308,39 @@
             android:background="@color/white">
 
             <TextView
+                android:id="@+id/tv_comment_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="12dp"
-                android:text="用户评论"
+                android:text="商品评论"
                 android:textSize="16sp"/>
         </RelativeLayout>
-
+        <View style="@style/HorizontalDividerLine"/>
         <ListView
             android:id="@+id/lv_comment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:background="@color/mybg"
+            android:cacheColorHint="@color/transparency"
+            android:divider="@color/myline"
+            android:dividerHeight="2px"
+            android:listSelector="@color/transparency"
+            android:scrollbars="none">
         </ListView>
+        <TextView
+            android:id="@+id/tv_all_comment"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:background="@color/mybg"
+            android:text="显示所有评论"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@color/mybg"/>
     </LinearLayout>
+
     </ScrollView>
     <LinearLayout
         android:layout_width="match_parent"

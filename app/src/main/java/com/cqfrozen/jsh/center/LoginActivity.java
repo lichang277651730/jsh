@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -14,6 +13,7 @@ import android.widget.TextView;
 
 import com.common.widget.MyEditText;
 import com.cqfrozen.jsh.R;
+import com.cqfrozen.jsh.activity.HomeActivity;
 import com.cqfrozen.jsh.entity.SigninInfo;
 import com.cqfrozen.jsh.entity.UserInfo;
 import com.cqfrozen.jsh.main.MyActivity;
@@ -125,7 +125,8 @@ public class LoginActivity extends MyActivity implements View.OnClickListener {
                 }
                 SPUtils.setToken(MyApplication.token);
                 MyApplication.userInfo = (UserInfo) bean;
-                Log.d("userInfo", ((UserInfo) bean).toString());
+                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                startActivity(intent);
                 finish();
             }
         });

@@ -9,7 +9,6 @@ import android.view.View;
 import com.common.base.BaseValue;
 import com.common.widget.MyGridDecoration;
 import com.cqfrozen.jsh.R;
-import com.cqfrozen.jsh.adapter.OrderRVAdapter;
 import com.cqfrozen.jsh.entity.OrderInfo;
 import com.cqfrozen.jsh.main.MyActivity;
 
