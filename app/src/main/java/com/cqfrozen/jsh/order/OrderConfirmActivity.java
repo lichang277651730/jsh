@@ -61,6 +61,7 @@ public class OrderConfirmActivity extends MyActivity implements View.OnClickList
     private int is_use_hb = 0;//是否使用汇币(0否，1是)
     private String msg_content = "";//用户留言
     private String carDataAry = "";//购物车数组 2002，2003,1001
+    private TextView tv_shop;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -87,6 +88,7 @@ public class OrderConfirmActivity extends MyActivity implements View.OnClickList
 
     private void initView() {
         setMyTitle("确认订单");
+        tv_shop = (TextView) findViewById(R.id.tv_shop);
         tv_name = (TextView) findViewById(R.id.tv_name);
         tv_phone = (TextView) findViewById(R.id.tv_phone);
         tv_address = (TextView) findViewById(R.id.tv_address);
@@ -139,6 +141,7 @@ public class OrderConfirmActivity extends MyActivity implements View.OnClickList
     }
 
     private void initData() {
+        tv_shop.setText(defaultAddress == null ? "店铺:" : "店铺:" + defaultAddress.store_name);
         tv_name.setText(defaultAddress == null ? "收货人:" : "收货人:" + defaultAddress.china_name);
         tv_phone.setText(defaultAddress == null ? "" : defaultAddress.mobile_num);
         tv_address.setText(defaultAddress == null ? "收货地址:" : "收货地址:" + defaultAddress.address);
@@ -203,9 +206,10 @@ public class OrderConfirmActivity extends MyActivity implements View.OnClickList
         if(requestCode == REUEST_CODE_ADDRESS && resultCode == RESULT_OK){
             int position = data.getIntExtra("position", 0);
             OrderInfo.OrderAddressBean orderAddressBean = addressList.get(position);
-            tv_name.setText(orderAddressBean.china_name);
+            tv_shop.setText("店铺:" + orderAddressBean.store_name);
+            tv_name.setText("收货人:" + orderAddressBean.china_name);
             tv_phone.setText(orderAddressBean.mobile_num);
-            tv_address.setText(orderAddressBean.address);
+            tv_address.setText("收货地址:" + orderAddressBean.address);
             if(orderAddressBean.is_default == 1){
                 tv_default_address.setVisibility(View.VISIBLE);
             }else {

@@ -11,5 +11,6 @@ public class MyFansPageInfo extends BaseEntity {
     public String intotal_fans_count;//兄弟伙数量
     public String one_fans_count;//一级兄弟伙数量
     public String two_fans_count;//二级兄弟伙数量
+    public String code;//二级兄弟伙数量
 
 }

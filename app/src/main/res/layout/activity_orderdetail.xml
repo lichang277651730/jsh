@@ -84,7 +84,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:padding="16dp"
+        android:paddingRight="16dp"
+        android:paddingLeft="16dp"
+        android:paddingBottom="4dp"
+        android:paddingTop="4dp"
         android:textSize="14sp"
         android:textColor="@color/myblack"
         android:maxLines="2"
@@ -98,6 +101,37 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
     </android.support.v7.widget.RecyclerView>
+    <View style="@style/HorizontalDividerLine"/>
+    <RelativeLayout
+        android:id="@+id/rl_order"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingBottom="10dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="10dp">
+
+        <TextView
+            android:id="@+id/tv_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="共8件商品"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="显示全部商品"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/toright"/>
+    </RelativeLayout>
+
     <View style="@style/HorizontalDividerLine"/>
     <RelativeLayout
         android:layout_width="match_parent"

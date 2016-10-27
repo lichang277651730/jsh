@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.common.base.BaseValue;
-import com.common.widget.MyGridDecoration;
+import com.common.widget.GridDecoration;
 import com.common.widget.RefreshLayout;
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.adapter.GoodsAdapter;
@@ -109,9 +109,9 @@ public class GoodsFragment extends MyFragment implements MyHttp.MyHttpResult, My
     private void initRV() {
         rv_goods.setOverScrollMode(View.OVER_SCROLL_NEVER);
         GridLayoutManager manager = new GridLayoutManager(mActivity, 2);
-        MyGridDecoration decoration = new MyGridDecoration(BaseValue.dp2px(4), BaseValue
-                .dp2px(0), getResources().getColor(R.color.mybg), false);
-        rv_goods.addItemDecoration(decoration);
+        GridDecoration newGridDecoration = new GridDecoration(0, BaseValue.dp2px(1),
+                getResources().getColor(R.color.mybg), true);
+        rv_goods.addItemDecoration(newGridDecoration);
         goodsAdapter = new GoodsAdapter(mActivity, goodsInfos);
         rv_goods.setLayoutManager(manager);
         rv_goods.setAdapter(goodsAdapter);

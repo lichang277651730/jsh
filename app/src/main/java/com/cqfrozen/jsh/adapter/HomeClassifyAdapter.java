@@ -1,6 +1,7 @@
 package com.cqfrozen.jsh.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,8 +10,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cqfrozen.jsh.R;
+import com.cqfrozen.jsh.activity.HomeActivity;
+import com.cqfrozen.jsh.center.HuibiListActivity;
+import com.cqfrozen.jsh.center.NormalBuyActivity;
 import com.cqfrozen.jsh.entity.HomeClassifyInfo;
-import com.cqfrozen.jsh.util.ToastUtil;
+import com.cqfrozen.jsh.order.OrderListActivity;
 import com.cqfrozen.jsh.util.UIUtils;
 
 import java.util.List;
@@ -20,8 +24,11 @@ import java.util.List;
  */
 public class HomeClassifyAdapter extends RecyclerView.Adapter<HomeClassifyAdapter.MyViewHolder> {
 
+    private static final int PAGE_BUY_GOODS = 1;
+    private static final int PAGE_NORMAL_BUY = 2;
+    private static final int PAGE_HUIBI = 3;
+    private static final int PAGE_ORDER_LIST = 4;
 
-//    private String[] titles = new String[]{"我要订货", "常用采购", "我的积分", "我的订单"};
     private int[] titleIds = new int[]{R.string.home_classify_dh, R.string.home_classify_cg,
                                         R.string.home_classify_jf, R.string.home_classify_dd};
     private int[] imgs = new int[]{R.mipmap.list_btm_dinghuo_h, R.mipmap.list_btm_caigou_h, R.mipmap.list_btm_ifen_h, R.mipmap.list_btm_dingdan_h};
@@ -41,17 +48,31 @@ public class HomeClassifyAdapter extends RecyclerView.Adapter<HomeClassifyAdapte
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
-//        final String title = titles[position - 1];
-//        holder.tv_classify.setText(titles[position - 1]);
+    public void onBindViewHolder(MyViewHolder holder, final int position) {
         final String title = UIUtils.getString(titleIds[position - 1]);
         holder.tv_classify.setText(title);
         holder.iv_classify.setImageResource(imgs[position - 1]);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO 首页分类图标点击事件
-                ToastUtil.showToast(context, title);
+                switch (position) {
+                    case PAGE_BUY_GOODS:
+                        if(context instanceof HomeActivity){
+                            ((HomeActivity)context).setClassifyFragment();
+                        }
+                        break;
+                    case PAGE_NORMAL_BUY:
+                        context.startActivity(new Intent(context, NormalBuyActivity.class));
+                        break;
+                    case PAGE_HUIBI:
+                        context.startActivity(new Intent(context, HuibiListActivity.class));
+                        break;
+                    case PAGE_ORDER_LIST:
+                        context.startActivity(new Intent(context, OrderListActivity.class));
+                        break;
+                    default:
+                        break;
+                }
             }
         });
     }

@@ -1,5 +1,6 @@
 package com.cqfrozen.jsh.adapter;
 
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -23,5 +24,11 @@ public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
 	@Override
 	public int getCount() {
 		return mFragments.size();
+	}
+
+	//解决Fragement no longer exists for key f0: index 0 异常
+	@Override
+	public Parcelable saveState() {
+		return null;
 	}
 }

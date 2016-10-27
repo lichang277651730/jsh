@@ -31,9 +31,7 @@ public class HuibiListActivity extends MyActivity implements RefreshLayout.TopOr
     private TextView tv_all;
     private TextView tv_right;
     private TextView tv_use;
-//    private ListView lv_huibi;
     private List<HuibiInfo> huibiInfos = new ArrayList<>();
-//    private HuibiAdapter adapter;
     private int type = 1;//1收入  2支出
     private int page = 1;
     private int is_page = 1;
@@ -47,7 +45,6 @@ public class HuibiListActivity extends MyActivity implements RefreshLayout.TopOr
         setContentView(R.layout.activity_huibilist);
         getIntentData();
         initView();
-//        initLV();
         initRC();
         getData();
     }
@@ -57,14 +54,13 @@ public class HuibiListActivity extends MyActivity implements RefreshLayout.TopOr
     }
 
     private void initView() {
-        setMyTitle("我的汇币", "汇币规则");
+        setMyTitle("我的粮票", "粮票规则");
         tv_huibi = (TextView) findViewById(R.id.tv_huibi);
         tv_all = (TextView) findViewById(R.id.tv_all);
         tv_right = (TextView) findViewById(R.id.tv_right);
         tv_use = (TextView) findViewById(R.id.tv_use);
         refresh_huibi = (RefreshLayout) findViewById(R.id.refresh_huibi);
         rv_huibi = (RecyclerView) findViewById(R.id.rv_huibi);
-//        lv_huibi = (ListView) findViewById(R.id.lv_huibi);
         tv_huibi.setText(hb_count + "");
         tv_all.setOnClickListener(this);
         tv_use.setOnClickListener(this);
@@ -100,20 +96,12 @@ public class HuibiListActivity extends MyActivity implements RefreshLayout.TopOr
         GridLayoutManager manager = new GridLayoutManager(this, 1);
         rv_huibi.setLayoutManager(manager);
         MyGridDecoration decoration = new MyGridDecoration(BaseValue.dp2px(1), BaseValue
-                .dp2px(0), getResources().getColor(R.color.mybg), false);
+                .dp2px(0), getResources().getColor(R.color.myline), false);
         rv_huibi.addItemDecoration(decoration);
         rvAdapter = new HuibiRVAdapter(this, huibiInfos);
         rv_huibi.setAdapter(rvAdapter);
         refresh_huibi.setRC(rv_huibi, this);
     }
-
-
-//    private void initLV() {
-//        lv_huibi.setOverScrollMode(View.OVER_SCROLL_NEVER);
-//        adapter = new HuibiAdapter(this, huibiInfos);
-//        lv_huibi.setAdapter(adapter);
-//    }
-
 
 
     private void getData() {
@@ -133,7 +121,6 @@ public class HuibiListActivity extends MyActivity implements RefreshLayout.TopOr
                 refresh_huibi.setResultState(RefreshLayout.ResultState.success);
                 HuibiResultInfo huibiResultInfo = (HuibiResultInfo) bean;
                 huibiInfos.addAll(huibiResultInfo.data1);
-//                adapter.notifyDataSetChanged();
                 is_page = huibiResultInfo.is_page;
                 if(huibiInfos.size() == 0){
                     return;

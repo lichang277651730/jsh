@@ -5,7 +5,7 @@
     <!--首页 分类-->
     <string name="home_classify_dh">我要订货</string>
     <string name="home_classify_cg">常用采购</string>
-    <string name="home_classify_jf">我的积分</string>
+    <string name="home_classify_jf">我的粮票</string>
     <string name="home_classify_dd">我的订单</string>
     <!--首页 底部导航页-->
     <string name="nav_home">首页</string>

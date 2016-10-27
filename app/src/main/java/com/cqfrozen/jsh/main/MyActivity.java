@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.common.base.BaseActivity;
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.center.LoginActivity;
+import com.cqfrozen.jsh.entity.UserInfo;
 
 /**
  * Created by Administrator on 2016/9/18.
@@ -121,6 +122,13 @@ public class MyActivity extends BaseActivity {
         }else {
             return true;
         }
+    }
+
+    public UserInfo getUserInfo() {
+        if (needLogin()) {
+            return MyApplication.userInfo;
+        }
+        return null;
     }
 
     /**

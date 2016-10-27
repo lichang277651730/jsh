@@ -94,6 +94,8 @@
                   android:theme="@style/SwipeBackTheme"/>
         <activity android:name=".order.OrderDetailActivity"
                   android:theme="@style/SwipeBackTheme"/>
+        <activity android:name=".order.OrderGooodsDetailListActivity"
+                  android:theme="@style/SwipeBackTheme"/>
         <activity android:name=".center.SettingActivity"
                   android:theme="@style/SwipeBackTheme"/>
         <activity android:name=".center.AddressListActivity"

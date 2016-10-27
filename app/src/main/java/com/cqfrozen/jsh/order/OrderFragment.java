@@ -1,5 +1,6 @@
 package com.cqfrozen.jsh.order;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
@@ -45,7 +46,7 @@ public class OrderFragment extends MyFragment implements RefreshLayout.OnRefresh
         int position = bundle.getInt("position", 1);
         switch (position) {
             case 0://代付款
-                tv = 2;
+                tv = 1;
                 break;
             case 1://待收货
                 tv = 3;
@@ -54,7 +55,7 @@ public class OrderFragment extends MyFragment implements RefreshLayout.OnRefresh
                 tv = 4;
                 break;
             case 3://全部
-                tv = 1;
+                tv = 2;
                 break;
             default:
                 tv = 1;
@@ -93,6 +94,14 @@ public class OrderFragment extends MyFragment implements RefreshLayout.OnRefresh
         rv_order.setLayoutManager(manager);
         rv_order.setAdapter(adapter);
         refresh_order.setRC(rv_order, this);
+        adapter.setOnItemClickListener(new OrderListAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position, OrderResultInfo.OrderSearchInfo orderSearchInfo) {
+                Intent intent = new Intent(mActivity, OrderDetailActivity.class);
+                intent.putExtra("o_id", orderSearchInfo.o_id);
+                startActivity(intent);
+            }
+        });
     }
 
     private void getData() {

@@ -177,7 +177,7 @@ public class HttpForVolley {
 			fis.read(buffer);
 			String encodeToString = Base64.encodeToString(buffer,
 					Base64.DEFAULT);
-			httpMap.put("avatar", encodeToString);
+			httpMap.put("head_data", encodeToString);
 			if (request == null) {
 				toHttp(method, which, httpMap, url, todo);
 			}else{

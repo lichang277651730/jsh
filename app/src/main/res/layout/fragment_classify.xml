@@ -43,8 +43,8 @@
             android:layout_marginRight="40dp"/>
         <ImageView
             android:id="@+id/iv_pop"
-            android:layout_width="45dp"
-            android:layout_height="35dp"
+            android:layout_width="40dp"
+            android:layout_height="30dp"
             android:layout_marginTop="4dp"
             android:layout_alignParentRight="true"
             android:src="@mipmap/icon_classify_shortcut"/>

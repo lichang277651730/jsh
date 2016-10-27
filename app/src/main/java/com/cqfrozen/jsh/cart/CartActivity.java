@@ -96,7 +96,7 @@ public class CartActivity extends MyActivity implements View.OnClickListener, Re
         refresh_cart.setOnRefreshListener(this);
 //        cb_all.setChecked(true);
         //TODO 以后用application里的用户判断
-        if(MyApplication.token.isEmpty()){
+        if(MyApplication.userInfo == null){
             ll_notify.setVisibility(View.GONE);
         }else {
             ll_notify.setVisibility(View.VISIBLE);
@@ -269,11 +269,9 @@ public class CartActivity extends MyActivity implements View.OnClickListener, Re
                     return;
                 }
                 OrderInfo orderInfo = (OrderInfo) bean;
-//                cartAdapter.showTotalPrice();
                 Intent intent = new Intent(CartActivity.this, OrderConfirmActivity.class);
                 intent.putExtra("orderInfo", orderInfo);
                 intent.putExtra("carDataAry", carDataAry);
-//                startActivityForResult(intent, REQUEST_CODE_CART_ACTIVITY);
                 startActivity(intent);
             }
         });
@@ -332,8 +330,6 @@ public class CartActivity extends MyActivity implements View.OnClickListener, Re
         include_cartnodata_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO 跳转去逛逛页面
-//                ((HomeActivity)mActivity).setClassifyFragment();
                 startActivity(new Intent(CartActivity.this, HomeActivity.class));
             }
         });

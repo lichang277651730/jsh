@@ -18,7 +18,7 @@ import com.shizhefei.view.indicator.IndicatorViewPager;
  */
 public class OrderIndicatorAdapter extends IndicatorViewPager.IndicatorFragmentPagerAdapter {
 
-    private String[] names = {"待付款", "待收货", "待评价", "全部"};
+    private String[] names = { "全部", "待付款", "待收货", "待评价"};
     private Context context;
     public OrderIndicatorAdapter(FragmentManager fragmentManager, Context context) {
         super(fragmentManager);

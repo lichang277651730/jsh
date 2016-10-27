@@ -59,4 +59,5 @@ public class BaseActivity extends SwipeBackActivity {
     public void setStopHttp(boolean isStopHttp) {
         this.isStopHttp = isStopHttp;
     }
+
 }

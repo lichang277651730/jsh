@@ -36,9 +36,10 @@ public class OrderAddressAdapter extends RecyclerView.Adapter<OrderAddressAdapte
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         final OrderInfo.OrderAddressBean orderAddressBean = orderAddressList.get(position);
-        holder.tv_name.setText(orderAddressBean.china_name);
+        holder.tv_shop.setText("店铺:" + orderAddressBean.store_name);
+        holder.tv_name.setText("收货人:" + orderAddressBean.china_name);
         holder.tv_phone.setText(orderAddressBean.mobile_num);
-        holder.tv_address.setText(orderAddressBean.address);
+        holder.tv_address.setText("收货地址:" + orderAddressBean.address);
         if(orderAddressBean.is_default == 1){
             holder.iv_default.setImageResource(R.mipmap.cart_checked);
         }else {
@@ -63,6 +64,7 @@ public class OrderAddressAdapter extends RecyclerView.Adapter<OrderAddressAdapte
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
 
+        private TextView tv_shop;
         private TextView tv_name;
         private TextView tv_phone;
         private TextView tv_address;
@@ -71,6 +73,7 @@ public class OrderAddressAdapter extends RecyclerView.Adapter<OrderAddressAdapte
         private ImageView iv_default;
         public MyViewHolder(View itemView) {
             super(itemView);
+            tv_shop = (TextView) itemView.findViewById(R.id.tv_shop);
             tv_name = (TextView) itemView.findViewById(R.id.tv_name);
             tv_phone = (TextView) itemView.findViewById(R.id.tv_phone);
             tv_address = (TextView) itemView.findViewById(R.id.tv_address);

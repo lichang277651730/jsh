@@ -219,7 +219,7 @@
             android:orientation="horizontal">
 
             <LinearLayout
-                android:id="@+id/table1"
+                android:id="@+id/ll_table1"
                 android:layout_width="0px"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -227,6 +227,7 @@
                 android:orientation="vertical">
 
                 <ImageView
+                    android:id="@+id/iv_table1"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:src="@mipmap/icon_order_pay"/>
@@ -242,7 +243,7 @@
             <View style="@style/VerticalDividerLine"/>
 
             <LinearLayout
-                android:id="@+id/table2"
+                android:id="@+id/ll_table2"
                 android:layout_width="0px"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -250,6 +251,7 @@
                 android:orientation="vertical">
 
                 <ImageView
+                    android:id="@+id/iv_table2"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:src="@mipmap/icon_order_receive"/>
@@ -265,7 +267,7 @@
             <View style="@style/VerticalDividerLine"/>
 
             <LinearLayout
-                android:id="@+id/table3"
+                android:id="@+id/ll_table3"
                 android:layout_width="0px"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -273,6 +275,7 @@
                 android:orientation="vertical">
 
                 <ImageView
+                    android:id="@+id/iv_table3"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:src="@mipmap/icon_order_evaluate"/>
@@ -289,7 +292,7 @@
         <View style="@style/HorizontalDividerLine"/>
         <View
             android:layout_width="match_parent"
-            android:layout_height="8dp"
+            android:layout_height="4dp"
             android:background="@color/mybg"/>
         <LinearLayout
             android:layout_width="match_parent"

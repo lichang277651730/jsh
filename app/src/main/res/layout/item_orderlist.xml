@@ -1,96 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
               android:layout_width="match_parent"
+              android:layout_height="wrap_content"
               android:background="@color/white"
-              android:layout_height="wrap_content">
+              android:orientation="vertical">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:gravity="center_vertical">
+
         <TextView
             android:id="@+id/tv_time"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="16sp"
             android:layout_marginLeft="16dp"
-            android:text="下单时间: 2016-9-26 11:15:58"/>
+            android:layout_weight="1"
+            android:text="下单时间: 2016-9-26 11:15:58"
+            android:textSize="16sp"/>
+
         <TextView
             android:id="@+id/tv_result_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/main"
-            android:textSize="16sp"
             android:layout_marginRight="16dp"
-            android:text="待付款"/>
+            android:text="待付款"
+            android:textColor="@color/main"
+            android:textSize="16sp"/>
     </LinearLayout>
+
     <View style="@style/HorizontalDividerLine"/>
-    <include layout="@layout/item_order_submit"/>
+
+    <include layout="@layout/item_order_submit"
+        android:id="@+id/include_item_order_sumbit"/>
+
     <View style="@style/HorizontalDividerLine"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="54dp"
-        android:orientation="horizontal"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="horizontal">
+
         <LinearLayout
             android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <LinearLayout
-                android:layout_width="match_parent"
+            android:gravity="center">
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:gravity="center"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:text="共"/>
-                <TextView
-                    android:id="@+id/tv_order_count"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:textColor="@color/myred"
-                    android:text=" 8 "/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:text="件商品"/>
+                android:layout_marginLeft="16dp"
+                android:text="共"
+                android:textSize="16sp"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/myred"
-                    android:textSize="16sp"
-                    android:layout_marginLeft="10dp"
-                    android:text="总计:"
-                    android:layout_marginRight="8dp"/>
-                <TextView
-                    android:id="@+id/tv_order_sum"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/myred"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:text="￥201"
-                    android:layout_marginRight="8dp"/>
-            </LinearLayout>
+            <TextView
+                android:id="@+id/tv_order_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" 8 "
+                android:textColor="@color/myred"
+                android:textSize="16sp"/>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="件商品"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="8dp"
+                android:text="总计:"
+                android:textColor="@color/myred"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:id="@+id/tv_order_sum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="8dp"
+                android:text="￥201"
+                android:textColor="@color/myred"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
         </LinearLayout>
 
+
         <Button
-            android:id="@+id/btn_pay"
+            android:id="@+id/btn_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="去付款"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/sl_btn_blue_rb_bg"
             android:padding="10dp"
-            android:textColor="@color/white"
+            android:text="取消"
+            android:textColor="@color/white"/>
+
+        <Button
+            android:id="@+id/btn_confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginRight="16dp"
-            android:background="@drawable/sl_btn_blue_rb_bg"/>
+            android:background="@drawable/sl_btn_blue_rb_bg"
+            android:padding="10dp"
+            android:text="去付款"
+            android:textColor="@color/white"/>
     </LinearLayout>
 </LinearLayout>

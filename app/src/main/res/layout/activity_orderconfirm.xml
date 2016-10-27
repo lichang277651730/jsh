@@ -19,67 +19,80 @@
             android:id="@+id/rl_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white">
+            android:background="@color/white"
+            android:paddingBottom="8dp">
 
             <TextView
-                android:id="@+id/tv_name"
+                android:id="@+id/tv_shop"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="16dp"
-                android:text="张三"
+                android:text="店铺:李昌"
                 android:textColor="@color/black"
-                android:textSize="16sp"/>
-
-            <TextView
-                android:id="@+id/tv_phone"
+                android:textSize="14sp"/>
+            <ImageView
+                android:id="@+id/iv_toright"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="32dp"
-                android:layout_marginTop="16dp"
-                android:layout_toRightOf="@id/tv_name"
-                android:text="157****6292"
-                android:textColor="@color/black"
-                android:textSize="16sp"/>
-
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="8dp"
+                android:src="@mipmap/toright"/>
             <TextView
                 android:id="@+id/tv_default_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/tv_phone"
-                android:layout_marginLeft="10dp"
                 android:layout_marginTop="16dp"
-                android:layout_toRightOf="@id/tv_phone"
+                android:layout_toLeftOf="@id/iv_toright"
+                android:layout_marginRight="8dp"
                 android:background="@drawable/shape_order_default_bg"
                 android:paddingLeft="4dp"
                 android:paddingRight="4dp"
                 android:text="默认"
                 android:textColor="@color/white"
-                android:textSize="16sp"/>
+                android:textSize="14sp"/>
+            <TextView
+                android:id="@+id/tv_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_toLeftOf="@id/tv_default_address"
+                android:layout_marginRight="8dp"
+                android:text="157****6292"
+                android:textColor="@color/black"
+                android:textSize="14sp"/>
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_toLeftOf="@id/tv_phone"
+                android:layout_marginRight="8dp"
+                android:text="李昌"
+                android:textColor="@color/black"
+                android:textSize="14sp"/>
+
 
             <TextView
                 android:id="@+id/tv_address"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_name"
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="8dp"
-                android:text="默认地址"
+                android:text="收货地址"
+                android:layout_marginRight="30dp"
                 android:textColor="@color/black"
-                android:textSize="16sp"/>
+                android:maxLines="2"
+                android:textSize="14sp"/>
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="16dp"
-                android:src="@mipmap/toright"/>
+
         </RelativeLayout>
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="8dp"
+            android:layout_height="4dp"
             android:background="@color/mybg"/>
 
         <android.support.v7.widget.RecyclerView
@@ -207,7 +220,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="8dp"
+            android:layout_height="4dp"
             android:background="@color/mybg"/>
         <RelativeLayout
             android:layout_width="match_parent"

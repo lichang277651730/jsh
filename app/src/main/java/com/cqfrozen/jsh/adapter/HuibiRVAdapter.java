@@ -37,6 +37,7 @@ public class HuibiRVAdapter extends RecyclerView.Adapter<HuibiRVAdapter.MyViewHo
         HuibiInfo huibiInfo = huibiInfos.get(position);
         holder.tv_desc.setText(huibiInfo.title);
         holder.tv_time.setText(huibiInfo.add_time);
+
         holder.tv_count.setText("+" + huibiInfo.hb_count);
     }
 

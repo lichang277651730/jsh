@@ -32,7 +32,7 @@ public class OrderDetailPageInfo extends BaseEntity {
 
     public List<OrderDetailPageBean> oinfo;
 
-    public class OrderDetailPageBean{
+    public class OrderDetailPageBean extends BaseEntity{
         public String g_id;//商品id
         public String pic_url;//商品图片
         public String g_name;//商品名称

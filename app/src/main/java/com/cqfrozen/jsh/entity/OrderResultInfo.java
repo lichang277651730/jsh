@@ -24,10 +24,13 @@ public class OrderResultInfo extends BaseEntity {
         public String order_amount;//订单总价
         public String weight_amount;//运费
         public String status_name;
-        public String is_fk_btn;
-        public String is_qr_btn;
-        public String is_pj_btn;
-        public String is_del_btn;
+        public int btn_type;
+        // 0所有按钮都不显示，
+        // 1取消、去支付(未付款),
+        // 2取消（货到付款未出库），
+        // 3确认收货（已发货）,
+        // 4去评价(已收货、未评价)，
+        // 5删除（取消订单、已完成评价订单）
         public List<OrderGoodsInfo> orderinfo;
     }
 

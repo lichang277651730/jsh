@@ -6,10 +6,12 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.common.widget.MyEditText;
 import com.cqfrozen.jsh.R;
@@ -29,6 +31,8 @@ public class LoginActivity extends MyActivity implements View.OnClickListener {
     private static final int TAG_PWD_SHOW = 1;
     private static final int TAG_PWD_HIDDEN = 2;
 
+    private static LoginActivity instance;
+
     private MyEditText et_phone;
     private MyEditText et_password;
     private Button btn_login;
@@ -37,10 +41,15 @@ public class LoginActivity extends MyActivity implements View.OnClickListener {
     private TextView tv_forget;
     private ImageView iv_see_pwd;
 
+    protected int clickCount;
+    protected long clickFirstTime;
+    protected long clickSecondTime;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTransparencyBar(true);
+        setSwipeBackEnable(false);
         setContentView(R.layout.activity_login);
         initView();
     }
@@ -127,7 +136,6 @@ public class LoginActivity extends MyActivity implements View.OnClickListener {
                 MyApplication.userInfo = (UserInfo) bean;
                 Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                 startActivity(intent);
-                finish();
             }
         });
 
@@ -159,5 +167,36 @@ public class LoginActivity extends MyActivity implements View.OnClickListener {
         if(etView.getText() != null && !etView.getText().equals("")){
             etView.setSelection(etView.getText().length());
         }
+    }
+
+    /**
+     * 两秒内双击退出
+     */
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+            clickCount++;
+            if (clickCount == 1) {
+                clickFirstTime = System.currentTimeMillis();
+                Toast.makeText(this, "再按一次退出", Toast.LENGTH_SHORT).show();
+            } else if (clickCount == 2) {
+                clickSecondTime = System.currentTimeMillis();
+                if (clickSecondTime - clickFirstTime <= 2000) {
+                    instance = null;
+                    System.exit(0);
+                } else {
+                    clickCount = 1;
+                    clickFirstTime = System.currentTimeMillis();
+                    Toast.makeText(this, "再按一次退出", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                clickCount = 1;
+                clickFirstTime = System.currentTimeMillis();
+                Toast.makeText(this, "再按一次退出", Toast.LENGTH_SHORT).show();
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

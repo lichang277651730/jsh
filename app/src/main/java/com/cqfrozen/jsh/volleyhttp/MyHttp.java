@@ -240,7 +240,7 @@ public class MyHttp {
     /**
      * 查询购物车商品数量
      */
-    public static void cartCount(HttpForVolley http, Integer which, MyHttpResult myHttpResult) {
+    public static void queryCartCount(HttpForVolley http, Integer which, MyHttpResult myHttpResult) {
         String url = SERVER + "Cart/querycartcount";
         params.clear();
         params.put("token", MyApplication.token);
@@ -408,8 +408,6 @@ public class MyHttp {
         http.goTo(POST, which, params, url, httpTodo);
     }
 
-
-
     /**
      * 请求验证码：
      * type = 1 注册请求
@@ -422,7 +420,6 @@ public class MyHttp {
         params.put("mobile_num", mobile_num);
         http.goTo(POST, which, params, url, httpTodo);
     }
-
 
     /**
      * 注册
@@ -737,6 +734,17 @@ public class MyHttp {
         }.getType();
         toBean(GET, http, which, params, url, myHttpResult, beanType);
     }
+
+    /**
+     * 上传头像
+     */
+    public static void updateHead(HttpForVolley http, Integer which, String path, HttpForVolley.HttpTodo httpTodo) {
+        String url = SERVER + "Personal/updatehead";
+        params.clear();
+        params.put("token", MyApplication.token);
+        http.postBase64(POST, null, params, path, url, httpTodo);
+    }
+
 
 
     private static void toBean(int method, final HttpForVolley http, Integer which,

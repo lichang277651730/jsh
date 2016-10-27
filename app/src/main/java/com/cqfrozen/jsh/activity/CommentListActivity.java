@@ -28,8 +28,9 @@ public class CommentListActivity extends MyActivity implements MyActivity.HttpFa
     private List<CommentResultInfo.CommentInfo> commentInfos = new ArrayList<>();
     private RefreshLayout refresh_comment;
     private RecyclerView rv_comment;
-    private int is_page = 1;
+    private int is_page = 0;//默认没有下一页
     private int page = 1;
+    private int pageSize;
     private CommentRVAdapter commentRVAdapter;
 
     @Override
@@ -106,7 +107,7 @@ public class CommentListActivity extends MyActivity implements MyActivity.HttpFa
 
     @Override
     public void onRefresh() {
-        is_page = 1;
+        is_page = 0;
         page = 1;
         commentInfos.clear();
         getData();

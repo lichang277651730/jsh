@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.common.base.BaseActivity;
 import com.common.base.BaseFragment;
+import com.common.base.BaseValue;
 import com.common.widget.MyViewPager;
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.cart.CartFragment;
@@ -42,7 +43,7 @@ public class HomeActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     protected int clickCount;
     protected long clickFirstTime;
     protected long clickSecondTime;
-    private ImageView iv_cart;
+    private ImageView iv_cart_bv;
     private CartManager cartManager;
     private BadgeView badgeView;
 
@@ -50,7 +51,7 @@ public class HomeActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        setSwipeBackEnable(true);
+        setSwipeBackEnable(false);
         instance = this;
         initView();
         initFragment();
@@ -59,16 +60,20 @@ public class HomeActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     }
 
     private void initBadgeView() {
-        badgeView = new BadgeView(this, iv_cart);
+        badgeView = new BadgeView(this, iv_cart_bv);
         badgeView.setEnabled(false);
         badgeView.setFocusable(false);
         if(cartManager != null){
             badgeView.setVisibility(View.VISIBLE);
-            badgeView.setText(cartManager.getCartGoodsNum() + "");
-            badgeView.setText(0 + "");
+            if(cartManager.getCartGoodsNum() == 0){
+                badgeView.hide();
+            }else {
+                badgeView.setText(cartManager.getCartGoodsNum() + "");
+                badgeView.show();
+            }
             badgeView.setTextSize(10);
-            badgeView.setBadgeMargin(70, 0);
-            badgeView.show();
+            badgeView.setBadgePosition(BadgeView.POSITION_BOTTOM_LEFT);
+            badgeView.setBadgeMargin(BaseValue.dp2px(20), BaseValue.dp2px(15));
             cartManager.setOnNumChangeListener(new CartManager.OnNumChangeListener() {
                 @Override
                 public void onNumChangeListener(int curNum) {
@@ -76,6 +81,9 @@ public class HomeActivity extends BaseActivity implements RadioGroup.OnCheckedCh
                         badgeView.show();
                     }
                     if(badgeView != null && badgeView.isShown()){
+                        if(curNum == 0){
+                            badgeView.hide();
+                        }
                         if(curNum >= 100){
                             badgeView.setText("99+");
                         }else {
@@ -92,14 +100,13 @@ public class HomeActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     private void initView() {
         vp_home = (MyViewPager) findViewById(R.id.vp_home);
         rg_home = (RadioGroup) findViewById(R.id.rg_home);
-        iv_cart = (ImageView) findViewById(R.id.iv_cart);
+        iv_cart_bv = (ImageView) findViewById(R.id.iv_cart_bv);
         rb_homes[0] = (RadioButton) findViewById(R.id.rb_home);
         rb_homes[1] = (RadioButton) findViewById(R.id.rb_classify);
         rb_homes[2] = (RadioButton) findViewById(R.id.rb_cart);
         rb_homes[3] = (RadioButton) findViewById(R.id.rb_mine);
         vp_home.setOnMyPageChangeListener(this);
         rg_home.setOnCheckedChangeListener(this);
-        vp_home.setOffscreenPageLimit(1);
     }
 
     private void initFragment() {

@@ -36,9 +36,10 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.MyViewHo
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         final AddressInfo addressInfo = addressInfos.get(position);
-        holder.tv_name.setText(addressInfo.china_name);
+        holder.tv_shop.setText("店铺:" + addressInfo.store_name);
+        holder.tv_name.setText("收货人:" + addressInfo.china_name);
         holder.tv_phone.setText(addressInfo.mobile_num);
-        holder.tv_address.setText(addressInfo.address);
+        holder.tv_address.setText("收货地址:" + addressInfo.address);
 
         if(addressInfo.is_default == 1){
             holder.iv_default.setImageResource(R.mipmap.cart_checked);
@@ -81,6 +82,7 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.MyViewHo
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
 
+        private TextView tv_shop;
         private TextView tv_name;
         private TextView tv_phone;
         private TextView tv_address;
@@ -89,6 +91,7 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.MyViewHo
         private ImageView iv_default;
         public MyViewHolder(View itemView) {
             super(itemView);
+            tv_shop = (TextView) itemView.findViewById(R.id.tv_shop);
             tv_name = (TextView) itemView.findViewById(R.id.tv_name);
             tv_phone = (TextView) itemView.findViewById(R.id.tv_phone);
             tv_address = (TextView) itemView.findViewById(R.id.tv_address);

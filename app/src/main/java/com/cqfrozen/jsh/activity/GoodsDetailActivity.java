@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.common.base.BaseValue;
@@ -85,6 +86,7 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
     private TextView tv_comment_count;
     private int page = 1;
     private TextView tv_all_comment;
+    private ScrollView scrollview;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -106,6 +108,7 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
     }
 
     private void initView() {
+        scrollview = (ScrollView) findViewById(R.id.scrollview);
         iv_share = (ImageView) findViewById(R.id.iv_share);
         iv_back = (ImageView) findViewById(R.id.iv_back);
         iv_cart = (ImageView) findViewById(R.id.iv_cart);
@@ -147,69 +150,85 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
         badgeView = new BadgeView(this, iv_cart);
         badgeView.setEnabled(false);
         badgeView.setFocusable(false);
-        if(cartManager != null){
-            badgeView.setVisibility(View.VISIBLE);
-//            badgeView.setText(cartManager.getCartGoodsNum() + "");
-            badgeView.setText(0 + "");
-            badgeView.setTextSize(10);
-            badgeView.setBadgeMargin(10, 0);
-            badgeView.show();
-//            cartManager.setOnNumChangeListener(new CartManager.OnNumChangeListener() {
-//                @Override
-//                public void onNumChangeListener(int curNum) {
-//                    if(!badgeView.isShown()){
-//                        badgeView.show();
-//                    }
-//                    if(badgeView != null && badgeView.isShown()){
-//                        if(curNum >= 100){
-//                            badgeView.setText("99+");
-//                        }else {
-//                            badgeView.setText(curNum + "");
-//                        }
-//                    }
-//                }
-//            });
-        }else {
-            badgeView.setVisibility(View.GONE);
-        }
+
+        badgeView.setText(cartManager.getCartGoodsNum() + "");
+        badgeView.setTextSize(10);
+        badgeView.setBadgeMargin(10, 0);
+        badgeView.show();
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if(badgeView != null){
+        if (badgeView != null) {
             getCartNumFromServer();
         }
+
+        lv_comment.setFocusable(false);
+        scrollview.setFocusable(true);
+        scrollview.setFocusableInTouchMode(true);
+        scrollview.requestFocus();
     }
 
     /**
      * 获取购物车数量
      */
     private void getCartNumFromServer() {
+//        MyHttp.queryCartCount(http, null, new MyHttp.MyHttpResult() {
+//            @Override
+//            public void httpResult(Integer which, int code, String msg, Object bean) {
+//                if (code == 404) {
+//                    return;
+//                }
+//
+//                if (code != 0) {
+//                    return;
+//                }
+//                CartCountInfo cartCountInfo = (CartCountInfo) bean;
+//                int cart_count = cartCountInfo.cart_count;
+//                Log.d("cartCountInfo", "cartCountInfocount:" + cart_count);
+//                if(cart_count == 0){
+//                    badgeView.hide();
+//                }
+//                if(cart_count >= 100){
+//                    badgeView.setText("99+");
+//                    badgeView.show();
+//                }else {
+//                    badgeView.setText(cart_count + "");
+//                    badgeView.show();
+//                }
+//            }
+//        });
         MyHttp.queryCart(http, null, 1, new MyHttp.MyHttpResult() {
 
             @Override
             public void httpResult(Integer which, int code, String msg, Object bean) {
 
-                if(code == 404){
+                if (code == 404) {
                     return;
                 }
 
-                if(code != 0){
+                if (code != 0) {
                     return;
                 }
                 CartResultInfo cartResultInfo = (CartResultInfo) bean;
-                if(cartResultInfo == null || cartResultInfo.data1.size() == 0){
+                if (cartResultInfo == null || cartResultInfo.data1.size() == 0) {
                     return;
                 }
                 int count = 0;
-                for(int i = 0; i < cartResultInfo.data1.size(); i++){
+                for (int i = 0; i < cartResultInfo.data1.size(); i++) {
                     count += cartResultInfo.data1.get(i).count;
                 }
-                if(count >= 100){
+                if(count == 0){
+                    badgeView.hide();
+                }
+                if (count >= 100) {
                     badgeView.setText("99+");
-                }else {
+                    badgeView.show();
+                } else {
                     badgeView.setText(count + "");
+                    badgeView.show();
                 }
             }
         });
@@ -247,7 +266,7 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
                 if (!needLogin()) {
                     return;
                 }
-                addCart();//添加常用采购
+                addCart();//添加购物车
                 break;
             case R.id.tv_all_comment:
                 Intent intent2 = new Intent(this, CommentListActivity.class);
@@ -264,7 +283,7 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
      */
     private void addCart() {
         int curValue = asv_num.getCurValue();
-        if(curValue != 0){
+        if (curValue != 0) {
             addCount = curValue;
         }
 
@@ -273,7 +292,7 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
             public void httpTodo(Integer which, JSONObject response) {
                 ToastUtil.showToast(GoodsDetailActivity.this, response.optString("msg"));
                 int code = response.optInt("code");
-                if(code != 0){
+                if (code != 0) {
                     return;
                 }
                 getCartNumFromServer();
@@ -348,7 +367,7 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
         MyHttp.pjList(http, null, page, g_id, new MyHttp.MyHttpResult() {
             @Override
             public void httpResult(Integer which, int code, String msg, Object bean) {
-                if(code != 0){
+                if (code != 0) {
                     showToast(msg);
                     return;
                 }
@@ -356,7 +375,7 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
                 commentInfos.addAll(commentResultInfo.data1);
 
                 Log.d("commentInfos", commentInfos.size() + "");
-                if(commentInfos.size() == 0){
+                if (commentInfos.size() == 0) {
                     tv_all_comment.setVisibility(View.GONE);
                     return;
                 }
@@ -364,7 +383,7 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
 //                    tv_all_comment.setVisibility(View.VISIBLE);
 //                    commentInfos = commentInfos.subList(0, 5);
 //                }
-                if(commentInfos.size() > 2){
+                if (commentInfos.size() > 2) {
                     tv_all_comment.setVisibility(View.VISIBLE);
                     commentInfos = commentInfos.subList(0, 1);
                 }
@@ -389,9 +408,9 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
         tv_send.setText("满399包邮");
         tv_sendprice.setText(goodDetailInfo.c_mode);
         is_common = goodDetailInfo.is_common;
-        if("0".equals(goodDetailInfo.pj_count)){
+        if ("0".equals(goodDetailInfo.pj_count)) {
             tv_comment_count.setText("商品评论(暂无评论)");
-        }else {
+        } else {
             tv_comment_count.setText("商品评论(" + goodDetailInfo.pj_count + ")");
         }
         if (goodDetailInfo.is_common == 0) {

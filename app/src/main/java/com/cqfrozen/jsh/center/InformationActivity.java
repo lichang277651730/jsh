@@ -4,16 +4,22 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.common.http.HttpForVolley;
 import com.common.util.PhotoPopupWindow;
 import com.common.util.PhotoUtil;
 import com.common.widget.MyHeadImageView;
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.main.MyActivity;
+import com.cqfrozen.jsh.volleyhttp.MyHttp;
+import com.nostra13.universalimageloader.core.ImageLoader;
+
+import org.json.JSONObject;
 
 /**
  * Created by Administrator on 2016/9/29.
@@ -106,9 +112,22 @@ public class InformationActivity extends MyActivity implements View.OnClickListe
             case PhotoUtil.FromWhere.photo:
                 photoUtil.onActivityResult(requestCode, resultCode, data);
             case PhotoUtil.FromWhere.forfex:
-                if(resultCode == RESULT_OK){
-                    //TODO 请求网络上传头像
-                    showToast("头像上传成功");
+                if (resultCode == RESULT_OK) {
+                    MyHttp.updateHead(http, null, photoUtil.getForfexPath(), new HttpForVolley
+                            .HttpTodo() {
+                        @Override
+                        public void httpTodo(Integer which, JSONObject response) {
+                            if (response.optInt("code",1)!=0){
+                                showToast("上传图片发生错误!");
+                                return;
+                            }
+                            showToast("修改头像成功!");
+                            String filename = response.optJSONObject("data").optString("head_url");
+                            Log.d("headimgmsg", filename);
+                            ImageLoader.getInstance().displayImage(filename, iv_head);
+                            getUserInfo().head_url = filename;
+                        }
+                    });
                 }
         }
     }

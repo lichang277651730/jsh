@@ -1,10 +1,12 @@
 package com.cqfrozen.jsh.order;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.common.base.BaseValue;
@@ -38,12 +40,14 @@ public class OrderDetailActivity extends MyActivity {
     private TextView tv_order_num;
     private TextView tv_order_time;
     private TextView tv_pay_time;
+    private TextView tv_count;
 
     private List<OrderDetailPageInfo.OrderDetailPageBean> orderDetailPageBeanList = new ArrayList<>();
 
-
     private OrderDetailRVAdapter detailRVAdapter;
     private TextView tv_add_time;
+    private RelativeLayout rl_order;
+    private OrderDetailPageInfo orderDetailPageInfo;
 
 
     @Override
@@ -77,6 +81,16 @@ public class OrderDetailActivity extends MyActivity {
         tv_order_num = (TextView) findViewById(R.id.tv_order_num);
         tv_order_time = (TextView) findViewById(R.id.tv_order_time);
         tv_pay_time = (TextView) findViewById(R.id.tv_pay_time);
+        tv_count = (TextView) findViewById(R.id.tv_count);
+        rl_order = (RelativeLayout) findViewById(R.id.rl_order);
+        rl_order.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent2 = new Intent(OrderDetailActivity.this, OrderGooodsDetailListActivity.class);
+                intent2.putExtra("orderDetailPageInfo", orderDetailPageInfo);
+                startActivity(intent2);
+            }
+        });
     }
 
     private void initRC() {
@@ -93,13 +107,14 @@ public class OrderDetailActivity extends MyActivity {
 
     private void getData() {
         MyHttp.orderInfo(http, null, o_id, new MyHttp.MyHttpResult() {
+
             @Override
             public void httpResult(Integer which, int code, String msg, Object bean) {
                 if(code != 0){
                     showToast(msg);
                     return;
                 }
-                OrderDetailPageInfo orderDetailPageInfo = (OrderDetailPageInfo) bean;
+                orderDetailPageInfo = (OrderDetailPageInfo) bean;
                 initViewData(orderDetailPageInfo);
             }
         });
@@ -123,5 +138,6 @@ public class OrderDetailActivity extends MyActivity {
         tv_order_num.setText(orderDetailPageInfo.o_num);
         tv_order_time.setText(orderDetailPageInfo.add_time);
         tv_pay_time.setText(orderDetailPageInfo.pay_time);
+        tv_count.setText("共" + orderDetailPageInfo.count +"件商品");
     }
 }
