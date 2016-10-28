@@ -44,7 +44,24 @@ public class OrderIndicatorAdapter extends IndicatorViewPager.IndicatorFragmentP
 
     @Override
     public Fragment getFragmentForPage(int position) {
-        return OrderFragment.getInstance(position);
+
+        int tv = 1;
+        switch (position) {
+            case 0://全部
+                tv = 1;
+                break;
+            case 1://待付款
+                tv = 2;
+                break;
+            case 2://待收货
+                tv = 3;
+                break;
+            case 3://待评价
+                tv = 4;
+                break;
+        }
+
+        return OrderFragment.getInstance(tv);
     }
 
     @Override

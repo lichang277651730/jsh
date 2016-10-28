@@ -136,6 +136,7 @@ public class LoginActivity extends MyActivity implements View.OnClickListener {
                 MyApplication.userInfo = (UserInfo) bean;
                 Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 

@@ -33,14 +33,13 @@
             android:textSize="18sp"/>
 
         <ImageView
-            android:id="@+id/iv_right"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:id="@+id/iv_shotcut"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
             android:layout_marginRight="16dp"
-            android:scaleType="fitXY"
-            android:src="@mipmap/icon_shop_detail"/>
+            android:layout_marginTop="10dp"
+            android:src="@mipmap/icon_shortcut"/>
     </RelativeLayout>
     <ScrollView
         android:id="@+id/scrollview"
@@ -322,9 +321,9 @@
             android:id="@+id/lv_comment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/mybg"
+            android:background="@color/white"
             android:cacheColorHint="@color/transparency"
-            android:divider="@color/myline"
+            android:divider="@color/mybg"
             android:dividerHeight="2px"
             android:listSelector="@color/transparency"
             android:scrollbars="none">
@@ -343,10 +342,13 @@
     </LinearLayout>
 
     </ScrollView>
+    <View style="@style/HorizontalDividerLine"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="60dp"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="#FEF5F8"
+        android:background="@color/white"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal">
 
@@ -403,7 +405,7 @@
             android:gravity="center"
             android:text="加入购物车"
             android:background="@color/main"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="17sp"/>
     </LinearLayout>
 </RelativeLayout>

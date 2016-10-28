@@ -112,7 +112,6 @@ public class MyActivity extends BaseActivity {
         });
     }
 
-
     /**判断是否登陆
      * @return  true 已经登陆  false 没有登陆
      */

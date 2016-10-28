@@ -60,7 +60,7 @@ public class CommentListActivity extends MyActivity implements MyActivity.HttpFa
         rv_comment.setOverScrollMode(View.OVER_SCROLL_NEVER);
         GridLayoutManager manager = new GridLayoutManager(this, 1);
         MyGridDecoration decoration = new MyGridDecoration(BaseValue.dp2px(1), BaseValue
-                .dp2px(0), getResources().getColor(R.color.myline), false);
+                .dp2px(0), getResources().getColor(R.color.mybg), false);
         rv_comment.addItemDecoration(decoration);
         rv_comment.setLayoutManager(manager);
         commentRVAdapter = new CommentRVAdapter(this, commentInfos);

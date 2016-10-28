@@ -37,6 +37,8 @@ public class ShortcutPop implements View.OnClickListener {
         return instance;
     }
 
+
+
     public void showPop(View view){
         View popView = LayoutInflater.from(context).inflate(R.layout.pop_shortcut, null);
         View pop_shortcut_search = popView.findViewById(R.id.pop_shortcut_search);

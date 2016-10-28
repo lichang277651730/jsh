@@ -8,7 +8,7 @@
     android:background="@color/white"
     android:padding="4dp">
 
-    <FrameLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="120dp">
         <ImageView
@@ -16,23 +16,18 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"/>
-        <LinearLayout
+        <TextView
+            android:id="@+id/tv_no_goods"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="bottom"
-            android:orientation="vertical">
-            <com.common.widget.LabelView
-                android:id="@+id/labelview"
-                android:visibility="gone"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_gravity="right"
-                app:lv_background_color="#FF6666"
-                app:lv_gravity="BOTTOM_RIGHT"
-                app:lv_text="暂时缺货"
-                app:lv_text_size="8dp"/>
-        </LinearLayout>
-    </FrameLayout>
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:textSize="20sp"
+            android:textColor="@color/white"
+            android:background="@color/seven_transparency"
+            android:padding="8dp"
+            android:gravity="center"
+            android:text="暂时缺货"/>
+    </RelativeLayout>
 
 
     <TextView

@@ -60,6 +60,7 @@ public class ClassifyFragment extends BaseFragment implements MyHttp.MyHttpResul
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        fragment = this;
         if(view == null){
             view = inflater.inflate(R.layout.fragment_classify, null);
             initView();
@@ -81,6 +82,7 @@ public class ClassifyFragment extends BaseFragment implements MyHttp.MyHttpResul
 
     private void initVP() {
         vp_classify.setOverScrollMode(View.OVER_SCROLL_NEVER);
+        vp_classify.setOffscreenPageLimit(1);
         indicator_classify.setScrollBar(new ColorBar(mActivity, UIUtils.getColor(R.color.main), BaseValue.dp2px(4)){
 
             @Override
@@ -90,7 +92,7 @@ public class ClassifyFragment extends BaseFragment implements MyHttp.MyHttpResul
         });
         // 设置滚动监听
         indicator_classify.setOnTransitionListener(new OnTransitionTextListener().setColor(UIUtils.getColor(R.color.main), Color.BLACK));
-        vp_classify.setOffscreenPageLimit(1);
+
         IndicatorViewPager indicatorViewPager = new IndicatorViewPager(indicator_classify, vp_classify);
         indicatorViewPager.setClickIndicatorAnim(false);
         adapter = new ClassifyIndicatorAdapter

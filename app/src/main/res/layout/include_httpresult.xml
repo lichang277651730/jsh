@@ -4,7 +4,7 @@
     android:id="@+id/include_framelayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/mybg"
+    android:background="@color/white"
     android:visibility="gone"
     android:gravity="center">
 
@@ -50,17 +50,17 @@
         android:orientation="vertical">
 
         <ImageView
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
             android:layout_marginTop="-70dp"
-            android:src="@mipmap/http_nodata"/>
+            android:src="@mipmap/img_http_nodata"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:gravity="center"
-            android:text="此页面暂无数据"
+            android:text="没有相关订单"
             android:textColor="@color/mygray"
             android:textSize="13sp"/>
 

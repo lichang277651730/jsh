@@ -1,10 +1,17 @@
 package com.cqfrozen.jsh.center;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.common.base.BaseValue;
@@ -15,6 +22,7 @@ import com.cqfrozen.jsh.adapter.FansRVAdapter;
 import com.cqfrozen.jsh.entity.FansResultInfo;
 import com.cqfrozen.jsh.entity.MyFansPageInfo;
 import com.cqfrozen.jsh.main.MyActivity;
+import com.cqfrozen.jsh.util.QrCodeUtil;
 import com.cqfrozen.jsh.volleyhttp.MyHttp;
 
 import java.util.ArrayList;
@@ -35,12 +43,18 @@ public class FansListActity extends MyActivity implements View.OnClickListener, 
     private TextView tv_two_fans;
 
     private int level = 1;//1一级兄弟伙  2兄弟伙的兄弟伙
-    private int is_page = 1;//1有下一页 0没有下一页
+    private int is_page = 0;//1有下一页 0没有下一页
     private int page = 1;
     private RefreshLayout refresh_fans;
     private RecyclerView rv_fans;
     private List<FansResultInfo.FansInfo> fansInfos = new ArrayList<>();
     private FansRVAdapter fansRVAdapter;
+    private String invite_http_url;//邀请链接
+    private Bitmap invite_qr_bitmap;
+    private PopupWindow popupWindow;
+    private ImageView iv_qr_code;
+    private View v_one_fans;
+    private View v_two_fans;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -67,6 +81,12 @@ public class FansListActity extends MyActivity implements View.OnClickListener, 
     }
 
     private void initViewData(MyFansPageInfo myFansPageInfo) {
+        invite_http_url = myFansPageInfo.http_url;
+        invite_qr_bitmap = QrCodeUtil.createImage(invite_http_url, BaseValue.dp2px(200), BaseValue
+                .dp2px(200), null);
+        if(iv_qr_code != null){
+            iv_qr_code.setImageBitmap(invite_qr_bitmap);
+        }
         tv_desc.setText(myFansPageInfo.content);
         tv_huibi_total.setText("￥" + myFansPageInfo.hb_count);
         tv_fans_count.setText("邀请好友总计：" + myFansPageInfo.intotal_fans_count +"人");
@@ -88,8 +108,26 @@ public class FansListActity extends MyActivity implements View.OnClickListener, 
         tv_two_fans = (TextView) findViewById(R.id.tv_two_fans);
         refresh_fans = (RefreshLayout) findViewById(R.id.refresh_fans);
         rv_fans = (RecyclerView) findViewById(R.id.rv_fans);
+        v_one_fans = (View) findViewById(R.id.v_one_fans);
+        v_two_fans = (View) findViewById(R.id.v_two_fans);
+        v_one_fans.setVisibility(View.VISIBLE);
         tv_one_fans.setOnClickListener(this);
         tv_two_fans.setOnClickListener(this);
+        tv_face_to_face.setOnClickListener(this);
+        createQrPop();
+    }
+
+    private void createQrPop() {
+        View popView = LayoutInflater.from(this).inflate(R.layout.pop_invite_code, null);
+        iv_qr_code = (ImageView) popView.findViewById(R.id.iv_qr_code);
+        TextView tv_cancel = (TextView)popView.findViewById(R.id.tv_cancel);
+        tv_cancel.setOnClickListener(this);
+        popupWindow = new PopupWindow(popView, ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        popupWindow.setTouchable(true);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setFocusable(true);
     }
 
     private void initRV() {
@@ -137,20 +175,32 @@ public class FansListActity extends MyActivity implements View.OnClickListener, 
     public void onClick(View v) {
         tv_one_fans.setTextColor(getResources().getColor(R.color.myblack));
         tv_two_fans.setTextColor(getResources().getColor(R.color.myblack));
+        v_one_fans.setVisibility(View.INVISIBLE);
+        v_two_fans.setVisibility(View.INVISIBLE);
         switch (v.getId()) {
             case R.id.tv_one_fans:
+                v_one_fans.setVisibility(View.VISIBLE);
                 tv_one_fans.setTextColor(getResources().getColor(R.color.main));
                 level = 1;
                 break;
             case R.id.tv_two_fans:
+                v_two_fans.setVisibility(View.VISIBLE);
                 tv_two_fans.setTextColor(getResources().getColor(R.color.main));
                 level = 2;
+                break;
+            case R.id.tv_face_to_face:
+                popupWindow.showAtLocation(tv_face_to_face, Gravity.CENTER, 0, 0);
+                break;
+            case R.id.tv_cancel:
+                if(popupWindow != null && popupWindow.isShowing()){
+                    popupWindow.dismiss();
+                }
                 break;
             default:
                 break;
         }
         page = 1;
-        is_page = 1;
+        is_page = 0;
         fansInfos.clear();
         getRVData();
 
@@ -159,7 +209,7 @@ public class FansListActity extends MyActivity implements View.OnClickListener, 
     @Override
     public void onRefresh() {
         page = 1;
-        is_page = 1;
+        is_page = 0;
         fansInfos.clear();
         getRVData();
     }

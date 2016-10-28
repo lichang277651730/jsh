@@ -34,10 +34,12 @@ public class HuibiListActivity extends MyActivity implements RefreshLayout.TopOr
     private List<HuibiInfo> huibiInfos = new ArrayList<>();
     private int type = 1;//1收入  2支出
     private int page = 1;
-    private int is_page = 1;
+    private int is_page = 0;//0没有下一页 1有下一页
     private RefreshLayout refresh_huibi;
     private RecyclerView rv_huibi;
     private HuibiRVAdapter rvAdapter;
+    private View v_huibi_all;
+    private View v_huibi_use;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,9 +63,12 @@ public class HuibiListActivity extends MyActivity implements RefreshLayout.TopOr
         tv_use = (TextView) findViewById(R.id.tv_use);
         refresh_huibi = (RefreshLayout) findViewById(R.id.refresh_huibi);
         rv_huibi = (RecyclerView) findViewById(R.id.rv_huibi);
+        v_huibi_all = findViewById(R.id.v_huibi_all);
+        v_huibi_use = findViewById(R.id.v_huibi_use);
         tv_huibi.setText(hb_count + "");
         tv_all.setOnClickListener(this);
         tv_use.setOnClickListener(this);
+        v_huibi_all.setVisibility(View.INVISIBLE);
         tv_all.setTextColor(getResources().getColor(R.color.main));
     }
 
@@ -71,19 +76,23 @@ public class HuibiListActivity extends MyActivity implements RefreshLayout.TopOr
     public void onClick(View v) {
         tv_all.setTextColor(getResources().getColor(R.color.myblack));
         tv_use.setTextColor(getResources().getColor(R.color.myblack));
+        v_huibi_all.setVisibility(View.INVISIBLE);
+        v_huibi_use.setVisibility(View.INVISIBLE);
         switch (v.getId()) {
             case R.id.tv_all:
                 type = 1;
+                v_huibi_all.setVisibility(View.VISIBLE);
                 tv_all.setTextColor(getResources().getColor(R.color.main));
                 break;
             case R.id.tv_use:
                 type = 2;
+                v_huibi_use.setVisibility(View.VISIBLE);
                 tv_use.setTextColor(getResources().getColor(R.color.main));
                 break;
             default:
                 break;
         }
-        is_page = 1;
+        is_page = 0;
         page = 1;
         huibiInfos.clear();
         getData();
@@ -159,7 +168,7 @@ public class HuibiListActivity extends MyActivity implements RefreshLayout.TopOr
     @Override
     public void onRefresh() {
         page = 1;
-        is_page = 1;
+        is_page = 0;
         huibiInfos.clear();
         getData();
     }

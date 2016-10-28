@@ -15,8 +15,8 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/main"
+            android:layout_height="234dp"
+            android:background="@mipmap/img_mine_head_bg"
             android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
@@ -58,13 +58,13 @@
                 android:gravity="center">
                 <TextView
                     android:id="@+id/tv_login"
-                    style="@style/text_14sp_white"
+                    style="@style/text_16sp_white"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="注册/登录"/>
                 <TextView
                     android:id="@+id/tv_name"
-                    style="@style/text_14sp_white"
+                    style="@style/text_16sp_white"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
@@ -121,7 +121,7 @@
                         android:layout_height="wrap_content"
                         android:drawableLeft="@mipmap/icon_mine_huibi"
                         android:drawablePadding="4dp"
-                        android:text="汇币"
+                        android:text="粮票"
                         android:textColor="@color/white"
                         android:textSize="16sp"/>
 

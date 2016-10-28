@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.util.Base64;
+import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -177,6 +178,7 @@ public class HttpForVolley {
 			fis.read(buffer);
 			String encodeToString = Base64.encodeToString(buffer,
 					Base64.DEFAULT);
+//			Log.d("encodeToString", encodeToString);
 			httpMap.put("head_data", encodeToString);
 			if (request == null) {
 				toHttp(method, which, httpMap, url, todo);

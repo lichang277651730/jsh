@@ -1,14 +1,18 @@
 package com.cqfrozen.jsh.activity;
 
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
@@ -25,6 +29,7 @@ import com.cqfrozen.jsh.cart.CartResultInfo;
 import com.cqfrozen.jsh.entity.CommentResultInfo;
 import com.cqfrozen.jsh.entity.GoodDetailResultInfo;
 import com.cqfrozen.jsh.entity.GoodsInfo;
+import com.cqfrozen.jsh.home.SearchActivity;
 import com.cqfrozen.jsh.main.MyActivity;
 import com.cqfrozen.jsh.util.MeasureUtil;
 import com.cqfrozen.jsh.util.SharePop;
@@ -87,6 +92,9 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
     private int page = 1;
     private TextView tv_all_comment;
     private ScrollView scrollview;
+    private ImageView iv_shotcut;
+    private PopupWindow popupWindow;
+    private int is_oos;//是否缺货0否，1是
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -105,6 +113,7 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
     private void getIntentData() {
         goodsInfo = (GoodsInfo) getIntent().getSerializableExtra("goodsInfo");
         g_id = goodsInfo.g_id;
+        is_oos = goodsInfo.is_oos;
     }
 
     private void initView() {
@@ -112,6 +121,7 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
         iv_share = (ImageView) findViewById(R.id.iv_share);
         iv_back = (ImageView) findViewById(R.id.iv_back);
         iv_cart = (ImageView) findViewById(R.id.iv_cart);
+        iv_shotcut = (ImageView) findViewById(R.id.iv_shotcut);
         tv_name = (TextView) findViewById(R.id.tv_name);
         tv_price = (TextView) findViewById(R.id.tv_price);
         tv_size = (TextView) findViewById(R.id.tv_size);
@@ -138,7 +148,33 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
         ll_cart.setOnClickListener(this);
         tv_add_cart.setOnClickListener(this);
         tv_all_comment.setOnClickListener(this);
+        iv_shotcut.setOnClickListener(this);
         asv_num.setCurValue(1);
+        if(is_oos == 1){
+            tv_add_cart.setEnabled(false);
+            tv_add_cart.setTextColor(getResources().getColor(R.color.myblack));
+            tv_add_cart.setBackgroundColor(getResources().getColor(R.color.mygray));
+        }else {
+            tv_add_cart.setEnabled(true);
+            tv_add_cart.setTextColor(getResources().getColor(R.color.white));
+            tv_add_cart.setBackgroundColor(getResources().getColor(R.color.main));
+        }
+        createShotPop();
+    }
+
+    private void createShotPop() {
+        View popView = LayoutInflater.from(this).inflate(R.layout.pop_shortcut, null);
+        View pop_shortcut_search = popView.findViewById(R.id.pop_shortcut_search);
+        View pop_shortcut_home = popView.findViewById(R.id.pop_shortcut_home);
+        pop_shortcut_search.setOnClickListener(this);
+        pop_shortcut_home.setOnClickListener(this);
+        popupWindow = new PopupWindow(popView, ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        popupWindow.setTouchable(true);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setFocusable(true);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+
     }
 
     private void initLV() {
@@ -150,7 +186,6 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
         badgeView = new BadgeView(this, iv_cart);
         badgeView.setEnabled(false);
         badgeView.setFocusable(false);
-
         badgeView.setText(cartManager.getCartGoodsNum() + "");
         badgeView.setTextSize(10);
         badgeView.setBadgeMargin(10, 0);
@@ -220,7 +255,7 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
                 for (int i = 0; i < cartResultInfo.data1.size(); i++) {
                     count += cartResultInfo.data1.get(i).count;
                 }
-                if(count == 0){
+                if (count == 0) {
                     badgeView.hide();
                 }
                 if (count >= 100) {
@@ -272,6 +307,17 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
                 Intent intent2 = new Intent(this, CommentListActivity.class);
                 intent2.putExtra("g_id", g_id);
                 startActivity(intent2);
+                break;
+            case R.id.iv_shotcut://点击shotcut图标
+                popupWindow.showAsDropDown(iv_shotcut, BaseValue.dp2px(-6), BaseValue.dp2px(8));
+                break;
+            case R.id.pop_shortcut_search://点击shotcut图标上的搜索
+                startActivity(new Intent(this, SearchActivity.class));
+                popupWindow.dismiss();
+                break;
+            case R.id.pop_shortcut_home://点击shotcut图标上的首页
+                HomeActivity.startActivity(this, HomeActivity.PAGE_HOME);
+                popupWindow.dismiss();
                 break;
             default:
                 break;

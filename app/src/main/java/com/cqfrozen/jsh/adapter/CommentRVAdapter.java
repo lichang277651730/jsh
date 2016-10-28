@@ -46,7 +46,8 @@ public class CommentRVAdapter extends RecyclerView.Adapter<CommentRVAdapter.MyVi
     public void onBindViewHolder(MyViewHolder holder, int position) {
         CommentResultInfo.CommentInfo commentInfo = commentInfos.get(position);
         ImageLoader.getInstance().displayImage(commentInfo.head_url, holder.iv_head, defaultOptions);
-        holder.tv_phone.setText(commentInfo.nick_name);
+
+        holder.tv_phone.setText(commentInfo.nick_name.substring(0, 3) + "****" + commentInfo.nick_name.substring(7));
         if(TextUtils.isEmpty(commentInfo.pj_content)){
             holder.tv_comment.setText("好，很好，非常好，赞一个！");
         }else {

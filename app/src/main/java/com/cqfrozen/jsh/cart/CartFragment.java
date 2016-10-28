@@ -77,6 +77,7 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        fragment = this;
         if(view == null){
             view = inflater.inflate(R.layout.fragment_cart, null);
             cartManager = CartManager.getInstance(mActivity);
@@ -202,6 +203,7 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
                 }
                 refresh_cart.setResultState(RefreshLayout.ResultState.success);
                 CartResultInfo cartResultInfo = (CartResultInfo) bean;
+                is_page = cartResultInfo.is_page;
                 if(cartResultInfo == null || cartResultInfo.data1.size() == 0){
                     setNoDataView();//购物车为空
 //                    setHttpNotData(CartFragment.this);
@@ -209,7 +211,6 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
                 }
 //                cartGoodsInfos.clear();
                 setHttpSuccess();
-                is_page = cartResultInfo.is_page;
                 cartGoodsInfos.addAll(cartResultInfo.data1);
                 if(cartGoodsInfos == null || cartGoodsInfos.size() == 0){
                     setNoDataView();//购物车为空
@@ -220,7 +221,7 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
                 cartManager.add(cartGoodsInfos);
                 cartAdapter.showTotalPrice();
                 cartAdapter.allCheckedListen();
-                is_page = cartResultInfo.is_page;
+                page++;
             }
         });
     }
@@ -252,7 +253,7 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
     public void onShow() {
         super.onShow();
         cartGoodsInfos.clear();
-        is_page = 1;
+        is_page = 0;
         page = 1;
         getData();
         doEdit();

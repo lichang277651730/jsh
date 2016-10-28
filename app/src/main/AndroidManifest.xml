@@ -63,17 +63,8 @@
         android:theme="@style/AppBaseTheme">
 
         <!-- ======================业务Activity ======================= -->
-        <!--<activity android:name=".activity.HomeActivity"-->
-                  <!--android:launchMode="singleTask"-->
-                  <!--android:theme="@style/SwipeBackTheme">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN"/>-->
 
-                <!--<category android:name="android.intent.category.LAUNCHER"/>-->
-            <!--</intent-filter>-->
-        <!--</activity>-->
-        <activity android:name=".center.LoginActivity"
-                  android:launchMode="singleTask"
+        <activity android:name=".main.MainActivity"
                   android:theme="@style/SwipeBackTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -81,6 +72,11 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+        <activity android:name=".activity.IndexActivity"
+                  android:theme="@style/SwipeBackTheme"/>
+        <activity android:name=".center.LoginActivity"
+                  android:theme="@style/SwipeBackTheme"/>
         <activity android:name=".activity.HomeActivity"
                   android:launchMode="singleTask"
                   android:theme="@style/SwipeBackTheme"/>

@@ -8,7 +8,7 @@
        android:id="@+id/tv_desc"
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
-       android:textSize="16sp"
+       android:textSize="14sp"
        android:text="兄弟伙下单送0.03粮票"/>
    <TextView
        android:id="@+id/tv_time"
@@ -16,7 +16,7 @@
        android:layout_height="wrap_content"
        android:layout_below="@id/tv_desc"
        android:layout_marginTop="8dp"
-       android:textSize="14sp"
+       android:textSize="12sp"
        android:text="2016-10-19 14:51:17"/>
    <TextView
        android:id="@+id/tv_count"
@@ -24,7 +24,7 @@
        android:layout_height="wrap_content"
        android:layout_alignParentRight="true"
        android:layout_centerVertical="true"
-       android:textSize="20sp"
+       android:textSize="16sp"
        android:textColor="@color/myred"
        android:text="+10"/>
 </RelativeLayout>

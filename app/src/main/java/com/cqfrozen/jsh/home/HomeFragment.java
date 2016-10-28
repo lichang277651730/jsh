@@ -69,6 +69,7 @@ public class HomeFragment extends BaseFragment implements MyHttp.MyHttpResult ,V
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        fragment = this;
         if(view == null){
             view = inflater.inflate(R.layout.fragment_home, null);
             initView();

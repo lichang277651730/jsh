@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.common.http.HttpForVolley;
-import com.common.widget.LabelView;
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.activity.GoodsDetailActivity;
 import com.cqfrozen.jsh.cart.CartManager;
@@ -64,9 +63,9 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.MyViewHolder
         holder.tv_market_price.setText("¥" + goodsInfo.market_price);
         holder.tv_market_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG|Paint.ANTI_ALIAS_FLAG);
         if(goodsInfo.is_oos == 1){//不缺货
-            holder.labelview.setVisibility(View.VISIBLE);
+            holder.tv_no_goods.setVisibility(View.VISIBLE);
         }else if(goodsInfo.is_oos == 0){//缺货
-            holder.labelview.setVisibility(View.GONE);
+            holder.tv_no_goods.setVisibility(View.GONE);
         }
         //点击购物车
         holder.iv_add_cart.setOnClickListener(new View.OnClickListener() {
@@ -109,16 +108,16 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.MyViewHolder
         private TextView tv_name;
         private TextView tv_now_price;
         private TextView tv_market_price;
+        private TextView tv_no_goods;
         private ImageView iv_add_cart;
-        private LabelView labelview;
         public MyViewHolder(View itemView) {
             super(itemView);
             iv_goods = (ImageView) itemView.findViewById(R.id.iv_goods);
             tv_name = (TextView) itemView.findViewById(R.id.tv_name);
             tv_now_price = (TextView) itemView.findViewById(R.id.tv_now_price);
             tv_market_price = (TextView) itemView.findViewById(R.id.tv_market_price);
+            tv_no_goods = (TextView) itemView.findViewById(R.id.tv_no_goods);
             iv_add_cart = (ImageView) itemView.findViewById(R.id.iv_add_cart);
-            labelview = (LabelView) itemView.findViewById(R.id.labelview);
         }
     }
 }

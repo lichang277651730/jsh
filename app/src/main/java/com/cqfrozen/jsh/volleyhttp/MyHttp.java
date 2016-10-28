@@ -150,6 +150,17 @@ public class MyHttp {
     }
 
     /**
+     * 刷新token
+     */
+    public static void refreshToken(HttpForVolley http, Integer which, String token, MyHttpResult myHttpResult) {
+        String url = SERVER + "User/refreshtoken";
+        params.clear();
+        params.put("token", token);
+        toBean(GET, http, which, params, url, myHttpResult, SigninInfo.class);
+    }
+
+
+    /**
      * 用户登陆
      */
     public static void userLogin(HttpForVolley http, Integer which, String mobile_num, String password,
@@ -621,15 +632,15 @@ public class MyHttp {
         params.put("token", MyApplication.token);
         String sign = SignUtil.getOrderBuySignInfo(a_id, cartdata, is_use_hb, msg_content, pay_mode, p_type, timestamp, MyApplication.token);
         params.put("sign", sign);
-//        Log.d("addAddress_params", "a_id:"+ a_id + "," +
-//                "cartdata:"+ cartdata + "," +
-//                "is_use_hb:"+ is_use_hb + "," +
-//                "msg_content:"+ msg_content + "," +
-//                "pay_mode:"+ pay_mode + "," +
-//                "p_type:"+ p_type + "," +
-//                "timestamp:"+ timestamp + "," +
-//                "token:"+  MyApplication.token +
-//                "sign:"+ sign);
+        Log.d("addAddress_params", "a_id:"+ a_id + "," +
+                "cartdata:"+ cartdata + "," +
+                "is_use_hb:"+ is_use_hb + "," +
+                "msg_content:"+ msg_content + "," +
+                "pay_mode:"+ pay_mode + "," +
+                "p_type:"+ p_type + "," +
+                "timestamp:"+ timestamp + "," +
+                "token:"+  MyApplication.token +
+                "sign:"+ sign);
         Type type = new TypeToken<OrderBuyResultInfo>() {
         }.getType();
         toBean(POST, http, which, params, url, myHttpResult, type);
@@ -710,9 +721,8 @@ public class MyHttp {
     public static void myFans(HttpForVolley http, Integer which, MyHttpResult myHttpResult) {
         String url = SERVER + "HbPersonal/myfans";
         params.clear();
+        params.put("p_type", p_type + "");
         params.put("token", MyApplication.token);
-        Log.d("addAddress_params",
-                "token:"+  MyApplication.token);
         Type beanType = new TypeToken<MyFansPageInfo>() {
         }.getType();
         toBean(GET, http, which, params, url, myHttpResult, beanType);
@@ -744,7 +754,6 @@ public class MyHttp {
         params.put("token", MyApplication.token);
         http.postBase64(POST, null, params, path, url, httpTodo);
     }
-
 
 
     private static void toBean(int method, final HttpForVolley http, Integer which,

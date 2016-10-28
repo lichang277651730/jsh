@@ -13,9 +13,11 @@ import android.widget.TextView;
 import com.common.base.BaseValue;
 import com.common.widget.MyHeadImageView;
 import com.cqfrozen.jsh.R;
+import com.cqfrozen.jsh.entity.UserInfo;
 import com.cqfrozen.jsh.main.MyFragment;
 import com.cqfrozen.jsh.order.OrderListActivity;
 import com.cqfrozen.jsh.util.ShortcutPop;
+import com.cqfrozen.jsh.volleyhttp.MyHttp;
 import com.cqfrozen.jsh.widget.BadgeView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -51,6 +53,8 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
     private BadgeView badgeView1;
     private BadgeView badgeView2;
     private BadgeView badgeView3;
+    private ImageView iv_verify;
+    private float hb_count_new;
 
     public static MineFragment getInstance(){
         if(fragment == null){
@@ -64,6 +68,7 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        fragment = this;
         if(view == null){
             view = inflater.inflate(R.layout.fragment_mine, null);
             initView();
@@ -77,6 +82,7 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
         iv_table1 = (ImageView) view.findViewById(R.id.iv_table1);
         iv_table2 = (ImageView) view.findViewById(R.id.iv_table2);
         iv_table3 = (ImageView) view.findViewById(R.id.iv_table3);
+        iv_verify = (ImageView) view.findViewById(R.id.iv_verify);
         iv_head = (MyHeadImageView) view.findViewById(R.id.iv_head);
         tv_login = (TextView) view.findViewById(R.id.tv_login);
         tv_lookall = (TextView) view.findViewById(R.id.tv_lookall);
@@ -133,10 +139,24 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
     public void onShow() {
         super.onShow();
         if(isLogined()){//已经登陆的用户，就初始化用户数据
-            showLogined();
+            getUserDataFormServer();
         }else {//没有登陆就将页面置为没有登陆的状态
             showUnLogined();
         }
+    }
+
+    private void getUserDataFormServer() {
+        MyHttp.user(http, null, new MyHttp.MyHttpResult() {
+            @Override
+            public void httpResult(Integer which, int code, String msg, Object bean) {
+                if (code != 0) {
+                    showToast(msg);
+                    return;
+                }
+                UserInfo userInfo = (UserInfo) bean;
+                showLogined(userInfo);
+            }
+        });
     }
 
     private void showUnLogined() {
@@ -144,38 +164,47 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
         tv_login.setVisibility(View.VISIBLE);
         //将name隐藏
         tv_name.setVisibility(View.GONE);
+        tv_huibi.setText(0.00 + "");
+        tv_fans.setText(0 + "");
+        tv_phone.setVisibility(View.INVISIBLE);
+        tv_verify.setVisibility(View.INVISIBLE);
+        tv_verify.setVisibility(View.INVISIBLE);
+        iv_verify.setVisibility(View.INVISIBLE);
         badgeView1.hide();
         badgeView2.hide();
         badgeView3.hide();
         iv_head.setImageResource(R.mipmap.icon_mine_head_default);
     }
 
-    private void showLogined() {
-        //将登陆字符gone
+    private void showLogined(UserInfo userInfo) {
+        hb_count_new = userInfo.hb_count;
         tv_login.setVisibility(View.GONE);
-        //将name显示，并设置店铺名
         tv_name.setVisibility(View.VISIBLE);
-        tv_name.setText(getUserInfo().store_name);
-        tv_phone.setText(getUserInfo().mobile_num);
-        tv_verify.setText(getUserInfo().verify_name);
-        tv_huibi.setText(getUserInfo().hb_count + "");
-        tv_fans.setText(getUserInfo().inotal_fans_count + "");
+        tv_phone.setVisibility(View.VISIBLE);
+        tv_verify.setVisibility(View.VISIBLE);
+        tv_verify.setVisibility(View.VISIBLE);
+        iv_verify.setVisibility(View.VISIBLE);
+        tv_name.setText(userInfo.store_name);
+        tv_phone.setText(userInfo.mobile_num);
+        tv_verify.setText(userInfo.verify_name);
+        tv_huibi.setText(userInfo.hb_count + "");
+        tv_fans.setText(userInfo.inotal_fans_count + "");
 
-        badgeView1.setText(getUserInfo().df_count >= 100 ? "99+" : getUserInfo().df_count + "");
-        badgeView2.setText(getUserInfo().ds_count >= 100 ? "99+" : getUserInfo().ds_count + "");
-        badgeView3.setText(getUserInfo().dp_count >= 100 ? "99+" : getUserInfo().dp_count + "");
+        badgeView1.setText(userInfo.df_count >= 100 ? "99+" : userInfo.df_count + "");
+        badgeView2.setText(userInfo.ds_count >= 100 ? "99+" : userInfo.ds_count + "");
+        badgeView3.setText(userInfo.dp_count >= 100 ? "99+" : userInfo.dp_count + "");
 
-        if(getUserInfo().df_count == 0){
+        if(userInfo.df_count == 0){
             badgeView1.hide();
         }else {
             badgeView1.show();
         }
-        if(getUserInfo().ds_count == 0){
+        if(userInfo.ds_count == 0){
             badgeView2.hide();
         }else {
             badgeView2.show();
         }
-        if(getUserInfo().dp_count == 0){
+        if(userInfo.dp_count == 0){
             badgeView3.hide();
         }else {
             badgeView3.show();
@@ -184,7 +213,7 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
         DisplayImageOptions build = new DisplayImageOptions.Builder().cacheInMemory(true)
                 .cacheOnDisk(true).showImageOnFail(R.mipmap.icon_mine_head_default)
                 .showImageForEmptyUri(R.mipmap.icon_mine_head_default).build();
-        ImageLoader.getInstance().displayImage(getUserInfo().head_url, iv_head, build);
+        ImageLoader.getInstance().displayImage(userInfo.head_url, iv_head, build);
     }
 
     @Override
@@ -222,10 +251,10 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
             case R.id.tv_login:
                 needLogin();
                 break;
-            case R.id.ll_huibi://汇币列表
+            case R.id.ll_huibi://粮票列表
                 if(isLogined()){
                     Intent intent = new Intent(mActivity, HuibiListActivity.class);
-                    intent.putExtra("hb_count", getUserInfo().hb_count);
+                    intent.putExtra("hb_count", hb_count_new);
                     startActivity(intent);
                 }
                 break;

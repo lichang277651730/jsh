@@ -29,38 +29,22 @@ public class OrderFragment extends MyFragment implements RefreshLayout.OnRefresh
     private RefreshLayout refresh_order;
     private RecyclerView rv_order;
     private int page = 1;
-    private int is_page = 1;
+    private int is_page = 0;
 
     private List<OrderResultInfo.OrderSearchInfo> orderSearchInfos = new ArrayList<>();
     private OrderListAdapter adapter;
 
-    public static OrderFragment getInstance(int postion){
+    public static OrderFragment getInstance(int tv){
         OrderFragment fragment = new OrderFragment();
         Bundle bundle = new Bundle();
-        bundle.putInt("position", postion);
+        bundle.putInt("tv", tv);
         fragment.setArguments(bundle);
         return fragment;
     }
 
     private void getBundleData(Bundle bundle) {
-        int position = bundle.getInt("position", 1);
-        switch (position) {
-            case 0://代付款
-                tv = 1;
-                break;
-            case 1://待收货
-                tv = 3;
-                break;
-            case 2://待评价
-                tv = 4;
-                break;
-            case 3://全部
-                tv = 2;
-                break;
-            default:
-                tv = 1;
-                break;
-        }
+        this.tv = bundle.getInt("tv", 1);
+
     }
 
     @Nullable
@@ -124,13 +108,13 @@ public class OrderFragment extends MyFragment implements RefreshLayout.OnRefresh
                 refresh_order.setResultState(RefreshLayout.ResultState.success);
                 OrderResultInfo orderResultInfo = (OrderResultInfo) bean;
                 orderSearchInfos.addAll(orderResultInfo.data1);
+                is_page = orderResultInfo.is_page;
                 if(orderSearchInfos.size() == 0){
                     setHttpNotData(OrderFragment.this);
                     return;
                 }
                 setHttpSuccess();
                 adapter.notifyDataSetChanged();
-                is_page = orderResultInfo.is_page;
                 page++;
             }
         });
@@ -139,7 +123,7 @@ public class OrderFragment extends MyFragment implements RefreshLayout.OnRefresh
     @Override
     public void onRefresh() {
         page = 1;
-        is_page = 1;
+        is_page = 0;
         orderSearchInfos.clear();
         getData();
     }

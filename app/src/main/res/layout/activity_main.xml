@@ -6,9 +6,10 @@
     android:fitsSystemWindows="true"
     android:clipToPadding="true"
     android:background="@color/white">
-    <ImageView
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@mipmap/bg_main"/>
+        android:gravity="center"
+        android:text="启动页"/>
 </RelativeLayout>
 

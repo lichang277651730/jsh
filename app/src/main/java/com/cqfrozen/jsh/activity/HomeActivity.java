@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -33,6 +34,11 @@ import java.util.List;
  */
 public class HomeActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener, MyViewPager.OnMyPageChangeListener{
 
+    public static final int PAGE_HOME = 0;
+    public static final int PAGE_CLASSIFY = 1;
+    public static final int PAGE_CART = 2;
+    public static final int PAGE_MINE = 3;
+
     private static MyViewPager vp_home;
     private RadioGroup rg_home;
     private List<BaseFragment> fragments;
@@ -46,6 +52,7 @@ public class HomeActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     private ImageView iv_cart_bv;
     private CartManager cartManager;
     private BadgeView badgeView;
+    private LinearLayout ll_titleBar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -99,6 +106,7 @@ public class HomeActivity extends BaseActivity implements RadioGroup.OnCheckedCh
 
     private void initView() {
         vp_home = (MyViewPager) findViewById(R.id.vp_home);
+        ll_titleBar = (LinearLayout) findViewById(R.id.ll_titleBar);
         rg_home = (RadioGroup) findViewById(R.id.rg_home);
         iv_cart_bv = (ImageView) findViewById(R.id.iv_cart_bv);
         rb_homes[0] = (RadioButton) findViewById(R.id.rb_home);
@@ -127,9 +135,24 @@ public class HomeActivity extends BaseActivity implements RadioGroup.OnCheckedCh
             if(rb_homes[i].getId() == checkedId){
                 curFragment = fragments.get(i);
                 vp_home.setCurrentItem(i, false);
+                if(i == 3){
+//                    ll_titleBar.setBackgroundColor(getResources().getColor(R.color.mine_titlebar));
+                    ll_titleBar.setBackgroundResource(R.mipmap.img_mine_head_bg);
+                }else {
+                    ll_titleBar.setBackgroundColor(getResources().getColor(R.color.main));
+                }
                 break;
             }
         }
+
+//        Log.d("statuscolor", position + ":position");
+//        if (position == fragments.size() - 1) {//改变titleBar的颜色
+//            Log.d("statuscolor", position + ":position");
+//            ll_titleBar.setBackgroundColor(getResources().getColor(R.color.mine_titlebar));
+//        } else {
+//            Log.d("statuscolor", position + ":position");
+//            ll_titleBar.setBackgroundColor(getResources().getColor(R.color.main));
+//        }
     }
 
     @Override
@@ -140,13 +163,10 @@ public class HomeActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         super.onResume();
     }
 
-
-
-
     @Override
     public void OnMyPageSelected(int position) {
         rb_homes[position].setChecked(true);
-        //TODO 根据不同的页面改变状态栏的颜色
+
     }
 
     @Override

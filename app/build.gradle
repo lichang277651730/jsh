@@ -11,12 +11,31 @@ android {
         versionCode 1
         versionName "1.0"
     }
+
+
+
     buildTypes {
+
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+
     }
+
+//    //多渠道打包
+//    productFlavors {
+//        jsh {} //官方
+//        share {}//分享推荐下载
+//        web {}//web引导下载
+//        safe360 {}//360安全市场
+//        yyb{}//应用宝
+//        baidu{}//百度
+//
+//        productFlavors.all { flavor ->
+//            flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
+//        }
+//    }
 }
 
 dependencies {
