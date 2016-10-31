@@ -82,6 +82,7 @@ public class OrderBuyResultActivity extends MyActivity implements View.OnClickLi
             case R.id.btn_order_detail://订单详情
                 Intent intent = new Intent(this, OrderDetailActivity.class);
                 intent.putExtra("o_id", order_id);
+                intent.putExtra("from", OrderDetailActivity.FROM.FROM_ORDER_BUY);
                 startActivity(intent);
                 break;
             case R.id.btn_go_home://返回首页

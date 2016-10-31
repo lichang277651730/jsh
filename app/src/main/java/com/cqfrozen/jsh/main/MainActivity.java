@@ -72,9 +72,13 @@ public class MainActivity extends MyActivity implements MyHttp.MyHttpResult, Han
     private void AutoLogin() {
         handler.sendEmptyMessageDelayed(1, 2000);
         String token = SPUtils.getToken();
+        long expireTime = SPUtils.getExpireTime();
+        long curTime = System.currentTimeMillis();
+
         if (token.isEmpty() || token.length() < 2) {
             return;
         }
+        //TODO token没失效就不刷新token
         MyHttp.refreshToken(http, REFRESHTOKEN, token, this);
     }
 

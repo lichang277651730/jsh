@@ -83,6 +83,7 @@ public class OrderFragment extends MyFragment implements RefreshLayout.OnRefresh
             public void onItemClick(int position, OrderResultInfo.OrderSearchInfo orderSearchInfo) {
                 Intent intent = new Intent(mActivity, OrderDetailActivity.class);
                 intent.putExtra("o_id", orderSearchInfo.o_id);
+                intent.putExtra("from", OrderDetailActivity.FROM.FROM_ORDER_LIST);
                 startActivity(intent);
             }
         });
@@ -163,5 +164,14 @@ public class OrderFragment extends MyFragment implements RefreshLayout.OnRefresh
         if(refresh_order != null && refresh_order.isRefreshing){
             refresh_order.setResultState(RefreshLayout.ResultState.close);
         }
+    }
+
+    @Override
+    public void onShow() {
+        super.onShow();
+        page = 1;
+        is_page = 0;
+        orderSearchInfos.clear();
+        getData();
     }
 }

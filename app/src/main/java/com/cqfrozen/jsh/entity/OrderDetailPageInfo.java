@@ -25,10 +25,14 @@ public class OrderDetailPageInfo extends BaseEntity {
     public String china_name;//收货人
     public String mobile_num;//电话
     public String address;//收货地址
-    public String is_fk_btn;//是否付款按钮0否，1是
-    public String is_pj_btn;//是否显示删除按钮0否，1是
-    public String is_qr_btn;//是否显示确认收货按钮 0否，1是
     public String status_name;//订单状态名称
+    public int btn_type;
+    // 0所有按钮都不显示，
+    // 1取消、去支付(未付款),
+    // 2取消（货到付款未出库），
+    // 3确认收货（已发货）,
+    // 4去评价(已收货、未评价)，
+    // 5删除（取消订单、已完成评价订单）
 
     public List<OrderDetailPageBean> oinfo;
 

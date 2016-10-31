@@ -132,4 +132,14 @@ public class SPUtils {
 		return  MyApplication.userSp.getString("cart_json", "");
 	}
 
+	/**
+	 * 设置token失效时间
+	 */
+	public static void setExpireTime(long expire_time) {
+		MyApplication.userSp.edit().putLong("expire_time", expire_time).commit();
+	}
+
+	public static Long getExpireTime(){
+		return MyApplication.userSp.getLong("expire_time", 0L);
+	}
 }

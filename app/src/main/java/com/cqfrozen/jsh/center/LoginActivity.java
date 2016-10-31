@@ -114,6 +114,8 @@ public class LoginActivity extends MyActivity implements View.OnClickListener {
                 SigninInfo signinInfo = (SigninInfo) bean;
                 MyApplication.signinInfo = signinInfo;
                 MyApplication.token = signinInfo.getToken();
+                String expire_time = signinInfo.getExpire_time();
+                SPUtils.setExpireTime(Long.parseLong(expire_time));
                 et_phone.setEnabled(false);
                 getLoginUserInfo();
             }
@@ -121,7 +123,7 @@ public class LoginActivity extends MyActivity implements View.OnClickListener {
     }
 
     /**
-     * 通过user_id去查找用户信息
+     * 通过token去查找用户信息
      */
     private void getLoginUserInfo() {
         MyHttp.user(http, null, new MyHttp.MyHttpResult() {

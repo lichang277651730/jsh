@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import com.amap.api.location.AMapLocationClient;
 import com.common.base.BaseApplication;
 import com.common.util.CodeCountDownTimer;
-import com.cqfrozen.jsh.activity.MainActivity;
 import com.cqfrozen.jsh.cart.CartManager;
 import com.cqfrozen.jsh.constants.Constants;
 import com.cqfrozen.jsh.entity.SigninInfo;

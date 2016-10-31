@@ -100,8 +100,6 @@
                   android:theme="@style/SwipeBackTheme"/>
         <activity android:name=".center.AddressEditActivity"
                   android:theme="@style/SwipeBackTheme"/>
-        <!--<activity android:name=".center.LoginActivity"-->
-                  <!--android:theme="@style/SwipeBackTheme"/>-->
         <activity android:name=".center.ForgetPwdActivity"
                   android:theme="@style/SwipeBackTheme"/>
         <activity android:name=".center.Register1Activity"
@@ -137,6 +135,8 @@
         <activity android:name=".center.FansListActity"
                   android:theme="@style/SwipeBackTheme"/>
         <activity android:name=".activity.CommentListActivity"
+                  android:theme="@style/SwipeBackTheme"/>
+        <activity android:name=".appraise.AppraiseActivity"
                   android:theme="@style/SwipeBackTheme"/>
     </application>
 

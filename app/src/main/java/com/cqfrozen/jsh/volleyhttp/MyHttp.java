@@ -8,10 +8,10 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.common.base.BaseValue;
 import com.common.http.HttpForVolley;
-import com.cqfrozen.jsh.activity.MainActivity;
 import com.cqfrozen.jsh.cart.CartResultInfo;
 import com.cqfrozen.jsh.center.LoginActivity;
 import com.cqfrozen.jsh.entity.AddressInfo;
+import com.cqfrozen.jsh.entity.AppraiseInfo;
 import com.cqfrozen.jsh.entity.AreaStreetInfo;
 import com.cqfrozen.jsh.entity.CartCountInfo;
 import com.cqfrozen.jsh.entity.CartNotifyInfo;
@@ -35,6 +35,7 @@ import com.cqfrozen.jsh.entity.SearchKwdInfo;
 import com.cqfrozen.jsh.entity.ShopInfo;
 import com.cqfrozen.jsh.entity.SigninInfo;
 import com.cqfrozen.jsh.entity.UserInfo;
+import com.cqfrozen.jsh.main.MainActivity;
 import com.cqfrozen.jsh.main.MyApplication;
 import com.cqfrozen.jsh.util.MD5Util;
 import com.cqfrozen.jsh.util.SPUtils;
@@ -632,15 +633,15 @@ public class MyHttp {
         params.put("token", MyApplication.token);
         String sign = SignUtil.getOrderBuySignInfo(a_id, cartdata, is_use_hb, msg_content, pay_mode, p_type, timestamp, MyApplication.token);
         params.put("sign", sign);
-        Log.d("addAddress_params", "a_id:"+ a_id + "," +
-                "cartdata:"+ cartdata + "," +
-                "is_use_hb:"+ is_use_hb + "," +
-                "msg_content:"+ msg_content + "," +
-                "pay_mode:"+ pay_mode + "," +
-                "p_type:"+ p_type + "," +
-                "timestamp:"+ timestamp + "," +
-                "token:"+  MyApplication.token +
-                "sign:"+ sign);
+//        Log.d("addAddress_params", "a_id:"+ a_id + "," +
+//                "cartdata:"+ cartdata + "," +
+//                "is_use_hb:"+ is_use_hb + "," +
+//                "msg_content:"+ msg_content + "," +
+//                "pay_mode:"+ pay_mode + "," +
+//                "p_type:"+ p_type + "," +
+//                "timestamp:"+ timestamp + "," +
+//                "token:"+  MyApplication.token +
+//                "sign:"+ sign);
         Type type = new TypeToken<OrderBuyResultInfo>() {
         }.getType();
         toBean(POST, http, which, params, url, myHttpResult, type);
@@ -695,6 +696,82 @@ public class MyHttp {
         toBean(GET, http, which, params, url, myHttpResult, type);
     }
 
+    /**
+     * 取消订单
+     */
+    public static void cancelOrder(HttpForVolley http, Integer which, String o_id,  HttpForVolley.HttpTodo httpTodo) {
+        String url = SERVER + "Order/cancelorder";
+        params.clear();
+        params.put("o_id", o_id);
+        params.put("token", MyApplication.token);
+//                Log.d("addAddress_params", "o_id:"+ o_id + "," +
+//                "token:"+  MyApplication.token);
+        http.goTo(POST, which, params, url, httpTodo);
+    }
+
+    /**
+     * 删除订单
+     */
+    public static void orderDelete(HttpForVolley http, Integer which, String o_id, HttpForVolley.HttpTodo httpTodo) {
+        String url = SERVER + "Order/orderdelete";
+        params.clear();
+        params.put("o_id", o_id);
+        params.put("token", MyApplication.token);
+//                Log.d("addAddress_params", "o_id:"+ o_id + "," +
+//                "token:"+  MyApplication.token);
+        http.goTo(POST, which, params, url, httpTodo);
+    }
+
+    /**
+     * 确认收货
+     */
+    public static void orderConfirm(HttpForVolley http, Integer which, String o_id, HttpForVolley.HttpTodo httpTodo) {
+        String url = SERVER + "Order/orderconfirm";
+        params.clear();
+        params.put("o_id", o_id);
+        params.put("token", MyApplication.token);
+                Log.d("addAddress_params", "o_id:"+ o_id + "," +
+                "token:"+  MyApplication.token);
+        http.goTo(GET, which, params, url, httpTodo);
+    }
+
+    /**
+     * 填写评价页面调用接口
+     */
+    public static void pj(HttpForVolley http, Integer which, String o_id, MyHttpResult myHttpResult) {
+        String url = SERVER + "Goods/pj";
+        params.clear();
+        params.put("o_id", o_id);
+        params.put("token", MyApplication.token);
+        Log.d("addAddress_params", "o_id:"+ o_id + "," +
+                "token:"+  MyApplication.token);
+        Type beanType = new TypeToken<List<AppraiseInfo>>() {
+        }.getType();
+        toBean(GET, http, which, params, url, myHttpResult, beanType);
+    }
+
+    /**
+     * 添加评价
+     */
+    public static void addPJ(HttpForVolley http, Integer which, String o_id, String star_count_list,
+                             String order_info_id_list, String goods_id_list, String content_list,
+                             HttpForVolley.HttpTodo httpTodo) {
+        String url = SERVER + "Goods/addpj";
+        params.clear();
+        params.put("o_id", o_id);
+        params.put("star_count_list", star_count_list);
+        params.put("order_info_id_list", order_info_id_list);
+        params.put("goods_id_list", goods_id_list);
+        params.put("content_list", content_list);
+        params.put("token", MyApplication.token);
+        Log.d("addAddress_params", "o_id:"+ o_id + "," +
+                "star_count_list:"+ star_count_list + "," +
+                "order_info_id_list:"+ order_info_id_list + "," +
+                "goods_id_list:"+ goods_id_list + "," +
+                "content_list:"+ content_list + "," +
+                "token:"+  MyApplication.token);
+        http.goTo(POST, which, params, url, httpTodo);
+    }
 
     /**
      * 汇币明细
