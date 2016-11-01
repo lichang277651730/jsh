@@ -226,7 +226,7 @@
                         android:textSize="14sp"
                         android:textColor="@color/myblack"
                         android:layout_alignParentRight="true"
-                        android:text="￥206"/>
+                        android:text="￥207"/>
                 </RelativeLayout>
                 <View style="@style/HorizontalDividerLine"/>
                 <RelativeLayout
