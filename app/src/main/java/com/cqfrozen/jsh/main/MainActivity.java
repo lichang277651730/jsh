@@ -9,7 +9,6 @@ import android.view.KeyEvent;
 
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.activity.HomeActivity;
-import com.cqfrozen.jsh.activity.IndexActivity;
 import com.cqfrozen.jsh.center.LoginActivity;
 import com.cqfrozen.jsh.entity.SigninInfo;
 import com.cqfrozen.jsh.entity.UserInfo;
@@ -31,8 +30,10 @@ public class MainActivity extends MyActivity implements MyHttp.MyHttpResult, Han
 
     @Override
     public boolean handleMessage(Message msg) {
-        if (SPUtils.getFirst()) {
-            startActivity(new Intent(this, IndexActivity.class));
+        //TODO 要改！
+        if (!SPUtils.getFirst()) {
+//            startActivity(new Intent(this, IndexActivity.class));
+            startActivity(new Intent(this, LoginActivity.class));
         } else {
             if(MyApplication.userInfo == null){
                 startActivity(new Intent(this, LoginActivity.class));
@@ -79,7 +80,7 @@ public class MainActivity extends MyActivity implements MyHttp.MyHttpResult, Han
             return;
         }
         //TODO token没失效就不刷新token
-        MyHttp.refreshToken(http, REFRESHTOKEN, token, this);
+//        MyHttp.refreshToken(http, REFRESHTOKEN, token, this);
     }
 
     @Override

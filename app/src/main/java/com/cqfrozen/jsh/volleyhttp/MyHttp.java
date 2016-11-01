@@ -23,6 +23,7 @@ import com.cqfrozen.jsh.entity.GoodsInfo;
 import com.cqfrozen.jsh.entity.GoodsResultInfo;
 import com.cqfrozen.jsh.entity.HomeBannerInfo;
 import com.cqfrozen.jsh.entity.HomeNotifyInfo;
+import com.cqfrozen.jsh.entity.HttpUrlInfo;
 import com.cqfrozen.jsh.entity.HuibiResultInfo;
 import com.cqfrozen.jsh.entity.LocationInfo;
 import com.cqfrozen.jsh.entity.MyFansPageInfo;
@@ -464,6 +465,18 @@ public class MyHttp {
     }
 
     /**
+     * 退出
+     */
+    public static void loginout(HttpForVolley http, Integer which, HttpForVolley.HttpTodo httpTodo) {
+        String url = SERVER + "User/login_out";
+        params.clear();
+        params.put("p_type", p_type + "");
+        params.put("token", MyApplication.token);
+        http.goTo(POST, which, params, url, httpTodo);
+    }
+
+
+    /**
      * 用户修改密码
      */
     public static void pd(HttpForVolley http, Integer which, String pass_word,
@@ -755,7 +768,7 @@ public class MyHttp {
      */
     public static void addPJ(HttpForVolley http, Integer which, String o_id, String star_count_list,
                              String order_info_id_list, String goods_id_list, String content_list,
-                             HttpForVolley.HttpTodo httpTodo) {
+                             int is_anonymou, HttpForVolley.HttpTodo httpTodo) {
         String url = SERVER + "Goods/addpj";
         params.clear();
         params.put("o_id", o_id);
@@ -763,12 +776,14 @@ public class MyHttp {
         params.put("order_info_id_list", order_info_id_list);
         params.put("goods_id_list", goods_id_list);
         params.put("content_list", content_list);
+        params.put("is_anonymou", is_anonymou + "");
         params.put("token", MyApplication.token);
         Log.d("addAddress_params", "o_id:"+ o_id + "," +
                 "star_count_list:"+ star_count_list + "," +
                 "order_info_id_list:"+ order_info_id_list + "," +
                 "goods_id_list:"+ goods_id_list + "," +
                 "content_list:"+ content_list + "," +
+                "is_anonymou:"+ is_anonymou + "," +
                 "token:"+  MyApplication.token);
         http.goTo(POST, which, params, url, httpTodo);
     }
@@ -832,6 +847,15 @@ public class MyHttp {
         http.postBase64(POST, null, params, path, url, httpTodo);
     }
 
+    /**
+     * 获取Url链接
+     */
+    public static void searchHttpUrl(HttpForVolley http, Integer which, MyHttpResult myHttpResult) {
+        String url = SERVER + "Public/searchhttpurl";
+        Type beanType = new TypeToken<List<HttpUrlInfo>>() {
+        }.getType();
+        toBean(GET, http, which, null, url, myHttpResult, beanType);
+    }
 
     private static void toBean(int method, final HttpForVolley http, Integer which,
                                HashMap<String, String> httpMap, String url,

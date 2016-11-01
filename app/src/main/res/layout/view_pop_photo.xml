@@ -21,33 +21,38 @@
         android:text="请选择"
         android:textColor="@color/black"
         android:textSize="14sp" />
-
+    <View style="@style/HorizontalDividerLine"
+        android:layout_marginLeft="10dp"
+          android:layout_marginRight="10dp"/>
     <Button
         android:id="@+id/pop_btn_camera"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="1dp"
         android:alpha="0.9"
         android:background="@color/white"
         android:text="拍照"
-        android:textColor="@color/red"
+        android:textColor="@color/main"
         android:textSize="15sp" />
-
+    <View style="@style/HorizontalDividerLine"
+          android:layout_marginLeft="10dp"
+          android:layout_marginRight="10dp"/>
     <Button
         android:id="@+id/pop_btn_photo"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="1dp"
         android:alpha="0.9"
         android:background="@color/white"
         android:text="从相册选取"
-        android:textColor="@color/red"
+        android:textColor="@color/main"
         android:textSize="15sp" />
-
+    <View style="@style/HorizontalDividerLine"
+          android:layout_height="4dp"
+          android:layout_marginLeft="10dp"
+          android:layout_marginRight="10dp"/>
     <Button
         android:id="@+id/pop_btn_no"
         android:layout_width="match_parent"
@@ -55,11 +60,10 @@
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="5dp"
         android:alpha="0.9"
         android:background="@color/white"
         android:text="取消"
-        android:textColor="@color/red"
+        android:textColor="@color/main"
         android:textSize="15sp" />
 
 </LinearLayout>

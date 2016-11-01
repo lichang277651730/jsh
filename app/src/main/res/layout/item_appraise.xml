@@ -11,14 +11,14 @@
         android:padding="16dp">
         <ImageView
             android:id="@+id/iv_appraise"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:scaleType="centerCrop"
             android:src="@mipmap/img_loading_default"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="16dp"
             android:textSize="16sp"
             android:text="描述相符"/>
         <RatingBar

@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.common.http.HttpForVolley;
 import com.cqfrozen.jsh.R;
+import com.cqfrozen.jsh.activity.HomeActivity;
 import com.cqfrozen.jsh.entity.AppraiseInfo;
 import com.cqfrozen.jsh.main.MyActivity;
 import com.cqfrozen.jsh.volleyhttp.MyHttp;
@@ -122,16 +123,19 @@ public class AppraiseActivity extends MyActivity implements View.OnClickListener
         //先构建服务器需要的数据
         parseData();
         is_anonymou = cb_anony.isChecked() ? 1 : 0;
+        tv_submit_appraise.setEnabled(false);
         MyHttp.addPJ(http, null, o_id, star_count_list, order_info_id_list,
-                goods_id_list, content_list, new HttpForVolley.HttpTodo() {
+                goods_id_list, content_list, is_anonymou, new HttpForVolley.HttpTodo() {
                     @Override
                     public void httpTodo(Integer which, JSONObject response) {
+                        tv_submit_appraise.setEnabled(true);
                         showToast(response.optString("msg"));
                         int code = response.optInt("code");
                         if(code != 0){
                             return;
                         }
-                        finish();
+//                        finish();
+                        HomeActivity.startActivity(AppraiseActivity.this, HomeActivity.PAGE_CLASSIFY);
                     }
                 });
     }

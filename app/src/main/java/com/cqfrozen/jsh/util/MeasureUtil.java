@@ -9,6 +9,7 @@ import android.widget.ListView;
  * Created by Administrator on 2016/10/26.
  */
 public class MeasureUtil {
+
     public static void setListViewHeightBasedOnChildren(ListView listView) {
         ListAdapter listAdapter = listView.getAdapter();
         if (listAdapter == null) {
@@ -27,4 +28,5 @@ public class MeasureUtil {
         params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
         listView.setLayoutParams(params);
     }
+
 }

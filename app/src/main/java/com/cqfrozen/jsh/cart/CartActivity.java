@@ -258,12 +258,14 @@ public class CartActivity extends MyActivity implements View.OnClickListener, Re
             showToast("未选择任何商品");
             return;
         }
+        btn_order.setEnabled(false);//防止重复提交
         final String carDataAry = parseCartData(checkedGoods);
         long timestamp = System.currentTimeMillis();
 
         MyHttp.settlement(http, null, carDataAry, timestamp, new MyHttp.MyHttpResult() {
             @Override
             public void httpResult(Integer which, int code, String msg, Object bean) {
+                btn_order.setEnabled(true);//防止重复提交
                 if(code != 0){
                     showToast(msg);
                     return;

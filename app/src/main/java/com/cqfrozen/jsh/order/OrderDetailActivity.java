@@ -3,21 +3,21 @@ package com.cqfrozen.jsh.order;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.common.base.BaseValue;
 import com.common.http.HttpForVolley;
-import com.common.widget.MyGridDecoration;
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.appraise.AppraiseActivity;
 import com.cqfrozen.jsh.entity.OrderDetailPageInfo;
 import com.cqfrozen.jsh.main.MyActivity;
+import com.cqfrozen.jsh.util.MeasureUtil;
 import com.cqfrozen.jsh.volleyhttp.MyHttp;
 
 import org.json.JSONObject;
@@ -41,6 +41,12 @@ public class OrderDetailActivity extends MyActivity implements View.OnClickListe
     private Button btn_delete;
     private int btn_type = BTN_TYPE.TYPE_NONE;
     private View v_divider;
+    private ListView lv_order;
+    private OrderDetailLvAdapter orderDetailLvAdapter;
+    private ScrollView scrollview;
+    private TextView tv_ex_desc;
+    private ImageView iv_ex;
+
     public interface FROM{
         int FROM_ORDER_DEFAULT = 0;
         int FROM_ORDER_BUY = 1;
@@ -63,7 +69,6 @@ public class OrderDetailActivity extends MyActivity implements View.OnClickListe
     private TextView tv_phone;
     private TextView tv_address;
     private TextView tv_user_msg;
-    private RecyclerView rv_order;
     private TextView tv_send_price;
     private TextView tv_use_huibi;
     private TextView tv_goods_money;
@@ -78,11 +83,11 @@ public class OrderDetailActivity extends MyActivity implements View.OnClickListe
 
     private List<OrderDetailPageInfo.OrderDetailPageBean> orderDetailPageBeanList = new ArrayList<>();
 
-    private OrderDetailRVAdapter detailRVAdapter;
     private TextView tv_add_time;
     private RelativeLayout rl_order;
     private OrderDetailPageInfo orderDetailPageInfo;
 
+    private int exState = 1;//收缩状态 1收起状态 2展开状态
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -90,7 +95,7 @@ public class OrderDetailActivity extends MyActivity implements View.OnClickListe
         setContentView(R.layout.activity_orderdetail);
         getIntentData();
         initView();
-        initRC();
+        initLv();
         getData();
     }
 
@@ -101,13 +106,16 @@ public class OrderDetailActivity extends MyActivity implements View.OnClickListe
 
     private void initView() {
         setMyTitle("订单详情");
+        scrollview = (ScrollView) findViewById(R.id.scrollview);
         tv_order_status = (TextView) findViewById(R.id.tv_order_status);
         tv_add_time = (TextView) findViewById(R.id.tv_add_time);
         tv_receiver = (TextView) findViewById(R.id.tv_receiver);
         tv_phone = (TextView) findViewById(R.id.tv_phone);
         tv_address = (TextView) findViewById(R.id.tv_address);
         tv_user_msg = (TextView) findViewById(R.id.tv_user_msg);
-        rv_order = (RecyclerView) findViewById(R.id.rv_order);
+        tv_ex_desc = (TextView) findViewById(R.id.tv_ex_desc);
+        iv_ex = (ImageView) findViewById(R.id.iv_ex);
+        lv_order = (ListView) findViewById(R.id.lv_order);
         tv_send_price = (TextView) findViewById(R.id.tv_send_price);
         tv_use_huibi = (TextView) findViewById(R.id.tv_use_huibi);
         tv_goods_money = (TextView) findViewById(R.id.tv_goods_money);
@@ -191,17 +199,11 @@ public class OrderDetailActivity extends MyActivity implements View.OnClickListe
         }
     }
 
-
-    private void initRC() {
-        rv_order.setOverScrollMode(View.OVER_SCROLL_NEVER);
-        GridLayoutManager manager = new GridLayoutManager(this, 1);
-        rv_order.setLayoutManager(manager);
-        MyGridDecoration decoration = new MyGridDecoration(BaseValue.dp2px(1), BaseValue
-                .dp2px(0), getResources().getColor(R.color.mybg), false);
-        rv_order.addItemDecoration(decoration);
-        detailRVAdapter = new OrderDetailRVAdapter(this,
+    private void initLv() {
+        lv_order.setOverScrollMode(View.OVER_SCROLL_NEVER);
+        orderDetailLvAdapter = new OrderDetailLvAdapter(this,
                 orderDetailPageBeanList);
-        rv_order.setAdapter(detailRVAdapter);
+        lv_order.setAdapter(orderDetailLvAdapter);
     }
 
     private void getData() {
@@ -222,7 +224,8 @@ public class OrderDetailActivity extends MyActivity implements View.OnClickListe
 
     private void initViewData(OrderDetailPageInfo orderDetailPageInfo) {
         orderDetailPageBeanList.add(orderDetailPageInfo.oinfo.get(0));
-        detailRVAdapter.notifyDataSetChanged();
+        orderDetailLvAdapter.notifyDataSetChanged();
+        MeasureUtil.setListViewHeightBasedOnChildren(lv_order);
         tv_order_status.setText(orderDetailPageInfo.status_name);
         tv_add_time.setText(orderDetailPageInfo.add_time);
         tv_receiver.setText("收货人:" + orderDetailPageInfo.china_name);
@@ -251,10 +254,15 @@ public class OrderDetailActivity extends MyActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.rl_order://点击跳转订单详情页
-                Intent intent = new Intent(OrderDetailActivity.this, OrderGooodsDetailListActivity.class);
-                intent.putExtra("orderDetailPageInfo", orderDetailPageInfo);
-                startActivity(intent);
+            case R.id.rl_order://点击跳转订单详情页  显示 全部订单商品
+//                Intent intent = new Intent(OrderDetailActivity.this, OrderGooodsDetailListActivity.class);
+//                intent.putExtra("orderDetailPageInfo", orderDetailPageInfo);
+//                startActivity(intent);
+                if(exState == 1){
+                    exLvList();
+                }else if(exState == 2){
+                    unexLvList();
+                }
                 break;
             case R.id.btn_cancel_nopay://1取消 未付款订单 点击取消按钮
                 cancelNoPayOrder();
@@ -277,6 +285,41 @@ public class OrderDetailActivity extends MyActivity implements View.OnClickListe
             default:
                 break;
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        lv_order.setFocusable(false);
+        scrollview.setFocusable(true);
+        scrollview.setFocusableInTouchMode(true);
+        scrollview.requestFocus();
+    }
+
+    /**
+     * 收起列表
+     */
+    private void unexLvList() {
+        orderDetailPageBeanList.clear();
+        orderDetailPageBeanList.add(orderDetailPageInfo.oinfo.get(0));
+        orderDetailLvAdapter.notifyDataSetChanged();
+        MeasureUtil.setListViewHeightBasedOnChildren(lv_order);
+        tv_ex_desc.setText("显示全部商品");
+        iv_ex.setImageResource(R.mipmap.list_gengduo_h);
+        exState = 1;
+    }
+
+    /**
+     * 展开列表
+     */
+    private void exLvList() {
+        orderDetailPageBeanList.clear();
+        orderDetailPageBeanList.addAll(orderDetailPageInfo.oinfo);
+        orderDetailLvAdapter.notifyDataSetChanged();
+        MeasureUtil.setListViewHeightBasedOnChildren(lv_order);
+        tv_ex_desc.setText("收起全部商品");
+        iv_ex.setImageResource(R.mipmap.list_gengduo_up);
+        exState = 2;
     }
 
     /**

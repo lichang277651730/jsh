@@ -4,12 +4,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.common.http.HttpForVolley;
 import com.common.util.DataCleanManager;
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.main.MyActivity;
+import com.cqfrozen.jsh.main.MyApplication;
+import com.cqfrozen.jsh.util.SPUtils;
+import com.cqfrozen.jsh.volleyhttp.MyHttp;
+
+import org.json.JSONObject;
 
 /**
  * Created by Administrator on 2016/9/20.
@@ -20,6 +27,7 @@ public class SettingActivity extends MyActivity implements View.OnClickListener 
     private LinearLayout ll_cache;
     private LinearLayout ll_personal;
     private LinearLayout ll_change_pwd;
+    private Button btn_exit;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,9 +42,11 @@ public class SettingActivity extends MyActivity implements View.OnClickListener 
         ll_personal = (LinearLayout) findViewById(R.id.ll_personal);
         ll_cache = (LinearLayout) findViewById(R.id.ll_cache);
         ll_change_pwd = (LinearLayout) findViewById(R.id.ll_change_pwd);
+        btn_exit = (Button) findViewById(R.id.btn_exit);
         ll_change_pwd.setOnClickListener(this);
         ll_personal.setOnClickListener(this);
         ll_cache.setOnClickListener(this);
+        btn_exit.setOnClickListener(this);
         try {
             tv_cache.setText(DataCleanManager.getTotalCacheSize(this));
         } catch (Exception e) {
@@ -61,8 +71,30 @@ public class SettingActivity extends MyActivity implements View.OnClickListener 
                     e.printStackTrace();
                 }
                 break;
+            case R.id.btn_exit://退出
+                loginout();
+                break;
             default:
                 break;
         }
+    }
+
+    private void loginout() {
+        MyHttp.loginout(http, null, new HttpForVolley.HttpTodo() {
+            @Override
+            public void httpTodo(Integer which, JSONObject response) {
+                showToast(response.optString("msg"));
+                int code = response.optInt("code");
+                if(code != 0){
+                    return;
+                }
+                MyApplication.userInfo = null;
+                MyApplication.token = "";
+                SPUtils.setToken("");
+                finish();
+                startActivity(new Intent(SettingActivity.this, LoginActivity.class));
+            }
+        });
+
     }
 }

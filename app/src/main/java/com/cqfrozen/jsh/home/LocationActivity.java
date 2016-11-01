@@ -46,6 +46,7 @@ public class LocationActivity extends MyActivity {
         AMapLocation mapLocation = MyApplication.locationClient.getLastKnownLocation();
         String locationStr = mapLocation.getDistrict();
         tv_cur_address.setText(locationStr);
+
     }
 
 

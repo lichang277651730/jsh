@@ -1,5 +1,7 @@
 package com.cqfrozen.jsh.center;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,9 +9,12 @@ import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,6 +49,11 @@ public class LoginActivity extends MyActivity implements View.OnClickListener {
     protected int clickCount;
     protected long clickFirstTime;
     protected long clickSecondTime;
+    private LinearLayout scrollview_login;
+    private boolean isShow;
+    private boolean isEdShow;
+    private int height;
+    private ImageView iv_log;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,6 +66,8 @@ public class LoginActivity extends MyActivity implements View.OnClickListener {
 
     private void initView() {
         setMyTitle("");
+        scrollview_login = (LinearLayout) findViewById(R.id.scrollview_login);
+        iv_log = (ImageView) findViewById(R.id.iv_log);
         et_phone = (MyEditText) findViewById(R.id.et_phone);
         et_password = (MyEditText) findViewById(R.id.et_password);
         tv_forget = (TextView) findViewById(R.id.tv_forget);
@@ -71,6 +83,137 @@ public class LoginActivity extends MyActivity implements View.OnClickListener {
             et_phone.setSelection(phoneNumCache.length());
         }
         initShowHiddenPwdView();
+
+        et_phone.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (!isEdShow) {
+                    if (!isShow) {
+                        ObjectAnimator anim = ObjectAnimator.ofFloat(iv_log, "alpha", 1.0f, 0f);
+                        anim.setDuration(500);// 动画持续时间
+                        anim.start();
+                        ObjectAnimator animator = ObjectAnimator.ofFloat(scrollview_login, "translationY", 0, -height);
+                        animator.addListener(new Animator.AnimatorListener() {
+                            @Override
+                            public void onAnimationStart(Animator animation) {
+
+                            }
+
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                                isEdShow = true;
+                            }
+
+                            @Override
+                            public void onAnimationCancel(Animator animation) {
+
+                            }
+
+                            @Override
+                            public void onAnimationRepeat(Animator animation) {
+
+                            }
+                        });
+                        animator.setDuration(500);
+                        animator.start();
+                    }
+                }
+                return false;
+            }
+        });
+
+        et_password.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (!isEdShow) {
+                    if (!isShow) {
+                        ObjectAnimator anim = ObjectAnimator.ofFloat(iv_log, "alpha", 1.0f, 0f);
+                        anim.setDuration(500);// 动画持续时间
+                        anim.start();
+                        ObjectAnimator animator = ObjectAnimator.ofFloat(scrollview_login, "translationY", 0, -height);
+                        animator.addListener(new Animator.AnimatorListener() {
+                            @Override
+                            public void onAnimationStart(Animator animation) {
+
+                            }
+
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                                isEdShow = true;
+                            }
+
+                            @Override
+                            public void onAnimationCancel(Animator animation) {
+
+                            }
+
+                            @Override
+                            public void onAnimationRepeat(Animator animation) {
+
+                            }
+                        });
+                        animator.setDuration(500);
+                        animator.start();
+                    }
+                }
+                return false;
+            }
+        });
+
+        scrollview_login.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                if (isShow) {
+                    ObjectAnimator anim = ObjectAnimator.ofFloat(iv_log, "alpha", 0f, 1f);
+                    anim.setDuration(500);// 动画持续时间
+                    anim.start();
+                    ObjectAnimator animator = ObjectAnimator.ofFloat(scrollview_login, "translationY", -height, 0);
+                    animator.addListener(new Animator.AnimatorListener() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            isEdShow = false;
+                            isShow = !isShow;
+                        }
+
+                        @Override
+                        public void onAnimationCancel(Animator animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animator animation) {
+
+                        }
+                    });
+                    animator.setDuration(500);
+                    animator.start();
+//                    ObjectAnimator.ofFloat(login_logo, "translationY", -300, 0).setDuration(500).start();
+                } else {
+                    isShow = !isShow;
+                }
+            }
+        });
+
+        calcuHeight();
+    }
+
+    //计算高度
+    private void calcuHeight() {
+        ViewTreeObserver vto = iv_log.getViewTreeObserver();
+        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                iv_log.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                height = iv_log.getMeasuredHeight() + 100;
+                int width = iv_log.getMeasuredWidth();
+            }
+        });
+
     }
 
     @Override

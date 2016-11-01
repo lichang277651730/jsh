@@ -5,7 +5,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +14,7 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -31,9 +31,9 @@ import com.cqfrozen.jsh.entity.GoodDetailResultInfo;
 import com.cqfrozen.jsh.entity.GoodsInfo;
 import com.cqfrozen.jsh.home.SearchActivity;
 import com.cqfrozen.jsh.main.MyActivity;
+import com.cqfrozen.jsh.util.CustomToast;
 import com.cqfrozen.jsh.util.MeasureUtil;
 import com.cqfrozen.jsh.util.SharePop;
-import com.cqfrozen.jsh.util.ToastUtil;
 import com.cqfrozen.jsh.volleyhttp.MyHttp;
 import com.cqfrozen.jsh.widget.BadgeView;
 import com.cqfrozen.jsh.widget.NumberAddSubView;
@@ -95,6 +95,7 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
     private ImageView iv_shotcut;
     private PopupWindow popupWindow;
     private int is_oos;//是否缺货0否，1是
+    private RelativeLayout rl_root;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -117,6 +118,7 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
     }
 
     private void initView() {
+        rl_root = (RelativeLayout) findViewById(R.id.rl_root);
         scrollview = (ScrollView) findViewById(R.id.scrollview);
         iv_share = (ImageView) findViewById(R.id.iv_share);
         iv_back = (ImageView) findViewById(R.id.iv_back);
@@ -336,11 +338,13 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
         MyHttp.addcart(http, null, g_id, addCount, new HttpForVolley.HttpTodo() {
             @Override
             public void httpTodo(Integer which, JSONObject response) {
-                ToastUtil.showToast(GoodsDetailActivity.this, response.optString("msg"));
+//                ToastUtil.showToast(GoodsDetailActivity.this, response.optString("msg"));
+                CustomToast.getInstance(GoodsDetailActivity.this).showToast(response.optString("msg"));
                 int code = response.optInt("code");
                 if (code != 0) {
                     return;
                 }
+
                 getCartNumFromServer();
                 cartManager.add(goodsInfo);
             }
@@ -420,19 +424,18 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
                 CommentResultInfo commentResultInfo = (CommentResultInfo) bean;
                 commentInfos.addAll(commentResultInfo.data1);
 
-                Log.d("commentInfos", commentInfos.size() + "");
                 if (commentInfos.size() == 0) {
                     tv_all_comment.setVisibility(View.GONE);
                     return;
                 }
-//                if(commentInfos.size() > 5){
-//                    tv_all_comment.setVisibility(View.VISIBLE);
-//                    commentInfos = commentInfos.subList(0, 5);
-//                }
-                if (commentInfos.size() > 2) {
+                if(commentInfos.size() > 5){
                     tv_all_comment.setVisibility(View.VISIBLE);
-                    commentInfos = commentInfos.subList(0, 1);
+                    commentInfos = commentInfos.subList(0, 5);
                 }
+//                if (commentInfos.size() > 2) {
+//                    tv_all_comment.setVisibility(View.VISIBLE);
+//                    commentInfos = commentInfos.subList(0, 1);
+//                }
 
                 commentAdapter = new CommentAdapter(GoodsDetailActivity.this, commentInfos);
                 lv_comment.setAdapter(commentAdapter);

@@ -8,11 +8,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
 
 import com.common.base.BaseValue;
 import com.common.widget.MyGridDecoration;
 import com.common.widget.RefreshLayout;
 import com.cqfrozen.jsh.R;
+import com.cqfrozen.jsh.activity.HomeActivity;
 import com.cqfrozen.jsh.entity.OrderResultInfo;
 import com.cqfrozen.jsh.main.MyFragment;
 import com.cqfrozen.jsh.volleyhttp.MyHttp;
@@ -33,6 +36,8 @@ public class OrderFragment extends MyFragment implements RefreshLayout.OnRefresh
 
     private List<OrderResultInfo.OrderSearchInfo> orderSearchInfos = new ArrayList<>();
     private OrderListAdapter adapter;
+    private LinearLayout include_ordernoorderlayout;
+    private Button include_orderondata_btn;
 
     public static OrderFragment getInstance(int tv){
         OrderFragment fragment = new OrderFragment();
@@ -63,6 +68,8 @@ public class OrderFragment extends MyFragment implements RefreshLayout.OnRefresh
 
     private void initView() {
         refresh_order = (RefreshLayout) view.findViewById(R.id.refresh_order);
+        include_ordernoorderlayout = (LinearLayout) view.findViewById(R.id.include_ordernoorderlayout);
+        include_orderondata_btn = (Button) view.findViewById(R.id.include_orderondata_btn);
         rv_order = (RecyclerView) view.findViewById(R.id.rv_order);
         refresh_order.setOnRefreshListener(this);
         refresh_order.setRefreshble(true);
@@ -103,6 +110,7 @@ public class OrderFragment extends MyFragment implements RefreshLayout.OnRefresh
 
                 if(code != 0){
                     showToast(msg);
+                    setHttpFail(OrderFragment.this);
                     refresh_order.setResultState(RefreshLayout.ResultState.failed);
                     return;
                 }
@@ -111,14 +119,33 @@ public class OrderFragment extends MyFragment implements RefreshLayout.OnRefresh
                 orderSearchInfos.addAll(orderResultInfo.data1);
                 is_page = orderResultInfo.is_page;
                 if(orderSearchInfos.size() == 0){
-                    setHttpNotData(OrderFragment.this);
+//                    setHttpNotData(OrderFragment.this);
+                    setOrderNotData();
                     return;
                 }
+                showDataView();
                 setHttpSuccess();
                 adapter.notifyDataSetChanged();
                 page++;
             }
         });
+    }
+
+    private void setOrderNotData() {
+        include_ordernoorderlayout.setVisibility(View.VISIBLE);
+        rv_order.setVisibility(View.GONE);
+        include_orderondata_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HomeActivity.startActivity(getActivity(), HomeActivity.PAGE_CLASSIFY);
+            }
+        });
+    }
+
+
+    private void showDataView() {
+        include_ordernoorderlayout.setVisibility(View.GONE);
+        rv_order.setVisibility(View.VISIBLE);
     }
 
     @Override

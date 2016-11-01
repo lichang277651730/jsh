@@ -23,5 +23,6 @@ public class UserInfo extends BaseEntity {
     public int df_count;//订单代付款数量
     public int ds_count;//订单代收货数量
     public int dp_count;//订单代评价数量
+    public String c_phone_num;//订单代评价数量
 
 }

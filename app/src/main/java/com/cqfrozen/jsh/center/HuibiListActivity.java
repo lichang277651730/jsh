@@ -1,5 +1,6 @@
 package com.cqfrozen.jsh.center;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
@@ -23,6 +24,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/10/24.
  * intent.putExtra("hb_count", getUserInfo().hb_count);
+ * intent.putExtra("url", huibi_rule_url);
  */
 public class HuibiListActivity extends MyActivity implements RefreshLayout.TopOrBottom, RefreshLayout.OnRefreshListener, View.OnClickListener {
 
@@ -40,6 +42,7 @@ public class HuibiListActivity extends MyActivity implements RefreshLayout.TopOr
     private HuibiRVAdapter rvAdapter;
     private View v_huibi_all;
     private View v_huibi_use;
+    private String url;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,6 +56,7 @@ public class HuibiListActivity extends MyActivity implements RefreshLayout.TopOr
 
     private void getIntentData() {
         hb_count = getIntent().getFloatExtra("hb_count", 0f);
+        url = getIntent().getStringExtra("url");
     }
 
     private void initView() {
@@ -68,8 +72,17 @@ public class HuibiListActivity extends MyActivity implements RefreshLayout.TopOr
         tv_huibi.setText(hb_count + "");
         tv_all.setOnClickListener(this);
         tv_use.setOnClickListener(this);
-        v_huibi_all.setVisibility(View.INVISIBLE);
+        tv_right.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HuibiListActivity.this, WebUrlActivity.class);
+                intent.putExtra("title", "粮票规则");
+                intent.putExtra("url", url);
+                startActivity(intent);
+            }
+        });
         tv_all.setTextColor(getResources().getColor(R.color.main));
+        v_huibi_all.setVisibility(View.VISIBLE);
     }
 
     @Override

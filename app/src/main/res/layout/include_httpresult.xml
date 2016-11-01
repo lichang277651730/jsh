@@ -60,7 +60,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:gravity="center"
-            android:text="没有相关订单"
+            android:text="没有相关数据"
             android:textColor="@color/mygray"
             android:textSize="13sp"/>
 

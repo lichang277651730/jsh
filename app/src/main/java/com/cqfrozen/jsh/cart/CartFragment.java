@@ -124,8 +124,7 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
         refresh_cart.setOnRefreshListener(this);
         btn_order.setOnClickListener(this);
 //        cb_all.setChecked(true);
-        //TODO 以后用application里的用户判断
-        if(MyApplication.token.isEmpty()){
+        if(MyApplication.userInfo == null){
             ll_notify.setVisibility(View.GONE);
         }else {
             ll_notify.setVisibility(View.VISIBLE);
@@ -198,6 +197,7 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
                 if(code != 0){
 //                    showToast(msg);
 //                    setNoDataView();
+                    setHttpFail(CartFragment.this);
                     refresh_cart.setResultState(RefreshLayout.ResultState.failed);
                     return;
                 }
@@ -307,12 +307,14 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
             showToast("未选择任何商品");
             return;
         }
+        btn_order.setEnabled(false);//防止重复提交
         final String carDataAry = parseCartData(checkedGoods);
         long timestamp = System.currentTimeMillis();
 
         MyHttp.settlement(http, null, carDataAry, timestamp, new MyHttp.MyHttpResult() {
             @Override
             public void httpResult(Integer which, int code, String msg, Object bean) {
+                btn_order.setEnabled(true);//防止重复提交
                 if(code != 0){
                     showToast(msg);
                     return;

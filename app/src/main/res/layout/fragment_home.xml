@@ -19,6 +19,7 @@
             android:layout_height="match_parent"
             android:padding="12dp"
             android:scaleType="fitCenter"
+            android:visibility="invisible"
             android:src="@mipmap/nav_dingwei_h"/>
 
         <LinearLayout
@@ -61,6 +62,7 @@
             android:layout_height="match_parent"
             android:padding="12dp"
             android:scaleType="fitCenter"
+            android:visibility="invisible"
             android:src="@mipmap/nav_erweima_h"/>
     </LinearLayout>
 

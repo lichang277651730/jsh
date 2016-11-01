@@ -37,8 +37,8 @@ public class HomeGoodsAdapter extends RecyclerView.Adapter<HomeGoodsAdapter.MyVi
         this.goodsInfos = goodsInfos;
         defaultOptions = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true)
                 .showImageOnLoading(R.color.transparency)
-                .showImageForEmptyUri(R.mipmap.solid_goods)
-                .showImageOnFail(R.mipmap.solid_goods)
+                .showImageForEmptyUri(R.mipmap.img_loading_empty)
+                .showImageOnFail(R.mipmap.img_loading_failed)
                 .build();
         this.http = new HttpForVolley(context);
         this.cartManager =  CartManager.getInstance(context);

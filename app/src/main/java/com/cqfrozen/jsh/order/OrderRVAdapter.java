@@ -28,8 +28,8 @@ public class OrderRVAdapter extends RecyclerView.Adapter<OrderRVAdapter.MyViewHo
         this.orderGoodsList = orderGoodsList;
         defaultOptions = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true)
                 .showImageOnLoading(R.color.transparency)
-                .showImageForEmptyUri(R.mipmap.solid_goods)
-                .showImageOnFail(R.mipmap.solid_goods)
+                .showImageForEmptyUri(R.mipmap.img_loading_empty)
+                .showImageOnFail(R.mipmap.img_loading_failed)
                 .build();
     }
 

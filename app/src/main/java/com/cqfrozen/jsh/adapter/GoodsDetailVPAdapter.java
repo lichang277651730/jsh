@@ -26,8 +26,8 @@ public class GoodsDetailVPAdapter extends PagerAdapter {
         this.picsInfos = picsInfos;
         defaultOptions = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true)
                 .showImageOnLoading(R.color.transparency)
-                .showImageForEmptyUri(R.mipmap.solid_banner)
-                .showImageOnFail(R.mipmap.solid_banner)
+                .showImageForEmptyUri(R.mipmap.img_loading_empty)
+                .showImageOnFail(R.mipmap.img_loading_failed)
                 .build();
     }
 

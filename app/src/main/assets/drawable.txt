@@ -1,5 +1,10 @@
 
+
+p_type  0微信 1 android, 2 ios，3其他
+is_page = 0;//0没有下一页 1有下一页
+
 自定义的drawable文件夹下的所有文件的用途说明
+
 
 弹性下拉库
     zoomview包下所有类

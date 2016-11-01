@@ -1,6 +1,7 @@
 package com.cqfrozen.jsh.order;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,10 +11,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.common.http.HttpForVolley;
 import com.cqfrozen.jsh.R;
+import com.cqfrozen.jsh.appraise.AppraiseActivity;
 import com.cqfrozen.jsh.entity.OrderResultInfo;
+import com.cqfrozen.jsh.util.ToastUtil;
+import com.cqfrozen.jsh.volleyhttp.MyHttp;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -25,13 +32,15 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.MyVi
     private Context context;
     private List<OrderResultInfo.OrderSearchInfo> orderSearchInfos;
     private final DisplayImageOptions defaultOptions;
+    private final HttpForVolley http;
     public OrderListAdapter(Context context, List<OrderResultInfo.OrderSearchInfo> orderSearchInfos){
         this.context = context;
         this.orderSearchInfos = orderSearchInfos;
+        this.http = new HttpForVolley(context);
         defaultOptions = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true)
                 .showImageOnLoading(R.color.transparency)
-                .showImageForEmptyUri(R.mipmap.solid_goods)
-                .showImageOnFail(R.mipmap.solid_goods)
+                .showImageForEmptyUri(R.mipmap.img_loading_empty)
+                .showImageOnFail(R.mipmap.img_loading_failed)
                 .build();
     }
     @Override
@@ -43,11 +52,11 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.MyVi
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, final int position) {
+    public void onBindViewHolder(final MyViewHolder holder, final int position) {
         final OrderResultInfo.OrderSearchInfo orderSearchInfo = orderSearchInfos.get(position);
         holder.tv_time.setText("下单时间: " + orderSearchInfo.add_time);
         holder.tv_result_status.setText(orderSearchInfo.status_name);
-        OrderResultInfo.OrderGoodsInfo orderGoodsInfo = orderSearchInfo.orderinfo.get(0);
+        final OrderResultInfo.OrderGoodsInfo orderGoodsInfo = orderSearchInfo.orderinfo.get(0);
         ImageLoader.getInstance().displayImage(orderGoodsInfo.pic_url, holder.iv_goods, defaultOptions);
         holder.tv_name.setText(orderGoodsInfo.goods_name);
         holder.tv_brand.setText("品牌: " + orderGoodsInfo.brand_name);
@@ -124,6 +133,107 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.MyVi
                 holder.btn_delete.setOnClickListener(this);
                 break;
         }
+
+        //取消未付款订单
+        holder.btn_cancel_nopay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyHttp.cancelOrder(http, null, orderSearchInfo.o_id, new HttpForVolley.HttpTodo() {
+                    @Override
+                    public void httpTodo(Integer which, JSONObject response) {
+//                        showToast(response.optString("msg"));
+                        int code = response.optInt("code");
+                        if(code != 0){
+                            return;
+                        }
+                        holder.btn_cancel_nopay.setVisibility(View.GONE);
+                        holder.btn_delete.setVisibility(View.VISIBLE);
+                    }
+                });
+            }
+        });
+
+        //去支付
+        holder.btn_go_pay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToastUtil.showToast(context, "此功能暂未开放");
+            }
+        });
+
+        //取消未发货订单
+        holder.btn_cancel_noout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyHttp.cancelOrder(http, null, orderSearchInfo.o_id, new HttpForVolley.HttpTodo() {
+                    @Override
+                    public void httpTodo(Integer which, JSONObject response) {
+//                        showToast(response.optString("msg"));
+                        int code = response.optInt("code");
+                        if(code != 0){
+                            return;
+                        }
+                        holder.btn_cancel_noout.setVisibility(View.GONE);
+                        holder.btn_delete.setVisibility(View.VISIBLE);
+                    }
+                });
+            }
+        });
+
+        //确认收货
+        holder.btn_confirm_get.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyHttp.orderConfirm(http, null, orderSearchInfo.o_id, new HttpForVolley.HttpTodo() {
+                    @Override
+                    public void httpTodo(Integer which, JSONObject response) {
+//                        showToast(response.optString("msg"));
+                        int code = response.optInt("code");
+                        if(code != 0){
+                            return;
+                        }
+                        holder.btn_confirm_get.setVisibility(View.GONE);
+                        holder.btn_go_say.setVisibility(View.VISIBLE);
+                    }
+                });
+            }
+        });
+
+        //去评价
+        holder.btn_go_say.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, AppraiseActivity.class);
+                intent.putExtra("o_id", orderSearchInfo.o_id);
+                context.startActivity(intent);
+            }
+        });
+
+        //删除订单
+        holder.btn_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyHttp.orderDelete(http, null, orderSearchInfo.o_id, new HttpForVolley.HttpTodo() {
+                    @Override
+                    public void httpTodo(Integer which, JSONObject response) {
+//                        ToastUtil.showToast(context, response.optString("msg"));
+                        int code = response.optInt("code");
+                        if(code != 0){
+                            return;
+                        }
+//                        holder.ll_btns.setVisibility(View.GONE);
+//                        v_divider.setVisibility(View.GONE);
+                        holder.btn_cancel_nopay.setVisibility(View.GONE);
+                        holder.btn_go_pay.setVisibility(View.GONE);
+                        holder.btn_cancel_noout.setVisibility(View.GONE);
+                        holder.btn_confirm_get.setVisibility(View.GONE);
+                        holder.btn_go_say.setVisibility(View.GONE);
+                        holder.btn_delete.setVisibility(View.GONE);
+                    }
+                });
+            }
+        });
+
 
         holder.include_item_order_sumbit.setOnClickListener(new View.OnClickListener() {
             @Override

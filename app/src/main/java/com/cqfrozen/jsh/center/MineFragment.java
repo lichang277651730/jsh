@@ -1,6 +1,8 @@
 package com.cqfrozen.jsh.center;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -11,8 +13,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.common.base.BaseValue;
+import com.common.http.HttpForVolley;
+import com.common.util.PhotoPopupWindow;
+import com.common.util.PhotoUtil;
 import com.common.widget.MyHeadImageView;
 import com.cqfrozen.jsh.R;
+import com.cqfrozen.jsh.entity.HttpUrlInfo;
 import com.cqfrozen.jsh.entity.UserInfo;
 import com.cqfrozen.jsh.main.MyFragment;
 import com.cqfrozen.jsh.order.OrderListActivity;
@@ -21,6 +27,13 @@ import com.cqfrozen.jsh.volleyhttp.MyHttp;
 import com.cqfrozen.jsh.widget.BadgeView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2016/9/12.
@@ -56,6 +69,27 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
     private ImageView iv_verify;
     private float hb_count_new;
 
+    private List<HttpUrlInfo> httpUrlInfos = new ArrayList<HttpUrlInfo>();
+    private Map<Integer, String> urlMap = new HashMap<>();
+    private String huibi_rule_url = "";
+    private String user_protocol_url = "";
+    private String about_us_url = "";
+    private String after_sale_url = "";
+    private TextView tv_after_sale;
+    private TextView tv_about_us;
+    private PhotoUtil photoUtil;
+    private PhotoPopupWindow photoPopupWindow;
+    private TextView tv_server_phone;
+    private UserInfo userInfo;
+
+    public interface UrlType{
+        int huibi_rule = 4;
+        int user_protocol = 5;
+        int about_us = 6;
+        int after_sale = 7;
+    }
+
+
     public static MineFragment getInstance(){
         if(fragment == null){
             fragment = new MineFragment();
@@ -72,6 +106,7 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
         if(view == null){
             view = inflater.inflate(R.layout.fragment_mine, null);
             initView();
+            getUrlData();
         }
         return view;
     }
@@ -98,7 +133,10 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
         tv_fans = (TextView) view.findViewById(R.id.tv_fans);
         tv_address = (TextView) view.findViewById(R.id.tv_address);
         tv_shop = (TextView) view.findViewById(R.id.tv_shop);
+        tv_after_sale = (TextView) view.findViewById(R.id.tv_after_sale);
+        tv_about_us = (TextView) view.findViewById(R.id.tv_about_us);
         tv_normal_buy = (TextView) view.findViewById(R.id.tv_normal_buy);
+        tv_server_phone = (TextView) view.findViewById(R.id.tv_server_phone);
 
         tv_lookall.setOnClickListener(this);
         iv_setting.setOnClickListener(this);
@@ -113,6 +151,9 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
         ll_table1.setOnClickListener(this);
         ll_table2.setOnClickListener(this);
         ll_table3.setOnClickListener(this);
+        tv_after_sale.setOnClickListener(this);
+        tv_about_us.setOnClickListener(this);
+        tv_server_phone.setOnClickListener(this);
 
         initBadgeViews();
     }
@@ -153,7 +194,7 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
                     showToast(msg);
                     return;
                 }
-                UserInfo userInfo = (UserInfo) bean;
+                userInfo = (UserInfo) bean;
                 showLogined(userInfo);
             }
         });
@@ -166,6 +207,7 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
         tv_name.setVisibility(View.GONE);
         tv_huibi.setText(0.00 + "");
         tv_fans.setText(0 + "");
+        tv_server_phone.setText("客服电话 ");
         tv_phone.setVisibility(View.INVISIBLE);
         tv_verify.setVisibility(View.INVISIBLE);
         tv_verify.setVisibility(View.INVISIBLE);
@@ -184,11 +226,17 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
         tv_verify.setVisibility(View.VISIBLE);
         tv_verify.setVisibility(View.VISIBLE);
         iv_verify.setVisibility(View.VISIBLE);
+        if(userInfo.verify_status == 0 || userInfo.verify_status == 2){
+            iv_verify.setImageResource(R.mipmap.icon_verify_no);
+        }else if(userInfo.verify_status == 1){
+            iv_verify.setImageResource(R.mipmap.icon_verify_yes);
+        }
         tv_name.setText(userInfo.store_name);
         tv_phone.setText(userInfo.mobile_num);
         tv_verify.setText(userInfo.verify_name);
         tv_huibi.setText(userInfo.hb_count + "");
         tv_fans.setText(userInfo.inotal_fans_count + "");
+        tv_server_phone.setText("客服电话 " + userInfo.c_phone_num);
 
         badgeView1.setText(userInfo.df_count >= 100 ? "99+" : userInfo.df_count + "");
         badgeView2.setText(userInfo.ds_count >= 100 ? "99+" : userInfo.ds_count + "");
@@ -245,7 +293,9 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
             case R.id.iv_head:
             case R.id.tv_name:
                 if(needLogin()){
-                    startActivity(new Intent(mActivity, SettingActivity.class));
+                    photoUtil = new PhotoUtil(this, 3, 3);
+                    photoPopupWindow = new PhotoPopupWindow(getActivity(), photoUtil);
+                    photoPopupWindow.showpop(v);
                 }
                 break;
             case R.id.tv_login:
@@ -255,6 +305,7 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
                 if(isLogined()){
                     Intent intent = new Intent(mActivity, HuibiListActivity.class);
                     intent.putExtra("hb_count", hb_count_new);
+                    intent.putExtra("url", huibi_rule_url);
                     startActivity(intent);
                 }
                 break;
@@ -263,7 +314,7 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
                     startActivity(new Intent(mActivity, FansListActity.class));
                 }
                 break;
-            case R.id.tv_lookall:
+            case R.id.tv_lookall://查看所有订单
                 if(isLogined()){
                     Intent intent = new Intent(mActivity, OrderListActivity.class);
                     intent.putExtra("page_index", OrderListActivity.PAGE_ALL);
@@ -291,8 +342,80 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
                     startActivity(intent);
                 }
                 break;
+            case R.id.tv_after_sale://售后规则
+                if(isLogined()){
+                    Intent intent = new Intent(mActivity, WebUrlActivity.class);
+                    intent.putExtra("title", "售后规则");
+                    intent.putExtra("url", after_sale_url);
+                    startActivity(intent);
+                }
+                break;
+            case R.id.tv_about_us://关于我们
+                if(isLogined()){
+                    Intent intent = new Intent(mActivity, WebUrlActivity.class);
+                    intent.putExtra("title", "关于我们");
+                    intent.putExtra("url", about_us_url);
+                    startActivity(intent);
+                }
+                break;
+            case R.id.tv_server_phone://关于我们
+                if(isLogined()){
+                    Intent intent = new Intent("android.intent.action.CALL", Uri.parse("tel:" + userInfo.c_phone_num));
+                    startActivity(intent);
+                }
+                break;
             default:
                 break;
+        }
+    }
+
+    private void getUrlData() {
+        MyHttp.searchHttpUrl(http, null, new MyHttp.MyHttpResult() {
+            @Override
+            public void httpResult(Integer which, int code, String msg, Object bean) {
+                if(code != 0){
+                    showToast(msg);
+                    return;
+                }
+                httpUrlInfos.addAll((List<HttpUrlInfo>)bean);
+                if(httpUrlInfos.size() == 0){
+                    return;
+                }
+                for(int i = 0; i < httpUrlInfos.size(); i++){
+                    HttpUrlInfo httpUrlInfo = httpUrlInfos.get(i);
+                    urlMap.put(httpUrlInfo.type, httpUrlInfo.http_url);
+                }
+                huibi_rule_url = urlMap.get(UrlType.huibi_rule);
+                user_protocol_url = urlMap.get(UrlType.user_protocol);
+                about_us_url = urlMap.get(UrlType.about_us);
+                after_sale_url = urlMap.get(UrlType.after_sale);
+            }
+        });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case PhotoUtil.FromWhere.camera:
+            case PhotoUtil.FromWhere.photo:
+                photoUtil.onActivityResult(requestCode, resultCode, data);
+            case PhotoUtil.FromWhere.forfex:
+                if (resultCode == Activity.RESULT_OK) {
+                    MyHttp.updateHead(http, null, photoUtil.getForfexPath(), new HttpForVolley.HttpTodo() {
+                        @Override
+                        public void httpTodo(Integer which, JSONObject response) {
+                            if (response.optInt("code",1)!=0){
+                                showToast("上传图片发生错误!");
+                                return;
+                            }
+                            showToast("修改头像成功!");
+                            String filename = response.optJSONObject("data").optString("head_url");
+                            ImageLoader.getInstance().displayImage(filename, iv_head);
+                            getUserInfo().head_url = filename;
+                        }
+                    });
+                }
         }
     }
 }
