@@ -1,5 +1,6 @@
 package com.cqfrozen.jsh.center;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -11,6 +12,8 @@ import com.common.http.HttpForVolley;
 import com.common.widget.MyEditText;
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.main.MyActivity;
+import com.cqfrozen.jsh.main.MyApplication;
+import com.cqfrozen.jsh.util.SPUtils;
 import com.cqfrozen.jsh.util.ShowHiddenPwdUtil;
 import com.cqfrozen.jsh.volleyhttp.MyHttp;
 
@@ -87,7 +90,11 @@ public class ChangePwdActivity extends MyActivity implements View.OnClickListene
                 if(code != 0){
                     return;
                 }
-                //TODO 置空用户信息，置为未登陆状态
+                MyApplication.userInfo = null;
+                SPUtils.setToken("");
+                MyApplication.token = "";
+                finish();
+                startActivity(new Intent(ChangePwdActivity.this, LoginActivity.class));
             }
         });
 

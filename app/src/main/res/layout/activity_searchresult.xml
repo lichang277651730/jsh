@@ -85,15 +85,14 @@
                 android:textSize="15sp"
                 android:focusable="false"/>
         </LinearLayout>
-        <TextView
-            android:id="@+id/tv_grid2list"
-            style="@style/text_16sp_white"
+
+        <ImageView
+            android:id="@+id/iv_grid2list"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:paddingLeft="12dp"
-            android:paddingRight="12dp"
-            android:text="视图"
-            android:textSize="18sp"/>
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:src="@mipmap/icon_search_view_gv"/>
     </LinearLayout>
     <LinearLayout
         android:id="@+id/goods_layout"

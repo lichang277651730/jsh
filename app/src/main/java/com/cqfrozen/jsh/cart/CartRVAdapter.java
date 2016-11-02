@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.common.http.HttpForVolley;
 import com.cqfrozen.jsh.R;
-import com.cqfrozen.jsh.util.ToastUtil;
 import com.cqfrozen.jsh.volleyhttp.MyHttp;
 import com.cqfrozen.jsh.widget.NumberAddSubView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -92,7 +91,7 @@ public class CartRVAdapter extends RecyclerView.Adapter<CartRVAdapter.MyViewHold
                 MyHttp.editCount(http, null, cartGoodsInfo.c_id, curVal, new HttpForVolley.HttpTodo() {
                     @Override
                     public void httpTodo(Integer which, JSONObject response) {
-                        ToastUtil.showToast(context, response.optString("msg"));
+//                        ToastUtil.showToast(context, response.optString("msg"));
                         int code = response.optInt("code");
                         if(code != 0){
                             return;
@@ -177,7 +176,7 @@ public class CartRVAdapter extends RecyclerView.Adapter<CartRVAdapter.MyViewHold
             MyHttp.deleteCart(http, null, TYEP_ALL, "", new HttpForVolley.HttpTodo() {
                     @Override
                     public void httpTodo(Integer which, JSONObject response) {
-                        ToastUtil.showToast(context, response.optString("msg"));
+//                        ToastUtil.showToast(context, response.optString("msg"));
                         int code = response.optInt("code");
                         if(code != 0){
                             return;
@@ -206,7 +205,7 @@ public class CartRVAdapter extends RecyclerView.Adapter<CartRVAdapter.MyViewHold
                     @Override
                     public void httpTodo(Integer which, JSONObject response) {
 
-                        ToastUtil.showToast(context, response.optString("msg"));
+//                        ToastUtil.showToast(context, response.optString("msg"));
                         int code = response.optInt("code");
                         if(code != 0){
                             return;
@@ -224,7 +223,7 @@ public class CartRVAdapter extends RecyclerView.Adapter<CartRVAdapter.MyViewHold
                 MyHttp.deleteCart(http, null, TYEP_MORE, c_id_str, new HttpForVolley.HttpTodo() {
                     @Override
                     public void httpTodo(Integer which, JSONObject response) {
-                        ToastUtil.showToast(context, response.optString("msg"));
+//                        ToastUtil.showToast(context, response.optString("msg"));
                         int code = response.optInt("code");
                         if(code != 0){
                             return;

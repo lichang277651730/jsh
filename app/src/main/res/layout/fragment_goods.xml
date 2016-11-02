@@ -12,9 +12,21 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_goods"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="@color/mybg"
             android:scrollbars="none">
         </android.support.v7.widget.RecyclerView>
     </com.common.widget.RefreshLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/mybg"
+        android:layout_weight="1"/>
+    <TextView
+        android:id="@+id/tv_no_more"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:visibility="gone"
+        android:text="没有更多商品了"/>
 </LinearLayout>

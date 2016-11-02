@@ -1,5 +1,7 @@
 package com.cqfrozen.jsh.order;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -81,6 +83,10 @@ public class OrderDetailActivity extends MyActivity implements View.OnClickListe
 
     private int from = FROM.FROM_ORDER_DEFAULT;
 
+    private AlertDialog deleteDialog;
+    private AlertDialog cancelNoOutDialog;
+    private AlertDialog cancelNoPayDialog;
+
     private List<OrderDetailPageInfo.OrderDetailPageBean> orderDetailPageBeanList = new ArrayList<>();
 
     private TextView tv_add_time;
@@ -150,6 +156,7 @@ public class OrderDetailActivity extends MyActivity implements View.OnClickListe
         btn_confirm_get.setOnClickListener(this);
         btn_go_say.setOnClickListener(this);
         btn_delete.setOnClickListener(this);
+
     }
 
     private void initBtns(){
@@ -223,8 +230,10 @@ public class OrderDetailActivity extends MyActivity implements View.OnClickListe
     }
 
     private void initViewData(OrderDetailPageInfo orderDetailPageInfo) {
-        orderDetailPageBeanList.add(orderDetailPageInfo.oinfo.get(0));
-        orderDetailLvAdapter.notifyDataSetChanged();
+        //先展开
+        exLvList();
+//        orderDetailPageBeanList.add(orderDetailPageInfo.oinfo.get(0));
+//        orderDetailLvAdapter.notifyDataSetChanged();
         MeasureUtil.setListViewHeightBasedOnChildren(lv_order);
         tv_order_status.setText(orderDetailPageInfo.status_name);
         tv_add_time.setText(orderDetailPageInfo.add_time);
@@ -236,8 +245,7 @@ public class OrderDetailActivity extends MyActivity implements View.OnClickListe
         tv_use_huibi.setText("￥" + orderDetailPageInfo.use_hb_count);
         tv_goods_money.setText("￥" + orderDetailPageInfo.g_amount);
         tv_pay_money.setText("￥" + orderDetailPageInfo.order_amount);
-        tv_pay_style.setText("￥" + orderDetailPageInfo.pay_mode_str);
-        tv_pay_style.setText("￥" + orderDetailPageInfo.pay_mode_str);
+        tv_pay_style.setText(orderDetailPageInfo.pay_mode_str);
         tv_order_num.setText(orderDetailPageInfo.o_num);
         tv_order_time.setText(orderDetailPageInfo.add_time);
         tv_pay_time.setText(orderDetailPageInfo.pay_time);
@@ -343,6 +351,7 @@ public class OrderDetailActivity extends MyActivity implements View.OnClickListe
                 }
                 btn_confirm_get.setVisibility(View.GONE);
                 btn_go_say.setVisibility(View.VISIBLE);
+                goSay();//跳转评论页面
             }
         });
     }
@@ -351,56 +360,112 @@ public class OrderDetailActivity extends MyActivity implements View.OnClickListe
      * 删除订单
      */
     private void delete() {
-        MyHttp.orderDelete(http, null, o_id, new HttpForVolley.HttpTodo() {
-            @Override
-            public void httpTodo(Integer which, JSONObject response) {
-                showToast(response.optString("msg"));
-                int code = response.optInt("code");
-                if(code != 0){
-                    return;
-                }
-                ll_btns.setVisibility(View.GONE);
-                v_divider.setVisibility(View.GONE);
-                btn_cancel_nopay.setVisibility(View.GONE);
-                btn_go_pay.setVisibility(View.GONE);
-                btn_cancel_noout.setVisibility(View.GONE);
-                btn_confirm_get.setVisibility(View.GONE);
-                btn_go_say.setVisibility(View.GONE);
-                btn_delete.setVisibility(View.GONE);
-            }
-        });
+        showDeleteDialog();
+    }
 
+    private void showDeleteDialog() {
+        deleteDialog = new AlertDialog.Builder(this)
+                .setMessage("确定要删除该订单吗？")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        MyHttp.orderDelete(http, null, o_id, new HttpForVolley.HttpTodo() {
+                            @Override
+                            public void httpTodo(Integer which, JSONObject response) {
+                                showToast(response.optString("msg"));
+                                int code = response.optInt("code");
+                                if(code != 0){
+                                    return;
+                                }
+                                ll_btns.setVisibility(View.GONE);
+                                v_divider.setVisibility(View.GONE);
+                                btn_cancel_nopay.setVisibility(View.GONE);
+                                btn_go_pay.setVisibility(View.GONE);
+                                btn_cancel_noout.setVisibility(View.GONE);
+                                btn_confirm_get.setVisibility(View.GONE);
+                                btn_go_say.setVisibility(View.GONE);
+                                btn_delete.setVisibility(View.GONE);
+                            }
+                        });
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                })
+                .create();
+        deleteDialog.show();
     }
 
     //点击取消 没发货订单
     private void cancelNoOutOrder() {
-        MyHttp.cancelOrder(http, null, o_id, new HttpForVolley.HttpTodo() {
-            @Override
-            public void httpTodo(Integer which, JSONObject response) {
-                showToast(response.optString("msg"));
-                int code = response.optInt("code");
-                if(code != 0){
-                    return;
-                }
-                btn_cancel_noout.setVisibility(View.GONE);
-                btn_delete.setVisibility(View.VISIBLE);
-            }
-        });
+        showCancelNoOutDialog();
+    }
+
+    private void showCancelNoOutDialog() {
+        cancelNoOutDialog = new AlertDialog.Builder(this)
+                .setMessage("确定要取消该订单吗？")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        MyHttp.cancelOrder(http, null, o_id, new HttpForVolley.HttpTodo() {
+                            @Override
+                            public void httpTodo(Integer which, JSONObject response) {
+                                showToast(response.optString("msg"));
+                                int code = response.optInt("code");
+                                if(code != 0){
+                                    return;
+                                }
+                                btn_cancel_noout.setVisibility(View.GONE);
+                                btn_delete.setVisibility(View.VISIBLE);
+                            }
+                        });
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                })
+                .create();
+        cancelNoOutDialog.show();
     }
 
     //1取消 未付款订单 点击取消按钮
     private void cancelNoPayOrder() {
-        MyHttp.cancelOrder(http, null, o_id, new HttpForVolley.HttpTodo() {
-            @Override
-            public void httpTodo(Integer which, JSONObject response) {
-                showToast(response.optString("msg"));
-                int code = response.optInt("code");
-                if(code != 0){
-                    return;
-                }
-                btn_cancel_nopay.setVisibility(View.GONE);
-                btn_delete.setVisibility(View.VISIBLE);
-            }
-        });
+        cancelNoPayDialog();
+    }
+
+    private void cancelNoPayDialog() {
+        cancelNoPayDialog = new AlertDialog.Builder(this)
+                .setMessage("确定要取消该订单吗？")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        MyHttp.cancelOrder(http, null, o_id, new HttpForVolley.HttpTodo() {
+                            @Override
+                            public void httpTodo(Integer which, JSONObject response) {
+                                showToast(response.optString("msg"));
+                                int code = response.optInt("code");
+                                if(code != 0){
+                                    return;
+                                }
+                                btn_cancel_nopay.setVisibility(View.GONE);
+                                btn_delete.setVisibility(View.VISIBLE);
+                            }
+                        });
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                })
+                .create();
+        cancelNoPayDialog.show();
     }
 }

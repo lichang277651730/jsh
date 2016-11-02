@@ -55,7 +55,6 @@ public class CartActivity extends MyActivity implements View.OnClickListener, Re
     private CartManager cartManager;
     private int page = 1;
     private int is_page = 0;//是否有下一页数据
-    private int area_id = 5;
     private TextView tv_carr;
     private LinearLayout include_cartnodatalayout;
     private Button include_cartnodata_btn;
@@ -64,6 +63,7 @@ public class CartActivity extends MyActivity implements View.OnClickListener, Re
     private LinearLayout ll_notify;
     private TextView tv_notify;
     private RefreshLayout refresh_cart;
+    private ImageView iv_back;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -84,6 +84,7 @@ public class CartActivity extends MyActivity implements View.OnClickListener, Re
         include_cartnodata_btn = (Button) findViewById(R.id.include_cartnodata_btn);
         refresh_cart = (RefreshLayout) findViewById(R.id.refresh_cart);
         rv_cart = (RecyclerView) findViewById(R.id.rv_cart);
+        iv_back = (ImageView) findViewById(R.id.iv_back);
         iv_shotcut = (ImageView) findViewById(R.id.iv_shotcut);
         cb_all = (CheckBox) findViewById(R.id.cb_all);
         tv_total = (TextView) findViewById(R.id.tv_total);
@@ -94,8 +95,8 @@ public class CartActivity extends MyActivity implements View.OnClickListener, Re
         btn_order.setOnClickListener(this);
         iv_shotcut.setOnClickListener(this);
         refresh_cart.setOnRefreshListener(this);
+        iv_back.setOnClickListener(this);
 //        cb_all.setChecked(true);
-        //TODO 以后用application里的用户判断
         if(MyApplication.userInfo == null){
             ll_notify.setVisibility(View.GONE);
         }else {
@@ -185,20 +186,15 @@ public class CartActivity extends MyActivity implements View.OnClickListener, Re
 
                 if(code != 0){
                     showToast(msg);
-//                    setNoDataView();
+                    setHttpFail(CartActivity.this);
                     refresh_cart.setResultState(RefreshLayout.ResultState.failed);
                     return;
                 }
                 refresh_cart.setResultState(RefreshLayout.ResultState.success);
                 CartResultInfo cartResultInfo = (CartResultInfo) bean;
-                if(cartResultInfo == null || cartResultInfo.data1.size() == 0){
-                    setNoDataView();//购物车为空
-//                    setHttpNotData(CartFragment.this);
-                    return;
-                }
-//                cartGoodsInfos.clear();
-                setHttpSuccess();
                 is_page = cartResultInfo.is_page;
+
+                setHttpSuccess();
                 cartGoodsInfos.addAll(cartResultInfo.data1);
                 if(cartGoodsInfos == null || cartGoodsInfos.size() == 0){
                     setNoDataView();//购物车为空
@@ -209,11 +205,10 @@ public class CartActivity extends MyActivity implements View.OnClickListener, Re
                 cartManager.add(cartGoodsInfos);
                 cartAdapter.showTotalPrice();
                 cartAdapter.allCheckedListen();
-                is_page = cartResultInfo.is_page;
+                page++;
             }
         });
     }
-
 
     /**
      * 购物车有数据时的页面
@@ -234,6 +229,9 @@ public class CartActivity extends MyActivity implements View.OnClickListener, Re
                 break;
             case R.id.iv_shotcut://点击shotcut图标
                 showPop(iv_shotcut);
+                break;
+            case R.id.iv_back://点击返回图标
+                finish();
                 break;
             case R.id.pop_shortcut_search:
                 startActivity(new Intent(this, SearchActivity.class));

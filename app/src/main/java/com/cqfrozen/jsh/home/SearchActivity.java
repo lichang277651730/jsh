@@ -10,6 +10,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.common.base.BaseValue;
 import com.common.widget.MyEditText;
 import com.common.widget.MyTagView;
 import com.cqfrozen.jsh.R;
@@ -17,6 +18,7 @@ import com.cqfrozen.jsh.entity.SearchKwdInfo;
 import com.cqfrozen.jsh.main.MyActivity;
 import com.cqfrozen.jsh.util.SPUtils;
 import com.cqfrozen.jsh.volleyhttp.MyHttp;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +67,13 @@ public class SearchActivity extends MyActivity implements View.OnClickListener, 
         tag_history.setOnTagClickListener(this);
         tv_clear.setOnClickListener(this);
         et_keyword.setOnEditorActionListener(this);
-
+        String serverSearchKwd = SPUtils.getServerSearchKwd();
+        if(!TextUtils.isEmpty(serverSearchKwd)){
+            List<SearchKwdInfo> kwds = BaseValue.gson.fromJson(serverSearchKwd, new
+                    TypeToken<List<SearchKwdInfo>>() {
+            }.getType());
+            tag_hot.setMyTag(parseTags(kwds));
+        }
     }
 
     @Override
@@ -97,6 +105,9 @@ public class SearchActivity extends MyActivity implements View.OnClickListener, 
                 if(searchKwdInfos.size() == 0){
                     return;
                 }
+                String kwdJson = BaseValue.gson.toJson(searchKwdInfos);
+                SPUtils.setServerSearchKwd(kwdJson);
+                tag_hot.clearTag();
                 tag_hot.setMyTag(parseTags(searchKwdInfos));
             }
         });
@@ -126,6 +137,7 @@ public class SearchActivity extends MyActivity implements View.OnClickListener, 
     private void search() {
         String keywordStr = et_keyword.getText().toString().trim();
         if(TextUtils.isEmpty(keywordStr)){
+            showToast("请输入要搜索内容");
             return;
         }
 

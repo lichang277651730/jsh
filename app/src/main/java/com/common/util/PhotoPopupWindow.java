@@ -35,6 +35,7 @@ public class PhotoPopupWindow {
 		this.photoUtil = photoUtil;
 		inflater = LayoutInflater.from(context);
 		View view = inflater.inflate(R.layout.view_pop_photo, null);
+		View v_half_al = view.findViewById(R.id.v_half_al);
 		Button pop_btn_camera = (Button) view.findViewById(R.id.pop_btn_camera);
 		Button pop_btn_photo = (Button) view.findViewById(R.id.pop_btn_photo);
 		Button pop_btn_no = (Button) view.findViewById(R.id.pop_btn_no);
@@ -48,6 +49,7 @@ public class PhotoPopupWindow {
 		pop_btn_camera.setOnClickListener(click);
 		pop_btn_photo.setOnClickListener(click);
 		pop_btn_no.setOnClickListener(click);
+		v_half_al.setOnClickListener(click);
 	}
 
 	public void showpop(View view) {
@@ -81,6 +83,7 @@ public class PhotoPopupWindow {
 				popupWindow.dismiss();
 				break;
 			case R.id.pop_btn_no:
+			case R.id.v_half_al:
 				popupWindow.dismiss();
 				break;
 			default:

@@ -114,14 +114,14 @@ public class ClassifyFragment extends BaseFragment implements MyHttp.MyHttpResul
     @Override
     public void onShow() {
         super.onShow();
-        if(categoryInfos != null){
-            categoryInfos.clear();
-        }
-        getData();
+//        if(categoryInfos != null){
+//            categoryInfos.clear();
+//        }
+//        getData();
 //        if(categoryInfos == null || categoryInfos.size() == 0){
 //            geData();
 //        }
-        adapter.notifyDataSetChanged();
+//        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -156,7 +156,7 @@ public class ClassifyFragment extends BaseFragment implements MyHttp.MyHttpResul
                 startActivity(new Intent(getActivity(), SearchActivity.class));
                 break;
             case R.id.iv_pop:
-                popupWindow.showAtLocation(iv_pop, Gravity.TOP, 50, 100);
+                popupWindow.showAtLocation(iv_pop, Gravity.CENTER, 50, BaseValue.dp2px(-100));
                 break;
             default:
                 break;

@@ -70,8 +70,16 @@
             android:layout_marginBottom="54dp"
             android:scrollbars="none">
         </android.support.v7.widget.RecyclerView>
+        <View style="@style/HorizontalDividerLine"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/mybg"/>
     </com.common.widget.RefreshLayout>
 
+    <View style="@style/HorizontalDividerLine"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="54dp"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="54dp"
@@ -107,7 +115,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="8dp"
                 android:layout_marginTop="4dp"
-                android:textSize="22sp"
+                android:textSize="18sp"
                 android:text="@string/cart_total"/>
             <TextView
                 android:id="@+id/tv_carr"

@@ -34,7 +34,7 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.MyViewHolder> 
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         final ShopInfo shopInfo = shopInfos.get(position);
-        holder.tv_name.setText(shopInfo.china_name);
+        holder.tv_name.setText("店铺:" + shopInfo.china_name);
         holder.tv_phone.setText(shopInfo.mobile_num);
         holder.tv_address.setText(shopInfo.address);
 

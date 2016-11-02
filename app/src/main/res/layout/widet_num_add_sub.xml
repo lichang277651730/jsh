@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="100dp"
     android:layout_height="30dp"
     android:gravity="center_horizontal"
     android:background="@drawable/shape_number_add_sub">
-
-
 
     <Button
         android:id="@+id/btn_sub"
@@ -15,6 +14,9 @@
         android:background="@drawable/sl_add_sum_btn_bg"
         android:textColor="@color/black"
         android:minWidth="50dp"
+        android:focusable="false"
+        android:clickable="true"
+        android:focusableInTouchMode="false"
         android:text="-"/>
 
     <TextView
@@ -32,5 +34,8 @@
         android:background="@drawable/sl_add_sum_btn_bg"
         android:textColor="@color/black"
         android:minWidth="50dp"
+        android:focusable="false"
+        android:clickable="true"
+        android:focusableInTouchMode="false"
         android:text="+"/>
 </LinearLayout>

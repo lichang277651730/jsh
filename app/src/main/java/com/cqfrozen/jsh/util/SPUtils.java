@@ -81,6 +81,17 @@ public class SPUtils {
 
 
 	/**
+	 * 保存服务器的热门搜索关键字
+	 */
+	public static void setServerSearchKwd(String kwdJson) {
+		MyApplication.userSp.edit().putString("server_search_kwd", kwdJson).commit();
+	}
+
+	public static String getServerSearchKwd(){
+		return MyApplication.userSp.getString("server_search_kwd", "");
+	}
+
+	/**
 	 * 保存搜索过的关键字
 	 */
 	public static void setSearchKwd(String keyword){
@@ -142,4 +153,5 @@ public class SPUtils {
 	public static Long getExpireTime(){
 		return MyApplication.userSp.getLong("expire_time", 0L);
 	}
+
 }

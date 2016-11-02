@@ -59,7 +59,7 @@ public class AddressListActivity extends MyActivity implements View.OnClickListe
         rv_addresslist.setOverScrollMode(View.OVER_SCROLL_NEVER);
         adapter = new AddressAdapter(this, addressInfos);
         GridLayoutManager manager = new GridLayoutManager(this, 1);
-        MyGridDecoration decoration = new MyGridDecoration(BaseValue.dp2px(4), BaseValue
+        MyGridDecoration decoration = new MyGridDecoration(BaseValue.dp2px(8), BaseValue
                 .dp2px(0), getResources().getColor(R.color.mybg), false);
         rv_addresslist.addItemDecoration(decoration);
         rv_addresslist.setLayoutManager(manager);

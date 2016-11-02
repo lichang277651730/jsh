@@ -472,6 +472,8 @@ public class MyHttp {
         params.clear();
         params.put("p_type", p_type + "");
         params.put("token", MyApplication.token);
+        //        Log.d("register_params", "p_type:"+ p_type + "," +
+//                "token:"+ token + "," +);
         http.goTo(POST, which, params, url, httpTodo);
     }
 

@@ -55,6 +55,8 @@ public class FansListActity extends MyActivity implements View.OnClickListener, 
     private ImageView iv_qr_code;
     private View v_one_fans;
     private View v_two_fans;
+    private MyFansPageInfo myFansPageInfo;
+    private TextView tv_invite_code1;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,7 +76,7 @@ public class FansListActity extends MyActivity implements View.OnClickListener, 
                     showToast(msg);
                     return;
                 }
-                MyFansPageInfo myFansPageInfo = (MyFansPageInfo) bean;
+                myFansPageInfo = (MyFansPageInfo) bean;
                 initViewData(myFansPageInfo);
             }
         });
@@ -82,10 +84,13 @@ public class FansListActity extends MyActivity implements View.OnClickListener, 
 
     private void initViewData(MyFansPageInfo myFansPageInfo) {
         invite_http_url = myFansPageInfo.http_url;
-        invite_qr_bitmap = QrCodeUtil.createImage(invite_http_url, BaseValue.dp2px(200), BaseValue
-                .dp2px(200), null);
+        invite_qr_bitmap = QrCodeUtil.createImage(invite_http_url, BaseValue.dp2px(150), BaseValue
+                .dp2px(150), null);
         if(iv_qr_code != null){
             iv_qr_code.setImageBitmap(invite_qr_bitmap);
+        }
+        if(tv_invite_code1 != null){
+            tv_invite_code1.setText("我的邀请码:" + myFansPageInfo.code);
         }
         tv_desc.setText(myFansPageInfo.content);
         tv_huibi_total.setText("￥" + myFansPageInfo.hb_count);
@@ -120,8 +125,9 @@ public class FansListActity extends MyActivity implements View.OnClickListener, 
     private void createQrPop() {
         View popView = LayoutInflater.from(this).inflate(R.layout.pop_invite_code, null);
         iv_qr_code = (ImageView) popView.findViewById(R.id.iv_qr_code);
-        TextView tv_cancel = (TextView)popView.findViewById(R.id.tv_cancel);
-        tv_cancel.setOnClickListener(this);
+        ImageView iv_close = (ImageView)popView.findViewById(R.id.iv_close);
+        tv_invite_code1 = (TextView)popView.findViewById(R.id.tv_invite_code);
+        iv_close.setOnClickListener(this);
         popupWindow = new PopupWindow(popView, ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT);
         popupWindow.setBackgroundDrawable(new BitmapDrawable());
@@ -191,7 +197,7 @@ public class FansListActity extends MyActivity implements View.OnClickListener, 
             case R.id.tv_face_to_face:
                 popupWindow.showAtLocation(tv_face_to_face, Gravity.CENTER, 0, 0);
                 break;
-            case R.id.tv_cancel:
+            case R.id.iv_close:
                 if(popupWindow != null && popupWindow.isShowing()){
                     popupWindow.dismiss();
                 }

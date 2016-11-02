@@ -54,6 +54,7 @@ public class LoginActivity extends MyActivity implements View.OnClickListener {
     private boolean isEdShow;
     private int height;
     private ImageView iv_log;
+    private ImageView iv_back;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,10 +65,19 @@ public class LoginActivity extends MyActivity implements View.OnClickListener {
         initView();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        scrollview_login.setFocusable(true);
+        scrollview_login.setFocusableInTouchMode(true);
+        scrollview_login.requestFocus();
+    }
+
     private void initView() {
         setMyTitle("");
         scrollview_login = (LinearLayout) findViewById(R.id.scrollview_login);
         iv_log = (ImageView) findViewById(R.id.iv_log);
+        iv_back = (ImageView) findViewById(R.id.iv_back);
         et_phone = (MyEditText) findViewById(R.id.et_phone);
         et_password = (MyEditText) findViewById(R.id.et_password);
         tv_forget = (TextView) findViewById(R.id.tv_forget);
@@ -77,6 +87,7 @@ public class LoginActivity extends MyActivity implements View.OnClickListener {
         tv_forget.setOnClickListener(this);
         tv_regist.setOnClickListener(this);
         btn_login.setOnClickListener(this);
+        iv_back.setVisibility(View.GONE);
         String phoneNumCache = SPUtils.getPhoneNum();
         if(!TextUtils.isEmpty(phoneNumCache)){
             et_phone.setText(phoneNumCache);
@@ -245,15 +256,17 @@ public class LoginActivity extends MyActivity implements View.OnClickListener {
             return;
         }
         SPUtils.setPhoneNum(phoneStr);
+        btn_login.setEnabled(false);//防止重复点击登陆
         MyHttp.userLogin(http, null, phoneStr, pwdStr, new MyHttp.MyHttpResult() {
             @Override
             public void httpResult(Integer which, int code, String msg, Object bean) {
+                btn_login.setEnabled(true);//防止重复点击登陆
                 if(code != 0){
                     SPUtils.setToken("");
                     showToast(msg);
                     return;
                 }
-                showToast("登陆成功");
+//                showToast("登陆成功");
                 SigninInfo signinInfo = (SigninInfo) bean;
                 MyApplication.signinInfo = signinInfo;
                 MyApplication.token = signinInfo.getToken();

@@ -47,6 +47,7 @@
                 android:background="@color/transparency"
                 android:focusable="false"
                 android:gravity="center_vertical"
+                android:paddingLeft="16dp"
                 android:hint="搜索商品"
                 android:maxLength="8"
                 android:minWidth="100dp"

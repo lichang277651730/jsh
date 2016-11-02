@@ -81,6 +81,7 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
     private PhotoPopupWindow photoPopupWindow;
     private TextView tv_server_phone;
     private UserInfo userInfo;
+    private LinearLayout ll_server_phone;
 
     public interface UrlType{
         int huibi_rule = 4;
@@ -137,6 +138,7 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
         tv_about_us = (TextView) view.findViewById(R.id.tv_about_us);
         tv_normal_buy = (TextView) view.findViewById(R.id.tv_normal_buy);
         tv_server_phone = (TextView) view.findViewById(R.id.tv_server_phone);
+        ll_server_phone = (LinearLayout) view.findViewById(R.id.ll_server_phone);
 
         tv_lookall.setOnClickListener(this);
         iv_setting.setOnClickListener(this);
@@ -153,7 +155,7 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
         ll_table3.setOnClickListener(this);
         tv_after_sale.setOnClickListener(this);
         tv_about_us.setOnClickListener(this);
-        tv_server_phone.setOnClickListener(this);
+        ll_server_phone.setOnClickListener(this);
 
         initBadgeViews();
     }
@@ -207,7 +209,7 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
         tv_name.setVisibility(View.GONE);
         tv_huibi.setText(0.00 + "");
         tv_fans.setText(0 + "");
-        tv_server_phone.setText("客服电话 ");
+        tv_server_phone.setText("");
         tv_phone.setVisibility(View.INVISIBLE);
         tv_verify.setVisibility(View.INVISIBLE);
         tv_verify.setVisibility(View.INVISIBLE);
@@ -236,7 +238,7 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
         tv_verify.setText(userInfo.verify_name);
         tv_huibi.setText(userInfo.hb_count + "");
         tv_fans.setText(userInfo.inotal_fans_count + "");
-        tv_server_phone.setText("客服电话 " + userInfo.c_phone_num);
+        tv_server_phone.setText(userInfo.c_phone_num);
 
         badgeView1.setText(userInfo.df_count >= 100 ? "99+" : userInfo.df_count + "");
         badgeView2.setText(userInfo.ds_count >= 100 ? "99+" : userInfo.ds_count + "");
@@ -268,7 +270,7 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_setting://设置
-                if(isLogined()){
+                if(needLogin()){
                     startActivity(new Intent(mActivity, SettingActivity.class));
                 }
                 break;
@@ -302,7 +304,7 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
                 needLogin();
                 break;
             case R.id.ll_huibi://粮票列表
-                if(isLogined()){
+                if(needLogin()){
                     Intent intent = new Intent(mActivity, HuibiListActivity.class);
                     intent.putExtra("hb_count", hb_count_new);
                     intent.putExtra("url", huibi_rule_url);
@@ -310,40 +312,40 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
                 }
                 break;
             case R.id.ll_fans://粉丝列表
-                if(isLogined()){
+                if(needLogin()){
                     startActivity(new Intent(mActivity, FansListActity.class));
                 }
                 break;
             case R.id.tv_lookall://查看所有订单
-                if(isLogined()){
+                if(needLogin()){
                     Intent intent = new Intent(mActivity, OrderListActivity.class);
                     intent.putExtra("page_index", OrderListActivity.PAGE_ALL);
                     startActivity(intent);
                 }
                 break;
             case R.id.ll_table1://待付款
-                if(isLogined()){
+                if(needLogin()){
                     Intent intent = new Intent(mActivity, OrderListActivity.class);
                     intent.putExtra("page_index", OrderListActivity.PAGE_NO_PAY);
                     startActivity(intent);
                 }
                 break;
             case R.id.ll_table2://待收货
-                if(isLogined()){
+                if(needLogin()){
                     Intent intent = new Intent(mActivity, OrderListActivity.class);
                     intent.putExtra("page_index", OrderListActivity.PAGE_NO_RECEIVE);
                     startActivity(intent);
                 }
                 break;
             case R.id.ll_table3://待评价
-                if(isLogined()){
+                if(needLogin()){
                     Intent intent = new Intent(mActivity, OrderListActivity.class);
                     intent.putExtra("page_index", OrderListActivity.PAGE_NO_SAY);
                     startActivity(intent);
                 }
                 break;
             case R.id.tv_after_sale://售后规则
-                if(isLogined()){
+                if(needLogin()){
                     Intent intent = new Intent(mActivity, WebUrlActivity.class);
                     intent.putExtra("title", "售后规则");
                     intent.putExtra("url", after_sale_url);
@@ -351,15 +353,15 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
                 }
                 break;
             case R.id.tv_about_us://关于我们
-                if(isLogined()){
+                if(needLogin()){
                     Intent intent = new Intent(mActivity, WebUrlActivity.class);
                     intent.putExtra("title", "关于我们");
                     intent.putExtra("url", about_us_url);
                     startActivity(intent);
                 }
                 break;
-            case R.id.tv_server_phone://关于我们
-                if(isLogined()){
+            case R.id.ll_server_phone://关于我们
+                if(needLogin()){
                     Intent intent = new Intent("android.intent.action.CALL", Uri.parse("tel:" + userInfo.c_phone_num));
                     startActivity(intent);
                 }

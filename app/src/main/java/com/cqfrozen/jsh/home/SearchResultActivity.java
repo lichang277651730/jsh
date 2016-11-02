@@ -25,6 +25,11 @@ public class SearchResultActivity extends MyActivity implements View.OnClickList
 
     private GoodsFragment goodsFragment;
 
+    public interface ViewType{
+        int TYPE_LV = 1;
+        int TYPE_GV = 2;
+    }
+
     public interface SortType{
         //0默认，1价格，2销量 默认是默认排序
         int DEFAULT = 0;
@@ -40,7 +45,7 @@ public class SearchResultActivity extends MyActivity implements View.OnClickList
 
     private MyEditText et_keyword;
     private ImageView iv_back;
-    private TextView tv_grid2list;
+    private ImageView iv_grid2list;
     private TextView tv_all;
     private TextView tv_price;
     private ImageView iv_price_sort;
@@ -50,9 +55,11 @@ public class SearchResultActivity extends MyActivity implements View.OnClickList
     private String keyword = "";
     private int sort = SortType.DEFAULT;
     private int order = OrderType.ASC;
+    private int curViewType = ViewType.TYPE_GV;
     private View v_all;
     private View v_price;
     private View v_sales;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -70,7 +77,7 @@ public class SearchResultActivity extends MyActivity implements View.OnClickList
     private void initView() {
         et_keyword = (MyEditText) findViewById(R.id.et_keyword);
         iv_back = (ImageView) findViewById(R.id.iv_back);
-        tv_grid2list = (TextView) findViewById(R.id.tv_grid2list);
+        iv_grid2list = (ImageView) findViewById(R.id.iv_grid2list);
         tv_all = (TextView) findViewById(R.id.tv_all);
         tv_price = (TextView) findViewById(R.id.tv_price);
         iv_price_sort = (ImageView) findViewById(R.id.iv_price_sort);
@@ -82,7 +89,7 @@ public class SearchResultActivity extends MyActivity implements View.OnClickList
         et_keyword.setText(keyword);
 
         iv_back.setOnClickListener(this);
-        tv_grid2list.setOnClickListener(this);
+        iv_grid2list.setOnClickListener(this);
         tv_all.setOnClickListener(this);
         ll_price.setOnClickListener(this);
         tv_sales.setOnClickListener(this);
@@ -109,9 +116,8 @@ public class SearchResultActivity extends MyActivity implements View.OnClickList
             case R.id.et_keyword:
                 finish();
                 break;
-            case R.id.tv_grid2list:
-                //TODO 切换视图
-//                search();
+            case R.id.iv_grid2list://视图切换
+                changeView();
                 break;
             case R.id.tv_all:
             case R.id.ll_price:
@@ -125,8 +131,16 @@ public class SearchResultActivity extends MyActivity implements View.OnClickList
         }
     }
 
-    private void search() {
-
+    private void changeView() {
+        if(curViewType == ViewType.TYPE_GV){
+            goodsFragment.changeView(ViewType.TYPE_LV);
+            curViewType = ViewType.TYPE_LV;
+            iv_grid2list.setImageResource(R.mipmap.icon_search_view_lv);
+        }else {
+            goodsFragment.changeView(ViewType.TYPE_GV);
+            curViewType = ViewType.TYPE_GV;
+            iv_grid2list.setImageResource(R.mipmap.icon_search_view_gv);
+        }
     }
 
     //tab随着选择不同要同步更新

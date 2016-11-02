@@ -33,7 +33,13 @@
 
     <include layout="@layout/item_order_submit"
         android:id="@+id/include_item_order_sumbit"/>
-
+    <TextView
+        android:id="@+id/tv_showdetail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="查看商品详情"
+        android:padding="4dp"
+        android:gravity="center"/>
     <View style="@style/HorizontalDividerLine"/>
 
     <LinearLayout

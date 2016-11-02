@@ -118,7 +118,7 @@ public class HuibiListActivity extends MyActivity implements RefreshLayout.TopOr
         GridLayoutManager manager = new GridLayoutManager(this, 1);
         rv_huibi.setLayoutManager(manager);
         MyGridDecoration decoration = new MyGridDecoration(BaseValue.dp2px(1), BaseValue
-                .dp2px(0), getResources().getColor(R.color.myline), false);
+                .dp2px(0), getResources().getColor(R.color.mybg), false);
         rv_huibi.addItemDecoration(decoration);
         rvAdapter = new HuibiRVAdapter(this, huibiInfos);
         rv_huibi.setAdapter(rvAdapter);

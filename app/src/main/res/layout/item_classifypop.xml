@@ -5,6 +5,7 @@
               android:id="@+id/ll_item"
               android:gravity="center"
               android:padding="4dp"
+              android:background="@drawable/sl_gv_item_bg"
               android:layout_height="wrap_content">
     <ImageView
         android:id="@+id/iv_icon"

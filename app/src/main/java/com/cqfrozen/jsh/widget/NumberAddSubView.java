@@ -6,6 +6,7 @@ import android.support.v7.widget.TintTypedArray;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -134,13 +135,12 @@ public class NumberAddSubView extends LinearLayout implements View.OnClickListen
      */
     private void subNum() {
         getCurValue();
-        if(curValue == 1){
+        if(curValue == 2){
             btn_sub.setEnabled(false);
         }
         if(curValue > minValue){
             curValue = curValue - 1;
         }else {
-//            ToastUtil.showToast(getContext(), "数量不能再少了哦,亲！~");
             btn_sub.setEnabled(false);
         }
         tv_num.setText(curValue + "");

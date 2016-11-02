@@ -120,13 +120,6 @@ public class OrderConfirmActivity extends MyActivity implements View.OnClickList
         rl_order.setOnClickListener(this);
         btn_buy.setOnClickListener(this);
 
-
-//        rv_order.setOverScrollMode(View.OVER_SCROLL_NEVER);
-//        GridLayoutManager manager = new GridLayoutManager(this, 1);
-//        rv_order.setLayoutManager(manager);
-//        MyGridDecoration decoration = new MyGridDecoration(BaseValue.dp2px(1), BaseValue
-//                .dp2px(0), getResources().getColor(R.color.mybg), false);
-//        rv_order.addItemDecoration(decoration);
         gbtn_huibi.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -157,7 +150,7 @@ public class OrderConfirmActivity extends MyActivity implements View.OnClickList
     private void initData() {
         tv_shop.setText(defaultAddress == null ? "店铺:" : "店铺:" + defaultAddress.store_name);
         tv_name.setText(defaultAddress == null ? "" : defaultAddress.china_name);
-        tv_phone.setText(defaultAddress == null ? "" : defaultAddress.mobile_num);
+        tv_phone.setText(defaultAddress == null ? "" : "(" + defaultAddress.mobile_num + ")");
         tv_address.setText(defaultAddress == null ? "收货地址:" : "收货地址:" + defaultAddress.address);
         if(goodsList != null){
             goodsList.add(orderInfo.goods.get(0));

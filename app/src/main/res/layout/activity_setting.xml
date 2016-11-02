@@ -180,7 +180,8 @@
             android:layout_height="44dp"
             android:background="@color/white"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <ImageView
                 android:layout_width="26dp"

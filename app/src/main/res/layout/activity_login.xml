@@ -3,7 +3,7 @@
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="@color/mybg"
+              android:background="@color/main"
               android:clipToPadding="true"
               android:fitsSystemWindows="true"
               android:orientation="vertical"
@@ -14,6 +14,7 @@
         android:id="@+id/scrollview_login"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         android:orientation="vertical">
         <RelativeLayout
             android:layout_width="match_parent"
@@ -35,6 +36,8 @@
             android:layout_gravity="center_horizontal"
             android:gravity="center"
             android:orientation="horizontal"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:paddingLeft="12dp">
 
             <ImageView
@@ -148,7 +151,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:background="@color/mybg">
+            android:background="@color/white">
             <Button
                 android:id="@+id/btn_login"
                 android:layout_width="150dp"
@@ -162,5 +165,8 @@
                 android:textSize="18sp"/>
         </RelativeLayout>
     </LinearLayout>
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"/>
 </LinearLayout>

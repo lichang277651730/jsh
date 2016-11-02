@@ -32,12 +32,7 @@ public class MyFragment extends BaseFragment {
      * 判断是否登陆
      */
     public boolean isLogined(){
-//        //TODO 改成user
-//        if(MyApplication.token == null || MyApplication.token.isEmpty()){
-//            return false;
-//        }else {
-//            return true;
-//        }
+
         if(MyApplication.userInfo == null){
             return false;
         }else {

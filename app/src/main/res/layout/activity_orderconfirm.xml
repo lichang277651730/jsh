@@ -63,8 +63,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:layout_toLeftOf="@id/tv_default_address"
-                    android:layout_marginRight="8dp"
-                    android:text="157****6292"
+                    android:layout_marginRight="4dp"
+                    android:text="(157****6292)"
                     android:textColor="@color/black"
                     android:textSize="14sp"/>
                 <TextView
@@ -73,7 +73,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:layout_toLeftOf="@id/tv_phone"
-                    android:layout_marginRight="8dp"
                     android:text="李昌"
                     android:textColor="@color/black"
                     android:textSize="14sp"/>
@@ -318,19 +317,22 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
-                    android:text="共"/>
+                    android:text="共"
+                    android:visibility="gone"/>
                 <TextView
                     android:id="@+id/tv_order_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
                     android:textColor="@color/myred"
-                    android:text=" 8 "/>
+                    android:text=" 8 "
+                    android:visibility="gone"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
-                    android:text="件商品"/>
+                    android:text="件商品"
+                    android:visibility="gone"/>
                 <TextView
                     android:id="@+id/tv_freight_again"
                     android:layout_width="wrap_content"
@@ -343,7 +345,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/myred"
                     android:textSize="16sp"
-                    android:layout_marginLeft="4dp"
+                    android:layout_marginLeft="8dp"
                     android:text="总计:"
                     android:layout_marginRight="8dp"/>
                 <TextView
