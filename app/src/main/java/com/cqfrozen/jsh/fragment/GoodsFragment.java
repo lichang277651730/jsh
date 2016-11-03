@@ -10,8 +10,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.common.base.BaseValue;
+import com.common.refresh.SupportLayout;
 import com.common.widget.GridDecoration;
-import com.common.widget.RefreshLayout;
+import com.common.refresh.RefreshLayout;
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.adapter.GoodsAdapter;
 import com.cqfrozen.jsh.adapter.NormalBuyAdapter;
@@ -28,7 +29,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/9/20.
  */
-public class GoodsFragment extends MyFragment implements MyHttp.MyHttpResult, MyFragment.HttpFail, RefreshLayout.OnRefreshListener, RefreshLayout.TopOrBottom {
+public class GoodsFragment extends MyFragment implements MyHttp.MyHttpResult, MyFragment.HttpFail, SupportLayout.RefreshListener, SupportLayout.LoadMoreListener {
 
     private TextView tv_name;
     private String title;
@@ -111,6 +112,7 @@ public class GoodsFragment extends MyFragment implements MyHttp.MyHttpResult, My
         tv_no_more = (TextView) view.findViewById(R.id.tv_no_more);
         rv_goods = (RecyclerView) view.findViewById(R.id.rv_goods);
         refresh_goods.setOnRefreshListener(this);
+        refresh_goods.setOnLoadMoreListener(this);
     }
 
     private void initRV() {
@@ -124,17 +126,16 @@ public class GoodsFragment extends MyFragment implements MyHttp.MyHttpResult, My
         normalBuyAdapter = new NormalBuyAdapter(mActivity, goodsInfos);
         rv_goods.setLayoutManager(gvmanager);
         rv_goods.setAdapter(goodsAdapter);
-        refresh_goods.setRC(rv_goods, this);
     }
 
     private void getData() {
         switch (this.where) {
             case Where.CLASSIFY:
-                refresh_goods.setRefreshble(true);
+                refresh_goods.setRefreshable(true);
                 MyHttp.goodstypeList(http, null, page, g_type_id, this);
                 break;
             case Where.SEARCH:
-                refresh_goods.setRefreshble(false);
+                refresh_goods.setRefreshable(false);
                 MyHttp.goodsSearch(http, null, page, keyword, sort, order, this);
                 break;
             default:
@@ -162,26 +163,29 @@ public class GoodsFragment extends MyFragment implements MyHttp.MyHttpResult, My
     public void httpResult(Integer which, int code, String msg, Object bean) {
         if(code == 404){
             setHttpFail(this);
-            refresh_goods.setResultState(RefreshLayout.ResultState.failed);
+            refresh_goods.setRefreshFailed();
+            refresh_goods.setLoadFailed();
+//            refresh_goods.setResultState(RefreshLayout.ResultState.failed);
             return;
         }
 
         if(code != 0){
             showToast(msg);
-            refresh_goods.setResultState(RefreshLayout.ResultState.failed);
+            refresh_goods.setLoadFailed();
+            refresh_goods.setRefreshFailed();
+//            refresh_goods.setResultState(RefreshLayout.ResultState.failed);
             return;
         }
-        refresh_goods.setResultState(RefreshLayout.ResultState.success);
+//        refresh_goods.setResultState(RefreshLayout.ResultState.success);
+        refresh_goods.setRefreshSuccess();
         GoodsResultInfo goodsResultInfo = (GoodsResultInfo) bean;
         is_page = goodsResultInfo.is_page;
-
         goodsInfos.addAll(goodsResultInfo.data1);
         if(goodsInfos.size() == 0){
             setHttpNotData(this);
             return;
         }
         setHttpSuccess();
-
         goodsAdapter.notifyDataSetChanged();
         normalBuyAdapter.notifyDataSetChanged();
         page++;
@@ -193,9 +197,8 @@ public class GoodsFragment extends MyFragment implements MyHttp.MyHttpResult, My
         getData();
     }
 
-    //下拉刷新
     @Override
-    public void onRefresh() {
+    public void refresh() {
         page = 1;
         is_page = 0;
         goodsInfos.clear();
@@ -203,38 +206,60 @@ public class GoodsFragment extends MyFragment implements MyHttp.MyHttpResult, My
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
-        if(refresh_goods != null && refresh_goods.isRefreshing){
-            refresh_goods.setResultState(RefreshLayout.ResultState.close);
-        }
-    }
-
-    @Override
-    public void gotoTop() {
-
-    }
-
-    @Override
-    public void gotoBottom() {
+    public void loadMore() {
         if(is_page == 1){
-            tv_no_more.setVisibility(View.GONE);
+//            tv_no_more.setVisibility(View.GONE);
             getData();
         }else if(is_page == 0){
 //            showToast("没有更多数据了!~");
-            tv_no_more.setVisibility(View.VISIBLE);
+//            tv_no_more.setVisibility(View.VISIBLE);
+            refresh_goods.setLoadNodata();
         }
     }
 
-    @Override
-    public void move() {
 
-    }
+//    //下拉刷新
+//    @Override
+//    public void onRefresh() {
+//        page = 1;
+//        is_page = 0;
+//        goodsInfos.clear();
+//        getData();
+//    }
 
-    @Override
-    public void stop() {
+//    @Override
+//    public void onStop() {
+//        super.onStop();
+//        if(refresh_goods != null && refresh_goods.isRefreshing){
+//            refresh_goods.setResultState(RefreshLayout.ResultState.close);
+//        }
+//    }
 
-    }
+//    @Override
+//    public void gotoTop() {
+//
+//    }
+//
+//    @Override
+//    public void gotoBottom() {
+//        if(is_page == 1){
+//            tv_no_more.setVisibility(View.GONE);
+//            getData();
+//        }else if(is_page == 0){
+////            showToast("没有更多数据了!~");
+//            tv_no_more.setVisibility(View.VISIBLE);
+//        }
+//    }
+//
+//    @Override
+//    public void move() {
+//
+//    }
+//
+//    @Override
+//    public void stop() {
+//
+//    }
 
     public void changeView(int viewType){
         if(viewType == SearchResultActivity.ViewType.TYPE_GV){

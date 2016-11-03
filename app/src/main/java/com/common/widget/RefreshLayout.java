@@ -19,8 +19,8 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.cqfrozen.jsh.R;
 import com.common.base.BaseValue;
+import com.cqfrozen.jsh.R;
 
 import java.util.HashMap;
 

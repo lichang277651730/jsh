@@ -115,6 +115,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="16dp"
                 android:scaleType="fitXY"
+                android:visibility="invisible"
                 android:src="@mipmap/icon_shopdetail_share"/>
 
             <TextView
@@ -125,6 +126,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="14dp"
                 android:layout_marginTop="2dp"
+                android:visibility="invisible"
                 android:text="分享"/>
         </RelativeLayout>
 

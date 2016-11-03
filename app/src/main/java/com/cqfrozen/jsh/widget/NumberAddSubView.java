@@ -6,7 +6,6 @@ import android.support.v7.widget.TintTypedArray;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -120,9 +119,9 @@ public class NumberAddSubView extends LinearLayout implements View.OnClickListen
      * 增加1个数
      */
     private void addNum() {
-        if(!btn_sub.isEnabled()){
-            btn_sub.setEnabled(true);
-        }
+//        if(!btn_sub.isEnabled()){
+//            btn_sub.setEnabled(true);
+//        }
         getCurValue();
         if(curValue < maxValue){
             curValue = curValue + 1;
@@ -136,12 +135,12 @@ public class NumberAddSubView extends LinearLayout implements View.OnClickListen
     private void subNum() {
         getCurValue();
         if(curValue == 2){
-            btn_sub.setEnabled(false);
+//            btn_sub.setEnabled(false);
         }
         if(curValue > minValue){
             curValue = curValue - 1;
         }else {
-            btn_sub.setEnabled(false);
+//            btn_sub.setEnabled(false);
         }
         tv_num.setText(curValue + "");
     }

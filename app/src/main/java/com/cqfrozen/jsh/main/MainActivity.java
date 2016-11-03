@@ -85,6 +85,8 @@ public class MainActivity extends MyActivity implements MyHttp.MyHttpResult, Han
         }else {//刷新token
             MyHttp.refreshToken(http, REFRESHTOKEN, token, this);
         }
+//        Log.d("addAddress_params", "REFRESHTOKEN");
+//        MyHttp.refreshToken(http, REFRESHTOKEN, token, this);
     }
 
     @Override

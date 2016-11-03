@@ -25,9 +25,9 @@ public class SettingActivity extends MyActivity implements View.OnClickListener 
 
     private TextView tv_cache;
     private LinearLayout ll_cache;
-    private LinearLayout ll_personal;
     private LinearLayout ll_change_pwd;
     private Button btn_exit;
+    private LinearLayout ll_help;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,13 +38,12 @@ public class SettingActivity extends MyActivity implements View.OnClickListener 
 
     private void initView() {
         setMyTitle("设置");
-        tv_cache = (TextView) findViewById(R.id.tv_cache);
-        ll_personal = (LinearLayout) findViewById(R.id.ll_personal);
-        ll_cache = (LinearLayout) findViewById(R.id.ll_cache);
         ll_change_pwd = (LinearLayout) findViewById(R.id.ll_change_pwd);
+        ll_cache = (LinearLayout) findViewById(R.id.ll_cache);
+        tv_cache = (TextView) findViewById(R.id.tv_cache);
+        ll_help = (LinearLayout) findViewById(R.id.ll_help);
         btn_exit = (Button) findViewById(R.id.btn_exit);
         ll_change_pwd.setOnClickListener(this);
-        ll_personal.setOnClickListener(this);
         ll_cache.setOnClickListener(this);
         btn_exit.setOnClickListener(this);
         try {
@@ -57,9 +56,6 @@ public class SettingActivity extends MyActivity implements View.OnClickListener 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.ll_personal://个人信息设置
-                startActivity(new Intent(this, InformationActivity.class));
-                break;
             case R.id.ll_change_pwd://修改密码
                 startActivity(new Intent(this, ChangePwdActivity.class));
                 break;

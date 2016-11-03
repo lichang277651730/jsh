@@ -3,7 +3,7 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
-    <com.common.widget.RefreshLayout
+    <com.common.refresh.RefreshLayout
         android:id="@+id/refresh_goods"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -16,7 +16,7 @@
             android:background="@color/mybg"
             android:scrollbars="none">
         </android.support.v7.widget.RecyclerView>
-    </com.common.widget.RefreshLayout>
+    </com.common.refresh.RefreshLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="0dp"

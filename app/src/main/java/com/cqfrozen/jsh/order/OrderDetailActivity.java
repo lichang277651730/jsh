@@ -141,14 +141,16 @@ public class OrderDetailActivity extends MyActivity implements View.OnClickListe
         btn_go_say = (Button) findViewById(R.id.btn_go_say);
         btn_delete = (Button) findViewById(R.id.btn_delete);
 
-        if(from == FROM.FROM_ORDER_BUY){
-            ll_btns.setVisibility(View.GONE);
-            v_divider.setVisibility(View.GONE);
-        }else if(from == FROM.FROM_ORDER_LIST){
-            ll_btns.setVisibility(View.VISIBLE);
-            v_divider.setVisibility(View.VISIBLE);
-            initBtns();
-        }
+//        if(from == FROM.FROM_ORDER_BUY){
+//            ll_btns.setVisibility(View.GONE);
+//            v_divider.setVisibility(View.GONE);
+//        }else if(from == FROM.FROM_ORDER_LIST){
+//            ll_btns.setVisibility(View.VISIBLE);
+//            v_divider.setVisibility(View.VISIBLE);
+//            initBtns();
+//        }
+        initBtns();
+
         rl_order.setOnClickListener(this);
         btn_cancel_nopay.setOnClickListener(this);
         btn_go_pay.setOnClickListener(this);
@@ -160,9 +162,9 @@ public class OrderDetailActivity extends MyActivity implements View.OnClickListe
     }
 
     private void initBtns(){
-        if(from != FROM.FROM_ORDER_LIST){
-            return;
-        }
+//        if(from != FROM.FROM_ORDER_LIST){
+//            return;
+//        }
 
         ll_btns.setVisibility(View.GONE);
         v_divider.setVisibility(View.GONE);
@@ -230,11 +232,15 @@ public class OrderDetailActivity extends MyActivity implements View.OnClickListe
     }
 
     private void initViewData(OrderDetailPageInfo orderDetailPageInfo) {
-        //先展开
-        exLvList();
-//        orderDetailPageBeanList.add(orderDetailPageInfo.oinfo.get(0));
-//        orderDetailLvAdapter.notifyDataSetChanged();
-        MeasureUtil.setListViewHeightBasedOnChildren(lv_order);
+        if(orderDetailPageInfo.oinfo.size() == 1){
+            rl_order.setVisibility(View.GONE);
+            orderDetailPageBeanList.add(orderDetailPageInfo.oinfo.get(0));
+            orderDetailLvAdapter.notifyDataSetChanged();
+        }else {
+            rl_order.setVisibility(View.VISIBLE);
+            exLvList();
+            MeasureUtil.setListViewHeightBasedOnChildren(lv_order);
+        }
         tv_order_status.setText(orderDetailPageInfo.status_name);
         tv_add_time.setText(orderDetailPageInfo.add_time);
         tv_receiver.setText("收货人:" + orderDetailPageInfo.china_name);

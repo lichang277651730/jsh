@@ -266,7 +266,7 @@ public class RefreshLayout extends SupportLayout {
                         if (i == 0) {
                             Thread.sleep(1000);
                         } else {
-                            Thread.sleep(100);
+                            Thread.sleep(20);
                         }
                         ((Activity) getContext()).runOnUiThread(new Runnable() {
                             @Override

@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -47,6 +48,8 @@ public class SupportLayout extends LinearLayout {
     protected RotateAnimation rotatingAnimation;
     protected LinearLayoutManager manager;
     protected int i;
+    private LinearLayout ll_head;
+    private FrameLayout fl_head_view;
 
     public SupportLayout(Context context) {
         super(context);
@@ -214,11 +217,18 @@ public class SupportLayout extends LinearLayout {
         if (refreshListener != null) { //有下拉刷新interface,添加headerview
             headerView = LayoutInflater.from(getContext()).inflate(R.layout.header, null);
             headerTv = (TextView) headerView.findViewById(R.id.textView);
+            ll_head = (LinearLayout) headerView.findViewById(R.id.ll_head);
+            fl_head_view = (FrameLayout) headerView.findViewById(R.id.head_view);
             headerIv = (ImageView) headerView.findViewById(R.id.imageView);
             headerParams.height = 0;
             headerView.setLayoutParams(headerParams);
             addView(headerView, 0);
         }
+    }
+
+    public void setHeaderBgColor(int colorRes){
+        ll_head.setBackgroundColor(colorRes);
+        fl_head_view.setBackgroundColor(colorRes);
     }
 
     private void initFooterView() {

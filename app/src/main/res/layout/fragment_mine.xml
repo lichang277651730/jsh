@@ -189,7 +189,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_gravity="center_vertical"
                 android:scaleType="fitXY"
-                android:src="@mipmap/icon_myorder"/>
+                android:src="@mipmap/icon_mine_order"/>
 
             <TextView
                 style="@style/text_14sp_black"

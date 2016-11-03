@@ -90,6 +90,7 @@ public class HomeFragment extends BaseFragment implements MyHttp.MyHttpResult ,V
         iv_search.setOnClickListener(this);
         iv_location.setOnClickListener(this);
         refresh_home.setOnLoadMoreListener(this);
+//        refresh_home.setLoadClose();
         refresh_home.setOnRefreshListener(this);
     }
 

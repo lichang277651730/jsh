@@ -5,6 +5,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +26,7 @@ import com.cqfrozen.jsh.adapter.CommentAdapter;
 import com.cqfrozen.jsh.adapter.GoodsDetailVPAdapter;
 import com.cqfrozen.jsh.cart.CartActivity;
 import com.cqfrozen.jsh.cart.CartManager;
-import com.cqfrozen.jsh.cart.CartResultInfo;
+import com.cqfrozen.jsh.entity.CartCountInfo;
 import com.cqfrozen.jsh.entity.CommentResultInfo;
 import com.cqfrozen.jsh.entity.GoodDetailResultInfo;
 import com.cqfrozen.jsh.entity.GoodsInfo;
@@ -33,7 +34,6 @@ import com.cqfrozen.jsh.home.SearchActivity;
 import com.cqfrozen.jsh.main.MyActivity;
 import com.cqfrozen.jsh.util.CustomToast;
 import com.cqfrozen.jsh.util.MeasureUtil;
-import com.cqfrozen.jsh.util.SharePop;
 import com.cqfrozen.jsh.volleyhttp.MyHttp;
 import com.cqfrozen.jsh.widget.BadgeView;
 import com.cqfrozen.jsh.widget.NumberAddSubView;
@@ -212,36 +212,9 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
      * 获取购物车数量
      */
     private void getCartNumFromServer() {
-//        MyHttp.queryCartCount(http, null, new MyHttp.MyHttpResult() {
-//            @Override
-//            public void httpResult(Integer which, int code, String msg, Object bean) {
-//                if (code == 404) {
-//                    return;
-//                }
-//
-//                if (code != 0) {
-//                    return;
-//                }
-//                CartCountInfo cartCountInfo = (CartCountInfo) bean;
-//                int cart_count = cartCountInfo.cart_count;
-//                Log.d("cartCountInfo", "cartCountInfocount:" + cart_count);
-//                if(cart_count == 0){
-//                    badgeView.hide();
-//                }
-//                if(cart_count >= 100){
-//                    badgeView.setText("99+");
-//                    badgeView.show();
-//                }else {
-//                    badgeView.setText(cart_count + "");
-//                    badgeView.show();
-//                }
-//            }
-//        });
-        MyHttp.queryCart(http, null, 1, new MyHttp.MyHttpResult() {
-
+        MyHttp.queryCartCount(http, null, new MyHttp.MyHttpResult() {
             @Override
             public void httpResult(Integer which, int code, String msg, Object bean) {
-
                 if (code == 404) {
                     return;
                 }
@@ -249,26 +222,53 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
                 if (code != 0) {
                     return;
                 }
-                CartResultInfo cartResultInfo = (CartResultInfo) bean;
-                if (cartResultInfo == null || cartResultInfo.data1.size() == 0) {
-                    return;
-                }
-                int count = 0;
-                for (int i = 0; i < cartResultInfo.data1.size(); i++) {
-                    count += cartResultInfo.data1.get(i).count;
-                }
-                if (count == 0) {
+                CartCountInfo cartCountInfo = (CartCountInfo) bean;
+                int cart_count = cartCountInfo.cart_count;
+                Log.d("cartCountInfo", "cartCountInfocount:" + cart_count);
+                if(cart_count == 0){
                     badgeView.hide();
                 }
-                if (count >= 100) {
+                if(cart_count >= 100){
                     badgeView.setText("99+");
                     badgeView.show();
-                } else {
-                    badgeView.setText(count + "");
+                }else {
+                    badgeView.setText(cart_count + "");
                     badgeView.show();
                 }
             }
         });
+//        MyHttp.queryCart(http, null, 1, new MyHttp.MyHttpResult() {
+//
+//            @Override
+//            public void httpResult(Integer which, int code, String msg, Object bean) {
+//
+//                if (code == 404) {
+//                    return;
+//                }
+//
+//                if (code != 0) {
+//                    return;
+//                }
+//                CartResultInfo cartResultInfo = (CartResultInfo) bean;
+//                if (cartResultInfo == null || cartResultInfo.data1.size() == 0) {
+//                    return;
+//                }
+//                int count = 0;
+//                for (int i = 0; i < cartResultInfo.data1.size(); i++) {
+//                    count += cartResultInfo.data1.get(i).count;
+//                }
+//                if (count == 0) {
+//                    badgeView.hide();
+//                }
+//                if (count >= 100) {
+//                    badgeView.setText("99+");
+//                    badgeView.show();
+//                } else {
+//                    badgeView.setText(count + "");
+//                    badgeView.show();
+//                }
+//            }
+//        });
     }
 
     private void initVP() {
@@ -285,8 +285,8 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
             case R.id.iv_back:
                 finish();
                 break;
-            case R.id.iv_share:
-                setShare();
+            case R.id.iv_share://分享
+//                setShare();
                 break;
             case R.id.ll_collect:
                 if (!needLogin()) {
@@ -334,17 +334,16 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
         if (curValue != 0) {
             addCount = curValue;
         }
-
+        tv_add_cart.setEnabled(false);
         MyHttp.addcart(http, null, g_id, addCount, new HttpForVolley.HttpTodo() {
             @Override
             public void httpTodo(Integer which, JSONObject response) {
-//                ToastUtil.showToast(GoodsDetailActivity.this, response.optString("msg"));
+                tv_add_cart.setEnabled(true);
                 CustomToast.getInstance(GoodsDetailActivity.this).showToast(response.optString("msg"));
                 int code = response.optInt("code");
                 if (code != 0) {
                     return;
                 }
-
                 getCartNumFromServer();
                 cartManager.add(goodsInfo);
             }
@@ -386,9 +385,9 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
         });
     }
 
-    private void setShare() {
-        SharePop.getInstance(this).showPop(iv_share);
-    }
+//    private void setShare() {
+//        SharePop.getInstance(this).showPop(iv_share);
+//    }
 
     private void getData() {
         MyHttp.ginfo(http, null, g_id, new MyHttp.MyHttpResult() {

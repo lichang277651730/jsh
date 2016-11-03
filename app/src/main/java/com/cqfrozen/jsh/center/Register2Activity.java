@@ -16,6 +16,8 @@ import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.entity.AreaInfo;
 import com.cqfrozen.jsh.entity.AreaStreetInfo;
 import com.cqfrozen.jsh.entity.StreetInfo;
+import com.cqfrozen.jsh.entity.UserTypeInfo;
+import com.cqfrozen.jsh.entity.UserTypePv;
 import com.cqfrozen.jsh.main.MyActivity;
 import com.cqfrozen.jsh.util.ShowHiddenPwdUtil;
 import com.cqfrozen.jsh.volleyhttp.MyHttp;
@@ -59,6 +61,7 @@ public class Register2Activity extends MyActivity implements View.OnClickListene
 
     private String street_id;
     private String area_id;
+    private String u_t_id;
 
     private List<AreaStreetInfo> locationInfos = new ArrayList<>();
     //  区域
@@ -66,6 +69,13 @@ public class Register2Activity extends MyActivity implements View.OnClickListene
     //  街道
     private ArrayList<StreetInfo> streetInfos;
     private ArrayList<ArrayList<StreetInfo>> streestinfoList = new ArrayList<>();
+    private TextView tv_user_type;
+    private OptionsPickerView userTypeOptionsPV;
+
+    //商户类型
+    private ArrayList<UserTypeInfo> userTypeInfos = new ArrayList<>();
+    private ArrayList<UserTypePv> userTypePvs = new ArrayList<>();
+    private String userTypeStr;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -89,12 +99,16 @@ public class Register2Activity extends MyActivity implements View.OnClickListene
         et_address = (MyEditText) findViewById(R.id.et_address);
         et_invite = (MyEditText) findViewById(R.id.et_invite);
         tv_location = (TextView) findViewById(R.id.tv_location);
+        tv_user_type = (TextView) findViewById(R.id.tv_user_type);
         iv_allow = (ImageView) findViewById(R.id.iv_allow);
         tv_allow = (TextView) findViewById(R.id.tv_allow);
         btn_register = (Button) findViewById(R.id.btn_register);
+
         streetOptionsPV = new OptionsPickerView(this);
+        userTypeOptionsPV = new OptionsPickerView(this);
 
         tv_location.setOnClickListener(this);
+        tv_user_type.setOnClickListener(this);
         tv_allow.setOnClickListener(this);
         btn_register.setOnClickListener(this);
         ShowHiddenPwdUtil.initAllow(iv_allow, tv_allow, btn_register);
@@ -116,6 +130,15 @@ public class Register2Activity extends MyActivity implements View.OnClickListene
                 tv_location.setText(address);
             }
         });
+
+        userTypeOptionsPV.setOnoptionsSelectListener(new OptionsPickerView.OnOptionsSelectListener() {
+
+            @Override
+            public void onOptionsSelect(int options1, int option2, int options3) {
+                u_t_id = userTypePvs.get(options1).getU_t_id();
+                tv_user_type.setText(userTypePvs.get(options1).getUser_type_name());
+            }
+        });
     }
 
     @Override
@@ -127,6 +150,9 @@ public class Register2Activity extends MyActivity implements View.OnClickListene
             case R.id.tv_location:
                 streetOptionsPV.show();
                 break;
+            case R.id.tv_user_type:
+                userTypeOptionsPV.show();
+                break;
             default:
                 break;
         }
@@ -136,6 +162,7 @@ public class Register2Activity extends MyActivity implements View.OnClickListene
         shopNameStr = et_shop_name.getText().toString().trim();
         shopManStr = et_shop_manager.getText().toString().trim();
         locationStr = tv_location.getText().toString().trim();
+        userTypeStr = tv_user_type.getText().toString().trim();
         addressStr = et_address.getText().toString().trim();
         inviteStr = et_invite.getText().toString().trim();
         if(TextUtils.isEmpty(phoneStr) || TextUtils.isEmpty(verifyCodeStr) || TextUtils.isEmpty(pwdOnceStr)){
@@ -158,12 +185,17 @@ public class Register2Activity extends MyActivity implements View.OnClickListene
             return;
         }
 
+        if(TextUtils.isEmpty(userTypeStr) || TextUtils.isEmpty(u_t_id)){
+            showToast("请选择商户类型");
+            return;
+        }
+
         if(TextUtils.isEmpty(addressStr)){
             showToast("请填写收货地址");
             return;
         }
 
-        MyHttp.register(http, null, phoneStr, pwdOnceStr, shopNameStr, shopManStr, area_id, street_id, addressStr,
+        MyHttp.register(http, null, phoneStr, pwdOnceStr, shopNameStr, shopManStr, area_id, street_id, u_t_id, addressStr,
                 verifyCodeStr, TextUtils.isEmpty(inviteStr) ? "" : inviteStr, new HttpForVolley.HttpTodo() {
                     @Override
                     public void httpTodo(Integer which, JSONObject response) {
@@ -187,6 +219,9 @@ public class Register2Activity extends MyActivity implements View.OnClickListene
                     return;
                 }
                 locationInfos.addAll((List<AreaStreetInfo>) bean);
+                if(locationInfos.size() == 0){
+                    return;
+                }
                 String location_json = BaseValue.gson.toJson(locationInfos);
                 parseAreaStreet(location_json);
 
@@ -197,6 +232,43 @@ public class Register2Activity extends MyActivity implements View.OnClickListene
                 streetOptionsPV.setSelectOptions(0, 0);
             }
         });
+
+        MyHttp.userTypeList(http, null, new MyHttp.MyHttpResult() {
+            @Override
+            public void httpResult(Integer which, int code, String msg, Object bean) {
+                if(code != 0){
+                    showToast(msg);
+                    return;
+                }
+                userTypeInfos.addAll((List<UserTypeInfo>)bean);
+                if(userTypeInfos.size() == 0){
+                    return;
+                }
+                String user_type_json = BaseValue.gson.toJson(userTypeInfos);
+                parseUserType(user_type_json);
+
+                userTypeOptionsPV.setPicker(userTypePvs);
+                //  设置是否循环滚动
+                userTypeOptionsPV.setCyclic(false);
+                // 设置默认选中的三级项目
+                userTypeOptionsPV.setSelectOptions(0);
+            }
+        });
+    }
+
+    private void parseUserType(String user_type_json) {
+
+        try {
+            JSONArray ja = new JSONArray(user_type_json);
+            for(int i = 0; i < ja.length(); i++){
+                JSONObject jo = ja.optJSONObject(i);
+                String u_t_id = jo.getString("u_t_id");
+                String user_type_name = jo.getString("user_type_name");
+                userTypePvs.add(new UserTypePv(u_t_id, user_type_name));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private void parseAreaStreet(String location_json) {

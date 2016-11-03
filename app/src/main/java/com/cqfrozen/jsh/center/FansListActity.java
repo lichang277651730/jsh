@@ -2,6 +2,7 @@ package com.cqfrozen.jsh.center;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
@@ -22,9 +23,12 @@ import com.cqfrozen.jsh.adapter.FansRVAdapter;
 import com.cqfrozen.jsh.entity.FansResultInfo;
 import com.cqfrozen.jsh.entity.MyFansPageInfo;
 import com.cqfrozen.jsh.main.MyActivity;
+import com.cqfrozen.jsh.share.SharePop;
 import com.cqfrozen.jsh.util.QrCodeUtil;
 import com.cqfrozen.jsh.volleyhttp.MyHttp;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -118,6 +122,7 @@ public class FansListActity extends MyActivity implements View.OnClickListener, 
         v_one_fans.setVisibility(View.VISIBLE);
         tv_one_fans.setOnClickListener(this);
         tv_two_fans.setOnClickListener(this);
+        tv_send_invite.setOnClickListener(this);
         tv_face_to_face.setOnClickListener(this);
         createQrPop();
     }
@@ -193,6 +198,22 @@ public class FansListActity extends MyActivity implements View.OnClickListener, 
                 v_two_fans.setVisibility(View.VISIBLE);
                 tv_two_fans.setTextColor(getResources().getColor(R.color.main));
                 level = 2;
+                break;
+            case R.id.tv_send_invite:
+                InputStream open = null;
+                try {
+                    open = getAssets().open("ic_launcher.png");
+                    BitmapDrawable fromStream = (BitmapDrawable) Drawable.createFromStream(open,null);
+                    Bitmap bitmap = fromStream.getBitmap();
+                    SharePop.getInstance().showPop(this, tv_send_invite,
+                            "我在这里买冻品一起来捡耙活！注册就有送，有买就有送，不买也有",
+                            invite_http_url,
+                            "分享内容", bitmap,
+                            "https://img.alicdn.com/tfscom/i3/78539403/TB2qIMubpHzQeBjSZFOXXcM9FXa_!!78539403.jpg_300x300.jpg", null);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
                 break;
             case R.id.tv_face_to_face:
                 popupWindow.showAtLocation(tv_face_to_face, Gravity.CENTER, 0, 0);

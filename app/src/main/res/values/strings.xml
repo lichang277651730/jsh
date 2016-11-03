@@ -1,6 +1,6 @@
 <resources>
     <!--App name-->
-    <string name="app_name">锦晟汇</string>
+    <string name="app_name">冻博汇</string>
 
     <!--首页 分类-->
     <string name="home_classify_dh">我要订货</string>

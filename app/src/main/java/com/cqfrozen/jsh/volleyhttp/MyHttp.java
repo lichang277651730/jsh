@@ -36,6 +36,7 @@ import com.cqfrozen.jsh.entity.SearchKwdInfo;
 import com.cqfrozen.jsh.entity.ShopInfo;
 import com.cqfrozen.jsh.entity.SigninInfo;
 import com.cqfrozen.jsh.entity.UserInfo;
+import com.cqfrozen.jsh.entity.UserTypeInfo;
 import com.cqfrozen.jsh.main.MainActivity;
 import com.cqfrozen.jsh.main.MyApplication;
 import com.cqfrozen.jsh.util.MD5Util;
@@ -158,6 +159,7 @@ public class MyHttp {
         String url = SERVER + "User/refreshtoken";
         params.clear();
         params.put("token", token);
+//        Log.d("addAddress_params", "token:"+ token);
         toBean(GET, http, which, params, url, myHttpResult, SigninInfo.class);
     }
 
@@ -435,10 +437,22 @@ public class MyHttp {
     }
 
     /**
+     * 获取 商户类型
+     */
+    public static void userTypeList(HttpForVolley http, Integer which, MyHttpResult myHttpResult) {
+        String url = SERVER + "Public/usertypelist";
+        params.clear();
+        params.put("token", MyApplication.token);
+        Type type = new TypeToken<List<UserTypeInfo>>() {
+        }.getType();
+        toBean(GET, http, which, params, url, myHttpResult, type);
+    }
+
+    /**
      * 注册
      */
     public static void register(HttpForVolley http, Integer which, String mobile_num, String password,
-                                String store_name, String contacts, String area_id, String st_id,
+                                String store_name, String contacts, String area_id, String st_id, String u_t_id,
                                 String address, String msg_code, String code, HttpForVolley.HttpTodo httpTodo) {
         String url = SERVER + "User/register";
         params.clear();
@@ -448,6 +462,7 @@ public class MyHttp {
         params.put("contacts", contacts);
         params.put("area_id", area_id);
         params.put("st_id", st_id);
+        params.put("u_t_id", u_t_id);
         params.put("address", address);
         params.put("msg_code", msg_code);
         params.put("code", code);
@@ -458,6 +473,7 @@ public class MyHttp {
 //                "contacts:"+ contacts + "," +
 //                "area_id:"+ area_id + "," +
 //                "st_id:"+ st_id + "," +
+//                "u_t_id:"+ u_t_id + "," +
 //                "address:"+ address + "," +
 //                "code:"+ code + "," +
 //                "msg_code:"+ msg_code);

@@ -3,12 +3,12 @@
              android:id="@+id/head_view"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             android:background="#bababa">
+             android:background="#F5F5F5">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="#bababa"
+        android:background="#F5F5F5"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/pull_to_refresh"
-            android:textColor="@color/white"
+            android:textColor="@color/mygray"
             android:textSize="14sp"/>
     </LinearLayout>
 </FrameLayout>
