@@ -23,6 +23,7 @@ import com.cqfrozen.jsh.center.MineFragment;
 import com.cqfrozen.jsh.classify.ClassifyFragment;
 import com.cqfrozen.jsh.home.HomeFragment;
 import com.cqfrozen.jsh.main.MyApplication;
+import com.cqfrozen.jsh.util.UpdateUtils;
 import com.cqfrozen.jsh.widget.BadgeView;
 
 import java.util.ArrayList;
@@ -53,6 +54,7 @@ public class HomeActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     private CartManager cartManager;
     private BadgeView badgeView;
     private LinearLayout ll_titleBar;
+    private UpdateUtils updateUtils;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -63,6 +65,7 @@ public class HomeActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         initView();
         initFragment();
         cartManager = MyApplication.cartManager;
+        updateUtils = new UpdateUtils(this);
         initBadgeView();
     }
 
@@ -184,7 +187,13 @@ public class HomeActivity extends BaseActivity implements RadioGroup.OnCheckedCh
      */
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        //TODO 如果有更新登陆框就要先取消
+
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (updateUtils.alertDialog != null && updateUtils.alertDialog.isShowing()) {
+                return true;
+            }
+        }
+
         if(vp_home.getCurrentItem() != 0){
             vp_home.setCurrentItem(0, false);
             rb_homes[0].setChecked(true);
@@ -254,5 +263,11 @@ public class HomeActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         context.startActivity(intent);
         vp_home.setCurrentItem(position, false);
         rb_homes[position].setChecked(true);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        updateUtils.setClose();//关闭自动更新
     }
 }

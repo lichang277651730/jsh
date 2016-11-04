@@ -49,7 +49,6 @@ public class GoodsFragment extends MyFragment implements MyHttp.MyHttpResult, My
     private GridLayoutManager gvmanager;
     private GridLayoutManager lvManager;
     private NormalBuyAdapter normalBuyAdapter;
-    private TextView tv_no_more;
 
     public static GoodsFragment getInstance(String title){
         GoodsFragment fragment = new GoodsFragment();
@@ -109,7 +108,6 @@ public class GoodsFragment extends MyFragment implements MyHttp.MyHttpResult, My
 
     private void initView() {
         refresh_goods = (RefreshLayout) view.findViewById(R.id.refresh_goods);
-        tv_no_more = (TextView) view.findViewById(R.id.tv_no_more);
         rv_goods = (RecyclerView) view.findViewById(R.id.rv_goods);
         refresh_goods.setOnRefreshListener(this);
         refresh_goods.setOnLoadMoreListener(this);
@@ -165,7 +163,6 @@ public class GoodsFragment extends MyFragment implements MyHttp.MyHttpResult, My
             setHttpFail(this);
             refresh_goods.setRefreshFailed();
             refresh_goods.setLoadFailed();
-//            refresh_goods.setResultState(RefreshLayout.ResultState.failed);
             return;
         }
 
@@ -173,10 +170,8 @@ public class GoodsFragment extends MyFragment implements MyHttp.MyHttpResult, My
             showToast(msg);
             refresh_goods.setLoadFailed();
             refresh_goods.setRefreshFailed();
-//            refresh_goods.setResultState(RefreshLayout.ResultState.failed);
             return;
         }
-//        refresh_goods.setResultState(RefreshLayout.ResultState.success);
         refresh_goods.setRefreshSuccess();
         GoodsResultInfo goodsResultInfo = (GoodsResultInfo) bean;
         is_page = goodsResultInfo.is_page;

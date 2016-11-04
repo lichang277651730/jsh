@@ -35,6 +35,7 @@ import com.cqfrozen.jsh.entity.OrderResultInfo;
 import com.cqfrozen.jsh.entity.SearchKwdInfo;
 import com.cqfrozen.jsh.entity.ShopInfo;
 import com.cqfrozen.jsh.entity.SigninInfo;
+import com.cqfrozen.jsh.entity.UpdateInfo;
 import com.cqfrozen.jsh.entity.UserInfo;
 import com.cqfrozen.jsh.entity.UserTypeInfo;
 import com.cqfrozen.jsh.main.MainActivity;
@@ -875,6 +876,20 @@ public class MyHttp {
         toBean(GET, http, which, null, url, myHttpResult, beanType);
     }
 
+    /**
+     * 版本升级接口
+     */
+    public static void appVersion(HttpForVolley http, Integer which, int version_num, MyHttpResult myHttpResult) {
+        String url = SERVER + "Public/appversion";
+        params.clear();
+        params.put("version_num", version_num + "");
+        params.put("p_type", p_type + "");
+        params.put("token", MyApplication.token);
+        Type beanType = new TypeToken<UpdateInfo>() {
+        }.getType();
+        toBean(GET, http, which, params, url, myHttpResult, beanType);
+    }
+
     private static void toBean(int method, final HttpForVolley http, Integer which,
                                HashMap<String, String> httpMap, String url,
                                final MyHttpResult myHttpResult, final Type bean) {
@@ -885,7 +900,15 @@ public class MyHttp {
 //                Log.d("addAddress_params", response.toString());
                 //统一处理登录逻辑  code 1请求失败  2 登录失败  0请求成功s
                 int code = response.optInt("code", 1);
-                if(code == 2 && (http.getContext().getClass() != MainActivity.class)){
+//                if(code == 2 && (http.getContext().getClass() != MainActivity.class)){
+//                    Context context = http.getContext();
+//                    Toast.makeText(context, "登录失效，请重新登录", Toast.LENGTH_SHORT).show();
+//                    MyApplication.userInfo = null;
+//                    MyApplication.token = "";
+//                    SPUtils.setToken("");
+//                    context.startActivity(new Intent(context, LoginActivity.class));
+//                }
+                if(code == 3 && (http.getContext().getClass() != MainActivity.class)){
                     Context context = http.getContext();
                     Toast.makeText(context, "登录失效，请重新登录", Toast.LENGTH_SHORT).show();
                     MyApplication.userInfo = null;

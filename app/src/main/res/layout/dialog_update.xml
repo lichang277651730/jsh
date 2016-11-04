@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@drawable/bg_dialog"
+              android:orientation="vertical">
+
+    <TextView
+        style="@style/text_16sp_red"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="APP有最新版本可供更新"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/myline"/>
+
+    <TextView
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        style="@style/text_15sp_black"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="新版本更新:"/>
+
+    <TextView
+        style="@style/text_15sp_black"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:lineSpacingExtra="4dp"
+        android:maxLines="7"
+        android:paddingBottom="10dp"
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp"
+        android:paddingTop="10dp"
+        android:textColor="@color/mygray"
+        android:id="@+id/msg_tv"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/myline"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/text_16sp_black"
+            android:layout_width="0px"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="取消"
+            android:id="@+id/no_tv"/>
+
+        <View
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:background="@color/myline"/>
+
+        <TextView
+            style="@style/text_16sp_black"
+            android:layout_width="0px"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="确定"
+            android:id="@+id/yes_tv"/>
+    </LinearLayout>
+</LinearLayout>

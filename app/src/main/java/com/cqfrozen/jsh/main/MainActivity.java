@@ -79,14 +79,14 @@ public class MainActivity extends MyActivity implements MyHttp.MyHttpResult, Han
         if (token.isEmpty() || token.length() < 2) {
             return;
         }
-        if(curTime < expireTime - 5 * 60){//不刷新token
-            MyApplication.token = SPUtils.getToken();
-            MyHttp.user(http, GETUSERINFO, this);
-        }else {//刷新token
-            MyHttp.refreshToken(http, REFRESHTOKEN, token, this);
-        }
+//        if(curTime < expireTime - 5 * 60){//不刷新token
+//            MyApplication.token = SPUtils.getToken();
+//            MyHttp.user(http, GETUSERINFO, this);
+//        }else {//刷新token
+//            MyHttp.refreshToken(http, REFRESHTOKEN, token, this);
+//        }
 //        Log.d("addAddress_params", "REFRESHTOKEN");
-//        MyHttp.refreshToken(http, REFRESHTOKEN, token, this);
+        MyHttp.refreshToken(http, REFRESHTOKEN, token, this);
     }
 
     @Override

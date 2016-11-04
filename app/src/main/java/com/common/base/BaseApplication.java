@@ -8,6 +8,7 @@ import android.os.Handler;
 
 import com.common.http.SupportHttps;
 import com.common.widget.RefreshLayout;
+import com.cqfrozen.jsh.netstate.NetStateReceiver;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -30,6 +31,8 @@ public class BaseApplication extends Application {
         instance = this;
         context = getApplicationContext();
         mainThreadId = android.os.Process.myPid();
+        /*开启网络广播监听*/
+        NetStateReceiver.registerNetworkStateReceiver(this);
         handler = new Handler();
     }
 
@@ -64,6 +67,12 @@ public class BaseApplication extends Application {
         config.setToDefaults();
         res.updateConfiguration(config, res.getDisplayMetrics());
         return super.getResources();
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        NetStateReceiver.unRegisterNetworkStateReceiver(this);
     }
 
     public static Context getContext(){
