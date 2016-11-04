@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -167,7 +168,7 @@ public class GoodsFragment extends MyFragment implements MyHttp.MyHttpResult, My
         }
 
         if(code != 0){
-            showToast(msg);
+//            showToast(msg);
             refresh_goods.setLoadFailed();
             refresh_goods.setRefreshFailed();
             return;
@@ -176,6 +177,7 @@ public class GoodsFragment extends MyFragment implements MyHttp.MyHttpResult, My
         GoodsResultInfo goodsResultInfo = (GoodsResultInfo) bean;
         is_page = goodsResultInfo.is_page;
         goodsInfos.addAll(goodsResultInfo.data1);
+        Log.d("addAddress_params", goodsInfos.size() + "goodsInfossize");
         if(goodsInfos.size() == 0){
             setHttpNotData(this);
             return;

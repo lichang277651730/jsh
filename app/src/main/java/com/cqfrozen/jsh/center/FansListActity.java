@@ -164,12 +164,12 @@ public class FansListActity extends MyActivity implements View.OnClickListener, 
             @Override
             public void httpResult(Integer which, int code, String msg, Object bean) {
                 if(code == 404){
-                    showToast(msg);
+//                    showToast(msg);
                     refresh_fans.setResultState(RefreshLayout.ResultState.failed);
                     return;
                 }
                 if(code != 0){
-                    showToast(msg);
+//                    showToast(msg);
                     refresh_fans.setResultState(RefreshLayout.ResultState.failed);
                     return;
                 }

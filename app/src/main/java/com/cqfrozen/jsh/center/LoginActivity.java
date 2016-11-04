@@ -54,12 +54,11 @@ public class LoginActivity extends MyActivity implements View.OnClickListener {
     private boolean isEdShow;
     private int height;
     private ImageView iv_log;
-    private ImageView iv_back;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTransparencyBar(true);
+//        setTransparencyBar(true);
         setSwipeBackEnable(false);
         setContentView(R.layout.activity_login);
         initView();
@@ -70,14 +69,12 @@ public class LoginActivity extends MyActivity implements View.OnClickListener {
         super.onResume();
         scrollview_login.setFocusable(true);
         scrollview_login.setFocusableInTouchMode(true);
-        scrollview_login.requestFocus();
+//        scrollview_login.requestFocus();
     }
 
     private void initView() {
-        setMyTitle("");
         scrollview_login = (LinearLayout) findViewById(R.id.scrollview_login);
         iv_log = (ImageView) findViewById(R.id.iv_log);
-        iv_back = (ImageView) findViewById(R.id.iv_back);
         et_phone = (MyEditText) findViewById(R.id.et_phone);
         et_password = (MyEditText) findViewById(R.id.et_password);
         tv_forget = (TextView) findViewById(R.id.tv_forget);
@@ -87,7 +84,6 @@ public class LoginActivity extends MyActivity implements View.OnClickListener {
         tv_forget.setOnClickListener(this);
         tv_regist.setOnClickListener(this);
         btn_login.setOnClickListener(this);
-        iv_back.setVisibility(View.GONE);
         String phoneNumCache = SPUtils.getPhoneNum();
         if(!TextUtils.isEmpty(phoneNumCache)){
             et_phone.setText(phoneNumCache);
@@ -98,6 +94,8 @@ public class LoginActivity extends MyActivity implements View.OnClickListener {
         et_phone.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
+                scrollview_login.setFocusable(false);
+                scrollview_login.setFocusableInTouchMode(false);
                 if (!isEdShow) {
                     if (!isShow) {
                         ObjectAnimator anim = ObjectAnimator.ofFloat(iv_log, "alpha", 1.0f, 0f);
@@ -136,6 +134,8 @@ public class LoginActivity extends MyActivity implements View.OnClickListener {
         et_password.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
+                scrollview_login.setFocusable(false);
+                scrollview_login.setFocusableInTouchMode(false);
                 if (!isEdShow) {
                     if (!isShow) {
                         ObjectAnimator anim = ObjectAnimator.ofFloat(iv_log, "alpha", 1.0f, 0f);
@@ -266,7 +266,6 @@ public class LoginActivity extends MyActivity implements View.OnClickListener {
                     showToast(msg);
                     return;
                 }
-//                showToast("登陆成功");
                 SigninInfo signinInfo = (SigninInfo) bean;
                 MyApplication.signinInfo = signinInfo;
                 MyApplication.token = signinInfo.getToken();

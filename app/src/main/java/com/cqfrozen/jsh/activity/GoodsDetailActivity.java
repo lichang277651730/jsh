@@ -5,7 +5,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -224,7 +223,6 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
                 }
                 CartCountInfo cartCountInfo = (CartCountInfo) bean;
                 int cart_count = cartCountInfo.cart_count;
-                Log.d("cartCountInfo", "cartCountInfocount:" + cart_count);
                 if(cart_count == 0){
                     badgeView.hide();
                 }

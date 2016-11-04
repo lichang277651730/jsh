@@ -144,7 +144,7 @@ public class CartActivity extends MyActivity implements View.OnClickListener, Re
             @Override
             public void httpResult(Integer which, int code, String msg, Object bean) {
                 if(code != 0){
-                    showToast(msg);
+//                    showToast(msg);
                     return;
                 }
                 CartNotifyInfo cartNotifyInfo = (CartNotifyInfo) bean;
@@ -185,7 +185,7 @@ public class CartActivity extends MyActivity implements View.OnClickListener, Re
                 }
 
                 if(code != 0){
-                    showToast(msg);
+//                    showToast(msg);
                     setHttpFail(CartActivity.this);
                     refresh_cart.setResultState(RefreshLayout.ResultState.failed);
                     return;
@@ -265,7 +265,7 @@ public class CartActivity extends MyActivity implements View.OnClickListener, Re
             public void httpResult(Integer which, int code, String msg, Object bean) {
                 btn_order.setEnabled(true);//防止重复提交
                 if(code != 0){
-                    showToast(msg);
+//                    showToast(msg);
                     return;
                 }
                 OrderInfo orderInfo = (OrderInfo) bean;

@@ -79,16 +79,16 @@ public class SettingActivity extends MyActivity implements View.OnClickListener 
         MyHttp.loginout(http, null, new HttpForVolley.HttpTodo() {
             @Override
             public void httpTodo(Integer which, JSONObject response) {
-                showToast(response.optString("msg"));
-                int code = response.optInt("code");
-                if(code != 0){
-                    return;
-                }
                 MyApplication.userInfo = null;
                 MyApplication.token = "";
                 SPUtils.setToken("");
                 finish();
                 startActivity(new Intent(SettingActivity.this, LoginActivity.class));
+//                showToast(response.optString("msg"));
+//                int code = response.optInt("code");
+//                if(code != 0){
+//                    return;
+//                }
             }
         });
 

@@ -221,7 +221,7 @@ public class OrderDetailActivity extends MyActivity implements View.OnClickListe
             @Override
             public void httpResult(Integer which, int code, String msg, Object bean) {
                 if(code != 0){
-                    showToast(msg);
+//                    showToast(msg);
                     return;
                 }
                 orderDetailPageInfo = (OrderDetailPageInfo) bean;

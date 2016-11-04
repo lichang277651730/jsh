@@ -1,17 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
-    <TextView
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fl_index_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/guide1"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true"
+    tools:context=".activity.IndexActivity">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:text="欢迎界面"
-        android:gravity="center"/>
+        android:layout_height="match_parent"
+        android:background="@color/white">
+    </android.support.v4.view.ViewPager>
+
     <Button
         android:id="@+id/btn_go"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="进入主界面"/>
-</LinearLayout>
+        android:layout_height="60dp"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_marginBottom="60dp"
+        android:background="@color/transparency"
+        android:padding="10dp"
+        android:visibility="gone"/>
+
+</FrameLayout>

@@ -62,7 +62,7 @@ public class LocationActivity extends MyActivity {
             @Override
             public void httpResult(Integer which, int code, String msg, Object bean) {
                 if(code != 0){
-                    showToast(msg);
+//                    showToast(msg);
                     return;
                 }
                 locationInfos.clear();

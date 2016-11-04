@@ -109,7 +109,7 @@ public class OrderFragment extends MyFragment implements RefreshLayout.OnRefresh
                 }
 
                 if(code != 0){
-                    showToast(msg);
+//                    showToast(msg);
                     setHttpFail(OrderFragment.this);
                     refresh_order.setResultState(RefreshLayout.ResultState.failed);
                     return;

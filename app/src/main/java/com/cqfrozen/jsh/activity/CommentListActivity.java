@@ -80,7 +80,7 @@ public class CommentListActivity extends MyActivity implements MyActivity.HttpFa
                 }
 
                 if(code != 0){
-                    showToast(msg);
+//                    showToast(msg);
                     refresh_comment.setResultState(RefreshLayout.ResultState.failed);
                     return;
                 }

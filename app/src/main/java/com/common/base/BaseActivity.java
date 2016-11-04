@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.common.http.HttpForVolley;
 import com.common.swipbacklayout.SwipeBackActivity;
+import com.cqfrozen.jsh.netstate.NetChangeObserver;
 
 /**
  * Created by Administrator on 2016/9/12.
@@ -19,6 +20,8 @@ public class BaseActivity extends SwipeBackActivity {
     private Toast toast;
     public HttpForVolley  http;
     public boolean isStopHttp = true;
+    private NetChangeObserver mNetChangeObserver;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +29,22 @@ public class BaseActivity extends SwipeBackActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         http = new HttpForVolley(this);
         setTransparencyBar(true);
+
+//        // 网络改变的一个回掉类
+//        mNetChangeObserver = new NetChangeObserver() {
+//            @Override
+//            public void onNetConnected(NetUtils.NetType type) {
+//                onNetworkConnected(type);
+//            }
+//
+//            @Override
+//            public void onNetDisConnect() {
+//                onNetworkDisConnected();
+//            }
+//        };
+//
+//        //开启广播去监听 网络 改变事件
+//        NetStateReceiver.registerObserver(mNetChangeObserver);
     }
 
     //打印吐司

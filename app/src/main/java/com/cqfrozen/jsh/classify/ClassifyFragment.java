@@ -127,7 +127,7 @@ public class ClassifyFragment extends BaseFragment implements MyHttp.MyHttpResul
     @Override
     public void httpResult(Integer which, int code, String msg, Object bean) {
         if(code != 0){
-            showToast(msg);
+//            showToast(msg);
             return;
         }
         categoryInfos.addAll((List<CategoryInfo>)bean);
@@ -167,6 +167,7 @@ public class ClassifyFragment extends BaseFragment implements MyHttp.MyHttpResul
     private void createPopMore() {
         View popView = LayoutInflater.from(mActivity).inflate(R.layout.pop_classify, null);
         GridView gv_classify = (GridView) popView.findViewById(R.id.gv_classify);
+        ImageView pop_iv_search = (ImageView) popView.findViewById(R.id.iv_search);
         popupWindow = new PopupWindow(popView, ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
         popupWindow.setBackgroundDrawable(new BitmapDrawable());
@@ -175,6 +176,12 @@ public class ClassifyFragment extends BaseFragment implements MyHttp.MyHttpResul
         popupWindow.setTouchable(true);
 
         gvAdapter = new ClassifyGvAdapter(getActivity(), categoryInfos);
+        pop_iv_search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), SearchActivity.class));
+            }
+        });
         gvAdapter.setOnItemClickListener(new ClassifyGvAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {

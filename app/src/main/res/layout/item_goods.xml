@@ -71,6 +71,6 @@
             android:layout_height="24dp"
             android:scaleType="fitXY"
             android:paddingRight="4dp"
-            android:src="@mipmap/icon_add_cart"/>
+            android:src="@mipmap/icon_cart"/>
     </LinearLayout>
 </LinearLayout>

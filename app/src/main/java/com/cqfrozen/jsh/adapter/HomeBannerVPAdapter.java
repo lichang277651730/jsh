@@ -27,8 +27,8 @@ public class HomeBannerVPAdapter extends PagerAdapter{
         this.bannerInfos = bannerInfos;
         defaultOptions = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true)
                 .showImageOnLoading(R.color.transparency)
-                .showImageForEmptyUri(R.mipmap.img_loading_empty)
-                .showImageOnFail(R.mipmap.img_loading_failed)
+                .showImageForEmptyUri(R.mipmap.img_banner_loading)
+                .showImageOnFail(R.mipmap.img_banner_loading)
                 .build();
 
     }

@@ -316,7 +316,7 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
             public void httpResult(Integer which, int code, String msg, Object bean) {
                 btn_order.setEnabled(true);//防止重复提交
                 if(code != 0){
-                    showToast(msg);
+//                    showToast(msg);
                     return;
                 }
                 OrderInfo orderInfo = (OrderInfo) bean;

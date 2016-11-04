@@ -127,6 +127,11 @@ public class MyHttp {
         params.put("px_v", px_v + "");
         params.put("asc_desc", asc_desc + "");
         params.put("token", MyApplication.token);
+        Log.d("addAddress_params", "page:"+ page + "," +
+                "k_w:"+ k_w + "," +
+                "px_v:"+ px_v + "," +
+                "asc_desc:"+ asc_desc + "," +
+                "token:"+ MyApplication.token);
         Type type = new TypeToken<GoodsResultInfo>(){}.getType();
         toBean(GET, http, which, params, url, myHttpResult, type);
     }
@@ -190,7 +195,7 @@ public class MyHttp {
         params.clear();
         params.put("token", MyApplication.token);
         Type type = new TypeToken<UserInfo>(){}.getType();
-        toBean(POST, http, which, params, url, myHttpResult, type);
+        toBean(GET, http, which, params, url, myHttpResult, type);
     }
 
 
@@ -897,7 +902,7 @@ public class MyHttp {
 
             @Override
             public void httpTodo(Integer which, JSONObject response) {
-//                Log.d("addAddress_params", response.toString());
+                Log.d("addAddress_params", response.toString());
                 //统一处理登录逻辑  code 1请求失败  2 登录失败  0请求成功s
                 int code = response.optInt("code", 1);
 //                if(code == 2 && (http.getContext().getClass() != MainActivity.class)){
@@ -907,6 +912,7 @@ public class MyHttp {
 //                    MyApplication.token = "";
 //                    SPUtils.setToken("");
 //                    context.startActivity(new Intent(context, LoginActivity.class));
+//
 //                }
                 if(code == 3 && (http.getContext().getClass() != MainActivity.class)){
                     Context context = http.getContext();

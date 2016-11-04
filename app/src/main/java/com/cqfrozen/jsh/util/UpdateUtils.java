@@ -63,7 +63,7 @@ public class UpdateUtils implements MyHttp.MyHttpResult, View.OnClickListener, H
             return;
         }
         showForceDialog();
-        if (updateInfo.forcibly == 1 && IsWifi.isWifi(context)) { //需要强制更新
+        if ( updateInfo.is_qsj == 1 && IsWifi.isWifi(context)) { //需要强制更新
             alertDialog.setContentView(goingView);
             setStartUpdate();
         }
@@ -85,7 +85,7 @@ public class UpdateUtils implements MyHttp.MyHttpResult, View.OnClickListener, H
         alertDialog.show();
         alertDialog.setContentView(view);
         alertDialog.setCanceledOnTouchOutside(false);
-        msg_tv.setText(updateInfo.msg);
+        msg_tv.setText(updateInfo.remark);
         no_tv.setOnClickListener(this);
         yes_tv.setOnClickListener(this);
         cancel_tv.setOnClickListener(this);

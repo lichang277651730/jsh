@@ -60,7 +60,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
                 android:scaleType="fitXY"
-                android:src="@mipmap/solid_goods"/>
+                android:src="@mipmap/img_loading_empty"/>
             <TextView
                 android:id="@+id/tv_table1"
                 android:layout_marginTop="5dp"
@@ -114,7 +114,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
                 android:scaleType="fitXY"
-                android:src="@mipmap/solid_goods"/>
+                android:src="@mipmap/img_loading_empty"/>
             <TextView
                 android:id="@+id/tv_table2"
                 android:layout_marginTop="5dp"
@@ -168,7 +168,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
                 android:scaleType="fitXY"
-                android:src="@mipmap/solid_goods"/>
+                android:src="@mipmap/img_loading_empty"/>
             <TextView
                 android:id="@+id/tv_table3"
                 android:layout_marginTop="5dp"

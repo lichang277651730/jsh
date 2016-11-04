@@ -193,7 +193,7 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
             @Override
             public void httpResult(Integer which, int code, String msg, Object bean) {
                 if (code != 0) {
-                    showToast(msg);
+//                    showToast(msg);
                     return;
                 }
                 userInfo = (UserInfo) bean;
@@ -376,7 +376,7 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
             @Override
             public void httpResult(Integer which, int code, String msg, Object bean) {
                 if(code != 0){
-                    showToast(msg);
+//                    showToast(msg);
                     return;
                 }
                 httpUrlInfos.addAll((List<HttpUrlInfo>)bean);

@@ -31,8 +31,7 @@
             <ImageView
                 android:layout_width="26dp"
                 android:layout_height="26dp"
-                android:layout_marginLeft="12dp"
-                android:src="@mipmap/setting1"/>
+                android:layout_marginLeft="12dp"/>
 
             <TextView
                 style="@style/text_16sp_black"
@@ -186,8 +185,7 @@
             <ImageView
                 android:layout_width="26dp"
                 android:layout_height="26dp"
-                android:layout_marginLeft="12dp"
-                android:src="@mipmap/setting5"/>
+                android:layout_marginLeft="12dp"/>
 
             <TextView
                 style="@style/text_16sp_black"

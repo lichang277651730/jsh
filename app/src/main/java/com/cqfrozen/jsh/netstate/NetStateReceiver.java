@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.util.Log;
 
+import com.cqfrozen.jsh.util.ToastUtil;
+
 import java.util.ArrayList;
 
 /**
@@ -36,7 +38,8 @@ public class NetStateReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         mBroadcastReceiver = NetStateReceiver.this;
-        if (intent.getAction().equalsIgnoreCase(ANDROID_NET_CHANGE_ACTION) || intent.getAction().equalsIgnoreCase(CUSTOM_ANDROID_NET_CHANGE_ACTION)) {
+        if (intent.getAction().equalsIgnoreCase(ANDROID_NET_CHANGE_ACTION)
+                || intent.getAction().equalsIgnoreCase(CUSTOM_ANDROID_NET_CHANGE_ACTION)) {
             if (!NetUtils.isNetworkAvailable(context)) {
                 Log.e(this.getClass().getName(), "<--- network disconnected --->");
                 isNetAvailable = false;
@@ -44,6 +47,9 @@ public class NetStateReceiver extends BroadcastReceiver {
                 Log.e(this.getClass().getName(), "<--- network connected --->");
                 isNetAvailable = true;
                 mNetType = NetUtils.getAPNType(context);
+                if(mNetType != NetUtils.NetType.WIFI){
+                    ToastUtil.showToast(context, "当前是非WIFI网络，注意你的流量");
+                }
             }
             notifyObserver();
         }

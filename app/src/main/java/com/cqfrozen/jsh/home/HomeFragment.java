@@ -131,7 +131,7 @@ public class HomeFragment extends BaseFragment implements MyHttp.MyHttpResult ,V
     public void httpResult(Integer which, int code, String msg, Object bean) {
         refresh_home.setUrlNum();
         if(code != 0){
-            showToast(msg);
+//            showToast(msg);
             refresh_home.setLoadFailed();
             if(refresh_home.getUrlNum() == urlNum){
                 refresh_home.setRefreshFailed();

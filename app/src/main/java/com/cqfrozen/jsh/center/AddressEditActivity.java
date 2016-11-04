@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bigkoo.pickerview.OptionsPickerView;
@@ -20,6 +21,7 @@ import com.cqfrozen.jsh.entity.ShopInfo;
 import com.cqfrozen.jsh.entity.ShopPVInfo;
 import com.cqfrozen.jsh.entity.StreetInfo;
 import com.cqfrozen.jsh.main.MyActivity;
+import com.cqfrozen.jsh.util.HiddenInputUtil;
 import com.cqfrozen.jsh.util.ValidatorUtil;
 import com.cqfrozen.jsh.volleyhttp.MyHttp;
 
@@ -66,6 +68,7 @@ public class AddressEditActivity extends MyActivity implements View.OnClickListe
 
     private List<ShopInfo> shopInfos = new ArrayList<>();
     private ArrayList<ShopPVInfo> shopPVInfos = new ArrayList<>();
+    private LinearLayout ll_edit_address_root;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -87,6 +90,7 @@ public class AddressEditActivity extends MyActivity implements View.OnClickListe
 
     private void initView() {
         setMyTitle("修改地址");
+        ll_edit_address_root = (LinearLayout) findViewById(R.id.ll_edit_address_root);
         et_consignee = (MyEditText) findViewById(R.id.et_consignee);
         et_phone = (MyEditText) findViewById(R.id.et_phone);
         tv_location = (TextView) findViewById(R.id.tv_location);
@@ -97,6 +101,7 @@ public class AddressEditActivity extends MyActivity implements View.OnClickListe
         tv_location.setOnClickListener(this);
         tv_shop.setOnClickListener(this);
         btn_save.setOnClickListener(this);
+        ll_edit_address_root.setOnClickListener(this);
         initData();
 
         streetOptionsPV = new OptionsPickerView(this);
@@ -158,17 +163,27 @@ public class AddressEditActivity extends MyActivity implements View.OnClickListe
         switch (v.getId()) {
             case R.id.tv_location:
                 streetOptionsPV.show();
+                hideSoftInput(v);
                 break;
             case R.id.tv_shop:
                 shopOptionsPV.show();
+                hideSoftInput(v);
                 break;
             case R.id.btn_save:
                 editAddress();
+                break;
+            case R.id.ll_edit_address_root:
+                hideSoftInput(v);
                 break;
             default:
                 break;
         }
     }
+
+    private void hideSoftInput(View v) {
+        HiddenInputUtil.hiddenSoftInput(this, v);
+    }
+
     private void editAddress() {
         consigneeStr = et_consignee.getText().toString().trim();
         phoneStr = et_phone.getText().toString().trim();

@@ -37,7 +37,7 @@
         android:id="@+id/tv_showdetail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="查看商品详情"
+        android:text="查看商品清单>"
         android:padding="4dp"
         android:gravity="center"/>
     <View style="@style/HorizontalDividerLine"/>

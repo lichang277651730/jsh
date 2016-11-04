@@ -118,7 +118,7 @@ public class InformationActivity extends MyActivity implements View.OnClickListe
                         @Override
                         public void httpTodo(Integer which, JSONObject response) {
                             if (response.optInt("code",1)!=0){
-                                showToast("上传图片发生错误!");
+//                                showToast("上传图片发生错误!");
                                 return;
                             }
                             showToast("修改头像成功!");

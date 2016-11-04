@@ -114,7 +114,6 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginLeft="15dp"
-            android:src="@mipmap/search_fire"
             android:visibility="gone"/>
 
         <TextView
@@ -144,7 +143,6 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginLeft="15dp"
-            android:src="@mipmap/search_fire"
             android:visibility="gone"/>
 
         <TextView

@@ -174,6 +174,9 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.MyVi
                         }
                         holder.btn_confirm_get.setVisibility(View.GONE);
                         holder.btn_go_say.setVisibility(View.VISIBLE);
+                        Intent intent = new Intent(context, AppraiseActivity.class);
+                        intent.putExtra("o_id", orderSearchInfo.o_id);
+                        context.startActivity(intent);
                     }
                 });
             }
@@ -193,11 +196,9 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.MyVi
         holder.btn_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDeleteDialog(holder, orderSearchInfo.o_id);
+                showDeleteDialog(position, holder, orderSearchInfo.o_id);
             }
         });
-
-
 
 
         holder.include_item_order_sumbit.setOnClickListener(new View.OnClickListener() {
@@ -285,7 +286,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.MyVi
     }
 
     private AlertDialog deleteDialog;
-    private void showDeleteDialog(final MyViewHolder holder, final String o_id) {
+    private void showDeleteDialog(final int position, final MyViewHolder holder, final String o_id) {
         deleteDialog = new AlertDialog.Builder(context)
                 .setMessage("确定要删除该订单吗？")
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -301,6 +302,8 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.MyVi
                                 }
 //                        holder.ll_btns.setVisibility(View.GONE);
 //                        v_divider.setVisibility(View.GONE);
+                                orderSearchInfos.remove(position);
+                                notifyItemRemoved(position);
                                 holder.btn_cancel_nopay.setVisibility(View.GONE);
                                 holder.btn_go_pay.setVisibility(View.GONE);
                                 holder.btn_cancel_noout.setVisibility(View.GONE);

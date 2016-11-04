@@ -224,7 +224,7 @@ public class OrderConfirmActivity extends MyActivity implements View.OnClickList
                     @Override
                     public void httpResult(Integer which, int code, String msg, Object bean) {
                         btn_buy.setEnabled(true);//防止重复提交
-                        showToast(msg);
+//                        showToast(msg);
                         if(code != 0){
                             return;
                         }

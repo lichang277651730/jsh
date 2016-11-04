@@ -72,7 +72,7 @@ public class NormalBuyActivity extends MyActivity implements RefreshLayout.OnRef
 
                 if(code != 0){
                     refresh_normalbuy.setResultState(RefreshLayout.ResultState.failed);
-                    showToast(msg);
+//                    showToast(msg);
                     return;
                 }
                 refresh_normalbuy.setResultState(RefreshLayout.ResultState.success);

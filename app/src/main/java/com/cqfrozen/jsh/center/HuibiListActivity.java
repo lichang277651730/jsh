@@ -131,12 +131,12 @@ public class HuibiListActivity extends MyActivity implements RefreshLayout.TopOr
             @Override
             public void httpResult(Integer which, int code, String msg, Object bean) {
                 if(code == 404){
-                    showToast(msg);
+//                    showToast(msg);
                     refresh_huibi.setResultState(RefreshLayout.ResultState.failed);
                     return;
                 }
                 if(code != 0){
-                    showToast(msg);
+//                    showToast(msg);
                     refresh_huibi.setResultState(RefreshLayout.ResultState.failed);
                     return;
                 }
