@@ -34,13 +34,14 @@ public class ShowHiddenPwdUtil {
                 if(curAllowTag == TAG_ALLOW_YES){//当前是同意，点击变不同意
                     iv_allow.setImageResource(R.mipmap.icon_register_allow_not);
                     tv_allow.setTextColor(UIUtils.getColor(R.color.mygray));
+                    tv_allow.setEnabled(false);
                     btn_go.setEnabled(false);
                     iv_allow.setTag(TAG_ALLOW_NO);
                     btn_go.setBackgroundResource(R.drawable.shape_no_press_btn_bg);
                 }else if(curAllowTag == TAG_ALLOW_NO){//当前是不同意，点击变同意
                     iv_allow.setImageResource(R.mipmap.icon_register_allow_yes);
-//                    tv_allow.setTextColor(getResources().getColor(R.color.myblack));
                     tv_allow.setTextColor(UIUtils.getColor(R.color.myblack));
+                    tv_allow.setEnabled(true);
                     btn_go.setEnabled(true);
                     iv_allow.setTag(TAG_ALLOW_YES);
                     btn_go.setBackgroundResource(R.drawable.sl_blue2gray_btn_bg);

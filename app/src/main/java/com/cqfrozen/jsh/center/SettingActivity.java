@@ -28,6 +28,7 @@ public class SettingActivity extends MyActivity implements View.OnClickListener 
     private LinearLayout ll_change_pwd;
     private Button btn_exit;
     private LinearLayout ll_help;
+    private LinearLayout ll_change_phone;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,9 +43,12 @@ public class SettingActivity extends MyActivity implements View.OnClickListener 
         ll_cache = (LinearLayout) findViewById(R.id.ll_cache);
         tv_cache = (TextView) findViewById(R.id.tv_cache);
         ll_help = (LinearLayout) findViewById(R.id.ll_help);
+        ll_change_phone = (LinearLayout) findViewById(R.id.ll_change_phone);
         btn_exit = (Button) findViewById(R.id.btn_exit);
         ll_change_pwd.setOnClickListener(this);
         ll_cache.setOnClickListener(this);
+        ll_change_phone.setOnClickListener(this);
+        ll_help.setOnClickListener(this);
         btn_exit.setOnClickListener(this);
         try {
             tv_cache.setText(DataCleanManager.getTotalCacheSize(this));
@@ -66,6 +70,12 @@ public class SettingActivity extends MyActivity implements View.OnClickListener 
                 }catch (Exception e){
                     e.printStackTrace();
                 }
+                break;
+            case R.id.ll_change_phone://更换手机号码
+                startActivity(new Intent(this, ChangePhoneActivity.class));
+                break;
+            case R.id.ll_help://意见反馈
+                startActivity(new Intent(this, SubmitIdeaActivity.class));
                 break;
             case R.id.btn_exit://退出
                 loginout();

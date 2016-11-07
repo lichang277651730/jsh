@@ -1,6 +1,5 @@
 package com.cqfrozen.jsh.center;
 
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,6 +16,7 @@ import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.adapter.AddressAdapter;
 import com.cqfrozen.jsh.entity.AddressInfo;
 import com.cqfrozen.jsh.main.MyActivity;
+import com.cqfrozen.jsh.util.CustomSimpleDialog;
 import com.cqfrozen.jsh.volleyhttp.MyHttp;
 
 import org.json.JSONObject;
@@ -36,8 +36,6 @@ public class AddressListActivity extends MyActivity implements View.OnClickListe
     private RecyclerView rv_addresslist;
     private List<AddressInfo> addressInfos = new ArrayList<>();
     private AddressAdapter adapter;
-    private AlertDialog deleteDialog;
-    private AlertDialog defaultDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -93,16 +91,18 @@ public class AddressListActivity extends MyActivity implements View.OnClickListe
         });
     }
 
+//    private AlertDialog defaultDialog;
+    private CustomSimpleDialog defaultDialog;
     private void showDefaultDialog(int position, final String a_id) {
-
-        defaultDialog = new AlertDialog.Builder(this)
+        defaultDialog = new CustomSimpleDialog.Builder(this)
                 .setMessage("确定设置此地址为默认地址吗？")
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onClick(final DialogInterface dialog, int which) {
                         MyHttp.setDefault(http, null, a_id, new HttpForVolley.HttpTodo() {
                             @Override
                             public void httpTodo(Integer which, JSONObject response) {
+                                dialog.cancel();
                                 int code = response.optInt("code");
                                 showToast(response.optString("msg"));
                                 if(code != 0){
@@ -113,25 +113,54 @@ public class AddressListActivity extends MyActivity implements View.OnClickListe
                         });
                     }
                 })
-                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                .setNegativeButton("取消", new DialogInterface.OnCancelListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onCancel(DialogInterface dialog) {
                         dialog.cancel();
                     }
                 })
                 .create();
         defaultDialog.show();
+//        defaultDialog = new AlertDialog.Builder(this)
+//                .setMessage("确定设置此地址为默认地址吗？")
+//                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        MyHttp.setDefault(http, null, a_id, new HttpForVolley.HttpTodo() {
+//                            @Override
+//                            public void httpTodo(Integer which, JSONObject response) {
+//                                int code = response.optInt("code");
+//                                showToast(response.optString("msg"));
+//                                if(code != 0){
+//                                    return;
+//                                }
+//                                getData();
+//                            }
+//                        });
+//                    }
+//                })
+//                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.cancel();
+//                    }
+//                })
+//                .create();
+//        defaultDialog.show();
     }
 
+//    private AlertDialog deleteDialog;
+    private CustomSimpleDialog deleteDialog;
     private void showDeleteDialog(final int position, final String a_id) {
-        deleteDialog = new AlertDialog.Builder(this)
+        deleteDialog = new CustomSimpleDialog.Builder(this)
                 .setMessage("确定要删除改地址吗？")
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onClick(final DialogInterface dialog, int which) {
                         MyHttp.deleterAddress(http, null, a_id, new HttpForVolley.HttpTodo() {
                             @Override
                             public void httpTodo(Integer which, JSONObject response) {
+                                dialog.cancel();
                                 int code = response.optInt("code");
                                 showToast(response.optString("msg"));
                                 if(code != 0){
@@ -143,14 +172,41 @@ public class AddressListActivity extends MyActivity implements View.OnClickListe
                         });
                     }
                 })
-                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                .setNegativeButton("取消", new DialogInterface.OnCancelListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onCancel(DialogInterface dialog) {
                         dialog.cancel();
                     }
                 })
                 .create();
         deleteDialog.show();
+//        deleteDialog = new AlertDialog.Builder(this)
+//                .setMessage("确定要删除改地址吗？")
+//                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        MyHttp.deleterAddress(http, null, a_id, new HttpForVolley.HttpTodo() {
+//                            @Override
+//                            public void httpTodo(Integer which, JSONObject response) {
+//                                int code = response.optInt("code");
+//                                showToast(response.optString("msg"));
+//                                if(code != 0){
+//                                    return;
+//                                }
+//                                addressInfos.remove(position);
+//                                adapter.notifyDataSetChanged();
+//                            }
+//                        });
+//                    }
+//                })
+//                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.cancel();
+//                    }
+//                })
+//                .create();
+//        deleteDialog.show();
     }
 
 

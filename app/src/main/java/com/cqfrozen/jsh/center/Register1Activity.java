@@ -9,12 +9,22 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.common.http.HttpForVolley;
 import com.common.widget.MyEditText;
 import com.cqfrozen.jsh.R;
+import com.cqfrozen.jsh.entity.HttpUrlInfo;
 import com.cqfrozen.jsh.main.MyActivity;
 import com.cqfrozen.jsh.main.MyApplication;
 import com.cqfrozen.jsh.util.ShowHiddenPwdUtil;
 import com.cqfrozen.jsh.util.ValidatorUtil;
+import com.cqfrozen.jsh.volleyhttp.MyHttp;
+
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2016/9/27.
@@ -35,12 +45,38 @@ public class Register1Activity extends MyActivity implements View.OnClickListene
     private String verifyCodeStr;
     private String pwdOnceStr;
     private String pwdAgainStr;
+    private List<HttpUrlInfo> httpUrlInfos = new ArrayList<HttpUrlInfo>();
+    private Map<Integer, String> urlMap = new HashMap<>();
+    private String user_protocol_url = "";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register1);
+        getUserProtocol();//获取用户协议url
         initView();
+    }
+
+    private void getUserProtocol() {
+        MyHttp.searchHttpUrl(http, null, new MyHttp.MyHttpResult() {
+
+            @Override
+            public void httpResult(Integer which, int code, String msg, Object bean) {
+                if(code != 0){
+//                    showToast(msg);
+                    return;
+                }
+                httpUrlInfos.addAll((List<HttpUrlInfo>)bean);
+                if(httpUrlInfos.size() == 0){
+                    return;
+                }
+                for(int i = 0; i < httpUrlInfos.size(); i++){
+                    HttpUrlInfo httpUrlInfo = httpUrlInfos.get(i);
+                    urlMap.put(httpUrlInfo.type, httpUrlInfo.http_url);
+                }
+                user_protocol_url = urlMap.get(MineFragment.UrlType.user_protocol);
+            }
+        });
     }
 
     private void initView() {
@@ -57,6 +93,7 @@ public class Register1Activity extends MyActivity implements View.OnClickListene
         btn_next = (Button) findViewById(R.id.btn_next);
         tv_get_verify.setOnClickListener(this);
         btn_next.setOnClickListener(this);
+        tv_allow.setOnClickListener(this);
         iv_see_again_pwd.setOnClickListener(this);
         ShowHiddenPwdUtil.initAllow(iv_allow, tv_allow, btn_next);
         ShowHiddenPwdUtil.initShowHiddenPwdView(iv_see_once_pwd, et_pwd_once);
@@ -72,6 +109,12 @@ public class Register1Activity extends MyActivity implements View.OnClickListene
             case R.id.btn_next://注册
                 next();
                 break;
+            case R.id.tv_allow://阅读用户协议
+                Intent intent = new Intent(this, WebUrlActivity.class);
+                intent.putExtra("title", "用户协议");
+                intent.putExtra("url", user_protocol_url);
+                startActivity(intent);
+                break;
             default:
                 break;
         }
@@ -86,17 +129,17 @@ public class Register1Activity extends MyActivity implements View.OnClickListene
         }
         MyApplication.downTimer.going();
         MyApplication.downTimer.setTextView(tv_get_verify);
-        //TODO 打开发送验证码接口调用
-//        MyHttp.sendCode(http, null, 1, phoneStr, new HttpForVolley.HttpTodo() {
-//            @Override
-//            public void httpTodo(Integer which, JSONObject response) {
-//                int code = response.optInt("code");
-//                showToast(response.optString("msg"));
-//                if(code != 0){
-//                    MyApplication.downTimer.setInit();
-//                }
-//            }
-//        });
+        MyHttp.sendCode(http, null, 1, phoneStr, new HttpForVolley.HttpTodo() {
+            @Override
+            public void httpTodo(Integer which, JSONObject response) {
+                int code = response.optInt("code");
+                showToast(response.optString("msg"));
+
+                if(code != 0){
+                    MyApplication.downTimer.setInit();
+                }
+            }
+        });
     }
 
     /**
@@ -129,6 +172,7 @@ public class Register1Activity extends MyActivity implements View.OnClickListene
         intent.putExtra("phoneStr", phoneStr);
         intent.putExtra("verifyCodeStr", verifyCodeStr);
         intent.putExtra("pwdOnceStr", pwdOnceStr);
+        intent.putExtra("url", user_protocol_url);
         startActivity(intent);
 
     }

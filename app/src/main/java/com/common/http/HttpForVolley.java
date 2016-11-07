@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.util.Base64;
-import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -92,7 +91,7 @@ public class HttpForVolley {
 		if (httpMap != null && method == Request.Method.GET) {
 			for (String key : httpMap.keySet()) {
 				try {
-					if (key.equals("token")) {
+					if (!key.equals("token")) {
 						httpMap.put(key,
 								URLEncoder.encode(httpMap.get(key), "utf-8"));
 					}

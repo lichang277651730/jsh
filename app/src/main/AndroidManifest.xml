@@ -184,6 +184,10 @@
                   android:theme="@style/SwipeBackTheme"/>
         <activity android:name=".center.WebUrlActivity"
                   android:theme="@style/SwipeBackTheme"/>
+        <activity android:name=".center.ChangePhoneActivity"
+                  android:theme="@style/SwipeBackTheme"/>
+        <activity android:name=".center.SubmitIdeaActivity"
+                  android:theme="@style/SwipeBackTheme"/>
     </application>
 
 </manifest>

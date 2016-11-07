@@ -62,25 +62,29 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.MyViewHolder
         holder.tv_now_price.setText("¥" + goodsInfo.now_price);
         holder.tv_market_price.setText("¥" + goodsInfo.market_price);
         holder.tv_market_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG|Paint.ANTI_ALIAS_FLAG);
-        if(goodsInfo.is_oos == 1){//不缺货
-            holder.tv_no_goods.setVisibility(View.VISIBLE);
-        }else if(goodsInfo.is_oos == 0){//缺货
+        if(goodsInfo.is_oos == 0){//不缺货
             holder.tv_no_goods.setVisibility(View.GONE);
+            holder.iv_add_cart.setImageResource(R.mipmap.icon_cart);
+        }else if(goodsInfo.is_oos == 1){//缺货
+            holder.tv_no_goods.setVisibility(View.VISIBLE);
+            holder.iv_add_cart.setImageResource(R.mipmap.icon_cart_no_pre);
         }
         //点击购物车
         holder.iv_add_cart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(goodsInfo.is_oos == 1){
+                    return;
+                }
 
                 MyHttp.addcart(http, null, goodsInfo.g_id, 1, new HttpForVolley.HttpTodo() {
                     @Override
                     public void httpTodo(Integer which, JSONObject response) {
-//                        ToastUtil.showToast(context, response.optString("msg"));
-                        CustomToast.getInstance(context).showToast(response.optString("msg"));
                         int code = response.optInt("code");
                         if(code != 0){
                             return;
                         }
+                        CustomToast.getInstance(context).showToast(response.optString("msg"));
                         cartManager.add(goodsInfo);
                     }
                 });

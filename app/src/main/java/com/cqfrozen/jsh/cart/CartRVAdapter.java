@@ -322,6 +322,9 @@ public class CartRVAdapter extends RecyclerView.Adapter<CartRVAdapter.MyViewHold
     public void showTotalPrice(){
         float totalPrice = getTotalPrice();
         tv_total.setText(Html.fromHtml("合计 ￥<span style='color:#eb4f38'>" + totalPrice + "</span>"), TextView.BufferType.SPANNABLE);
+        if(priceChangeListener != null){
+            priceChangeListener.priceChange(totalPrice);
+        }
     }
 
     public void checkAllNone(boolean isChecked) {
@@ -348,5 +351,15 @@ public class CartRVAdapter extends RecyclerView.Adapter<CartRVAdapter.MyViewHold
             return true;
         }
         return false;
+    }
+
+    private PriceChangeListener priceChangeListener;
+
+    public void setPriceChangeListener(PriceChangeListener priceChangeListener) {
+        this.priceChangeListener = priceChangeListener;
+    }
+
+    public interface PriceChangeListener{
+        void priceChange(float price);
     }
 }

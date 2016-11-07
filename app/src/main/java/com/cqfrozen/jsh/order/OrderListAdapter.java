@@ -1,6 +1,5 @@
 package com.cqfrozen.jsh.order;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -17,6 +16,7 @@ import com.common.http.HttpForVolley;
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.appraise.AppraiseActivity;
 import com.cqfrozen.jsh.entity.OrderResultInfo;
+import com.cqfrozen.jsh.util.CustomSimpleDialog;
 import com.cqfrozen.jsh.util.ToastUtil;
 import com.cqfrozen.jsh.volleyhttp.MyHttp;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -131,7 +131,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.MyVi
                 holder.btn_confirm_get.setVisibility(View.GONE);
                 holder.btn_go_say.setVisibility(View.GONE);
                 holder.btn_delete.setVisibility(View.VISIBLE);
-                //删除 取消的订单、已完成评价的订单）
+                //删除 取消的订单、已完成评价的订单
                 holder.btn_delete.setOnClickListener(this);
                 break;
         }
@@ -221,16 +221,18 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.MyVi
 
     }
 
-    private AlertDialog cancelNoPayDialog;
+//    private AlertDialog cancelNoPayDialog;
+    private CustomSimpleDialog cancelNoPayDialog;
     private void cancelNoPayDialog(final MyViewHolder holder, final String o_id) {
-        cancelNoPayDialog = new AlertDialog.Builder(context)
-                .setMessage("确定要取消该订单吗？")
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        MyHttp.cancelOrder(http, null, o_id, new HttpForVolley.HttpTodo() {
+        cancelNoPayDialog = new CustomSimpleDialog.Builder(context)
+        .setMessage("确定要取消该订单吗？")
+               .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                   @Override
+                   public void onClick(final DialogInterface dialog, int which) {
+                       MyHttp.cancelOrder(http, null, o_id, new HttpForVolley.HttpTodo() {
                             @Override
                             public void httpTodo(Integer which, JSONObject response) {
+                                dialog.cancel();
                                 int code = response.optInt("code");
                                 if(code != 0){
                                     ToastUtil.showToast(context, response.optString("msg"));
@@ -240,30 +242,60 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.MyVi
                                 holder.btn_delete.setVisibility(View.VISIBLE);
                             }
                         });
-                    }
-                })
-                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                   }
+               })
+                .setNegativeButton("取消", new DialogInterface.OnCancelListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onCancel(DialogInterface dialog) {
                         dialog.cancel();
                     }
                 })
-                .create();
+        .create();
         cancelNoPayDialog.show();
+//        cancelNoPayDialog = new AlertDialog.Builder(context)
+//                .setMessage("确定要取消该订单吗？")
+//                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        MyHttp.cancelOrder(http, null, o_id, new HttpForVolley.HttpTodo() {
+//                            @Override
+//                            public void httpTodo(Integer which, JSONObject response) {
+//                                int code = response.optInt("code");
+//                                if(code != 0){
+//                                    ToastUtil.showToast(context, response.optString("msg"));
+//                                    return;
+//                                }
+//                                holder.btn_cancel_nopay.setVisibility(View.GONE);
+//                                holder.btn_delete.setVisibility(View.VISIBLE);
+//                            }
+//                        });
+//                    }
+//                })
+//                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.cancel();
+//                    }
+//                })
+//                .create();
+//        cancelNoPayDialog.show();
     }
 
 
 
-    private AlertDialog cancelNoOutDialog;
+//    private AlertDialog cancelNoOutDialog;
+    private CustomSimpleDialog cancelNoOutDialog;
     private void showCancelNoOutDialog(final MyViewHolder holder, final String o_id) {
-        cancelNoOutDialog = new AlertDialog.Builder(context)
+
+        cancelNoOutDialog = new CustomSimpleDialog.Builder(context)
                 .setMessage("确定要取消该订单吗？")
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onClick(final DialogInterface dialog, int which) {
                         MyHttp.cancelOrder(http, null, o_id, new HttpForVolley.HttpTodo() {
                             @Override
                             public void httpTodo(Integer which, JSONObject response) {
+                                dialog.cancel();
                                 int code = response.optInt("code");
                                 if(code != 0){
                                     ToastUtil.showToast(context, response.optString("msg"));
@@ -275,26 +307,55 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.MyVi
                         });
                     }
                 })
-                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                .setNegativeButton("取消", new DialogInterface.OnCancelListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onCancel(DialogInterface dialog) {
                         dialog.cancel();
                     }
                 })
                 .create();
         cancelNoOutDialog.show();
+//        cancelNoOutDialog = new AlertDialog.Builder(context)
+//                .setMessage("确定要取消该订单吗？")
+//                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        MyHttp.cancelOrder(http, null, o_id, new HttpForVolley.HttpTodo() {
+//                            @Override
+//                            public void httpTodo(Integer which, JSONObject response) {
+//                                int code = response.optInt("code");
+//                                if(code != 0){
+//                                    ToastUtil.showToast(context, response.optString("msg"));
+//                                    return;
+//                                }
+//                                holder.btn_cancel_noout.setVisibility(View.GONE);
+//                                holder.btn_delete.setVisibility(View.VISIBLE);
+//                            }
+//                        });
+//                    }
+//                })
+//                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.cancel();
+//                    }
+//                })
+//                .create();
+//        cancelNoOutDialog.show();
     }
 
-    private AlertDialog deleteDialog;
+//    private AlertDialog deleteDialog;
+    private CustomSimpleDialog deleteDialog;
     private void showDeleteDialog(final int position, final MyViewHolder holder, final String o_id) {
-        deleteDialog = new AlertDialog.Builder(context)
+        deleteDialog = new CustomSimpleDialog.Builder(context)
                 .setMessage("确定要删除该订单吗？")
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onClick(final DialogInterface dialog, int which) {
                         MyHttp.orderDelete(http, null, o_id, new HttpForVolley.HttpTodo() {
                             @Override
                             public void httpTodo(Integer which, JSONObject response) {
+                                dialog.cancel();
                                 int code = response.optInt("code");
                                 if(code != 0){
                                     ToastUtil.showToast(context, response.optString("msg"));
@@ -314,14 +375,49 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.MyVi
                         });
                     }
                 })
-                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                .setNegativeButton("取消", new DialogInterface.OnCancelListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onCancel(DialogInterface dialog) {
                         dialog.cancel();
                     }
                 })
                 .create();
         deleteDialog.show();
+//        deleteDialog = new AlertDialog.Builder(context)
+//                .setMessage("确定要删除该订单吗？")
+//                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        MyHttp.orderDelete(http, null, o_id, new HttpForVolley.HttpTodo() {
+//                            @Override
+//                            public void httpTodo(Integer which, JSONObject response) {
+//                                int code = response.optInt("code");
+//                                if(code != 0){
+//                                    ToastUtil.showToast(context, response.optString("msg"));
+//                                    return;
+//                                }
+////                        holder.ll_btns.setVisibility(View.GONE);
+////                        v_divider.setVisibility(View.GONE);
+//                                orderSearchInfos.remove(position);
+//                                notifyItemRemoved(position);
+//                                holder.btn_cancel_nopay.setVisibility(View.GONE);
+//                                holder.btn_go_pay.setVisibility(View.GONE);
+//                                holder.btn_cancel_noout.setVisibility(View.GONE);
+//                                holder.btn_confirm_get.setVisibility(View.GONE);
+//                                holder.btn_go_say.setVisibility(View.GONE);
+//                                holder.btn_delete.setVisibility(View.GONE);
+//                            }
+//                        });
+//                    }
+//                })
+//                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.cancel();
+//                    }
+//                })
+//                .create();
+//        deleteDialog.show();
     }
 
     @Override

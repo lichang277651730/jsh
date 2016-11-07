@@ -216,7 +216,7 @@
             android:layout_marginLeft="8dp"
             android:layout_weight="1"
             android:maxLength="24"
-            android:text="我已阅读并同意"
+            android:text="我已阅读并同意(点击阅读)"
             android:textColor="@color/myblack"/>
 
     </LinearLayout>

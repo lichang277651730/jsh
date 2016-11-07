@@ -109,7 +109,7 @@
             android:layout_weight="1"
             android:background="@color/transparency"
             android:digits="0123456789abcdefjghigklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-            android:hint="请输入密码"
+            android:hint="请输入新密码"
             android:inputType="textPassword"
             android:maxLength="24"
             android:textColor="@color/black"
@@ -148,7 +148,7 @@
             android:layout_weight="1"
             android:background="@color/transparency"
             android:digits="0123456789abcdefjghigklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-            android:hint="请输入密码"
+            android:hint="请确认新密码"
             android:inputType="textPassword"
             android:maxLength="24"
             android:textColor="@color/black"
@@ -162,9 +162,7 @@
             android:padding="10dp"
             android:src="@mipmap/icon_register_pwd_nosee"/>
     </LinearLayout>
-
-
-
+    <View style="@style/HorizontalDividerLine"/>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="100dp"

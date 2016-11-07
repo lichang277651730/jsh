@@ -26,6 +26,7 @@
             android:background="@color/seven_transparency"
             android:padding="8dp"
             android:gravity="center"
+            android:visibility="gone"
             android:text="暂时缺货"/>
     </RelativeLayout>
 

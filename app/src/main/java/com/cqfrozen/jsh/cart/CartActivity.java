@@ -136,6 +136,22 @@ public class CartActivity extends MyActivity implements View.OnClickListener, Re
         rv_cart.addItemDecoration(decoration);
         rv_cart.setAdapter(cartAdapter);
         refresh_cart.setRC(rv_cart, this);
+
+        cartAdapter.setPriceChangeListener(new CartRVAdapter.PriceChangeListener() {
+            @Override
+            public void priceChange(float price) {
+                if("0.0".equals(price + "")){
+                    btn_order.setEnabled(false);
+                    btn_order.setTextColor(getResources().getColor(R.color.myblack));
+                    btn_order.setBackgroundColor(getResources().getColor(R.color.mygray));
+                }else {
+                    btn_order.setEnabled(true);
+                    btn_order.setTextColor(getResources().getColor(R.color.sl_cart_cb_color));
+                    btn_order.setBackgroundColor(getResources().getColor(R.color.mygray));
+                    btn_order.setBackgroundResource(R.drawable.sl_btn_red_bg);
+                }
+            }
+        });
     }
 
     private void getData() {

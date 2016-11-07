@@ -1,5 +1,6 @@
 package com.cqfrozen.jsh.center;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -34,6 +35,7 @@ import java.util.List;
  *  intent.putExtra("phoneStr", phoneStr);
  * intent.putExtra("verifyCodeStr", verifyCodeStr);
  * intent.putExtra("pwdOnceStr", pwdOnceStr);
+ * intent.putExtra("url", user_protocol_url);
  */
 public class Register2Activity extends MyActivity implements View.OnClickListener {
 
@@ -76,6 +78,7 @@ public class Register2Activity extends MyActivity implements View.OnClickListene
     private ArrayList<UserTypeInfo> userTypeInfos = new ArrayList<>();
     private ArrayList<UserTypePv> userTypePvs = new ArrayList<>();
     private String userTypeStr;
+    private String user_protocol_url;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -90,6 +93,7 @@ public class Register2Activity extends MyActivity implements View.OnClickListene
         phoneStr = getIntent().getStringExtra("phoneStr");
         verifyCodeStr = getIntent().getStringExtra("verifyCodeStr");
         pwdOnceStr = getIntent().getStringExtra("pwdOnceStr");
+        user_protocol_url = getIntent().getStringExtra("url");
     }
 
     private void initView() {
@@ -111,6 +115,7 @@ public class Register2Activity extends MyActivity implements View.OnClickListene
         tv_user_type.setOnClickListener(this);
         tv_allow.setOnClickListener(this);
         btn_register.setOnClickListener(this);
+        tv_allow.setOnClickListener(this);
         ShowHiddenPwdUtil.initAllow(iv_allow, tv_allow, btn_register);
 
         streetOptionsPV.setOnoptionsSelectListener(new OptionsPickerView
@@ -152,6 +157,12 @@ public class Register2Activity extends MyActivity implements View.OnClickListene
                 break;
             case R.id.tv_user_type:
                 userTypeOptionsPV.show();
+                break;
+            case R.id.tv_allow:
+                Intent intent = new Intent(this, WebUrlActivity.class);
+                intent.putExtra("title", "用户协议");
+                intent.putExtra("url", user_protocol_url);
+                startActivity(intent);
                 break;
             default:
                 break;

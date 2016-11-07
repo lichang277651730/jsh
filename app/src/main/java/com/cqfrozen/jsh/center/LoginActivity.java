@@ -58,7 +58,7 @@ public class LoginActivity extends MyActivity implements View.OnClickListener {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setTransparencyBar(true);
+        setTransparencyBar(true);
         setSwipeBackEnable(false);
         setContentView(R.layout.activity_login);
         initView();
@@ -69,7 +69,7 @@ public class LoginActivity extends MyActivity implements View.OnClickListener {
         super.onResume();
         scrollview_login.setFocusable(true);
         scrollview_login.setFocusableInTouchMode(true);
-//        scrollview_login.requestFocus();
+        scrollview_login.requestFocus();
     }
 
     private void initView() {

@@ -1,6 +1,5 @@
 package com.cqfrozen.jsh.center;
 
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,6 +16,7 @@ import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.adapter.ShopAdapter;
 import com.cqfrozen.jsh.entity.ShopInfo;
 import com.cqfrozen.jsh.main.MyActivity;
+import com.cqfrozen.jsh.util.CustomSimpleDialog;
 import com.cqfrozen.jsh.volleyhttp.MyHttp;
 
 import org.json.JSONObject;
@@ -36,7 +36,6 @@ public class ShopListActivity extends MyActivity implements View.OnClickListener
     private List<ShopInfo> shopInfos = new ArrayList<>();
     private ShopAdapter adapter;
 
-    private AlertDialog deleteDialog;
     private TextView tv_add;
 
     @Override
@@ -85,16 +84,18 @@ public class ShopListActivity extends MyActivity implements View.OnClickListener
         });
     }
 
+//    private AlertDialog deleteDialog;
+    private CustomSimpleDialog deleteDialog;
     private void showDeleteDialog(final int position, final String s_id) {
-        deleteDialog = new AlertDialog.Builder(this)
+        deleteDialog = new CustomSimpleDialog.Builder(this)
                 .setMessage("确定要删除改地址吗？")
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onClick(final DialogInterface dialog, int which) {
                         MyHttp.deleteStore(http, null, s_id, new HttpForVolley.HttpTodo() {
-
                             @Override
                             public void httpTodo(Integer which, JSONObject response) {
+                                dialog.cancel();
                                 int code = response.optInt("code");
                                 showToast(response.optString("msg"));
                                 if (code != 0) {
@@ -106,14 +107,42 @@ public class ShopListActivity extends MyActivity implements View.OnClickListener
                         });
                     }
                 })
-                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                .setNegativeButton("取消", new DialogInterface.OnCancelListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onCancel(DialogInterface dialog) {
                         dialog.cancel();
                     }
                 })
                 .create();
         deleteDialog.show();
+//        deleteDialog = new AlertDialog.Builder(this)
+//                .setMessage("确定要删除改地址吗？")
+//                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        MyHttp.deleteStore(http, null, s_id, new HttpForVolley.HttpTodo() {
+//
+//                            @Override
+//                            public void httpTodo(Integer which, JSONObject response) {
+//                                int code = response.optInt("code");
+//                                showToast(response.optString("msg"));
+//                                if (code != 0) {
+//                                    return;
+//                                }
+//                                shopInfos.remove(position);
+//                                adapter.notifyDataSetChanged();
+//                            }
+//                        });
+//                    }
+//                })
+//                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.cancel();
+//                    }
+//                })
+//                .create();
+//        deleteDialog.show();
     }
 
     private void getData() {

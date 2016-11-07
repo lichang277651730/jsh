@@ -4,16 +4,15 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.common.base.BaseValue;
+import com.common.refresh.RefreshLayout;
 import com.common.refresh.SupportLayout;
 import com.common.widget.GridDecoration;
-import com.common.refresh.RefreshLayout;
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.adapter.GoodsAdapter;
 import com.cqfrozen.jsh.adapter.NormalBuyAdapter;
@@ -177,7 +176,6 @@ public class GoodsFragment extends MyFragment implements MyHttp.MyHttpResult, My
         GoodsResultInfo goodsResultInfo = (GoodsResultInfo) bean;
         is_page = goodsResultInfo.is_page;
         goodsInfos.addAll(goodsResultInfo.data1);
-        Log.d("addAddress_params", goodsInfos.size() + "goodsInfossize");
         if(goodsInfos.size() == 0){
             setHttpNotData(this);
             return;

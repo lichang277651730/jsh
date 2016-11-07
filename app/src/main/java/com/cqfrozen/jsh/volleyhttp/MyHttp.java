@@ -895,6 +895,39 @@ public class MyHttp {
         toBean(GET, http, which, params, url, myHttpResult, beanType);
     }
 
+    /**
+     * 更改手机号码
+     */
+    public static void updateMobile(HttpForVolley http, Integer which, String mobile_num, String
+            code, HttpForVolley.HttpTodo httpTodo) {
+        String url = SERVER + "Personal/updatemobile";
+        params.clear();
+        params.put("mobile_num", mobile_num);
+        params.put("code", code);
+        params.put("token", MyApplication.token);
+        Log.d("addAddress_params", "mobile_num:"+ mobile_num + "," +
+                "code:"+ code + "," +
+                "token:"+  MyApplication.token);
+        http.goTo(POST, which, params, url, httpTodo);
+    }
+
+    /**
+     * 提交反馈意见
+     */
+    public static void feedBack(HttpForVolley http,Integer which, String content, HttpForVolley.HttpTodo httpTodo) {
+        String url = SERVER + "User/feedback";
+        params.clear();
+        params.put("content", content);
+        params.put("p_type", p_type + "");
+        params.put("token", MyApplication.token);
+        Log.d("addAddress_params", "content:"+ content + "," +
+                "p_type:"+ p_type + "," +
+                "token:"+  MyApplication.token);
+        http.goTo(POST, which, params, url, httpTodo);
+    }
+
+
+
     private static void toBean(int method, final HttpForVolley http, Integer which,
                                HashMap<String, String> httpMap, String url,
                                final MyHttpResult myHttpResult, final Type bean) {
@@ -902,18 +935,33 @@ public class MyHttp {
 
             @Override
             public void httpTodo(Integer which, JSONObject response) {
-                Log.d("addAddress_params", response.toString());
+//                Log.d("addAddress_params", response.toString());
                 //统一处理登录逻辑  code 1请求失败  2 登录失败  0请求成功s
                 int code = response.optInt("code", 1);
-//                if(code == 2 && (http.getContext().getClass() != MainActivity.class)){
-//                    Context context = http.getContext();
-//                    Toast.makeText(context, "登录失效，请重新登录", Toast.LENGTH_SHORT).show();
-//                    MyApplication.userInfo = null;
-//                    MyApplication.token = "";
-//                    SPUtils.setToken("");
-//                    context.startActivity(new Intent(context, LoginActivity.class));
-//
-//                }
+                if(code == 2){
+                    refreshToken(http, null, SPUtils.getToken(), new MyHttpResult() {
+                        @Override
+                        public void httpResult(Integer which, int code, String msg, Object bean) {
+                            if(code != 0){
+                                return;
+                            }
+                            SigninInfo signinInfo = (SigninInfo) bean;
+                            MyApplication.signinInfo = signinInfo;
+                            MyApplication.token = signinInfo.getToken();
+                            SPUtils.setToken(signinInfo.getToken());
+                            user(http, null, new MyHttpResult() {
+                                @Override
+                                public void httpResult(Integer which, int code, String msg, Object bean) {
+                                    if(code != 0){
+                                        return;
+                                    }
+                                    MyApplication.userInfo = (UserInfo) bean;
+                                }
+                            });
+                        }
+                    });
+
+                }
                 if(code == 3 && (http.getContext().getClass() != MainActivity.class)){
                     Context context = http.getContext();
                     Toast.makeText(context, "登录失效，请重新登录", Toast.LENGTH_SHORT).show();
