@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.KeyEvent;
+import android.view.WindowManager;
 
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.activity.HomeActivity;
@@ -25,6 +27,7 @@ public class MainActivity extends MyActivity implements MyHttp.MyHttpResult, Han
     private static final int GETUSERINFO = 2;
 
     private static MainActivity instance;
+    private int netResponseCode = -1;
 
     private Handler handler = new Handler(this);
 
@@ -33,11 +36,15 @@ public class MainActivity extends MyActivity implements MyHttp.MyHttpResult, Han
         if (SPUtils.getFirst()) {
             startActivity(new Intent(this, IndexActivity.class));
         } else {
-            if(MyApplication.userInfo == null){
-                startActivity(new Intent(this, LoginActivity.class));
-            }else {
+//            if(MyApplication.userInfo == null){
+//                startActivity(new Intent(this, LoginActivity.class));
+//            }else {
+            if(netResponseCode == 0){
                 startActivity(new Intent(this, HomeActivity.class));
+            }else {
+                startActivity(new Intent(this, LoginActivity.class));
             }
+//            }
         }
         finish();
         return false;
@@ -46,6 +53,8 @@ public class MainActivity extends MyActivity implements MyHttp.MyHttpResult, Han
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //全屏
+        getWindow().setFlags(WindowManager.LayoutParams. FLAG_FULLSCREEN , WindowManager.LayoutParams. FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
         instance = this;
         setStopHttp(false);
@@ -77,20 +86,38 @@ public class MainActivity extends MyActivity implements MyHttp.MyHttpResult, Han
         if (token.isEmpty() || token.length() < 2) {
             return;
         }
-        if(curTime < expireTime - 5 * 60){//不刷新token
-            MyApplication.token = SPUtils.getToken();
-            MyHttp.user(http, GETUSERINFO, this);
-        }else {//刷新token
-            MyHttp.refreshToken(http, REFRESHTOKEN, token, this);
-        }
+        MyHttp.refreshToken(http, REFRESHTOKEN, token, this);
+//        if(curTime < expireTime - 5 * 60){//不刷新token
+//            MyApplication.token = SPUtils.getToken();
+//            MyHttp.user(http, GETUSERINFO, this);
+//        }else {//刷新token
+//        }
+
+
     }
 
     @Override
     public void httpResult(Integer which, int code, String msg, Object bean) {
-        if (code != 0) {
-            SPUtils.setToken("");
+        netResponseCode = code;
+        if(code == 404){//网络错误
             return;
         }
+        if (code != 0) {
+//            SPUtils.setToken("");
+            if(!TextUtils.isEmpty(SPUtils.getToken())){
+                MyApplication.token = SPUtils.getToken();
+                MyHttp.user(http, GETUSERINFO, this);
+            }else {
+                startActivity(new Intent(this, LoginActivity.class));
+            }
+
+            return;
+        }
+
+//        if(code == 2){
+//            MyHttp.refreshToken(http, REFRESHTOKEN, SPUtils.getToken(), this);
+//            return;
+//        }
 
         switch (which) {
             case REFRESHTOKEN: //刷新token

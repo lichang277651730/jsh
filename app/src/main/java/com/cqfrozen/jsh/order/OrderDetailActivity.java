@@ -89,6 +89,7 @@ public class OrderDetailActivity extends MyActivity implements View.OnClickListe
     private CustomSimpleDialog deleteDialog;
     private CustomSimpleDialog cancelNoOutDialog;
     private CustomSimpleDialog cancelNoPayDialog;
+    private CustomSimpleDialog confirmGetDialog;
 
     private List<OrderDetailPageInfo.OrderDetailPageBean> orderDetailPageBeanList = new ArrayList<>();
 
@@ -350,19 +351,39 @@ public class OrderDetailActivity extends MyActivity implements View.OnClickListe
 
     //确认收货（已发货）
     private void confirmGet() {
-        MyHttp.orderConfirm(http, null, o_id, new HttpForVolley.HttpTodo() {
-            @Override
-            public void httpTodo(Integer which, JSONObject response) {
-                showToast(response.optString("msg"));
-                int code = response.optInt("code");
-                if(code != 0){
-                    return;
-                }
-                btn_confirm_get.setVisibility(View.GONE);
-                btn_go_say.setVisibility(View.VISIBLE);
-                goSay();//跳转评论页面
-            }
-        });
+        showConfirmGetDialog();
+    }
+
+
+    private void showConfirmGetDialog() {
+        confirmGetDialog = new CustomSimpleDialog.Builder(this)
+                .setMessage("确定已经收到该货了吗？")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(final DialogInterface dialog, int which) {
+                        MyHttp.orderConfirm(http, null, o_id, new HttpForVolley.HttpTodo() {
+                            @Override
+                            public void httpTodo(Integer which, JSONObject response) {
+                                showToast(response.optString("msg"));
+                                int code = response.optInt("code");
+                                if(code != 0){
+                                    return;
+                                }
+                                btn_confirm_get.setVisibility(View.GONE);
+                                btn_go_say.setVisibility(View.VISIBLE);
+                                goSay();//跳转评论页面
+                            }
+                        });
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialog) {
+                        dialog.cancel();
+                    }
+                })
+                .create();
+        confirmGetDialog.show();
     }
 
     /**

@@ -76,10 +76,12 @@ public class PhotoPopupWindow {
 			switch (v.getId()) {
 			case R.id.pop_btn_camera:
 				photoUtil.startCamera();
+//				ImageUtils.openCameraImage(context);
 				popupWindow.dismiss();
 				break;
 			case R.id.pop_btn_photo:
 				photoUtil.startPhoto();
+//				ImageUtils.openLocalImage(context);
 				popupWindow.dismiss();
 				break;
 			case R.id.pop_btn_no:

@@ -13,7 +13,7 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_marginTop="-70dp"
-        android:src="@mipmap/img_http_nodata"/>
+        android:src="@mipmap/img_no_order"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -30,6 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:background="@drawable/sl_try_btn_bg"
-        android:padding="5dp"
+        android:padding="8dp"
+        android:textColor="@color/mygray"
         android:text="去下一单"/>
 </LinearLayout>

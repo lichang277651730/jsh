@@ -62,6 +62,7 @@ public class AppraiseAdapter extends BaseAdapter {
         convertView = LayoutInflater.from(context).inflate(R.layout.item_appraise, parent, false);
         ImageView iv_appraise = (ImageView) convertView.findViewById(R.id.iv_appraise);
         RatingBar rb_appraise = (RatingBar) convertView.findViewById(R.id.rb_appraise);
+//        StarBarView sbv_starbar = (StarBarView) convertView.findViewById(R.id.sbv_starbar);
         EditText et_appraise = (EditText) convertView.findViewById(R.id.et_appraise);
 
         final AppraiseInfo appraiseInfo = appraiseInfos.get(position);
@@ -75,6 +76,7 @@ public class AppraiseAdapter extends BaseAdapter {
                 }
             }
         });
+
         et_appraise.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {

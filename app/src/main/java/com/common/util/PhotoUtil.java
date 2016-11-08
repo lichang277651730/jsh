@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 
 import java.io.File;
 
@@ -82,6 +83,7 @@ public  class PhotoUtil {
 
 	// 裁剪图片
 	public void startForfex(Uri uri) {
+		Log.d("resultCode", "start crop");
 		Intent intent = new Intent("com.android.camera.action.CROP");
 		intent.setDataAndType(uri, "image/*");
 		intent.putExtra("crop", "true");
@@ -113,9 +115,12 @@ public  class PhotoUtil {
 		fileDir = null;
 		boolean sdCardExist = Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED); // 判断sd卡是否存在
 		String filePath;
+		Log.d("PhotoUploadLog", "getUri");
 		if (sdCardExist) {
+			Log.d("PhotoUploadLog", "sdCardExist");
 			filePath = Environment.getExternalStorageDirectory().getPath() + SDFile;
 		} else {
+			Log.d("PhotoUploadLog", "sdCardnotExist");
 			filePath = Environment.getRootDirectory().getParentFile().getPath() + Rootfile;
 		}
 		fileDir = new File(filePath);
@@ -132,14 +137,17 @@ public  class PhotoUtil {
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (resultCode != Activity.RESULT_OK) {
 			// 取消后不作任何操作
+			Log.d("resultCode", "resultCode cancel");
 			return;
 		}
 		try {
 			switch (requestCode) {
 			case FromWhere.camera:
+				Log.d("resultCode", "fromWhere camera");
 				startForfex(imgUri);
 				break;
 			case FromWhere.photo:
+				Log.d("resultCode", "fromWhere photo1");
 				Bitmap bitmap = null;
 				if (null != data.getData()) {
 					imgUri = data.getData();
@@ -149,6 +157,7 @@ public  class PhotoUtil {
 					bitmap = data.getExtras().getParcelable("data");
 					imgUri = Uri.parse(MediaStore.Images.Media.insertImage(contentResolver, bitmap, null, null));
 				}
+				Log.d("resultCode", "fromWhere photo2" + bitmap == null ? "is null" : "not null");
 				startForfex(imgUri);
 				break;
 			default:

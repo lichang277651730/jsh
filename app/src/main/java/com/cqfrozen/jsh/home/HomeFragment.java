@@ -203,9 +203,9 @@ public class HomeFragment extends BaseFragment implements MyHttp.MyHttpResult ,V
     @Override
     public void onShow() {
         super.onShow();
-//        Log.d("HomeFragment", "FragmentOnShow");
-//        if(bannerInfos == null || bannerInfos.size() == 0){
-//            Log.d("HomeFragment", "FragmentOnShowgetData");
+//        if(bannerInfos.size() == 0 || classifyInfos.size() == 0
+//                || notifyInfos.size() == 0 || priceGoods.size() == 0
+//                || recommendGoods.size() == 0 || popGoods.size() == 0){
 //            getData();
 //        }
     }

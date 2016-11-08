@@ -938,30 +938,30 @@ public class MyHttp {
 //                Log.d("addAddress_params", response.toString());
                 //统一处理登录逻辑  code 1请求失败  2 登录失败  0请求成功s
                 int code = response.optInt("code", 1);
-                if(code == 2){
-                    refreshToken(http, null, SPUtils.getToken(), new MyHttpResult() {
-                        @Override
-                        public void httpResult(Integer which, int code, String msg, Object bean) {
-                            if(code != 0){
-                                return;
-                            }
-                            SigninInfo signinInfo = (SigninInfo) bean;
-                            MyApplication.signinInfo = signinInfo;
-                            MyApplication.token = signinInfo.getToken();
-                            SPUtils.setToken(signinInfo.getToken());
-                            user(http, null, new MyHttpResult() {
-                                @Override
-                                public void httpResult(Integer which, int code, String msg, Object bean) {
-                                    if(code != 0){
-                                        return;
-                                    }
-                                    MyApplication.userInfo = (UserInfo) bean;
-                                }
-                            });
-                        }
-                    });
-
-                }
+//                if(code == 2){
+//                    refreshToken(http, null, SPUtils.getToken(), new MyHttpResult() {
+//                        @Override
+//                        public void httpResult(Integer which, int code, String msg, Object bean) {
+//                            if(code != 0){
+//                                return;
+//                            }
+//                            SigninInfo signinInfo = (SigninInfo) bean;
+//                            MyApplication.signinInfo = signinInfo;
+//                            MyApplication.token = signinInfo.getToken();
+//                            SPUtils.setToken(signinInfo.getToken());
+//                            user(http, null, new MyHttpResult() {
+//                                @Override
+//                                public void httpResult(Integer which, int code, String msg, Object bean) {
+//                                    if(code != 0){
+//                                        return;
+//                                    }
+//                                    MyApplication.userInfo = (UserInfo) bean;
+//                                }
+//                            });
+//                        }
+//                    });
+//
+//                }
                 if(code == 3 && (http.getContext().getClass() != MainActivity.class)){
                     Context context = http.getContext();
                     Toast.makeText(context, "登录失效，请重新登录", Toast.LENGTH_SHORT).show();
@@ -969,6 +969,7 @@ public class MyHttp {
                     MyApplication.token = "";
                     SPUtils.setToken("");
                     context.startActivity(new Intent(context, LoginActivity.class));
+                    return;
                 }
 
                 Object data = null;

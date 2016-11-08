@@ -22,7 +22,7 @@
             android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:text="店 长"
-            android:textColor="@color/mygray"
+            android:textColor="@color/black"
             android:textSize="16sp"
             android:layout_marginRight="10dp"/>
 
@@ -53,7 +53,7 @@
             android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:text="手机号码"
-            android:textColor="@color/mygray"
+            android:textColor="@color/black"
             android:textSize="16sp"
             android:layout_marginRight="10dp"/>
 
@@ -67,6 +67,38 @@
             android:hint="请输入店长手机"
             android:inputType="phone"
             android:maxLength="11"
+            android:textColor="@color/black"
+            android:textColorHint="@color/myhint"/>
+    </LinearLayout>
+    <View style="@style/HorizontalDividerLine"
+          android:paddingLeft="16dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/white"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:text="店铺名"
+            android:textColor="@color/black"
+            android:layout_marginRight="10dp"
+            android:textSize="16sp"/>
+
+        <com.common.widget.MyEditText
+            android:id="@+id/et_shop"
+            style="@style/text_15sp_black"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/transparency"
+            android:hint="请输入店铺名字"
+            android:maxLength="20"
+            android:singleLine="true"
             android:textColor="@color/black"
             android:textColorHint="@color/myhint"/>
     </LinearLayout>
@@ -117,39 +149,8 @@
         <TextView
             android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:text="店铺名"
-            android:textColor="@color/mygray"
-            android:layout_marginRight="10dp"
-            android:textSize="16sp"/>
-
-        <com.common.widget.MyEditText
-            android:id="@+id/et_shop"
-            style="@style/text_15sp_black"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/transparency"
-            android:hint="请输入店铺名字"
-            android:maxLength="20"
-            android:singleLine="true"
-            android:textColor="@color/black"
-            android:textColorHint="@color/myhint"/>
-    </LinearLayout>
-    <View style="@style/HorizontalDividerLine"
-          android:paddingLeft="16dp"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@color/white"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
             android:text="详细地址"
-            android:textColor="@color/mygray"
+            android:textColor="@color/black"
             android:textSize="16sp"
             android:layout_marginRight="10dp"/>
 

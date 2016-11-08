@@ -82,6 +82,7 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
     private TextView tv_server_phone;
     private UserInfo userInfo;
     private LinearLayout ll_server_phone;
+    private Uri photoUri;
 
     public interface UrlType{
         int huibi_rule = 4;
@@ -398,10 +399,55 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+//        switch (requestCode) {
+//            case ImageUtils.GET_IMAGE_BY_CAMERA:
+//                //从拍照返回的结果  要考虑用户没有拍照，但是我们已经在数据库里已经创建了一条空数据了，我们要把它删除
+//                if(resultCode == Activity.RESULT_CANCELED){//拍照取消，将已经存在数据库里的图片地址删除
+//                    ImageUtils.deleteImageUri(getActivity(), ImageUtils.imageUriFromCamera);
+//                }else{//拍照成功，将图片添加到页面的九宫格里
+//                    ImageUtils.cropImage(getActivity(), ImageUtils.imageUriFromCamera);
+//                }
+//                break;
+//            case ImageUtils.GET_IMAGE_FROM_PHONE://从相册放回的结果
+//                photoUri = data.getData();
+////                mImgUrls.add(data.getData());
+////                updateImgs();
+//                break;
+//            case ImageUtils.CROP_IMAGE://裁剪返回的结果
+//                if(resultCode != Activity.RESULT_CANCELED){//已经裁剪,将裁剪好的图片地址存在一个集合里面
+//                    photoUri = ImageUtils.cropImageUri;
+////                    mImgUrls.add(ImageUtils.cropImageUri);
+////                    updateImgs();
+//                }else{
+//                    ImageUtils.deleteImageUri(getActivity(), ImageUtils.cropImageUri);
+//                }
+//                break;
+//
+//            default:
+//                break;
+//        }
+//        Log.d("photoUriPath", photoUri.toString() + ":" + photoUri.getPath());
+//        if (resultCode == Activity.RESULT_OK) {
+//            MyHttp.updateHead(http, null, Uri2PathUtil.getImgFilePath(photoUri, getActivity()), new HttpForVolley.HttpTodo() {
+//
+//                @Override
+//                public void httpTodo(Integer which, JSONObject response) {
+//                    if (response.optInt("code", 1) != 0) {
+//                        showToast("上传图片发生错误!");
+//                        return;
+//                    }
+//                    showToast("修改头像成功!");
+//                    String filename = response.optJSONObject("data").optString("head_url");
+//                    ImageLoader.getInstance().displayImage(filename, iv_head);
+//                    getUserInfo().head_url = filename;
+//                }
+//            });
         switch (requestCode) {
             case PhotoUtil.FromWhere.camera:
             case PhotoUtil.FromWhere.photo:
                 photoUtil.onActivityResult(requestCode, resultCode, data);
+                break;
             case PhotoUtil.FromWhere.forfex:
                 if (resultCode == Activity.RESULT_OK) {
                     MyHttp.updateHead(http, null, photoUtil.getForfexPath(), new HttpForVolley.HttpTodo() {
@@ -418,6 +464,8 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
                         }
                     });
                 }
+                break;
         }
+
     }
 }

@@ -140,7 +140,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.MyVi
         holder.btn_cancel_nopay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cancelNoPayDialog(holder, orderSearchInfo.o_id);
+                cancelNoPayDialog(position, holder, orderSearchInfo);
             }
         });
 
@@ -156,7 +156,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.MyVi
         holder.btn_cancel_noout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showCancelNoOutDialog(holder, orderSearchInfo.o_id);
+                showCancelNoOutDialog(position, holder, orderSearchInfo.o_id);
             }
         });
 
@@ -164,21 +164,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.MyVi
         holder.btn_confirm_get.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MyHttp.orderConfirm(http, null, orderSearchInfo.o_id, new HttpForVolley.HttpTodo() {
-                    @Override
-                    public void httpTodo(Integer which, JSONObject response) {
-                        int code = response.optInt("code");
-                        if(code != 0){
-                            ToastUtil.showToast(context, response.optString("msg"));
-                            return;
-                        }
-                        holder.btn_confirm_get.setVisibility(View.GONE);
-                        holder.btn_go_say.setVisibility(View.VISIBLE);
-                        Intent intent = new Intent(context, AppraiseActivity.class);
-                        intent.putExtra("o_id", orderSearchInfo.o_id);
-                        context.startActivity(intent);
-                    }
-                });
+                showConfirmGetDialog(position, holder, orderSearchInfo.o_id);
             }
         });
 
@@ -221,15 +207,50 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.MyVi
 
     }
 
-//    private AlertDialog cancelNoPayDialog;
+    private CustomSimpleDialog confirmGetDialog;
+    private void showConfirmGetDialog(final int position, final MyViewHolder holder, final String o_id) {
+        confirmGetDialog = new CustomSimpleDialog.Builder(context)
+                .setMessage("确定已经收到该货了吗？")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(final DialogInterface dialog, int which) {
+                        MyHttp.orderConfirm(http, null, o_id, new HttpForVolley.HttpTodo() {
+                            @Override
+                            public void httpTodo(Integer which, JSONObject response) {
+                                int code = response.optInt("code");
+                                if(code != 0){
+                                    ToastUtil.showToast(context, response.optString("msg"));
+                                    return;
+                                }
+                                holder.btn_confirm_get.setVisibility(View.GONE);
+                                holder.btn_go_say.setVisibility(View.VISIBLE);
+                                Intent intent = new Intent(context, AppraiseActivity.class);
+                                intent.putExtra("o_id", o_id);
+                                context.startActivity(intent);
+//                                notifyItemChanged(position);
+                            }
+                        });
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialog) {
+                        dialog.cancel();
+                    }
+                })
+                .create();
+        confirmGetDialog.show();
+    }
+
+    //    private AlertDialog cancelNoPayDialog;
     private CustomSimpleDialog cancelNoPayDialog;
-    private void cancelNoPayDialog(final MyViewHolder holder, final String o_id) {
+    private void cancelNoPayDialog(final int position, final MyViewHolder holder, final OrderResultInfo.OrderSearchInfo orderSearchInfo) {
         cancelNoPayDialog = new CustomSimpleDialog.Builder(context)
         .setMessage("确定要取消该订单吗？")
                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                    @Override
                    public void onClick(final DialogInterface dialog, int which) {
-                       MyHttp.cancelOrder(http, null, o_id, new HttpForVolley.HttpTodo() {
+                       MyHttp.cancelOrder(http, null, orderSearchInfo.o_id, new HttpForVolley.HttpTodo() {
                             @Override
                             public void httpTodo(Integer which, JSONObject response) {
                                 dialog.cancel();
@@ -240,6 +261,8 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.MyVi
                                 }
                                 holder.btn_cancel_nopay.setVisibility(View.GONE);
                                 holder.btn_delete.setVisibility(View.VISIBLE);
+//                                orderSearchInfo.btn_type = 5;
+//                                notifyItemChanged(position);
                             }
                         });
                    }
@@ -285,7 +308,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.MyVi
 
 //    private AlertDialog cancelNoOutDialog;
     private CustomSimpleDialog cancelNoOutDialog;
-    private void showCancelNoOutDialog(final MyViewHolder holder, final String o_id) {
+    private void showCancelNoOutDialog(final int position, final MyViewHolder holder, final String o_id) {
 
         cancelNoOutDialog = new CustomSimpleDialog.Builder(context)
                 .setMessage("确定要取消该订单吗？")
@@ -303,6 +326,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.MyVi
                                 }
                                 holder.btn_cancel_noout.setVisibility(View.GONE);
                                 holder.btn_delete.setVisibility(View.VISIBLE);
+//                                notifyItemChanged(position);
                             }
                         });
                     }

@@ -1,6 +1,5 @@
 package com.cqfrozen.jsh.order;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
@@ -35,7 +34,7 @@ public class OrderFragment extends MyFragment implements RefreshLayout.OnRefresh
     private int is_page = 0;
 
     private List<OrderResultInfo.OrderSearchInfo> orderSearchInfos = new ArrayList<>();
-    private OrderListAdapter adapter;
+    private OrderListAdapter2 adapter;
     private LinearLayout include_ordernoorderlayout;
     private Button include_orderondata_btn;
 
@@ -77,7 +76,8 @@ public class OrderFragment extends MyFragment implements RefreshLayout.OnRefresh
 
     private void initRV() {
         rv_order.setOverScrollMode(View.OVER_SCROLL_NEVER);
-        adapter = new OrderListAdapter(mActivity, orderSearchInfos);
+//        adapter = new OrderListAdapter(mActivity, orderSearchInfos);
+        adapter = new OrderListAdapter2(mActivity, orderSearchInfos);
         GridLayoutManager manager = new GridLayoutManager(mActivity, 1);
         MyGridDecoration decoration = new MyGridDecoration(BaseValue.dp2px(4), BaseValue
                 .dp2px(0), getResources().getColor(R.color.mybg), false);
@@ -85,15 +85,15 @@ public class OrderFragment extends MyFragment implements RefreshLayout.OnRefresh
         rv_order.setLayoutManager(manager);
         rv_order.setAdapter(adapter);
         refresh_order.setRC(rv_order, this);
-        adapter.setOnItemClickListener(new OrderListAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position, OrderResultInfo.OrderSearchInfo orderSearchInfo) {
-                Intent intent = new Intent(mActivity, OrderDetailActivity.class);
-                intent.putExtra("o_id", orderSearchInfo.o_id);
-                intent.putExtra("from", OrderDetailActivity.FROM.FROM_ORDER_LIST);
-                startActivity(intent);
-            }
-        });
+//        adapter.setOnItemClickListener(new OrderListAdapter.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(int position, OrderResultInfo.OrderSearchInfo orderSearchInfo) {
+//                Intent intent = new Intent(mActivity, OrderDetailActivity.class);
+//                intent.putExtra("o_id", orderSearchInfo.o_id);
+//                intent.putExtra("from", OrderDetailActivity.FROM.FROM_ORDER_LIST);
+//                startActivity(intent);
+//            }
+//        });
     }
 
     private void getData() {
