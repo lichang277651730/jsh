@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bigkoo.pickerview.OptionsPickerView;
@@ -16,6 +17,7 @@ import com.cqfrozen.jsh.entity.AreaInfo;
 import com.cqfrozen.jsh.entity.AreaStreetInfo;
 import com.cqfrozen.jsh.entity.StreetInfo;
 import com.cqfrozen.jsh.main.MyActivity;
+import com.cqfrozen.jsh.util.HiddenInputUtil;
 import com.cqfrozen.jsh.util.ValidatorUtil;
 import com.cqfrozen.jsh.volleyhttp.MyHttp;
 
@@ -48,6 +50,7 @@ public class ShopAddActivity extends MyActivity implements View.OnClickListener 
 
     private String street_id;
     private String area_id;
+    private LinearLayout ll_shop_edit_root;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,6 +62,7 @@ public class ShopAddActivity extends MyActivity implements View.OnClickListener 
 
     private void initView() {
         setMyTitle("新增店铺");
+        ll_shop_edit_root = (LinearLayout) findViewById(R.id.ll_shop_edit_root);
         et_name = (MyEditText) findViewById(R.id.et_name);
         et_phone = (MyEditText) findViewById(R.id.et_phone);
         tv_location = (TextView) findViewById(R.id.tv_location);
@@ -68,7 +72,10 @@ public class ShopAddActivity extends MyActivity implements View.OnClickListener 
 
         tv_location.setOnClickListener(this);
         btn_save.setOnClickListener(this);
+        ll_shop_edit_root.setOnClickListener(this);
+
         streetOptionsPV = new OptionsPickerView(this);
+        streetOptionsPV.setCancelable(true);
 
         streetOptionsPV.setOnoptionsSelectListener(new OptionsPickerView
                 .OnOptionsSelectListener() {
@@ -94,13 +101,21 @@ public class ShopAddActivity extends MyActivity implements View.OnClickListener 
         switch (v.getId()) {
             case R.id.tv_location://弹出区域选择列表
                 streetOptionsPV.show();
+                hideSoftInput(v);
                 break;
             case R.id.btn_save:
                 saveShop();
                 break;
+            case R.id.ll_shop_edit_root:
+                hideSoftInput(v);
+                break;
             default:
                 break;
         }
+    }
+
+    private void hideSoftInput(View v) {
+        HiddenInputUtil.hiddenSoftInput(this, v);
     }
 
     private void saveShop() {

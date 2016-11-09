@@ -21,7 +21,7 @@ import com.cqfrozen.jsh.cart.CartFragment;
 import com.cqfrozen.jsh.cart.CartManager;
 import com.cqfrozen.jsh.center.MineFragment;
 import com.cqfrozen.jsh.classify.ClassifyFragment;
-import com.cqfrozen.jsh.home.HomeFragment;
+import com.cqfrozen.jsh.home.HomeFragment2;
 import com.cqfrozen.jsh.main.MyApplication;
 import com.cqfrozen.jsh.util.UpdateUtils;
 import com.cqfrozen.jsh.widget.BadgeView;
@@ -81,7 +81,7 @@ public class HomeActivity extends BaseActivity implements RadioGroup.OnCheckedCh
                 badgeView.setText(cartManager.getCartGoodsNum() + "");
                 badgeView.show();
             }
-            badgeView.setTextSize(10);
+            badgeView.setTextSize(8);
             badgeView.setBadgePosition(BadgeView.POSITION_BOTTOM_LEFT);
             badgeView.setBadgeMargin(BaseValue.dp2px(20), BaseValue.dp2px(15));
             cartManager.setOnNumChangeListener(new CartManager.OnNumChangeListener() {
@@ -122,7 +122,8 @@ public class HomeActivity extends BaseActivity implements RadioGroup.OnCheckedCh
 
     private void initFragment() {
         fragments = new ArrayList<>();
-        fragments.add(HomeFragment.getInstance());
+//        fragments.add(HomeFragment.getInstance());
+        fragments.add(HomeFragment2.getInstance());
         fragments.add(ClassifyFragment.getInstance());
         fragments.add(CartFragment.getInstance());
         fragments.add(MineFragment.getInstance());

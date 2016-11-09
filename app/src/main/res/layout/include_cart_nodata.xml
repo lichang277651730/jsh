@@ -10,8 +10,8 @@
     android:orientation="vertical">
 
     <ImageView
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_marginTop="-70dp"
         android:src="@mipmap/cart_no_data"/>
 
@@ -20,16 +20,28 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:gravity="center"
-        android:text="购物车没有商品哦"
-        android:textColor="@color/mygray"
-        android:textSize="13sp"/>
+        android:text="您的购物车没有商品哟~"
+        android:textColor="@color/color_six"
+        android:textSize="16sp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:gravity="center"
+        android:text="快去挑选商品吧！"
+        android:textColor="@color/color_six"
+        android:textSize="14sp"/>
 
     <Button
         android:id="@+id/include_cartnodata_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:background="@drawable/sl_try_btn_bg"
-        android:padding="5dp"
+        android:background="@drawable/sl_cart_try_btn_bg"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingRight="30dp"
+        android:paddingLeft="30dp"
+        android:textColor="@color/main"
         android:text="去逛逛"/>
 </LinearLayout>

@@ -7,8 +7,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.common.base.BaseValue;
+import com.common.refresh.SupportLayout;
 import com.common.widget.MyGridDecoration;
-import com.common.widget.RefreshLayout;
+import com.common.refresh.RefreshLayout;
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.adapter.CommentRVAdapter;
 import com.cqfrozen.jsh.entity.CommentResultInfo;
@@ -22,7 +23,7 @@ import java.util.List;
  * Created by Administrator on 2016/10/26.
  *  intent2.putExtra("g_id", g_id);
  */
-public class CommentListActivity extends MyActivity implements MyActivity.HttpFail, RefreshLayout.OnRefreshListener, RefreshLayout.TopOrBottom {
+public class CommentListActivity extends MyActivity implements MyActivity.HttpFail, SupportLayout.RefreshListener, SupportLayout.LoadMoreListener {
 
     private Long g_id;
     private List<CommentResultInfo.CommentInfo> commentInfos = new ArrayList<>();
@@ -52,8 +53,8 @@ public class CommentListActivity extends MyActivity implements MyActivity.HttpFa
         setMyTitle("商品评论");
         refresh_comment = (RefreshLayout) findViewById(R.id.refresh_comment);
         rv_comment = (RecyclerView) findViewById(R.id.rv_comment);
-        refresh_comment.setRefreshble(true);
         refresh_comment.setOnRefreshListener(this);
+        refresh_comment.setOnLoadMoreListener(this);
     }
 
     private void initRV() {
@@ -65,7 +66,6 @@ public class CommentListActivity extends MyActivity implements MyActivity.HttpFa
         rv_comment.setLayoutManager(manager);
         commentRVAdapter = new CommentRVAdapter(this, commentInfos);
         rv_comment.setAdapter(commentRVAdapter);
-        refresh_comment.setRC(rv_comment, this);
     }
 
     private void getData() {
@@ -75,16 +75,19 @@ public class CommentListActivity extends MyActivity implements MyActivity.HttpFa
             public void httpResult(Integer which, int code, String msg, Object bean) {
                 if(code == 404){
                     setHttpFail(CommentListActivity.this);
-                    refresh_comment.setResultState(RefreshLayout.ResultState.failed);
+                    refresh_comment.setRefreshFailed();
+                    refresh_comment.setLoadFailed();
                     return;
                 }
 
                 if(code != 0){
-//                    showToast(msg);
-                    refresh_comment.setResultState(RefreshLayout.ResultState.failed);
+                    setHttpFail(CommentListActivity.this);
+                    refresh_comment.setRefreshFailed();
+                    refresh_comment.setLoadFailed();
                     return;
                 }
-                refresh_comment.setResultState(RefreshLayout.ResultState.success);
+                refresh_comment.setRefreshSuccess();
+                refresh_comment.setLoadSuccess();
                 CommentResultInfo commentResultInfo = (CommentResultInfo) bean;
                 commentInfos.addAll(commentResultInfo.data1);
                 is_page = commentResultInfo.is_page;
@@ -106,7 +109,7 @@ public class CommentListActivity extends MyActivity implements MyActivity.HttpFa
     }
 
     @Override
-    public void onRefresh() {
+    public void refresh() {
         is_page = 0;
         page = 1;
         commentInfos.clear();
@@ -114,34 +117,12 @@ public class CommentListActivity extends MyActivity implements MyActivity.HttpFa
     }
 
     @Override
-    public void gotoTop() {
-
-    }
-
-    @Override
-    public void gotoBottom() {
+    public void loadMore() {
         if(is_page == 1){
             getData();
-        }else {
-
+        }else if(is_page == 0){
+            refresh_comment.setLoadNodata();
         }
     }
 
-    @Override
-    public void move() {
-
-    }
-
-    @Override
-    public void stop() {
-
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if(refresh_comment != null && refresh_comment.isRefreshing){
-            refresh_comment.setResultState(RefreshLayout.ResultState.close);
-        }
-    }
 }

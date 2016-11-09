@@ -157,6 +157,11 @@ public class OrderConfirmActivity extends MyActivity implements View.OnClickList
             orderConfirmLvAdapter.notifyDataSetChanged();
             MeasureUtil.setListViewHeightBasedOnChildren(lv_goods);
         }
+        if(orderInfo.goods.size() == 1){
+            rl_order.setVisibility(View.GONE);
+        }else if(orderInfo.goods.size() > 1){
+            rl_order.setVisibility(View.VISIBLE);
+        }
         tv_count.setText(goodsList == null ? "共0件商品" : "共" +orderInfo.goods.size() + "件商品");
         tv_freight.setText(orderInfo == null ? "" : "￥" + orderInfo.weight_amount);
         tv_huibi.setText(orderInfo == null ? "" : "￥" + orderInfo.use_hb_count);
@@ -224,8 +229,8 @@ public class OrderConfirmActivity extends MyActivity implements View.OnClickList
                     @Override
                     public void httpResult(Integer which, int code, String msg, Object bean) {
                         btn_buy.setEnabled(true);//防止重复提交
-//                        showToast(msg);
                         if(code != 0){
+                            showToast(msg);
                             return;
                         }
                         CartManager.getInstance(OrderConfirmActivity.this).delete(carDataAry);

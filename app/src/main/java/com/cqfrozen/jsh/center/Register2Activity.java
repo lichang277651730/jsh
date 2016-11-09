@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bigkoo.pickerview.OptionsPickerView;
@@ -20,6 +21,7 @@ import com.cqfrozen.jsh.entity.StreetInfo;
 import com.cqfrozen.jsh.entity.UserTypeInfo;
 import com.cqfrozen.jsh.entity.UserTypePv;
 import com.cqfrozen.jsh.main.MyActivity;
+import com.cqfrozen.jsh.util.HiddenInputUtil;
 import com.cqfrozen.jsh.util.ShowHiddenPwdUtil;
 import com.cqfrozen.jsh.volleyhttp.MyHttp;
 
@@ -79,6 +81,7 @@ public class Register2Activity extends MyActivity implements View.OnClickListene
     private ArrayList<UserTypePv> userTypePvs = new ArrayList<>();
     private String userTypeStr;
     private String user_protocol_url;
+    private LinearLayout ll_register2_root;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -98,6 +101,7 @@ public class Register2Activity extends MyActivity implements View.OnClickListene
 
     private void initView() {
         setMyTitle("新用户注册");
+        ll_register2_root = (LinearLayout) findViewById(R.id.ll_register2_root);
         et_shop_name = (MyEditText) findViewById(R.id.et_shop_name);
         et_shop_manager = (MyEditText) findViewById(R.id.et_shop_manager);
         et_address = (MyEditText) findViewById(R.id.et_address);
@@ -111,11 +115,16 @@ public class Register2Activity extends MyActivity implements View.OnClickListene
         streetOptionsPV = new OptionsPickerView(this);
         userTypeOptionsPV = new OptionsPickerView(this);
 
+        streetOptionsPV.setCancelable(true);
+        userTypeOptionsPV.setCancelable(true);
+
         tv_location.setOnClickListener(this);
         tv_user_type.setOnClickListener(this);
         tv_allow.setOnClickListener(this);
         btn_register.setOnClickListener(this);
         tv_allow.setOnClickListener(this);
+        ll_register2_root.setOnClickListener(this);
+
         ShowHiddenPwdUtil.initAllow(iv_allow, tv_allow, btn_register);
 
         streetOptionsPV.setOnoptionsSelectListener(new OptionsPickerView
@@ -153,9 +162,11 @@ public class Register2Activity extends MyActivity implements View.OnClickListene
                 register();
                 break;
             case R.id.tv_location:
+                hideSoftInput(v);
                 streetOptionsPV.show();
                 break;
             case R.id.tv_user_type:
+                hideSoftInput(v);
                 userTypeOptionsPV.show();
                 break;
             case R.id.tv_allow:
@@ -164,9 +175,16 @@ public class Register2Activity extends MyActivity implements View.OnClickListene
                 intent.putExtra("url", user_protocol_url);
                 startActivity(intent);
                 break;
+            case R.id.ll_register2_root://隐藏软键盘
+                hideSoftInput(v);
+                break;
             default:
                 break;
         }
+    }
+
+    private void hideSoftInput(View v) {
+        HiddenInputUtil.hiddenSoftInput(this, v);
     }
 
     private void register() {

@@ -117,7 +117,7 @@ public class GoodsFragment extends MyFragment implements MyHttp.MyHttpResult, My
         rv_goods.setOverScrollMode(View.OVER_SCROLL_NEVER);
         gvmanager = new GridLayoutManager(mActivity, 2);
         lvManager = new GridLayoutManager(mActivity, 1);
-        GridDecoration newGridDecoration = new GridDecoration(0, BaseValue.dp2px(1),
+        GridDecoration newGridDecoration = new GridDecoration(0, BaseValue.dp2px(4),
                 getResources().getColor(R.color.mybg), true);
         rv_goods.addItemDecoration(newGridDecoration);
         goodsAdapter = new GoodsAdapter(mActivity, goodsInfos);
@@ -133,7 +133,7 @@ public class GoodsFragment extends MyFragment implements MyHttp.MyHttpResult, My
                 MyHttp.goodstypeList(http, null, page, g_type_id, this);
                 break;
             case Where.SEARCH:
-                refresh_goods.setRefreshable(false);
+                refresh_goods.setRefreshable(true);
                 MyHttp.goodsSearch(http, null, page, keyword, sort, order, this);
                 break;
             default:
@@ -167,12 +167,13 @@ public class GoodsFragment extends MyFragment implements MyHttp.MyHttpResult, My
         }
 
         if(code != 0){
-//            showToast(msg);
+            setHttpFail(this);
             refresh_goods.setLoadFailed();
             refresh_goods.setRefreshFailed();
             return;
         }
         refresh_goods.setRefreshSuccess();
+        refresh_goods.setLoadSuccess();
         GoodsResultInfo goodsResultInfo = (GoodsResultInfo) bean;
         is_page = goodsResultInfo.is_page;
         goodsInfos.addAll(goodsResultInfo.data1);
@@ -203,58 +204,12 @@ public class GoodsFragment extends MyFragment implements MyHttp.MyHttpResult, My
     @Override
     public void loadMore() {
         if(is_page == 1){
-//            tv_no_more.setVisibility(View.GONE);
             getData();
         }else if(is_page == 0){
-//            showToast("没有更多数据了!~");
-//            tv_no_more.setVisibility(View.VISIBLE);
             refresh_goods.setLoadNodata();
         }
     }
 
-
-//    //下拉刷新
-//    @Override
-//    public void onRefresh() {
-//        page = 1;
-//        is_page = 0;
-//        goodsInfos.clear();
-//        getData();
-//    }
-
-//    @Override
-//    public void onStop() {
-//        super.onStop();
-//        if(refresh_goods != null && refresh_goods.isRefreshing){
-//            refresh_goods.setResultState(RefreshLayout.ResultState.close);
-//        }
-//    }
-
-//    @Override
-//    public void gotoTop() {
-//
-//    }
-//
-//    @Override
-//    public void gotoBottom() {
-//        if(is_page == 1){
-//            tv_no_more.setVisibility(View.GONE);
-//            getData();
-//        }else if(is_page == 0){
-////            showToast("没有更多数据了!~");
-//            tv_no_more.setVisibility(View.VISIBLE);
-//        }
-//    }
-//
-//    @Override
-//    public void move() {
-//
-//    }
-//
-//    @Override
-//    public void stop() {
-//
-//    }
 
     public void changeView(int viewType){
         if(viewType == SearchResultActivity.ViewType.TYPE_GV){

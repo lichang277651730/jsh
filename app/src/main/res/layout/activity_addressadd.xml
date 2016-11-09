@@ -23,7 +23,7 @@
             android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:text="收 件 人"
-            android:textColor="@color/mygray"
+            android:textColor="@color/black"
             android:textSize="16sp"
             android:layout_marginRight="10dp"/>
 
@@ -54,7 +54,7 @@
             android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:text="手机号码"
-            android:textColor="@color/mygray"
+            android:textColor="@color/black"
             android:textSize="16sp"
             android:layout_marginRight="10dp"/>
 
@@ -70,40 +70,6 @@
             android:maxLength="11"
             android:textColor="@color/black"
             android:textColorHint="@color/myhint"/>
-    </LinearLayout>
-    <View style="@style/HorizontalDividerLine"
-          android:paddingLeft="16dp"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@color/white"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:text="所属区域"
-            android:textColor="@color/black"
-            android:layout_marginRight="10dp"
-            android:textSize="16sp"/>
-
-
-        <TextView
-            android:id="@+id/tv_location"
-            style="@style/text_15sp_black"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/transparency"
-            android:hint="点击选择收货区域"
-            android:textColor="@color/black"
-            android:textColorHint="@color/myhint"/>
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/icon_toright_blue"/>
     </LinearLayout>
     <View style="@style/HorizontalDividerLine"
           android:paddingLeft="16dp"/>
@@ -152,8 +118,43 @@
         <TextView
             android:layout_width="80dp"
             android:layout_height="wrap_content"
+            android:text="所属区域"
+            android:textColor="@color/black"
+            android:layout_marginRight="10dp"
+            android:textSize="16sp"/>
+
+
+        <TextView
+            android:id="@+id/tv_location"
+            style="@style/text_15sp_black"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/transparency"
+            android:hint="点击选择收货区域"
+            android:textColor="@color/black"
+            android:textColorHint="@color/myhint"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/icon_toright_blue"/>
+    </LinearLayout>
+
+    <View style="@style/HorizontalDividerLine"
+          android:paddingLeft="16dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/white"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
             android:text="详细地址"
-            android:textColor="@color/mygray"
+            android:textColor="@color/black"
             android:textSize="16sp"
             android:layout_marginRight="10dp"/>
 

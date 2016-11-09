@@ -47,13 +47,13 @@
         android:layout_below="@id/rl_title"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:overScrollMode="never"
         android:scrollbars="none">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/main"
-        android:orientation="vertical"
-        android:overScrollMode="never">
+        android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -180,6 +180,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="12dp"
+                android:textColor="#666666"
                 android:text="商品信息"
                 android:textSize="16sp"/>
         </RelativeLayout>
@@ -203,7 +204,8 @@
                 <TextView
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:text="品牌："
+                    android:text="品牌:"
+                    android:textColor="#666666"
                     android:textSize="14sp"/>
 
                 <TextView
@@ -211,6 +213,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="金锣"
+                    android:textColor="#333333"
                     android:textSize="14sp"/>
             </LinearLayout>
 
@@ -219,6 +222,52 @@
                 android:layout_height="0dp"
                 android:layout_marginLeft="12dp"
                 android:layout_weight="1"
+                android:orientation="horizontal"
+                android:padding="4dp">
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="保质期:"
+                    android:textColor="#666666"
+                    android:textSize="14sp"/>
+
+                <TextView
+                    android:id="@+id/tv_save_life"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="1年"
+                    android:textColor="#333333"
+                    android:textSize="14sp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginLeft="12dp"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:padding="4dp">
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="存储方式:"
+                    android:textColor="#666666"
+                    android:textSize="14sp"/>
+
+                <TextView
+                    android:id="@+id/tv_save_mode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="免运费"
+                    android:textColor="#333333"
+                    android:textSize="14sp"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
                 android:orientation="horizontal"
                 android:padding="4dp">
 
@@ -226,80 +275,23 @@
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:text="详情："
+                    android:textColor="#666666"
                     android:textSize="14sp"/>
 
                 <TextView
                     android:id="@+id/tv_detail"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:text="5kg/包"
+                    android:text="商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情"
+                    android:textColor="#333333"
                     android:textSize="14sp"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginLeft="12dp"
-                android:layout_weight="1"
-                android:orientation="horizontal"
-                android:padding="4dp">
-
-                <TextView
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:text="服务信息："
-                    android:textSize="14sp"/>
-
-                <TextView
-                    android:id="@+id/tv_server"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="包退包换包好吃"
-                    android:textSize="14sp"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginLeft="12dp"
-                android:layout_weight="1"
-                android:orientation="horizontal"
-                android:padding="4dp">
-
-                <TextView
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:text="默认物流："
-                    android:textSize="14sp"/>
-
-                <TextView
-                    android:id="@+id/tv_send"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="自提"
-                    android:textSize="14sp"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginLeft="12dp"
-                android:layout_weight="1"
-                android:orientation="horizontal"
-                android:padding="4dp">
-
-                <TextView
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:text="运费说明："
-                    android:textSize="14sp"/>
-
-                <TextView
-                    android:id="@+id/tv_sendprice"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="免运费"
-                    android:textSize="14sp"/>
+                <ImageView
+                    android:id="@+id/iv_arrow_ex"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/arrow_down"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -317,6 +309,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="12dp"
                 android:text="商品评论"
+                android:textColor="#666666"
                 android:textSize="16sp"/>
         </RelativeLayout>
         <View style="@style/HorizontalDividerLine"/>

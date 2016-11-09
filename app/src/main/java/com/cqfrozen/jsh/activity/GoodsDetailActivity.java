@@ -1,10 +1,13 @@
 package com.cqfrozen.jsh.activity;
 
+import android.animation.Animator;
+import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,9 +71,8 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
     private NumberAddSubView asv_num;
     private TextView tv_brand;
     private TextView tv_detail;
-    private TextView tv_server;
-    private TextView tv_send;
-    private TextView tv_sendprice;
+    private TextView tv_save_life;
+    private TextView tv_save_mode;
     private LinearLayout ll_collect;
     private LinearLayout ll_cart;
     private ImageView iv_collect;
@@ -95,6 +97,9 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
     private PopupWindow popupWindow;
     private int is_oos;//是否缺货0否，1是
     private RelativeLayout rl_root;
+    private ImageView iv_arrow_ex;
+    private ViewGroup.LayoutParams tv_detail_params;
+    private boolean isOpen;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -129,9 +134,9 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
         asv_num = (NumberAddSubView) findViewById(R.id.asv_num);
         tv_brand = (TextView) findViewById(R.id.tv_brand);
         tv_detail = (TextView) findViewById(R.id.tv_detail);
-        tv_server = (TextView) findViewById(R.id.tv_server);
-        tv_send = (TextView) findViewById(R.id.tv_send);
-        tv_sendprice = (TextView) findViewById(R.id.tv_sendprice);
+        iv_arrow_ex = (ImageView) findViewById(R.id.iv_arrow_ex);
+        tv_save_life = (TextView) findViewById(R.id.tv_save_life);
+        tv_save_mode = (TextView) findViewById(R.id.tv_save_mode);
         vp_goodspics = (ViewPager) findViewById(R.id.vp_goodspics);
         rg_goods = (RadioGroup) findViewById(R.id.rg_goods);
         ll_collect = (LinearLayout) findViewById(R.id.ll_collect);
@@ -141,8 +146,14 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
         tv_add_cart = (TextView) findViewById(R.id.tv_add_cart);
         tv_comment_count = (TextView) findViewById(R.id.tv_comment_count);
         tv_all_comment = (TextView) findViewById(R.id.tv_all_comment);
-        tv_all_comment.setVisibility(View.GONE);
         lv_comment = (ListView) findViewById(R.id.lv_comment);
+
+        int shortHeight = getShortHeight();
+        tv_detail_params = tv_detail.getLayoutParams();
+        tv_detail_params.height = shortHeight;
+        tv_detail.setLayoutParams(tv_detail_params);
+
+        tv_all_comment.setVisibility(View.GONE);
         iv_back.setOnClickListener(this);
         iv_share.setOnClickListener(this);
         ll_collect.setOnClickListener(this);
@@ -150,17 +161,85 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
         tv_add_cart.setOnClickListener(this);
         tv_all_comment.setOnClickListener(this);
         iv_shotcut.setOnClickListener(this);
+        iv_arrow_ex.setOnClickListener(this);
         asv_num.setCurValue(1);
         if(is_oos == 1){
             tv_add_cart.setEnabled(false);
-            tv_add_cart.setTextColor(getResources().getColor(R.color.myblack));
-            tv_add_cart.setBackgroundColor(getResources().getColor(R.color.mygray));
+            tv_add_cart.setBackgroundColor(getResources().getColor(R.color.color_b));
         }else {
             tv_add_cart.setEnabled(true);
-            tv_add_cart.setTextColor(getResources().getColor(R.color.white));
             tv_add_cart.setBackgroundColor(getResources().getColor(R.color.main));
         }
         createShotPop();
+    }
+
+    /**
+     * 收起 和 展开 商品详情
+     */
+    private void toggle() {
+        int shortHeight = getShortHeight();
+        int longHeight = getLongHeight();
+        Log.d("toogletoogle", longHeight + "toogletoogle" + shortHeight);
+        ValueAnimator animator = null;
+        if(!isOpen){
+            isOpen = true;
+            if(shortHeight < longHeight){
+                animator = ValueAnimator.ofInt(shortHeight, longHeight);
+            }
+        }else {
+            isOpen = false;
+            if(shortHeight < longHeight){
+                animator = ValueAnimator.ofInt(longHeight, shortHeight);
+            }
+        }
+
+        if(animator != null){
+            animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    int height = (Integer) animation.getAnimatedValue();
+                    tv_detail_params.height = height;
+                    tv_detail.setLayoutParams(tv_detail_params);
+                }
+            });
+
+            animator.addListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    if(isOpen){
+                        iv_arrow_ex.setImageResource(R.mipmap.arrow_up);
+                    }else {
+                        iv_arrow_ex.setImageResource(R.mipmap.arrow_down);
+                    }
+                    final ScrollView scrollview = getScrollview();
+                    scrollview.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            scrollview.fullScroll(ScrollView.FOCUS_DOWN);
+                        }
+                    });
+
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animation) {
+
+                }
+            });
+
+            animator.setDuration(200);
+            animator.start();
+        }
     }
 
     private void createShotPop() {
@@ -188,7 +267,7 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
         badgeView.setEnabled(false);
         badgeView.setFocusable(false);
         badgeView.setText(cartManager.getCartGoodsNum() + "");
-        badgeView.setTextSize(10);
+        badgeView.setTextSize(8);
         badgeView.setBadgeMargin(10, 0);
         badgeView.show();
 
@@ -200,11 +279,10 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
         if (badgeView != null) {
             getCartNumFromServer();
         }
-
         lv_comment.setFocusable(false);
-        scrollview.setFocusable(true);
-        scrollview.setFocusableInTouchMode(true);
-        scrollview.requestFocus();
+//        scrollview.setFocusable(true);
+//        scrollview.setFocusableInTouchMode(true);
+//        scrollview.requestFocus();
     }
 
     /**
@@ -302,6 +380,10 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
                     return;
                 }
                 addCart();//添加购物车
+                break;
+            case R.id.iv_arrow_ex:
+                Log.d("toogletoogle", "toogletoogle");
+                toggle();
                 break;
             case R.id.tv_all_comment:
                 Intent intent2 = new Intent(this, CommentListActivity.class);
@@ -447,12 +529,11 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
     private void setViewInfo(GoodDetailResultInfo.GoodDetailInfo goodDetailInfo) {
         tv_name.setText(goodDetailInfo.g_name);
         tv_price.setText("￥" + goodDetailInfo.now_price);
-        tv_size.setText("规格 " + goodDetailInfo.weight + "kg/件");
+        tv_size.setText("规格 " + goodDetailInfo.weight + "kg/" + goodDetailInfo.unit);
         tv_brand.setText(goodDetailInfo.brand_name);
-        tv_detail.setText(goodDetailInfo.g_introduction);
-        tv_server.setText(goodDetailInfo.shelf_life);
-        tv_send.setText("满399包邮");
-        tv_sendprice.setText(goodDetailInfo.c_mode);
+//        tv_detail.setText(goodDetailInfo.g_introduction);
+        tv_save_life.setText(goodDetailInfo.shelf_life);
+        tv_save_mode.setText(goodDetailInfo.c_mode);
         is_common = goodDetailInfo.is_common;
         if ("0".equals(goodDetailInfo.pj_count)) {
             tv_comment_count.setText("商品评论(暂无评论)");
@@ -502,5 +583,41 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
     @Override
     public void onPageScrollStateChanged(int state) {
 
+    }
+
+    /**
+     * 获取详情完整展示时的高度
+     */
+    private int getLongHeight(){
+        int measuredWidth = tv_detail.getMeasuredWidth();
+        int widthMeasureSpec = View.MeasureSpec.makeMeasureSpec(measuredWidth, View.MeasureSpec.EXACTLY);
+        int heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(2000, View.MeasureSpec.AT_MOST);
+        TextView view = new TextView(this);
+        view.setText(getString(R.string.test_string));
+        view.measure(widthMeasureSpec, heightMeasureSpec);
+        return view.getMeasuredHeight();
+    }
+
+    /**
+     * 获取详情展示一行时的高度
+     */
+    private int getShortHeight(){
+        int measuredWidth = tv_detail.getMeasuredWidth();
+        int widthMeasureSpec = View.MeasureSpec.makeMeasureSpec(measuredWidth, View.MeasureSpec.EXACTLY);
+        int heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(2000, View.MeasureSpec.AT_MOST);
+        TextView view = new TextView(this);
+        view.setMaxLines(1);
+        view.setText(getString(R.string.test_string));
+        view.measure(widthMeasureSpec, heightMeasureSpec);
+        return view.getMeasuredHeight();
+    }
+
+
+    private ScrollView getScrollview(){
+        View parent = (View) tv_detail.getParent();
+        while(!(parent instanceof ScrollView)){
+            parent = (View) parent.getParent();
+        }
+        return (ScrollView) parent;
     }
 }

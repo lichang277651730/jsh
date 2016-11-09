@@ -9,7 +9,7 @@
               android:fitsSystemWindows="true"
               tools:context=".activity.CommentListActivity">
     <include layout="@layout/include_title"/>
-    <com.common.widget.RefreshLayout
+    <com.common.refresh.RefreshLayout
         android:id="@+id/refresh_comment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -23,7 +23,7 @@
             android:background="@color/white"
             android:scrollbars="none">
         </android.support.v7.widget.RecyclerView>
-    </com.common.widget.RefreshLayout>
+    </com.common.refresh.RefreshLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"

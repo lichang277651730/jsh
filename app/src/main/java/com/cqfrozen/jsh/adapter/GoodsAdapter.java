@@ -46,6 +46,7 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.MyViewHolder
         this.http = new HttpForVolley(context);
         this.cartManager =  CartManager.getInstance(context);
     }
+
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if(context == null){

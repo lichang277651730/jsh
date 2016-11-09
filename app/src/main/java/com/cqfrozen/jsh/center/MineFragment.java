@@ -83,6 +83,7 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
     private UserInfo userInfo;
     private LinearLayout ll_server_phone;
     private Uri photoUri;
+    private LinearLayout ll_user_phone_verify;
 
     public interface UrlType{
         int huibi_rule = 4;
@@ -122,6 +123,7 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
         iv_verify = (ImageView) view.findViewById(R.id.iv_verify);
         iv_head = (MyHeadImageView) view.findViewById(R.id.iv_head);
         tv_login = (TextView) view.findViewById(R.id.tv_login);
+        ll_user_phone_verify = (LinearLayout) view.findViewById(R.id.ll_user_phone_verify);
         tv_lookall = (TextView) view.findViewById(R.id.tv_lookall);
         tv_name = (TextView) view.findViewById(R.id.tv_name);
         tv_phone = (TextView) view.findViewById(R.id.tv_phone);
@@ -169,9 +171,9 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
         badgeView1.setEnabled(false);
         badgeView2.setEnabled(false);
         badgeView3.setEnabled(false);
-        badgeView1.setTextSize(10);
-        badgeView2.setTextSize(10);
-        badgeView3.setTextSize(10);
+        badgeView1.setTextSize(8);
+        badgeView2.setTextSize(8);
+        badgeView3.setTextSize(8);
         badgeView1.setBadgeMargin(BaseValue.dp2px(0), 0);
         badgeView2.setBadgeMargin(BaseValue.dp2px(0), 0);
         badgeView3.setBadgeMargin(BaseValue.dp2px(0), 0);
@@ -195,6 +197,7 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
             public void httpResult(Integer which, int code, String msg, Object bean) {
                 if (code != 0) {
 //                    showToast(msg);
+                    showUnLogined();
                     return;
                 }
                 userInfo = (UserInfo) bean;
@@ -204,6 +207,7 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
     }
 
     private void showUnLogined() {
+        ll_user_phone_verify.setVisibility(View.GONE);
         //将登陆字符显示
         tv_login.setVisibility(View.VISIBLE);
         //将name隐藏
@@ -222,6 +226,7 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
     }
 
     private void showLogined(UserInfo userInfo) {
+        ll_user_phone_verify.setVisibility(View.VISIBLE);
         hb_count_new = userInfo.hb_count;
         tv_login.setVisibility(View.GONE);
         tv_name.setVisibility(View.VISIBLE);

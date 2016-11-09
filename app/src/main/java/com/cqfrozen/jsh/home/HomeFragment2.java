@@ -17,15 +17,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.common.base.BaseFragment;
+import com.common.base.BaseValue;
 import com.common.refresh.RefreshLayout;
 import com.common.refresh.SupportLayout;
+import com.common.widget.GridDecoration;
 import com.cqfrozen.jsh.R;
-import com.cqfrozen.jsh.adapter.HomeAdapter;
+import com.cqfrozen.jsh.adapter.HomeAdapter2;
 import com.cqfrozen.jsh.adapter.HomeBannerAdapter;
 import com.cqfrozen.jsh.adapter.HomeClassifyAdapter;
 import com.cqfrozen.jsh.adapter.HomeNotifyAdapter;
-import com.cqfrozen.jsh.adapter.HomePopAdapter;
-import com.cqfrozen.jsh.adapter.HomePriceAdapter;
 import com.cqfrozen.jsh.adapter.HomeRecommendAdapter;
 import com.cqfrozen.jsh.entity.GoodsInfo;
 import com.cqfrozen.jsh.entity.HomeBannerInfo;
@@ -38,30 +38,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Administrator on 2016/9/14.
+ * Created by Administrator on 2016/11/9.
  */
-public class HomeFragment extends BaseFragment implements MyHttp.MyHttpResult ,View.OnTouchListener, View.OnClickListener, SupportLayout.RefreshListener, SupportLayout.LoadMoreListener {
+public class HomeFragment2 extends BaseFragment  implements MyHttp.MyHttpResult ,View.OnTouchListener, View.OnClickListener, SupportLayout.RefreshListener, SupportLayout.LoadMoreListener {
 
-    private static HomeFragment fragment;
+    private static HomeFragment2 fragment;
     private List<HomeBannerInfo> bannerInfos = new ArrayList<>();
     private List<HomeClassifyInfo> classifyInfos = new ArrayList<>();
     private List<HomeNotifyInfo> notifyInfos = new ArrayList<>();
-    private List<GoodsInfo> priceGoods = new ArrayList<>();
     private List<GoodsInfo> recommendGoods = new ArrayList<>();
-    private List<GoodsInfo> popGoods = new ArrayList<>();
     private RecyclerView rv_home;
-    private HomeAdapter homeAdapter;
+    private HomeAdapter2 homeAdapter2;
     private EditText et_search;
     private LinearLayout ll_search;
     private RefreshLayout refresh_home;
 
-    private static final int urlNum = 5; //当前页面是刷新的url数量
+    private static final int urlNum = 3; //当前页面是刷新的url数量
     private ImageView iv_search;
     private TextView tv_location;
 
-    public static HomeFragment getInstance(){
+    public static HomeFragment2 getInstance(){
         if(fragment == null){
-            fragment = new HomeFragment();
+            fragment = new HomeFragment2();
             Bundle bundle = new Bundle();
             fragment.setArguments(bundle);
         }
@@ -90,11 +88,8 @@ public class HomeFragment extends BaseFragment implements MyHttp.MyHttpResult ,V
         rv_home = (RecyclerView) view.findViewById(R.id.rv_home);
         et_search.setOnClickListener(this);
         iv_search.setOnClickListener(this);
-//        tv_location.setOnClickListener(this);
         refresh_home.setOnLoadMoreListener(this);
-//        refresh_home.setLoadClose();
         refresh_home.setOnRefreshListener(this);
-//        tv_location.setText(MyApplication.userInfo.area_name.substring(0, MyApplication.userInfo.area_name.indexOf("区")));
         tv_location.setText(MyApplication.userInfo.area_name);
     }
 
@@ -104,9 +99,7 @@ public class HomeFragment extends BaseFragment implements MyHttp.MyHttpResult ,V
         HomeBannerAdapter homeBannerAdapter = new HomeBannerAdapter(mActivity, bannerInfos);
         HomeClassifyAdapter homeClassifyAdapter = new HomeClassifyAdapter(mActivity, classifyInfos);
         HomeNotifyAdapter homeNotifyAdapter = new HomeNotifyAdapter(mActivity, notifyInfos);
-        HomePriceAdapter homePriceAdapter = new HomePriceAdapter(mActivity, priceGoods);
         HomeRecommendAdapter homeRecommendAdapter = new HomeRecommendAdapter(mActivity, recommendGoods);
-        HomePopAdapter homePopAdapter = new HomePopAdapter(mActivity, popGoods);
         GridLayoutManager manager = new GridLayoutManager(mActivity, 8);
         rv_home.setLayoutManager(manager);
         manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
@@ -114,21 +107,21 @@ public class HomeFragment extends BaseFragment implements MyHttp.MyHttpResult ,V
             public int getSpanSize(int position) {
                 if (position == 0) return 8;
                 if (position > 0 && position <= 4) return 2;
-                if (position > 4 && position <= 8) return 8;
+                if (position == 5) return 8;
                 return 8;
             }
         });
-        homeAdapter = new HomeAdapter(homeBannerAdapter, homeClassifyAdapter, homeNotifyAdapter, homePriceAdapter
-                , homeRecommendAdapter, homePopAdapter);
-        rv_home.setAdapter(homeAdapter);
+        GridDecoration newGridDecoration = new GridDecoration(6, BaseValue.dp2px(1),
+                getResources().getColor(R.color.mybg), true);
+        rv_home.addItemDecoration(newGridDecoration);
+        homeAdapter2 = new HomeAdapter2(homeBannerAdapter, homeClassifyAdapter, homeNotifyAdapter, homeRecommendAdapter);
+        rv_home.setAdapter(homeAdapter2);
     }
 
     private void getData() {
-        MyHttp.homeBanner(http, HomeAdapter.TYPE_BANNER, this);
-        MyHttp.noticeList(http, HomeAdapter.TYPE_TABLE, this);
-        MyHttp.homePriceGoods(http, HomeAdapter.TYPE_PRICE, "1", this);
-        MyHttp.homePriceGoods(http, HomeAdapter.TYPE_RECOMMEND, "2", this);
-        MyHttp.homePriceGoods(http, HomeAdapter.TYPE_POP, "3", this);
+        MyHttp.homeBanner(http, HomeAdapter2.TYPE_BANNER, this);
+        MyHttp.noticeList(http, HomeAdapter2.TYPE_TABLE, this);
+        MyHttp.homePriceGoods(http, HomeAdapter2.TYPE_LIST, "2", this);
     }
 
     @Override
@@ -144,51 +137,31 @@ public class HomeFragment extends BaseFragment implements MyHttp.MyHttpResult ,V
         }
 
         switch (which) {
-            case HomeAdapter.TYPE_BANNER:
+            case HomeAdapter2.TYPE_BANNER:
                 bannerInfos.clear();
                 bannerInfos.addAll((List<HomeBannerInfo>) bean);
                 if (bannerInfos.size() == 0) {
                     return;
                 }
                 break;
-            case HomeAdapter.TYPE_TABLE:
+            case HomeAdapter2.TYPE_TABLE:
                 notifyInfos.clear();
                 notifyInfos.addAll((List<HomeNotifyInfo>) bean);
                 if (notifyInfos.size() == 0) {
                     return;
                 }
                 break;
-            case HomeAdapter.TYPE_PRICE:
-                priceGoods.clear();
-                priceGoods.addAll((List<GoodsInfo>) bean);
-                if (priceGoods.size() == 0) {
-                    return;
-                }
-                break;
-            case HomeAdapter.TYPE_RECOMMEND:
+            case HomeAdapter2.TYPE_LIST:
                 recommendGoods.clear();
                 recommendGoods.addAll((List<GoodsInfo>) bean);
                 if (recommendGoods.size() == 0) {
                     return;
                 }
                 break;
-            case HomeAdapter.TYPE_POP:
-                if (refresh_home.isLoading()&&((ArrayList<GoodsInfo>) bean).size()!=0){
-                    refresh_home.setLoadSuccess();
-                }
-                if (refresh_home.isLoading()&&((ArrayList<GoodsInfo>) bean).size()==0){
-                    refresh_home.setLoadNodata();
-                }
-                popGoods.clear();
-                popGoods.addAll((List<GoodsInfo>) bean);
-                if (popGoods.size() == 0) {
-                    return;
-                }
-                break;
             default:
                 break;
         }
-        homeAdapter.notifyDataSetChanged();
+        homeAdapter2.notifyDataSetChanged();
         if(refresh_home.getUrlNum() == urlNum){
             refresh_home.setRefreshSuccess();
         }

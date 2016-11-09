@@ -240,7 +240,7 @@ public class CartActivity extends MyActivity implements View.OnClickListener, Re
             case R.id.btn_del://点击删除按钮
                 deleteCart();
                 break;
-            case R.id.btn_order://点击删除按钮
+            case R.id.btn_order://点击去结算
                 goOrder();
                 break;
             case R.id.iv_shotcut://点击shotcut图标
@@ -281,7 +281,7 @@ public class CartActivity extends MyActivity implements View.OnClickListener, Re
             public void httpResult(Integer which, int code, String msg, Object bean) {
                 btn_order.setEnabled(true);//防止重复提交
                 if(code != 0){
-//                    showToast(msg);
+                    showToast(msg);
                     return;
                 }
                 OrderInfo orderInfo = (OrderInfo) bean;

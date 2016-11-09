@@ -106,6 +106,8 @@ public class AddressEditActivity extends MyActivity implements View.OnClickListe
 
         streetOptionsPV = new OptionsPickerView(this);
         shopOptionsPV = new OptionsPickerView(this);
+        shopOptionsPV.setCancelable(true);
+        streetOptionsPV.setCancelable(true);
 
         shopOptionsPV.setOnoptionsSelectListener(new OptionsPickerView.OnOptionsSelectListener() {
             @Override

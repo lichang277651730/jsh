@@ -105,8 +105,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@color/mybg"
+        android:layout_height="36dp"
+        android:background="@color/white"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -119,10 +119,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="16dp"
             android:text="热门搜索"
             android:textColor="@color/myblack"
-            android:textSize="16sp"/>
+            android:textSize="15sp"/>
     </LinearLayout>
 
     <com.common.widget.MyTagView
@@ -130,12 +130,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
-        android:paddingLeft="15dp">
+        android:paddingLeft="16dp">
     </com.common.widget.MyTagView>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="@color/mybg"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="@color/mybg"
+        android:background="@color/white"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -149,18 +153,16 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="16dp"
             android:text="历史搜索"
             android:textColor="@color/myblack"
-            android:textSize="16sp"/>
+            android:textSize="15sp"/>
         <TextView
             android:id="@+id/tv_clear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:text="清空搜索"
-            android:textColor="@color/myblack"
-            android:textSize="16sp"/>
+            android:layout_marginRight="16dp"
+            android:drawableLeft="@mipmap/icon_search_history_clear"/>
     </LinearLayout>
 
     <com.common.widget.MyTagView
@@ -168,10 +170,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
-        android:paddingLeft="15dp">
+        android:paddingLeft="16dp">
     </com.common.widget.MyTagView>
     <View
-        android:background="@color/mybg"
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 </LinearLayout>

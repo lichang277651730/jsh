@@ -292,9 +292,6 @@ public class MyHttp {
         params.put("g_id", g_id + "");
         params.put("page", page + "");
         params.put("token", MyApplication.token);
-                Log.d("addAddress_params", "g_id:"+ g_id + "," +
-                "page:"+ page + "," +
-                "token:"+  MyApplication.token);
         Type type = new TypeToken<CommentResultInfo>() {
         }.getType();
         toBean(GET, http, which, params, url, myHttpResult, type);
@@ -964,7 +961,7 @@ public class MyHttp {
 //                }
                 if(code == 3 && (http.getContext().getClass() != MainActivity.class)){
                     Context context = http.getContext();
-                    Toast.makeText(context, "登录失效，请重新登录", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "该账号在其他手机登陆过，需重新登录", Toast.LENGTH_SHORT).show();
                     MyApplication.userInfo = null;
                     MyApplication.token = "";
                     SPUtils.setToken("");
