@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:padding="16dp"
+        android:padding="12dp"
         android:textSize="14sp"
         android:textColor="@color/myblack"
         android:text="邀请好友，汇仔会按照我的兄弟伙收益的60%，兄弟伙的兄弟伙收益的40%，给你奖励~（该奖励由锦晟汇提供，不影响好友收益）"/>
@@ -176,7 +176,7 @@
             android:text="贡献汇币"/>
     </LinearLayout>
     <View style="@style/HorizontalDividerLine"/>
-    <com.common.widget.RefreshLayout
+    <com.common.refresh.RefreshLayout
         android:id="@+id/refresh_fans"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -186,11 +186,12 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_fans"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:background="@color/white"
             android:scrollbars="none">
         </android.support.v7.widget.RecyclerView>
-    </com.common.widget.RefreshLayout>
+    </com.common.refresh.RefreshLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"

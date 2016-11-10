@@ -183,9 +183,16 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginLeft="8dp"
-            android:layout_weight="1"
-            android:text="我已阅读并同意(点击阅读)"
+            android:text="阅读并同意"
             android:textColor="@color/myblack"/>
+        <TextView
+            android:id="@+id/tv_allow_protocol"
+            style="@style/text_14sp_black"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:text="冻博汇服务协议"
+            android:textColor="@color/main"/>
 
     </LinearLayout>
 
@@ -203,7 +210,7 @@
             android:layout_centerInParent="true"
             android:layout_marginLeft="12dp"
             android:layout_marginRight="12dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="30dp"
             android:background="@drawable/sl_blue2gray_btn_bg"
             android:gravity="center"
             android:text="下一步"

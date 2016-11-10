@@ -17,7 +17,8 @@ public class CustomToast {
 
     private static CustomToast instance;
 
-    private Toast toast;
+    private Toast netToast;
+    private Toast cartToast;
     private Context context;
     private View layout;
     private TextView text;
@@ -49,15 +50,37 @@ public class CustomToast {
             layout = LayoutInflater.from(context).inflate(R.layout.custom_view_toast, null);
             text = (TextView) layout.findViewById(R.id.text);
             mImageView = (ImageView) layout.findViewById(R.id.iv);
-            mImageView.setBackgroundResource(R.mipmap.icon_add_cart_success);
+//            mImageView.setBackgroundResource(R.mipmap.icon_add_cart_success);
             text.setText(tvString);
         }
-        if (toast == null) {
-            toast = new Toast(context);
+        if (netToast == null) {
+            netToast = new Toast(context);
         }
-        toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
-        toast.setView(layout);
-        toast.show();
+        netToast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+        netToast.setView(layout);
+        netToast.show();
+    }
+
+    /**
+     * 显示Toast
+     *
+     * @param tvString
+     */
+    public void showToast(String tvString, int imgRes) {
+
+        if (layout == null) {
+            layout = LayoutInflater.from(context).inflate(R.layout.custom_view_toast, null);
+            text = (TextView) layout.findViewById(R.id.text);
+            mImageView = (ImageView) layout.findViewById(R.id.iv);
+            mImageView.setBackgroundResource(imgRes);
+            text.setText(tvString);
+        }
+        if (cartToast == null) {
+            cartToast = new Toast(context);
+        }
+        cartToast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+        cartToast.setView(layout);
+        cartToast.show();
     }
 
 }

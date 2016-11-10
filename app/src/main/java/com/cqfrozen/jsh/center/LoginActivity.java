@@ -25,6 +25,7 @@ import com.cqfrozen.jsh.entity.SigninInfo;
 import com.cqfrozen.jsh.entity.UserInfo;
 import com.cqfrozen.jsh.main.MyActivity;
 import com.cqfrozen.jsh.main.MyApplication;
+import com.cqfrozen.jsh.util.CustomToast;
 import com.cqfrozen.jsh.util.SPUtils;
 import com.cqfrozen.jsh.volleyhttp.MyHttp;
 
@@ -263,7 +264,8 @@ public class LoginActivity extends MyActivity implements View.OnClickListener {
                 btn_login.setEnabled(true);//防止重复点击登陆
                 if(code != 0){
 //                    SPUtils.setToken("");
-                    showToast(msg);
+                    CustomToast.getInstance(LoginActivity.this).showToast(msg);
+//                    showToast(msg);
                     return;
                 }
                 SigninInfo signinInfo = (SigninInfo) bean;

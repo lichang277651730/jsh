@@ -3,7 +3,6 @@ package com.cqfrozen.jsh.appraise;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
-import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ListView;
@@ -166,9 +165,9 @@ public class AppraiseActivity extends MyActivity implements View.OnClickListener
             content_list = content_list.substring(0, content_list.length() - 1);
         }
 
-        Log.d("appraiseItemDatas", "star_count_list:" + star_count_list + ":" +
-                "order_info_id_list:" + order_info_id_list + ":" +
-                "goods_id_list:" + goods_id_list + ":" +
-                "content_list:" + content_list);
+//        Log.d("appraiseItemDatas", "star_count_list:" + star_count_list + ":" +
+//                "order_info_id_list:" + order_info_id_list + ":" +
+//                "goods_id_list:" + goods_id_list + ":" +
+//                "content_list:" + content_list);
     }
 }

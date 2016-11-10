@@ -2,7 +2,6 @@ package com.cqfrozen.jsh.volleyhttp;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -56,7 +55,8 @@ import java.util.List;
  */
 public class MyHttp {
 
-    private static final String SERVER = "http://test.cqfrozen.com/api/index.php/";
+//    private static final String SERVER = "http://test.cqfrozen.com/api/index.php/";//测试api
+    private static final String SERVER = "http://api.cqfrozen.com/v1/index.php/";//正式api
     private static final int GET = Request.Method.GET;
     private static final int POST = Request.Method.POST;
     private static final int p_type = 1;
@@ -127,11 +127,11 @@ public class MyHttp {
         params.put("px_v", px_v + "");
         params.put("asc_desc", asc_desc + "");
         params.put("token", MyApplication.token);
-        Log.d("addAddress_params", "page:"+ page + "," +
-                "k_w:"+ k_w + "," +
-                "px_v:"+ px_v + "," +
-                "asc_desc:"+ asc_desc + "," +
-                "token:"+ MyApplication.token);
+//        Log.d("addAddress_params", "page:"+ page + "," +
+//                "k_w:"+ k_w + "," +
+//                "px_v:"+ px_v + "," +
+//                "asc_desc:"+ asc_desc + "," +
+//                "token:"+ MyApplication.token);
         Type type = new TypeToken<GoodsResultInfo>(){}.getType();
         toBean(GET, http, which, params, url, myHttpResult, type);
     }
@@ -165,7 +165,7 @@ public class MyHttp {
         String url = SERVER + "User/refreshtoken";
         params.clear();
         params.put("token", token);
-//        Log.d("addAddress_params", "token:"+ token);
+//        Log.d("addAddress_params", "refershtoken");
         toBean(GET, http, which, params, url, myHttpResult, SigninInfo.class);
     }
 
@@ -764,8 +764,8 @@ public class MyHttp {
         params.clear();
         params.put("o_id", o_id);
         params.put("token", MyApplication.token);
-                Log.d("addAddress_params", "o_id:"+ o_id + "," +
-                "token:"+  MyApplication.token);
+//                Log.d("addAddress_params", "o_id:"+ o_id + "," +
+//                "token:"+  MyApplication.token);
         http.goTo(GET, which, params, url, httpTodo);
     }
 
@@ -777,8 +777,8 @@ public class MyHttp {
         params.clear();
         params.put("o_id", o_id);
         params.put("token", MyApplication.token);
-        Log.d("addAddress_params", "o_id:"+ o_id + "," +
-                "token:"+  MyApplication.token);
+//        Log.d("addAddress_params", "o_id:"+ o_id + "," +
+//                "token:"+  MyApplication.token);
         Type beanType = new TypeToken<List<AppraiseInfo>>() {
         }.getType();
         toBean(GET, http, which, params, url, myHttpResult, beanType);
@@ -799,13 +799,13 @@ public class MyHttp {
         params.put("content_list", content_list);
         params.put("is_anonymou", is_anonymou + "");
         params.put("token", MyApplication.token);
-        Log.d("addAddress_params", "o_id:"+ o_id + "," +
-                "star_count_list:"+ star_count_list + "," +
-                "order_info_id_list:"+ order_info_id_list + "," +
-                "goods_id_list:"+ goods_id_list + "," +
-                "content_list:"+ content_list + "," +
-                "is_anonymou:"+ is_anonymou + "," +
-                "token:"+  MyApplication.token);
+//        Log.d("addAddress_params", "o_id:"+ o_id + "," +
+//                "star_count_list:"+ star_count_list + "," +
+//                "order_info_id_list:"+ order_info_id_list + "," +
+//                "goods_id_list:"+ goods_id_list + "," +
+//                "content_list:"+ content_list + "," +
+//                "is_anonymou:"+ is_anonymou + "," +
+//                "token:"+  MyApplication.token);
         http.goTo(POST, which, params, url, httpTodo);
     }
 
@@ -902,9 +902,9 @@ public class MyHttp {
         params.put("mobile_num", mobile_num);
         params.put("code", code);
         params.put("token", MyApplication.token);
-        Log.d("addAddress_params", "mobile_num:"+ mobile_num + "," +
-                "code:"+ code + "," +
-                "token:"+  MyApplication.token);
+//        Log.d("addAddress_params", "mobile_num:"+ mobile_num + "," +
+//                "code:"+ code + "," +
+//                "token:"+  MyApplication.token);
         http.goTo(POST, which, params, url, httpTodo);
     }
 
@@ -917,9 +917,9 @@ public class MyHttp {
         params.put("content", content);
         params.put("p_type", p_type + "");
         params.put("token", MyApplication.token);
-        Log.d("addAddress_params", "content:"+ content + "," +
-                "p_type:"+ p_type + "," +
-                "token:"+  MyApplication.token);
+//        Log.d("addAddress_params", "content:"+ content + "," +
+//                "p_type:"+ p_type + "," +
+//                "token:"+  MyApplication.token);
         http.goTo(POST, which, params, url, httpTodo);
     }
 

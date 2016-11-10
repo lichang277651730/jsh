@@ -75,7 +75,7 @@
             android:background="@color/main"/>
     </LinearLayout>
     <View style="@style/HorizontalDividerLine"/>
-    <com.common.widget.RefreshLayout
+    <com.common.refresh.RefreshLayout
         android:id="@+id/refresh_huibi"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -85,11 +85,12 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_huibi"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:background="@color/white"
             android:scrollbars="none">
         </android.support.v7.widget.RecyclerView>
-    </com.common.widget.RefreshLayout>
+    </com.common.refresh.RefreshLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"

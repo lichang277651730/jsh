@@ -11,8 +11,9 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.common.base.BaseValue;
+import com.common.refresh.SupportLayout;
 import com.common.widget.MyGridDecoration;
-import com.common.widget.RefreshLayout;
+import com.common.refresh.RefreshLayout;
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.activity.HomeActivity;
 import com.cqfrozen.jsh.entity.OrderResultInfo;
@@ -25,7 +26,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/9/20.
  */
-public class OrderFragment extends MyFragment implements RefreshLayout.OnRefreshListener, MyFragment.HttpFail, RefreshLayout.TopOrBottom {
+public class OrderFragment extends MyFragment implements MyFragment.HttpFail, SupportLayout.RefreshListener, SupportLayout.LoadMoreListener {
 
     private int tv = 1;//订单类型 1全部，2待付款，3待收货，4待评价
     private RefreshLayout refresh_order;
@@ -70,8 +71,11 @@ public class OrderFragment extends MyFragment implements RefreshLayout.OnRefresh
         include_ordernoorderlayout = (LinearLayout) view.findViewById(R.id.include_ordernoorderlayout);
         include_orderondata_btn = (Button) view.findViewById(R.id.include_orderondata_btn);
         rv_order = (RecyclerView) view.findViewById(R.id.rv_order);
+        refresh_order.setRefreshable(true);
         refresh_order.setOnRefreshListener(this);
-        refresh_order.setRefreshble(true);
+        refresh_order.setOnLoadMoreListener(this);
+//        refresh_order.setOnRefreshListener(this);
+//        refresh_order.setRefreshble(true);
     }
 
     private void initRV() {
@@ -84,7 +88,7 @@ public class OrderFragment extends MyFragment implements RefreshLayout.OnRefresh
         rv_order.addItemDecoration(decoration);
         rv_order.setLayoutManager(manager);
         rv_order.setAdapter(adapter);
-        refresh_order.setRC(rv_order, this);
+//        refresh_order.setRC(rv_order, this);
 //        adapter.setOnItemClickListener(new OrderListAdapter.OnItemClickListener() {
 //            @Override
 //            public void onItemClick(int position, OrderResultInfo.OrderSearchInfo orderSearchInfo) {
@@ -103,18 +107,24 @@ public class OrderFragment extends MyFragment implements RefreshLayout.OnRefresh
             public void httpResult(Integer which, int code, String msg, Object bean) {
 
                 if(code == 404){
+                    refresh_order.setLoadFailed();
+                    refresh_order.setRefreshFailed();
                     setHttpFail(OrderFragment.this);
-                    refresh_order.setResultState(RefreshLayout.ResultState.failed);
+//                    refresh_order.setResultState(RefreshLayout.ResultState.failed);
                     return;
                 }
 
                 if(code != 0){
 //                    showToast(msg);
+                    refresh_order.setLoadFailed();
+                    refresh_order.setRefreshFailed();
                     setHttpFail(OrderFragment.this);
-                    refresh_order.setResultState(RefreshLayout.ResultState.failed);
+//                    refresh_order.setResultState(RefreshLayout.ResultState.failed);
                     return;
                 }
-                refresh_order.setResultState(RefreshLayout.ResultState.success);
+//                refresh_order.setResultState(RefreshLayout.ResultState.success);
+                refresh_order.setRefreshSuccess();
+                refresh_order.setLoadSuccess();
                 OrderResultInfo orderResultInfo = (OrderResultInfo) bean;
                 orderSearchInfos.addAll(orderResultInfo.data1);
                 is_page = orderResultInfo.is_page;
@@ -149,7 +159,13 @@ public class OrderFragment extends MyFragment implements RefreshLayout.OnRefresh
     }
 
     @Override
-    public void onRefresh() {
+    public void toHttpAgain() {
+        getData();
+    }
+
+    @Override
+    public void onShow() {
+        super.onShow();
         page = 1;
         is_page = 0;
         orderSearchInfos.clear();
@@ -157,45 +173,16 @@ public class OrderFragment extends MyFragment implements RefreshLayout.OnRefresh
     }
 
     @Override
-    public void toHttpAgain() {
-        getData();
-    }
-
-    @Override
-    public void gotoTop() {
-
-    }
-
-    @Override
-    public void gotoBottom() {
+    public void loadMore() {
         if(is_page == 1){
             getData();
         }else if(is_page == 0){
-//            showToast("没有更多数据了!~");
+            refresh_order.setLoadNodata();
         }
     }
 
     @Override
-    public void move() {
-
-    }
-
-    @Override
-    public void stop() {
-
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if(refresh_order != null && refresh_order.isRefreshing){
-            refresh_order.setResultState(RefreshLayout.ResultState.close);
-        }
-    }
-
-    @Override
-    public void onShow() {
-        super.onShow();
+    public void refresh() {
         page = 1;
         is_page = 0;
         orderSearchInfos.clear();

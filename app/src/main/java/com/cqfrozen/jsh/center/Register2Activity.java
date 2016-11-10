@@ -82,6 +82,7 @@ public class Register2Activity extends MyActivity implements View.OnClickListene
     private String userTypeStr;
     private String user_protocol_url;
     private LinearLayout ll_register2_root;
+    private TextView tv_allow_protocol;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -110,6 +111,7 @@ public class Register2Activity extends MyActivity implements View.OnClickListene
         tv_user_type = (TextView) findViewById(R.id.tv_user_type);
         iv_allow = (ImageView) findViewById(R.id.iv_allow);
         tv_allow = (TextView) findViewById(R.id.tv_allow);
+        tv_allow_protocol = (TextView) findViewById(R.id.tv_allow_protocol);
         btn_register = (Button) findViewById(R.id.btn_register);
 
         streetOptionsPV = new OptionsPickerView(this);
@@ -122,7 +124,7 @@ public class Register2Activity extends MyActivity implements View.OnClickListene
         tv_user_type.setOnClickListener(this);
         tv_allow.setOnClickListener(this);
         btn_register.setOnClickListener(this);
-        tv_allow.setOnClickListener(this);
+        tv_allow_protocol.setOnClickListener(this);
         ll_register2_root.setOnClickListener(this);
 
         ShowHiddenPwdUtil.initAllow(iv_allow, tv_allow, btn_register);
@@ -169,7 +171,7 @@ public class Register2Activity extends MyActivity implements View.OnClickListene
                 hideSoftInput(v);
                 userTypeOptionsPV.show();
                 break;
-            case R.id.tv_allow:
+            case R.id.tv_allow_protocol:
                 Intent intent = new Intent(this, WebUrlActivity.class);
                 intent.putExtra("title", "用户协议");
                 intent.putExtra("url", user_protocol_url);

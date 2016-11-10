@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -123,7 +122,6 @@ public class InformationActivity extends MyActivity implements View.OnClickListe
                             }
                             showToast("修改头像成功!");
                             String filename = response.optJSONObject("data").optString("head_url");
-                            Log.d("headimgmsg", filename);
                             ImageLoader.getInstance().displayImage(filename, iv_head);
                             getUserInfo().head_url = filename;
                         }

@@ -14,7 +14,7 @@ import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.activity.GoodsDetailActivity;
 import com.cqfrozen.jsh.cart.CartManager;
 import com.cqfrozen.jsh.entity.GoodsInfo;
-import com.cqfrozen.jsh.util.ToastUtil;
+import com.cqfrozen.jsh.util.CustomToast;
 import com.cqfrozen.jsh.volleyhttp.MyHttp;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -73,15 +73,16 @@ public class NormalBuyAdapter extends RecyclerView.Adapter<NormalBuyAdapter.MyVi
         holder.iv_cart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO 要替换区域id
+
                 MyHttp.addcart(http, null, goodsInfo.g_id, 1, new HttpForVolley.HttpTodo() {
                     @Override
                     public void httpTodo(Integer which, JSONObject response) {
-                        ToastUtil.showToast(context, response.optString("msg"));
+//                        ToastUtil.showToast(context, response.optString("msg"));
                         int code = response.optInt("code");
                         if(code != 0){
                             return;
                         }
+                        CustomToast.getInstance(context).showToast(response.optString("msg"), R.mipmap.icon_add_cart_success);
                         cartManager.add(goodsInfo);
                     }
                 });

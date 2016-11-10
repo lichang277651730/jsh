@@ -7,7 +7,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -179,7 +178,6 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
     private void toggle() {
         int shortHeight = getShortHeight();
         int longHeight = getLongHeight();
-        Log.d("toogletoogle", longHeight + "toogletoogle" + shortHeight);
         ValueAnimator animator = null;
         if(!isOpen){
             isOpen = true;
@@ -382,7 +380,6 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
                 addCart();//添加购物车
                 break;
             case R.id.iv_arrow_ex:
-                Log.d("toogletoogle", "toogletoogle");
                 toggle();
                 break;
             case R.id.tv_all_comment:
@@ -419,11 +416,11 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
             @Override
             public void httpTodo(Integer which, JSONObject response) {
                 tv_add_cart.setEnabled(true);
-                CustomToast.getInstance(GoodsDetailActivity.this).showToast(response.optString("msg"));
                 int code = response.optInt("code");
                 if (code != 0) {
                     return;
                 }
+                CustomToast.getInstance(GoodsDetailActivity.this).showToast(response.optString("msg"), R.mipmap.icon_add_cart_success);
                 getCartNumFromServer();
                 cartManager.add(goodsInfo);
             }
@@ -474,7 +471,8 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
             @Override
             public void httpResult(Integer which, int code, String msg, Object bean) {
                 if (code != 0) {
-                    showToast(msg);
+//                    showToast(msg);
+                    CustomToast.getInstance(GoodsDetailActivity.this).showToast(msg);
                     return;
                 }
                 GoodDetailResultInfo resultInfo = (GoodDetailResultInfo) bean;

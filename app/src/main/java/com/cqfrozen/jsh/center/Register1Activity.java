@@ -48,6 +48,7 @@ public class Register1Activity extends MyActivity implements View.OnClickListene
     private List<HttpUrlInfo> httpUrlInfos = new ArrayList<HttpUrlInfo>();
     private Map<Integer, String> urlMap = new HashMap<>();
     private String user_protocol_url = "";
+    private TextView tv_allow_protocol;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -90,10 +91,11 @@ public class Register1Activity extends MyActivity implements View.OnClickListene
         iv_see_again_pwd = (ImageView) findViewById(R.id.iv_see_again_pwd);
         iv_allow = (ImageView) findViewById(R.id.iv_allow);
         tv_allow = (TextView) findViewById(R.id.tv_allow);
+        tv_allow_protocol = (TextView) findViewById(R.id.tv_allow_protocol);
         btn_next = (Button) findViewById(R.id.btn_next);
         tv_get_verify.setOnClickListener(this);
         btn_next.setOnClickListener(this);
-        tv_allow.setOnClickListener(this);
+        tv_allow_protocol.setOnClickListener(this);
         iv_see_again_pwd.setOnClickListener(this);
         ShowHiddenPwdUtil.initAllow(iv_allow, tv_allow, btn_next);
         ShowHiddenPwdUtil.initShowHiddenPwdView(iv_see_once_pwd, et_pwd_once);
@@ -109,7 +111,7 @@ public class Register1Activity extends MyActivity implements View.OnClickListene
             case R.id.btn_next://注册
                 next();
                 break;
-            case R.id.tv_allow://阅读用户协议
+            case R.id.tv_allow_protocol://阅读用户协议
                 Intent intent = new Intent(this, WebUrlActivity.class);
                 intent.putExtra("title", "用户协议");
                 intent.putExtra("url", user_protocol_url);

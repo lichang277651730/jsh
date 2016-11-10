@@ -62,7 +62,7 @@
             android:id="@+id/tv_title"
             android:layout_width="80dp"
             android:layout_height="match_parent"
-            android:textSize="14sp"
+            android:textSize="18sp"
             android:gravity="center"
             android:textColor="@color/myblack"
             android:text="推荐商品"/>

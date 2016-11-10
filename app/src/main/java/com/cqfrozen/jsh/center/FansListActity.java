@@ -17,8 +17,9 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.common.base.BaseValue;
+import com.common.refresh.SupportLayout;
 import com.common.widget.MyGridDecoration;
-import com.common.widget.RefreshLayout;
+import com.common.refresh.RefreshLayout;
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.adapter.FansRVAdapter;
 import com.cqfrozen.jsh.entity.FansResultInfo;
@@ -36,7 +37,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/10/24.
  */
-public class FansListActity extends MyActivity implements View.OnClickListener, RefreshLayout.OnRefreshListener, RefreshLayout.TopOrBottom {
+public class FansListActity extends MyActivity implements View.OnClickListener, SupportLayout.LoadMoreListener, SupportLayout.RefreshListener {
 
     private TextView tv_desc;
     private TextView tv_huibi_total;
@@ -117,10 +118,14 @@ public class FansListActity extends MyActivity implements View.OnClickListener, 
         tv_invite_code = (TextView) findViewById(R.id.tv_invite_code);
         tv_one_fans = (TextView) findViewById(R.id.tv_one_fans);
         tv_two_fans = (TextView) findViewById(R.id.tv_two_fans);
-        refresh_fans = (RefreshLayout) findViewById(R.id.refresh_fans);
         rv_fans = (RecyclerView) findViewById(R.id.rv_fans);
         v_one_fans = (View) findViewById(R.id.v_one_fans);
         v_two_fans = (View) findViewById(R.id.v_two_fans);
+
+        refresh_fans = (RefreshLayout) findViewById(R.id.refresh_fans);
+        refresh_fans.setOnLoadMoreListener(this);
+        refresh_fans.setOnRefreshListener(this);
+
         v_one_fans.setVisibility(View.VISIBLE);
         tv_one_fans.setOnClickListener(this);
         tv_two_fans.setOnClickListener(this);
@@ -146,8 +151,8 @@ public class FansListActity extends MyActivity implements View.OnClickListener, 
     }
 
     private void initRV() {
-        refresh_fans.setRefreshble(true);
-        refresh_fans.setOnRefreshListener(this);
+//        refresh_fans.setRefreshble(true);
+//        refresh_fans.setOnRefreshListener(this);
         rv_fans.setOverScrollMode(View.OVER_SCROLL_NEVER);
         GridLayoutManager manager = new GridLayoutManager(this, 1);
         rv_fans.setLayoutManager(manager);
@@ -156,7 +161,7 @@ public class FansListActity extends MyActivity implements View.OnClickListener, 
         rv_fans.addItemDecoration(decoration);
         fansRVAdapter = new FansRVAdapter(this, fansInfos);
         rv_fans.setAdapter(fansRVAdapter);
-        refresh_fans.setRC(rv_fans, this);
+//        refresh_fans.setRC(rv_fans, this);
     }
 
     private void getRVData() {
@@ -165,15 +170,19 @@ public class FansListActity extends MyActivity implements View.OnClickListener, 
             public void httpResult(Integer which, int code, String msg, Object bean) {
                 if(code == 404){
 //                    showToast(msg);
-                    refresh_fans.setResultState(RefreshLayout.ResultState.failed);
+                    refresh_fans.setRefreshFailed();
+                    refresh_fans.setLoadFailed();
                     return;
                 }
                 if(code != 0){
 //                    showToast(msg);
-                    refresh_fans.setResultState(RefreshLayout.ResultState.failed);
+                    refresh_fans.setRefreshFailed();
+                    refresh_fans.setLoadFailed();
                     return;
                 }
-                refresh_fans.setResultState(RefreshLayout.ResultState.success);
+//                refresh_fans.setResultState(RefreshLayout.ResultState.success);
+                refresh_fans.setRefreshSuccess();
+                refresh_fans.setLoadSuccess();
                 FansResultInfo fansResultInfo = (FansResultInfo) bean;
                 is_page = fansResultInfo.is_page;
                 fansInfos.addAll(fansResultInfo.data1);
@@ -212,8 +221,9 @@ public class FansListActity extends MyActivity implements View.OnClickListener, 
                     SharePop.getInstance().showPop(this, tv_send_invite,
                             "我在这里买冻品一起来捡耙活！注册就有送，有买就有送，不买也有",
                             invite_http_url,
-                            "分享内容", bitmap,
-                            "https://img.alicdn.com/tfscom/i3/78539403/TB2qIMubpHzQeBjSZFOXXcM9FXa_!!78539403.jpg_300x300.jpg", null);
+                            "我在这里买冻品一起来捡耙活！注册就有送，有买就有送，不买也有",
+                            bitmap,
+                            "http://www.cqfrozen.com/skin/images/logo.png", null);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -239,42 +249,19 @@ public class FansListActity extends MyActivity implements View.OnClickListener, 
     }
 
     @Override
-    public void onRefresh() {
+    public void loadMore() {
+        if(is_page == 1){
+            getRVData();
+        }else if(is_page == 0){
+            refresh_fans.setLoadNodata();
+        }
+    }
+
+    @Override
+    public void refresh() {
         page = 1;
         is_page = 0;
         fansInfos.clear();
         getRVData();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if(refresh_fans != null && refresh_fans.isRefreshing){
-            refresh_fans.setResultState(RefreshLayout.ResultState.close);
-        }
-    }
-
-    @Override
-    public void gotoTop() {
-
-    }
-
-    @Override
-    public void gotoBottom() {
-        if(is_page == 1){
-            getRVData();
-        }else if(is_page == 0){
-
-        }
-    }
-
-    @Override
-    public void move() {
-
-    }
-
-    @Override
-    public void stop() {
-
     }
 }

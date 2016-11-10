@@ -12,7 +12,6 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 
 import java.io.File;
 
@@ -70,8 +69,9 @@ public  class PhotoUtil {
 
 	// 启动相册
 	public void startPhoto() {
-		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-		intent.setType("image/*");
+		Intent intent = new Intent(Intent.ACTION_PICK, null);
+//		intent.setType("image/*");
+		intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
 		
 		if (null!=context1) {
 			context1.startActivityForResult(intent, FromWhere.photo);
@@ -83,21 +83,19 @@ public  class PhotoUtil {
 
 	// 裁剪图片
 	public void startForfex(Uri uri) {
-		Log.d("resultCode", "start crop");
 		Intent intent = new Intent("com.android.camera.action.CROP");
 		intent.setDataAndType(uri, "image/*");
 		intent.putExtra("crop", "true");
-		intent.putExtra("aspectX", X);
-		intent.putExtra("aspectY", Y);
-		intent.putExtra("outputX", 100 * X);
-		intent.putExtra("outputY", 100 * Y);
+		intent.putExtra("aspectX", 1);
+		intent.putExtra("aspectY", 1);
+		intent.putExtra("outputX", 300);
+		intent.putExtra("outputY", 300);
 		intent.putExtra("scale", true);
 		intent.putExtra("scaleUpIfNeeded", true);
-		intent.putExtra("return-data", false);
+		intent.putExtra("return-data", true);
 		intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
 		intent.putExtra(MediaStore.EXTRA_OUTPUT, forfexUri);
 		intent.putExtra("noFaceDetection", true);
-
 		if (null != context1) {
 			context1.startActivityForResult(intent, FromWhere.forfex);
 		} else {
@@ -115,12 +113,9 @@ public  class PhotoUtil {
 		fileDir = null;
 		boolean sdCardExist = Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED); // 判断sd卡是否存在
 		String filePath;
-		Log.d("PhotoUploadLog", "getUri");
 		if (sdCardExist) {
-			Log.d("PhotoUploadLog", "sdCardExist");
 			filePath = Environment.getExternalStorageDirectory().getPath() + SDFile;
 		} else {
-			Log.d("PhotoUploadLog", "sdCardnotExist");
 			filePath = Environment.getRootDirectory().getParentFile().getPath() + Rootfile;
 		}
 		fileDir = new File(filePath);
@@ -137,31 +132,31 @@ public  class PhotoUtil {
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (resultCode != Activity.RESULT_OK) {
 			// 取消后不作任何操作
-			Log.d("resultCode", "resultCode cancel");
 			return;
 		}
 		try {
 			switch (requestCode) {
-			case FromWhere.camera:
-				Log.d("resultCode", "fromWhere camera");
-				startForfex(imgUri);
-				break;
-			case FromWhere.photo:
-				Log.d("resultCode", "fromWhere photo1");
-				Bitmap bitmap = null;
-				if (null != data.getData()) {
+				case FromWhere.camera:
+					startForfex(imgUri);
+					break;
+				case FromWhere.photo:
+					Bitmap bitmap = null;
+					if(data == null){
+						return;
+					}
+//					if (null != data.getData()) {
+//						imgUri = data.getData();
+//					} else if (null != data.getDataString() && !"".equals(data.getDataString())) {
+//						imgUri = Uri.parse(data.getDataString());
+//					} else if (null != data.getExtras()) {
+//						bitmap = data.getExtras().getParcelable("data");
+//						imgUri = Uri.parse(MediaStore.Images.Media.insertImage(contentResolver, bitmap, null, null));
+//					}
 					imgUri = data.getData();
-				} else if (null != data.getDataString() && !"".equals(data.getDataString())) {
-					imgUri = Uri.parse(data.getDataString());
-				} else if (null != data.getExtras()) {
-					bitmap = data.getExtras().getParcelable("data");
-					imgUri = Uri.parse(MediaStore.Images.Media.insertImage(contentResolver, bitmap, null, null));
-				}
-				Log.d("resultCode", "fromWhere photo2" + bitmap == null ? "is null" : "not null");
-				startForfex(imgUri);
-				break;
-			default:
-				break;
+					startForfex(imgUri);
+					break;
+				default:
+					break;
 			}
 		} catch (Exception e) {
 		}

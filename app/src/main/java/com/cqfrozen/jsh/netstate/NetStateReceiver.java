@@ -4,9 +4,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.util.Log;
 
-import com.cqfrozen.jsh.util.ToastUtil;
+import com.cqfrozen.jsh.util.CustomToast;
 
 import java.util.ArrayList;
 
@@ -41,14 +40,15 @@ public class NetStateReceiver extends BroadcastReceiver {
         if (intent.getAction().equalsIgnoreCase(ANDROID_NET_CHANGE_ACTION)
                 || intent.getAction().equalsIgnoreCase(CUSTOM_ANDROID_NET_CHANGE_ACTION)) {
             if (!NetUtils.isNetworkAvailable(context)) {
-                Log.e(this.getClass().getName(), "<--- network disconnected --->");
+//                ToastUtil.showToast(context, "网络请求失败，请检查您的网络");
+                CustomToast.getInstance(context).showToast("网络请求失败，请检查您的网络");
                 isNetAvailable = false;
             } else {
-                Log.e(this.getClass().getName(), "<--- network connected --->");
                 isNetAvailable = true;
                 mNetType = NetUtils.getAPNType(context);
                 if(mNetType != NetUtils.NetType.WIFI){
-                    ToastUtil.showToast(context, "当前是非WIFI网络，注意你的流量");
+//                    ToastUtil.showToast(context, "当前是非WIFI网络，注意你的流量");
+                    CustomToast.getInstance(context).showToast("当前是非WIFI网络，注意你的流量");
                 }
             }
             notifyObserver();

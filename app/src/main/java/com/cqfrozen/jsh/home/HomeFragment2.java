@@ -121,7 +121,7 @@ public class HomeFragment2 extends BaseFragment  implements MyHttp.MyHttpResult 
     private void getData() {
         MyHttp.homeBanner(http, HomeAdapter2.TYPE_BANNER, this);
         MyHttp.noticeList(http, HomeAdapter2.TYPE_TABLE, this);
-        MyHttp.homePriceGoods(http, HomeAdapter2.TYPE_LIST, "2", this);
+        MyHttp.homePriceGoods(http, HomeAdapter2.TYPE_LIST, "1", this);
     }
 
     @Override

@@ -85,7 +85,7 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.MyViewHolder
                         if(code != 0){
                             return;
                         }
-                        CustomToast.getInstance(context).showToast(response.optString("msg"));
+                        CustomToast.getInstance(context).showToast(response.optString("msg"), R.mipmap.icon_add_cart_success);
                         cartManager.add(goodsInfo);
                     }
                 });

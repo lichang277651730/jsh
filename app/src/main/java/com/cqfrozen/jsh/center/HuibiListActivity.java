@@ -9,8 +9,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.common.base.BaseValue;
+import com.common.refresh.SupportLayout;
 import com.common.widget.MyGridDecoration;
-import com.common.widget.RefreshLayout;
+import com.common.refresh.RefreshLayout;
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.adapter.HuibiRVAdapter;
 import com.cqfrozen.jsh.entity.HuibiInfo;
@@ -26,7 +27,7 @@ import java.util.List;
  * intent.putExtra("hb_count", getUserInfo().hb_count);
  * intent.putExtra("url", huibi_rule_url);
  */
-public class HuibiListActivity extends MyActivity implements RefreshLayout.TopOrBottom, RefreshLayout.OnRefreshListener, View.OnClickListener {
+public class HuibiListActivity extends MyActivity implements View.OnClickListener, SupportLayout.RefreshListener, SupportLayout.LoadMoreListener {
 
     private float hb_count;
     private TextView tv_huibi;
@@ -112,7 +113,7 @@ public class HuibiListActivity extends MyActivity implements RefreshLayout.TopOr
     }
 
     private void initRC() {
-        refresh_huibi.setRefreshble(true);
+        refresh_huibi.setOnLoadMoreListener(this);
         refresh_huibi.setOnRefreshListener(this);
         rv_huibi.setOverScrollMode(View.OVER_SCROLL_NEVER);
         GridLayoutManager manager = new GridLayoutManager(this, 1);
@@ -122,7 +123,6 @@ public class HuibiListActivity extends MyActivity implements RefreshLayout.TopOr
         rv_huibi.addItemDecoration(decoration);
         rvAdapter = new HuibiRVAdapter(this, huibiInfos);
         rv_huibi.setAdapter(rvAdapter);
-        refresh_huibi.setRC(rv_huibi, this);
     }
 
 
@@ -131,16 +131,17 @@ public class HuibiListActivity extends MyActivity implements RefreshLayout.TopOr
             @Override
             public void httpResult(Integer which, int code, String msg, Object bean) {
                 if(code == 404){
-//                    showToast(msg);
-                    refresh_huibi.setResultState(RefreshLayout.ResultState.failed);
+                    refresh_huibi.setRefreshFailed();
+                    refresh_huibi.setLoadFailed();
                     return;
                 }
                 if(code != 0){
-//                    showToast(msg);
-                    refresh_huibi.setResultState(RefreshLayout.ResultState.failed);
+                    refresh_huibi.setRefreshFailed();
+                    refresh_huibi.setLoadFailed();
                     return;
                 }
-                refresh_huibi.setResultState(RefreshLayout.ResultState.success);
+                refresh_huibi.setLoadSuccess();
+                refresh_huibi.setRefreshSuccess();
                 HuibiResultInfo huibiResultInfo = (HuibiResultInfo) bean;
                 huibiInfos.addAll(huibiResultInfo.data1);
                 is_page = huibiResultInfo.is_page;
@@ -155,31 +156,7 @@ public class HuibiListActivity extends MyActivity implements RefreshLayout.TopOr
     }
 
     @Override
-    public void gotoTop() {
-
-    }
-
-    @Override
-    public void gotoBottom() {
-        if(is_page == 1){
-            getData();
-        }else {
-
-        }
-    }
-
-    @Override
-    public void move() {
-
-    }
-
-    @Override
-    public void stop() {
-
-    }
-
-    @Override
-    public void onRefresh() {
+    public void refresh() {
         page = 1;
         is_page = 0;
         huibiInfos.clear();
@@ -187,10 +164,11 @@ public class HuibiListActivity extends MyActivity implements RefreshLayout.TopOr
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-        if(refresh_huibi != null && refresh_huibi.isRefreshing){
-            refresh_huibi.setResultState(RefreshLayout.ResultState.close);
+    public void loadMore() {
+        if(is_page == 1){
+            getData();
+        }else if(is_page == 0){
+            refresh_huibi.setLoadNodata();
         }
     }
 
