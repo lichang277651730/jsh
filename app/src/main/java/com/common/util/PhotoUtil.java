@@ -25,6 +25,7 @@ public  class PhotoUtil {
 	private ContentResolver contentResolver;
 	private File fileDir;
 	private String forfexPath;
+	private Bitmap bitmap;
 
 	//返回裁剪过后的图片路径
 	public String getForfexPath(){
@@ -69,10 +70,11 @@ public  class PhotoUtil {
 
 	// 启动相册
 	public void startPhoto() {
-		Intent intent = new Intent(Intent.ACTION_PICK, null);
-//		intent.setType("image/*");
-		intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-		
+//		Intent intent = new Intent(Intent.ACTION_PICK, null);
+//		intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+		Intent intent = new Intent(Intent.ACTION_GET_CONTENT, null);
+		intent.setType("image/*");
+
 		if (null!=context1) {
 			context1.startActivityForResult(intent, FromWhere.photo);
 		}else {
@@ -88,14 +90,15 @@ public  class PhotoUtil {
 		intent.putExtra("crop", "true");
 		intent.putExtra("aspectX", 1);
 		intent.putExtra("aspectY", 1);
-		intent.putExtra("outputX", 300);
-		intent.putExtra("outputY", 300);
+		intent.putExtra("outputX", 200);
+		intent.putExtra("outputY", 200);
 		intent.putExtra("scale", true);
 		intent.putExtra("scaleUpIfNeeded", true);
 		intent.putExtra("return-data", true);
 		intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
 		intent.putExtra(MediaStore.EXTRA_OUTPUT, forfexUri);
 		intent.putExtra("noFaceDetection", true);
+
 		if (null != context1) {
 			context1.startActivityForResult(intent, FromWhere.forfex);
 		} else {
@@ -118,14 +121,17 @@ public  class PhotoUtil {
 		} else {
 			filePath = Environment.getRootDirectory().getParentFile().getPath() + Rootfile;
 		}
+
 		fileDir = new File(filePath);
 		if (!fileDir.exists()) {
 			fileDir.mkdirs();// 创建文件夹
 		}
-		
-		imgUri = Uri.fromFile(new File(fileDir.getPath() + "/imgUri.jpg")); // 原图
-		forfexUri = Uri.fromFile(new File(fileDir.getPath() + "/forfexUri.jpg")); // 裁剪后的图
-		forfexPath = fileDir.getPath() + "/forfexUri.jpg";
+
+		imgUri = Uri.fromFile(new File(fileDir.getPath(), "imgUri.jpg")); // 原图
+		forfexUri = Uri.fromFile(new File(fileDir.getPath(), "forfexUri.jpg")); // 裁剪后的图
+		forfexPath = fileDir.getPath() + File.separator + "forfexUri.jpg";
+
+
 	}
 
 	// 返回数据
@@ -140,19 +146,20 @@ public  class PhotoUtil {
 					startForfex(imgUri);
 					break;
 				case FromWhere.photo:
-					Bitmap bitmap = null;
 					if(data == null){
 						return;
 					}
-//					if (null != data.getData()) {
-//						imgUri = data.getData();
-//					} else if (null != data.getDataString() && !"".equals(data.getDataString())) {
-//						imgUri = Uri.parse(data.getDataString());
-//					} else if (null != data.getExtras()) {
-//						bitmap = data.getExtras().getParcelable("data");
-//						imgUri = Uri.parse(MediaStore.Images.Media.insertImage(contentResolver, bitmap, null, null));
-//					}
-					imgUri = data.getData();
+					if (null != data.getData()) {
+						imgUri = data.getData();
+					} else if (null != data.getDataString() && !"".equals(data.getDataString())) {
+						imgUri = Uri.parse(data.getDataString());
+					} else if (null != data.getExtras()) {
+						bitmap = data.getExtras().getParcelable("data");
+						imgUri = Uri.parse(MediaStore.Images.Media.insertImage(contentResolver, bitmap, null, null));
+					}
+//					imgUri = data.getData();
+//					bitmap = data.getExtras().getParcelable("data");
+//					imgUri = Uri.parse(MediaStore.Images.Media.insertImage(contentResolver, bitmap, null, null));
 					startForfex(imgUri);
 					break;
 				default:

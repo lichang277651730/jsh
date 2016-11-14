@@ -3,7 +3,6 @@ package com.common.base;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
@@ -11,11 +10,12 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.common.http.HttpForVolley;
+import com.jph.takephoto.app.TakePhotoFragment;
 
 /**
  * Created by Administrator on 2016/9/12.
  */
-public class BaseFragment extends Fragment {
+public class BaseFragment extends TakePhotoFragment {
 
     public View view;
     public FragmentActivity mActivity;

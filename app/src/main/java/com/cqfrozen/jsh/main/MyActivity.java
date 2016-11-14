@@ -146,4 +146,18 @@ public class MyActivity extends BaseActivity {
     public interface HttpFail {
         void toHttpAgain();
     }
+
+//    @Override
+//    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+//        super.onSaveInstanceState(outState, outPersistentState);
+//    }
+//
+//    @Override
+//    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+//        super.onRestoreInstanceState(savedInstanceState);
+//        Intent i = getBaseContext().getPackageManager()
+//                .getLaunchIntentForPackage(getBaseContext().getPackageName());
+//        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//        startActivity(i);
+//    }
 }

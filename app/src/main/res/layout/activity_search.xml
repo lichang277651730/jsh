@@ -61,7 +61,7 @@
         <LinearLayout
             android:id="@+id/ll_search"
             android:layout_width="0px"
-            android:layout_height="32dp"
+            android:layout_height="26dp"
             android:layout_weight="1"
             android:background="@drawable/shape_search_bg"
             android:focusable="true"

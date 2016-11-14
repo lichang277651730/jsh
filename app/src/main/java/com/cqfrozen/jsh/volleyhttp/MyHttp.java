@@ -2,6 +2,7 @@ package com.cqfrozen.jsh.volleyhttp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -180,9 +181,9 @@ public class MyHttp {
         params.put("mobile_num", mobile_num);
         params.put("p_type", 1 + "");//android端登陆
         params.put("pass_word", MD5Util.encodeMD5(password));
-//        Log.d("addAddress_params", "mobile_num:"+ mobile_num + "," +
-//                "p_type:"+ 1 + "," +
-//                "pass_word:"+ MD5Util.encodeMD5(password));
+        Log.d("addAddress_params", "mobile_num:"+ mobile_num + "," +
+                "p_type:"+ 1 + "," +
+                "pass_word:"+ MD5Util.encodeMD5(password));
         Type type = new TypeToken<SigninInfo>(){}.getType();
         toBean(POST, http, which, params, url, myHttpResult, type);
     }

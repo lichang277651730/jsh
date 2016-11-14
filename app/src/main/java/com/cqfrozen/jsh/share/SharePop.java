@@ -98,7 +98,8 @@ public class SharePop implements View.OnClickListener {
                 ShareUtilsWX.wxShare(context, 2, title, url, text, image);
                 break;
             case R.id.ll_xlwb: //新浪微博
-                ShareUtilsWB.wbShare(context,title, text, url, image);
+                ShareUtilsWX.wxShare(context, 2, title, url, text, image);
+//                ShareUtilsWB.wbShare(context,title, text, url, image);
                 break;
             case R.id.ll_qqhy: //QQ分享
                 ShareUtilsQQ.ShareQQ(tencent, context, title, text, url, image_url);

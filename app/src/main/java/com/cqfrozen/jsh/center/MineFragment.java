@@ -193,10 +193,10 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
 
     private void getUserDataFormServer() {
         MyHttp.user(http, null, new MyHttp.MyHttpResult() {
+
             @Override
             public void httpResult(Integer which, int code, String msg, Object bean) {
                 if (code != 0) {
-//                    showToast(msg);
                     showUnLogined();
                     return;
                 }
@@ -414,12 +414,13 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
                 photoUtil.onActivityResult(requestCode, resultCode, data);
                 break;
             case PhotoUtil.FromWhere.forfex:
+//                iv_head.setImageBitmap(BitmapFactory.decodeFile(photoUtil.getForfexPath()));
                 if (resultCode == Activity.RESULT_OK) {
                     MyHttp.updateHead(http, null, photoUtil.getForfexPath(), new HttpForVolley.HttpTodo() {
                         @Override
                         public void httpTodo(Integer which, JSONObject response) {
                             if (response.optInt("code",1)!=0){
-                                showToast("上传图片发生错误!");
+//                                showToast("上传图片发生错误!");
                                 return;
                             }
                             showToast("修改头像成功!");
@@ -433,5 +434,8 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
         }
 
     }
+
+
+
 
 }

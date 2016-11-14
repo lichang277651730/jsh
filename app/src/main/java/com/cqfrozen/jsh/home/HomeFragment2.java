@@ -53,7 +53,7 @@ public class HomeFragment2 extends BaseFragment  implements MyHttp.MyHttpResult 
     private LinearLayout ll_search;
     private RefreshLayout refresh_home;
 
-    private static final int urlNum = 3; //当前页面是刷新的url数量
+    private static int urlNum = 3; //当前页面是刷新的url数量
     private ImageView iv_search;
     private TextView tv_location;
 
@@ -148,8 +148,10 @@ public class HomeFragment2 extends BaseFragment  implements MyHttp.MyHttpResult 
                 notifyInfos.clear();
                 notifyInfos.addAll((List<HomeNotifyInfo>) bean);
                 if (notifyInfos.size() == 0) {
+//                    urlNum = 2;
                     return;
                 }
+//                urlNum = 3;
                 break;
             case HomeAdapter2.TYPE_LIST:
                 recommendGoods.clear();
@@ -162,9 +164,10 @@ public class HomeFragment2 extends BaseFragment  implements MyHttp.MyHttpResult 
                 break;
         }
         homeAdapter2.notifyDataSetChanged();
-        if(refresh_home.getUrlNum() == urlNum){
-            refresh_home.setRefreshSuccess();
-        }
+        refresh_home.setRefreshSuccess();
+//        if(refresh_home.getUrlNum() == urlNum){
+//            refresh_home.setRefreshSuccess();
+//        }
     }
 
     @Override

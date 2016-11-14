@@ -40,6 +40,7 @@ public class RefreshLayout extends SupportLayout {
             setViewEnable(true);
             return super.dispatchTouchEvent(e);
         }
+
         switch (e.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 getViewState();
@@ -146,8 +147,7 @@ public class RefreshLayout extends SupportLayout {
                 } else if ((int) (move_y - down_y) <= moveLength) {
                     headerParams.height = (int) (move_y - down_y);
                 } else {
-                    headerParams.height = (int) (moveLength + (((move_y - down_y) - moveLength) *
-                            1.2 / 3));
+                    headerParams.height = (int) (moveLength + (((move_y - down_y) - moveLength) *1.2 / 5));
                 }
                 break;
         }
@@ -179,7 +179,7 @@ public class RefreshLayout extends SupportLayout {
                 }
                 if ((down_y - move_y) > moveLength) {
                     footerParams.height = (int) (moveLength + (((down_y - move_y) - moveLength) *
-                            1.2 / 3));
+                            1.2 / 5));
                 }
                 break;
         }
@@ -188,6 +188,7 @@ public class RefreshLayout extends SupportLayout {
             setFootAnimation(state);
         }
         oldFooterState = state;
+        recyclerView.scrollBy(0,footerParams.height);
         footerView.setLayoutParams(footerParams);
     }
 
@@ -261,17 +262,20 @@ public class RefreshLayout extends SupportLayout {
             @Override
             public void run() {
                 super.run();
-                for (i = 0; params.height > 3; i++) {
+                for (i = 0; params.height > 0; i++) {
                     try {
                         if (i == 0) {
                             Thread.sleep(1000);
                         } else {
-                            Thread.sleep(20);
+                            Thread.sleep((int)((moveLength/4 - i)/4));
+//                            Thread.sleep((int)(i/1));
+//                            Thread.sleep(20);
                         }
                         ((Activity) getContext()).runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                params.height = params.height - i * 4;
+//                                params.height = params.height - i * 4;
+                                params.height = params.height - 9;
                                 if (params.height < 0) {
                                     params.height = 0;
                                     getViewState();

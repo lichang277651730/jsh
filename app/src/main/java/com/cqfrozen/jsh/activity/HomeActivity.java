@@ -19,7 +19,7 @@ import com.common.widget.MyViewPager;
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.cart.CartFragment;
 import com.cqfrozen.jsh.cart.CartManager;
-import com.cqfrozen.jsh.center.MineFragment;
+import com.cqfrozen.jsh.center.MineFragment1;
 import com.cqfrozen.jsh.classify.ClassifyFragment;
 import com.cqfrozen.jsh.home.HomeFragment2;
 import com.cqfrozen.jsh.main.MyApplication;
@@ -126,7 +126,8 @@ public class HomeActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         fragments.add(HomeFragment2.getInstance());
         fragments.add(ClassifyFragment.getInstance());
         fragments.add(CartFragment.getInstance());
-        fragments.add(MineFragment.getInstance());
+//        fragments.add(MineFragment.getInstance());
+        fragments.add(MineFragment1.getInstance());
         vp_home.setFragemnt(getSupportFragmentManager(), fragments);
     }
 

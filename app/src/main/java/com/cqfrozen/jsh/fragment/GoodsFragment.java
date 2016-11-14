@@ -89,7 +89,7 @@ public class GoodsFragment extends MyFragment implements MyHttp.MyHttpResult, My
 
     public void setSelection(int index){
         if(rv_goods.getChildCount() != 0){
-            rv_goods.scrollToPosition(0);
+            rv_goods.scrollToPosition(index);
         }
     }
 

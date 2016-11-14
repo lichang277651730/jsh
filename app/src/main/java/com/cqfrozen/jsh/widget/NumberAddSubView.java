@@ -13,6 +13,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.cqfrozen.jsh.R;
+import com.cqfrozen.jsh.netstate.NetUtils;
+import com.cqfrozen.jsh.util.CustomMiddleToast;
 
 
 /**
@@ -32,19 +34,23 @@ public class NumberAddSubView extends LinearLayout implements View.OnClickListen
     private int curValue;
     private int minValue;
     private int maxValue = DEFUALT_MAX;
+    private Context context;
 
 
 
     public NumberAddSubView(Context context) {
         this(context, null);
+        this.context = context;
     }
 
     public NumberAddSubView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
+        this.context = context;
     }
 
     public NumberAddSubView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        this.context = context;
         mInflater = LayoutInflater.from(context);
         initView();
         if(attrs != null){
@@ -101,6 +107,10 @@ public class NumberAddSubView extends LinearLayout implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
+        if(!NetUtils.isNetworkConnected(context)){
+            CustomMiddleToast.getInstance(context).showToast("网络不可用");
+            return;
+        }
         switch (v.getId()) {
             case R.id.btn_add://点击+按钮
                 addNum();
@@ -163,6 +173,11 @@ public class NumberAddSubView extends LinearLayout implements View.OnClickListen
     public void setMinValue(int minValue) {
 //        tv_num.setText(minValue);
         this.minValue = minValue;
+    }
+
+    public void setBtnEnabled(boolean isEnabled){
+        btn_sub.setEnabled(isEnabled);
+        btn_add.setEnabled(isEnabled);
     }
 
     public int getMinValue() {

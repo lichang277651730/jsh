@@ -73,4 +73,6 @@
     <color name="guide1">#F2BD17</color>
     <color name="guide2">#FF565D</color>
     <color name="guide3">#55B2FF</color>
+
+    <color name="multiple_image_select_primaryDark">#55B2FF</color>
 </resources>

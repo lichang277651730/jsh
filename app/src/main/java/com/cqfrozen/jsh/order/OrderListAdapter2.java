@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.common.http.HttpForVolley;
@@ -68,7 +69,6 @@ public class OrderListAdapter2 extends RecyclerView.Adapter<OrderListAdapter2.My
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
-        Log.d("OrderListposition", position + ":position");
         final OrderResultInfo.OrderSearchInfo orderSearchInfo = orderSearchInfos.get(position);
         holder.tv_time.setText("下单时间: " + orderSearchInfo.add_time);
         holder.tv_result_status.setText(orderSearchInfo.status_name);
@@ -139,73 +139,26 @@ public class OrderListAdapter2 extends RecyclerView.Adapter<OrderListAdapter2.My
             initBtnType(orderSearchInfo.btn_type, holder);
         }
 
+         // (0未付款，1已付款，2已完成，3已取消)
 
-//        // 0所有按钮都不显示，
-//        // 1取消、去支付(未付款),
-//        // 2取消（货到付款未出库），
-//        // 3确认收货（已发货）,
-//        // 4去评价(已收货、未评价)，
-//        // 5删除（取消订单、已完成评价订单）
-//        switch (orderSearchInfo.btn_type) {
-//            case 0:
-//                holder.btn_cancel_nopay.setVisibility(View.GONE);
-//                holder.btn_go_pay.setVisibility(View.GONE);
-//                holder.btn_cancel_noout.setVisibility(View.GONE);
-//                holder.btn_confirm_get.setVisibility(View.GONE);
-//                holder.btn_go_say.setVisibility(View.GONE);
-//                holder.btn_delete.setVisibility(View.GONE);
-//                break;
-//            case 1:
-//                holder.btn_cancel_nopay.setVisibility(View.GONE);
-//                holder.btn_go_pay.setVisibility(View.VISIBLE);
-//                holder.btn_cancel_noout.setVisibility(View.GONE);
-//                holder.btn_confirm_get.setVisibility(View.GONE);
-//                holder.btn_go_say.setVisibility(View.GONE);
-//                holder.btn_delete.setVisibility(View.GONE);
-//                //去支付(未付款),
-//                holder.btn_go_pay.setOnClickListener(this);
-//                break;
-//            case 2:
-//                holder.btn_cancel_nopay.setVisibility(View.GONE);
-//                holder.btn_go_pay.setVisibility(View.GONE);
-//                holder.btn_cancel_noout.setVisibility(View.VISIBLE);
-//                holder.btn_confirm_get.setVisibility(View.GONE);
-//                holder.btn_go_say.setVisibility(View.GONE);
-//                holder.btn_delete.setVisibility(View.GONE);
-//                // 取消 货到付款未出库 的订单
-//                holder.btn_cancel_noout.setOnClickListener(this);
-//                break;
-//            case 3:
-//                holder.btn_cancel_nopay.setVisibility(View.GONE);
-//                holder.btn_go_pay.setVisibility(View.GONE);
-//                holder.btn_cancel_noout.setVisibility(View.GONE);
-//                holder.btn_confirm_get.setVisibility(View.VISIBLE);
-//                holder.btn_go_say.setVisibility(View.GONE);
-//                holder.btn_delete.setVisibility(View.GONE);
-//                // 确认收货（已发货）
-//                holder.btn_confirm_get.setOnClickListener(this);
-//                break;
-//            case 4:
-//                holder.btn_cancel_nopay.setVisibility(View.GONE);
-//                holder.btn_go_pay.setVisibility(View.GONE);
-//                holder.btn_cancel_noout.setVisibility(View.GONE);
-//                holder.btn_confirm_get.setVisibility(View.GONE);
-//                holder.btn_go_say.setVisibility(View.VISIBLE);
-//                holder.btn_delete.setVisibility(View.GONE);
-//                //去评价
-//                holder.btn_go_say.setOnClickListener(this);
-//                break;
-//            case 5:
-//                holder.btn_cancel_nopay.setVisibility(View.GONE);
-//                holder.btn_go_pay.setVisibility(View.GONE);
-//                holder.btn_cancel_noout.setVisibility(View.GONE);
-//                holder.btn_confirm_get.setVisibility(View.GONE);
-//                holder.btn_go_say.setVisibility(View.GONE);
-//                holder.btn_delete.setVisibility(View.VISIBLE);
-//                //删除 取消的订单、已完成评价的订单
-//                holder.btn_delete.setOnClickListener(this);
-//                break;
-//        }
+        switch (Integer.parseInt(orderSearchInfo.order_status)) {
+            case 0:
+                holder.iv_order_status.setImageResource(R.mipmap.labelview_order_nopay);
+                break;
+            case 1:
+                holder.iv_order_status.setImageResource(R.mipmap.labelview_order_outing);
+                break;
+            case 2:
+                holder.iv_order_status.setImageResource(R.mipmap.labelview_order_sending);
+                break;
+            case 3:
+                holder.iv_order_status.setVisibility(View.GONE);
+                break;
+            default:
+                holder.iv_order_status.setVisibility(View.GONE);
+                break;
+        }
+
 
         //取消未付款订单
         holder.btn_cancel_nopay.setOnClickListener(new View.OnClickListener() {
@@ -518,14 +471,8 @@ public class OrderListAdapter2 extends RecyclerView.Adapter<OrderListAdapter2.My
         private Button btn_confirm_get;//确认收货按钮
         private Button btn_go_say;//去评价按钮
         private RecyclerView rv_ordergoods;//取消订单 已完成评价订单 删除按钮
+        private ImageView iv_order_status;//取消订单 已完成评价订单 删除按钮
         private Button btn_delete;//取消订单 已完成评价订单 删除按钮
-//        private ImageView iv_goods;
-//        private TextView tv_name;
-//        private TextView tv_brand;
-//        private TextView tv_size;
-//        private TextView tv_price;
-//        private TextView tv_count;
-//        private LinearLayout include_item_order_sumbit;
         private TextView tv_showdetail;
 
         public MyViewHolder(View itemView) {
@@ -533,7 +480,7 @@ public class OrderListAdapter2 extends RecyclerView.Adapter<OrderListAdapter2.My
             tv_time = (TextView) itemView.findViewById(R.id.tv_time);
             tv_result_status = (TextView) itemView.findViewById(R.id.tv_result_status);
             rv_ordergoods = (RecyclerView) itemView.findViewById(R.id.rv_ordergoods);
-//            include_item_order_sumbit = (LinearLayout) itemView.findViewById(R.id.include_item_order_sumbit);
+            iv_order_status = (ImageView) itemView.findViewById(R.id.iv_order_status);
             tv_order_count = (TextView) itemView.findViewById(R.id.tv_order_count);
             tv_order_sum = (TextView) itemView.findViewById(R.id.tv_order_sum);
             btn_cancel_nopay = (Button) itemView.findViewById(R.id.btn_cancel_nopay);
@@ -542,12 +489,6 @@ public class OrderListAdapter2 extends RecyclerView.Adapter<OrderListAdapter2.My
             btn_confirm_get = (Button) itemView.findViewById(R.id.btn_confirm_get);
             btn_go_say = (Button) itemView.findViewById(R.id.btn_go_say);
             btn_delete = (Button) itemView.findViewById(R.id.btn_delete);
-//            iv_goods = (ImageView) itemView.findViewById(R.id.iv_goods);
-//            tv_name = (TextView) itemView.findViewById(R.id.tv_name);
-//            tv_brand = (TextView) itemView.findViewById(R.id.tv_brand);
-//            tv_size = (TextView) itemView.findViewById(R.id.tv_size);
-//            tv_price = (TextView) itemView.findViewById(R.id.tv_price);
-//            tv_count = (TextView) itemView.findViewById(R.id.tv_count);
             tv_showdetail = (TextView) itemView.findViewById(R.id.tv_showdetail);
         }
     }

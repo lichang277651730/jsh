@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.util.Base64;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -121,7 +122,6 @@ public class HttpForVolley {
 
 					@Override
 					public void onResponse(String response) {
-
 						try {
 							if (BaseValue.isDebug) {
 								Logger.json(response);
@@ -164,6 +164,13 @@ public class HttpForVolley {
 		} else {
 			request.setTag(fragment);
 		}
+		request.setRetryPolicy(new DefaultRetryPolicy(
+				DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2,
+				DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+				DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+//		request.setRetryPolicy(new DefaultRetryPolicy(0,
+//				DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+//				DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 		BaseValue.mQueue.add(request);
 	}
 
@@ -177,7 +184,6 @@ public class HttpForVolley {
 			fis.read(buffer);
 			String encodeToString = Base64.encodeToString(buffer,
 					Base64.DEFAULT);
-//			Log.d("encodeToString", encodeToString);
 			httpMap.put("head_data", encodeToString);
 			if (request == null) {
 				toHttp(method, which, httpMap, url, todo);

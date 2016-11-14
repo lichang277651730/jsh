@@ -240,7 +240,7 @@
             android:id="@+id/btn_register"
             style="@style/text_16sp_white"
             android:layout_width="200dp"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:layout_centerInParent="true"
             android:layout_marginLeft="12dp"
             android:layout_marginRight="12dp"

@@ -5,8 +5,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,13 +17,9 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.common.base.BaseValue;
-import com.common.refresh.SupportLayout;
-import com.common.widget.MyGridDecoration;
-import com.common.refresh.RefreshLayout;
 import com.cqfrozen.jsh.R;
-import com.cqfrozen.jsh.adapter.FansRVAdapter;
-import com.cqfrozen.jsh.entity.FansResultInfo;
 import com.cqfrozen.jsh.entity.MyFansPageInfo;
+import com.cqfrozen.jsh.fragment.FansFragment;
 import com.cqfrozen.jsh.main.MyActivity;
 import com.cqfrozen.jsh.share.SharePop;
 import com.cqfrozen.jsh.util.QrCodeUtil;
@@ -31,13 +27,11 @@ import com.cqfrozen.jsh.volleyhttp.MyHttp;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Administrator on 2016/10/24.
  */
-public class FansListActity extends MyActivity implements View.OnClickListener, SupportLayout.LoadMoreListener, SupportLayout.RefreshListener {
+public class FansListActity extends MyActivity implements View.OnClickListener{
 
     private TextView tv_desc;
     private TextView tv_huibi_total;
@@ -51,10 +45,7 @@ public class FansListActity extends MyActivity implements View.OnClickListener, 
     private int level = 1;//1一级兄弟伙  2兄弟伙的兄弟伙
     private int is_page = 0;//1有下一页 0没有下一页
     private int page = 1;
-    private RefreshLayout refresh_fans;
-    private RecyclerView rv_fans;
-    private List<FansResultInfo.FansInfo> fansInfos = new ArrayList<>();
-    private FansRVAdapter fansRVAdapter;
+
     private String invite_http_url;//邀请链接
     private Bitmap invite_qr_bitmap;
     private PopupWindow popupWindow;
@@ -64,6 +55,7 @@ public class FansListActity extends MyActivity implements View.OnClickListener, 
     private MyFansPageInfo myFansPageInfo;
     private TextView tv_invite_code1;
     private LinearLayout ll_root;
+    private FansFragment fansFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -71,8 +63,7 @@ public class FansListActity extends MyActivity implements View.OnClickListener, 
         setContentView(R.layout.activity_fanslist);
         initView();
         getViewData();
-        initRV();
-        getRVData();
+        setFragment();
     }
 
     private void getViewData() {
@@ -87,6 +78,18 @@ public class FansListActity extends MyActivity implements View.OnClickListener, 
                 initViewData(myFansPageInfo);
             }
         });
+    }
+
+    private void setFragment() {
+        fansFragment = FansFragment.getInstance(level);
+        showFragment(fansFragment);
+    }
+
+    private void showFragment(FansFragment fragment) {
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.add(R.id.fl_fans_container, fragment);
+        transaction.commit();
     }
 
     private void initViewData(MyFansPageInfo myFansPageInfo) {
@@ -118,13 +121,8 @@ public class FansListActity extends MyActivity implements View.OnClickListener, 
         tv_invite_code = (TextView) findViewById(R.id.tv_invite_code);
         tv_one_fans = (TextView) findViewById(R.id.tv_one_fans);
         tv_two_fans = (TextView) findViewById(R.id.tv_two_fans);
-        rv_fans = (RecyclerView) findViewById(R.id.rv_fans);
         v_one_fans = (View) findViewById(R.id.v_one_fans);
         v_two_fans = (View) findViewById(R.id.v_two_fans);
-
-        refresh_fans = (RefreshLayout) findViewById(R.id.refresh_fans);
-        refresh_fans.setOnLoadMoreListener(this);
-        refresh_fans.setOnRefreshListener(this);
 
         v_one_fans.setVisibility(View.VISIBLE);
         tv_one_fans.setOnClickListener(this);
@@ -150,67 +148,16 @@ public class FansListActity extends MyActivity implements View.OnClickListener, 
         popupWindow.setFocusable(true);
     }
 
-    private void initRV() {
-//        refresh_fans.setRefreshble(true);
-//        refresh_fans.setOnRefreshListener(this);
-        rv_fans.setOverScrollMode(View.OVER_SCROLL_NEVER);
-        GridLayoutManager manager = new GridLayoutManager(this, 1);
-        rv_fans.setLayoutManager(manager);
-        MyGridDecoration decoration = new MyGridDecoration(BaseValue.dp2px(1), BaseValue
-                .dp2px(0), getResources().getColor(R.color.mybg), false);
-        rv_fans.addItemDecoration(decoration);
-        fansRVAdapter = new FansRVAdapter(this, fansInfos);
-        rv_fans.setAdapter(fansRVAdapter);
-//        refresh_fans.setRC(rv_fans, this);
-    }
 
-    private void getRVData() {
-        MyHttp.searchFans(http, null, page, level, new MyHttp.MyHttpResult() {
-            @Override
-            public void httpResult(Integer which, int code, String msg, Object bean) {
-                if(code == 404){
-//                    showToast(msg);
-                    refresh_fans.setRefreshFailed();
-                    refresh_fans.setLoadFailed();
-                    return;
-                }
-                if(code != 0){
-//                    showToast(msg);
-                    refresh_fans.setRefreshFailed();
-                    refresh_fans.setLoadFailed();
-                    return;
-                }
-//                refresh_fans.setResultState(RefreshLayout.ResultState.success);
-                refresh_fans.setRefreshSuccess();
-                refresh_fans.setLoadSuccess();
-                FansResultInfo fansResultInfo = (FansResultInfo) bean;
-                is_page = fansResultInfo.is_page;
-                fansInfos.addAll(fansResultInfo.data1);
-                if(fansInfos.size() == 0){
-                    return;
-                }
-                fansRVAdapter.notifyDataSetChanged();
-                page++;
-            }
-        });
-    }
 
     @Override
     public void onClick(View v) {
-        tv_one_fans.setTextColor(getResources().getColor(R.color.myblack));
-        tv_two_fans.setTextColor(getResources().getColor(R.color.myblack));
-        v_one_fans.setVisibility(View.INVISIBLE);
-        v_two_fans.setVisibility(View.INVISIBLE);
         switch (v.getId()) {
             case R.id.tv_one_fans:
-                v_one_fans.setVisibility(View.VISIBLE);
-                tv_one_fans.setTextColor(getResources().getColor(R.color.main));
-                level = 1;
-                break;
             case R.id.tv_two_fans:
-                v_two_fans.setVisibility(View.VISIBLE);
-                tv_two_fans.setTextColor(getResources().getColor(R.color.main));
-                level = 2;
+                setTab(v.getId());
+                fansFragment.setResultData(level);
+                fansFragment.setSelection(0);
                 break;
             case R.id.tv_send_invite:
                 InputStream open = null;
@@ -241,27 +188,28 @@ public class FansListActity extends MyActivity implements View.OnClickListener, 
             default:
                 break;
         }
-        page = 1;
-        is_page = 0;
-        fansInfos.clear();
-        getRVData();
-
     }
 
-    @Override
-    public void loadMore() {
-        if(is_page == 1){
-            getRVData();
-        }else if(is_page == 0){
-            refresh_fans.setLoadNodata();
+    private void setTab(int id) {
+        tv_one_fans.setTextColor(getResources().getColor(R.color.myblack));
+        tv_two_fans.setTextColor(getResources().getColor(R.color.myblack));
+        v_one_fans.setVisibility(View.INVISIBLE);
+        v_two_fans.setVisibility(View.INVISIBLE);
+        switch (id) {
+            case R.id.tv_one_fans:
+                v_one_fans.setVisibility(View.VISIBLE);
+                tv_one_fans.setTextColor(getResources().getColor(R.color.main));
+                level = 1;
+                break;
+            case R.id.tv_two_fans:
+                v_two_fans.setVisibility(View.VISIBLE);
+                tv_two_fans.setTextColor(getResources().getColor(R.color.main));
+                level = 2;
+                break;
+            default:
+                break;
         }
     }
 
-    @Override
-    public void refresh() {
-        page = 1;
-        is_page = 0;
-        fansInfos.clear();
-        getRVData();
-    }
+
 }

@@ -16,8 +16,9 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.common.base.BaseValue;
+import com.common.refresh.RefreshLayout;
+import com.common.refresh.SupportLayout;
 import com.common.widget.MyGridDecoration;
-import com.common.widget.RefreshLayout;
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.activity.HomeActivity;
 import com.cqfrozen.jsh.entity.CartNotifyInfo;
@@ -36,7 +37,7 @@ import java.util.List;
  * Created by Administrator on 2016/9/12.
  * 导航栏 购物车页面 fragment
  */
-public class CartFragment extends MyFragment implements View.OnClickListener, MyFragment.HttpFail,RefreshLayout.OnRefreshListener, RefreshLayout.TopOrBottom {
+public class CartFragment extends MyFragment implements View.OnClickListener, MyFragment.HttpFail, SupportLayout.RefreshListener, SupportLayout.LoadMoreListener {
 
     private static final int TAG_EIDT = 1;
     private static final int TAG_FINISH = 2;
@@ -121,9 +122,8 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
         tv_carr = (TextView) view.findViewById(R.id.tv_carr);
         btn_del.setOnClickListener(this);
         iv_shotcut.setOnClickListener(this);
-        refresh_cart.setOnRefreshListener(this);
         btn_order.setOnClickListener(this);
-//        cb_all.setChecked(true);
+
         if(MyApplication.userInfo == null){
             ll_notify.setVisibility(View.GONE);
         }else {
@@ -133,6 +133,9 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
         if(cartManager.isNull()){
             setNoDataView();
         }
+
+        refresh_cart.setOnRefreshListener(this);
+        refresh_cart.setOnLoadMoreListener(this);
 
     }
 
@@ -145,7 +148,6 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
                 .dp2px(0), getResources().getColor(R.color.mybg), false);
         rv_cart.addItemDecoration(decoration);
         rv_cart.setAdapter(cartAdapter);
-        refresh_cart.setRC(rv_cart, this);
 
         cartAdapter.setPriceChangeListener(new CartRVAdapter.PriceChangeListener() {
             @Override
@@ -206,26 +208,25 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
 
                 if(code == 404){
                     setHttpFail(CartFragment.this);
-                    refresh_cart.setResultState(RefreshLayout.ResultState.failed);
+                    refresh_cart.setRefreshFailed();
+                    refresh_cart.setLoadFailed();
                     return;
                 }
 
                 if(code != 0){
-//                    showToast(msg);
-//                    setNoDataView();
                     setHttpFail(CartFragment.this);
-                    refresh_cart.setResultState(RefreshLayout.ResultState.failed);
+                    refresh_cart.setRefreshFailed();
+                    refresh_cart.setLoadFailed();
                     return;
                 }
-                refresh_cart.setResultState(RefreshLayout.ResultState.success);
+                refresh_cart.setRefreshSuccess();
+                refresh_cart.setLoadSuccess();
                 CartResultInfo cartResultInfo = (CartResultInfo) bean;
                 is_page = cartResultInfo.is_page;
                 if(cartResultInfo == null || cartResultInfo.data1.size() == 0){
                     setNoDataView();//购物车为空
-//                    setHttpNotData(CartFragment.this);
                     return;
                 }
-//                cartGoodsInfos.clear();
                 setHttpSuccess();
                 cartGoodsInfos.addAll(cartResultInfo.data1);
                 if(cartGoodsInfos == null || cartGoodsInfos.size() == 0){
@@ -268,6 +269,16 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
     @Override
     public void onShow() {
         super.onShow();
+        //购物车数量发生变化,刷新购物车数据
+        int cartGoodsNum = 0;
+        for (CartGoodsInfo cartGoodsInfo : cartGoodsInfos){
+            cartGoodsNum += cartGoodsInfo.count;
+        }
+        //购物车数量没变
+        if(cartGoodsNum == cartManager.getCartGoodsNum()){
+            return;
+        }
+        //购物车数量变化
         cartGoodsInfos.clear();
         is_page = 0;
         page = 1;
@@ -277,6 +288,7 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
         cartAdapter.showTotalPrice();
     }
 
+    //完成编辑
     private void doFinish() {
         btn_edit.setText(mActivity.getString(R.string.cart_finish));
         btn_order.setVisibility(View.GONE);
@@ -287,6 +299,7 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
         cartAdapter.checkAllNone(false);
     }
 
+    //开始编辑
     private void doEdit() {
         btn_edit.setText(mActivity.getString(R.string.cart_edit));
         btn_order.setVisibility(View.VISIBLE);
@@ -365,21 +378,6 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
         }
     }
 
-    @Override
-    public void onRefresh() {
-        is_page = 0;
-        page = 1;
-        cartGoodsInfos.clear();
-        getData();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if(refresh_cart != null && refresh_cart.isRefreshing){
-            refresh_cart.setResultState(RefreshLayout.ResultState.close);
-        }
-    }
 
     @Override
     public void toHttpAgain() {
@@ -387,27 +385,20 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
     }
 
     @Override
-    public void gotoBottom() {
+    public void refresh() {
+        is_page = 0;
+        page = 1;
+        cartGoodsInfos.clear();
+        getData();
+    }
+
+    @Override
+    public void loadMore() {
         if(is_page == 1){
             getData();
         }else if(is_page == 0){
-//            showToast("没有更多数据了!~");
+            refresh_cart.setLoadNodata();
         }
-    }
-
-    @Override
-    public void gotoTop() {
-
-    }
-
-    @Override
-    public void move() {
-
-    }
-
-    @Override
-    public void stop() {
-
     }
 
 }

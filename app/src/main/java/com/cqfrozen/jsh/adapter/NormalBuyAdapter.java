@@ -53,13 +53,22 @@ public class NormalBuyAdapter extends RecyclerView.Adapter<NormalBuyAdapter.MyVi
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
+    public void onBindViewHolder(final MyViewHolder holder, int position) {
         final GoodsInfo goodsInfo = goodsInfos.get(position);
         ImageLoader.getInstance().displayImage(goodsInfo.pic_url, holder.iv_goods, defaultOptions);
         holder.tv_name.setText(goodsInfo.g_name);
         holder.tv_brand.setText(goodsInfo.brand_name);
         holder.tv_size.setText(goodsInfo.weight + "kg/件");
         holder.tv_price.setText("￥" + goodsInfo.now_price);
+
+        if(goodsInfo.is_oos == 0){//不缺货
+//            holder.tv_no_goods.setVisibility(View.GONE);
+            holder.iv_cart.setImageResource(R.mipmap.icon_cart);
+        }else if(goodsInfo.is_oos == 1){//缺货
+//            holder.tv_no_goods.setVisibility(View.VISIBLE);
+            holder.iv_cart.setImageResource(R.mipmap.icon_cart_no_pre);
+        }
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,10 +82,13 @@ public class NormalBuyAdapter extends RecyclerView.Adapter<NormalBuyAdapter.MyVi
         holder.iv_cart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                holder.iv_cart.setEnabled(false);
+                holder.iv_cart.setImageResource(R.mipmap.icon_cart_no_pre);
                 MyHttp.addcart(http, null, goodsInfo.g_id, 1, new HttpForVolley.HttpTodo() {
                     @Override
                     public void httpTodo(Integer which, JSONObject response) {
+                        holder.iv_cart.setEnabled(true);
+                        holder.iv_cart.setImageResource(R.mipmap.icon_cart);
 //                        ToastUtil.showToast(context, response.optString("msg"));
                         int code = response.optInt("code");
                         if(code != 0){

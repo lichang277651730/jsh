@@ -26,8 +26,7 @@
             android:gravity="center"
             android:textColor="@color/white"
             android:textStyle="bold"
-            android:textSize="20sp"
-            android:text="￥320"/>
+            android:textSize="20sp"/>
     </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -75,22 +74,12 @@
             android:background="@color/main"/>
     </LinearLayout>
     <View style="@style/HorizontalDividerLine"/>
-    <com.common.refresh.RefreshLayout
-        android:id="@+id/refresh_huibi"
+    <FrameLayout
+        android:id="@+id/fl_huibi_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/ll_notify"
-        android:orientation="vertical">
-        <!--<include layout="@layout/include_httpresult"/>-->
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_huibi"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@color/white"
-            android:scrollbars="none">
-        </android.support.v7.widget.RecyclerView>
-    </com.common.refresh.RefreshLayout>
+        android:background="@color/white">
+    </FrameLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"

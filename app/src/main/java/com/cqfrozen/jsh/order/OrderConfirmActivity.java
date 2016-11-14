@@ -222,6 +222,7 @@ public class OrderConfirmActivity extends MyActivity implements View.OnClickList
 
     private void goBuy() {
         btn_buy.setEnabled(false);//防止重复提交
+        btn_buy.setText("订单提交中");
         long timestamp = System.currentTimeMillis();
         msg_content = et_words.getText().toString().trim();
         MyHttp.addOrder(http, null, carDataAry, timestamp, curAddressId,
@@ -229,6 +230,7 @@ public class OrderConfirmActivity extends MyActivity implements View.OnClickList
                     @Override
                     public void httpResult(Integer which, int code, String msg, Object bean) {
                         btn_buy.setEnabled(true);//防止重复提交
+                        btn_buy.setText("提交订单");
                         if(code != 0){
                             showToast(msg);
                             return;

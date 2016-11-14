@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 
-import com.cqfrozen.jsh.util.CustomToast;
+import com.cqfrozen.jsh.util.CustomMiddleToast;
 
 import java.util.ArrayList;
 
@@ -41,14 +41,14 @@ public class NetStateReceiver extends BroadcastReceiver {
                 || intent.getAction().equalsIgnoreCase(CUSTOM_ANDROID_NET_CHANGE_ACTION)) {
             if (!NetUtils.isNetworkAvailable(context)) {
 //                ToastUtil.showToast(context, "网络请求失败，请检查您的网络");
-                CustomToast.getInstance(context).showToast("网络请求失败，请检查您的网络");
+                CustomMiddleToast.getInstance(context).showToast("当前网络不可用，请检查您的网络");
                 isNetAvailable = false;
             } else {
                 isNetAvailable = true;
                 mNetType = NetUtils.getAPNType(context);
                 if(mNetType != NetUtils.NetType.WIFI){
 //                    ToastUtil.showToast(context, "当前是非WIFI网络，注意你的流量");
-                    CustomToast.getInstance(context).showToast("当前是非WIFI网络，注意你的流量");
+                    CustomMiddleToast.getInstance(context).showToast("已切换到2G/3G/4G网络，注意你的流量");
                 }
             }
             notifyObserver();

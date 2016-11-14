@@ -3,10 +3,12 @@ package com.cqfrozen.jsh.cart;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -87,10 +89,11 @@ public class CartRVAdapter extends RecyclerView.Adapter<CartRVAdapter.MyViewHold
         holder.add_sub_num.setOnSubAddClickListener(new NumberAddSubView.OnSubAddClickListener() {
             @Override
             public void onSubAddClick(View view, final int curVal) {
-
+                holder.add_sub_num.setEnabled(false);
                 MyHttp.editCount(http, null, cartGoodsInfo.c_id, curVal, new HttpForVolley.HttpTodo() {
                     @Override
                     public void httpTodo(Integer which, JSONObject response) {
+                        holder.add_sub_num.setEnabled(true);
 //                        ToastUtil.showToast(context, response.optString("msg"));
                         int code = response.optInt("code");
                         if(code != 0){
@@ -110,17 +113,41 @@ public class CartRVAdapter extends RecyclerView.Adapter<CartRVAdapter.MyViewHold
             }
         });
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
-                holder.checkbox.setChecked(!holder.checkbox.isChecked());
-                cartGoodsInfo.isChecked = holder.checkbox.isChecked();
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                holder.checkbox.setChecked(!isChecked);
+                Log.d("checkboxcheckbox", "checkbox" + isChecked);
+                cartGoodsInfo.isChecked = isChecked;
                 cartManager.update(cartGoodsInfo);
-                notifyItemChanged(position);
+//                notifyItemChanged(position);
                 allCheckedListen();
                 showTotalPrice();
             }
         });
+
+//        holder.itemView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(context, GoodsDetailActivity.class);
+//                intent.putExtra("g_id", goodsInfo.g_id);
+//                intent.putExtra("goodsInfo", goodsInfo);
+//                context.startActivity(intent);
+//            }
+//        });
+
+
+//        holder.itemView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                holder.checkbox.setChecked(!holder.checkbox.isChecked());
+//                cartGoodsInfo.isChecked = holder.checkbox.isChecked();
+//                cartManager.update(cartGoodsInfo);
+//                notifyItemChanged(position);
+//                allCheckedListen();
+//                showTotalPrice();
+//            }
+//        });
     }
 
     @Override

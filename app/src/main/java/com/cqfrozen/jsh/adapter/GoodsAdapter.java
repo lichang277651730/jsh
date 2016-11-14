@@ -56,7 +56,7 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.MyViewHolder
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
+    public void onBindViewHolder(final MyViewHolder holder, int position) {
         final GoodsInfo goodsInfo = goodsInfos.get(position);
         ImageLoader.getInstance().displayImage(goodsInfo.pic_url, holder.iv_goods, defaultOptions);
         holder.tv_name.setText(goodsInfo.g_name);
@@ -77,10 +77,13 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.MyViewHolder
                 if(goodsInfo.is_oos == 1){
                     return;
                 }
-
+                holder.iv_add_cart.setEnabled(false);
+                holder.iv_add_cart.setImageResource(R.mipmap.icon_cart_no_pre);
                 MyHttp.addcart(http, null, goodsInfo.g_id, 1, new HttpForVolley.HttpTodo() {
                     @Override
                     public void httpTodo(Integer which, JSONObject response) {
+                        holder.iv_add_cart.setImageResource(R.mipmap.icon_cart);
+                        holder.iv_add_cart.setEnabled(true);
                         int code = response.optInt("code");
                         if(code != 0){
                             return;

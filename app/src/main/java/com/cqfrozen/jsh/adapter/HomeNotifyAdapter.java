@@ -5,12 +5,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.common.widget.AutoTextView;
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.entity.HomeNotifyInfo;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,21 +19,13 @@ import java.util.List;
 public class HomeNotifyAdapter extends RecyclerView.Adapter<HomeNotifyAdapter.MyViewHolder> {
 
     private Context context;
-    private List<String> datas;
-    private String[] ary = new String[]{"全场购满399面运费", "中秋国庆放假不发货", "热卖中的商品"};
     private List<HomeNotifyInfo> notifyInfos;
     public HomeNotifyAdapter(Context context, List<HomeNotifyInfo> notifyInfos){
         this.context = context;
         this.notifyInfos = notifyInfos;
-//        initData();
     }
 
-    private void initData() {
-        datas = new ArrayList<>();
-        datas.add("全场购满399面运费");
-        datas.add("中秋国庆放假不发货");
-        datas.add("热卖中的商品");
-    }
+
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -46,7 +38,10 @@ public class HomeNotifyAdapter extends RecyclerView.Adapter<HomeNotifyAdapter.My
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         if(notifyInfos.size() == 0){
+            holder.headLayout.setVisibility(View.GONE);
             return;
+        }else {
+            holder.headLayout.setVisibility(View.VISIBLE);
         }
         String[] atvs = new String[notifyInfos.size()];
         for(int i = 0; i < notifyInfos.size(); i++){
@@ -63,9 +58,11 @@ public class HomeNotifyAdapter extends RecyclerView.Adapter<HomeNotifyAdapter.My
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
         private AutoTextView atv_notify;
+        private LinearLayout headLayout;
         public MyViewHolder(View itemView) {
             super(itemView);
             atv_notify = (AutoTextView) itemView.findViewById(R.id.atv_notify);
+            headLayout = (LinearLayout) itemView.findViewById(R.id.headLayout);
         }
     }
 }

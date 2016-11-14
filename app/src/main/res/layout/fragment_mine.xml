@@ -14,8 +14,9 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/ll_head_container"
             android:layout_width="match_parent"
-            android:layout_height="236dp"
+            android:layout_height="wrap_content"
             android:background="@mipmap/img_mine_head_bg"
             android:orientation="vertical">
             <LinearLayout
@@ -80,13 +81,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
-                    android:textSize="12sp"
-                    android:text="185 6666 6666"/>
+                    android:textSize="12sp"/>
                 <ImageView
                     android:id="@+id/iv_verify"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/icon_verify_yes"
                     android:layout_marginLeft="16dp"
                     android:scaleType="fitXY"/>
                 <TextView
@@ -95,10 +94,10 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
                     android:textSize="12sp"
-                    android:layout_marginLeft="4dp"
-                    android:text="已审核"/>
+                    android:layout_marginLeft="4dp"/>
             </LinearLayout>
             <View
+                android:id="@+id/view_line_under_head"
                 android:layout_marginTop="30dp"
                 android:layout_width="match_parent"
                 android:layout_height="1px"
@@ -130,7 +129,6 @@
                         android:id="@+id/tv_huibi"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="13.57"
                         android:layout_marginLeft="8dp"
                         android:textColor="@color/white"
                         android:textStyle="bold"
@@ -163,7 +161,6 @@
                         android:id="@+id/tv_fans"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="108"
                         android:layout_marginLeft="8dp"
                         android:textColor="@color/white"
                         android:textStyle="bold"
@@ -176,6 +173,7 @@
 
 
         <View
+            android:id="@+id/view_head_under"
             android:layout_width="match_parent"
             android:layout_height="8dp"
             android:background="@color/mybg"/>

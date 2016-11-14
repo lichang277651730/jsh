@@ -3,47 +3,36 @@ package com.cqfrozen.jsh.center;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.TextView;
 
-import com.common.base.BaseValue;
-import com.common.refresh.SupportLayout;
-import com.common.widget.MyGridDecoration;
-import com.common.refresh.RefreshLayout;
 import com.cqfrozen.jsh.R;
-import com.cqfrozen.jsh.adapter.HuibiRVAdapter;
-import com.cqfrozen.jsh.entity.HuibiInfo;
-import com.cqfrozen.jsh.entity.HuibiResultInfo;
+import com.cqfrozen.jsh.fragment.HuibiFragment;
 import com.cqfrozen.jsh.main.MyActivity;
-import com.cqfrozen.jsh.volleyhttp.MyHttp;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Administrator on 2016/10/24.
  * intent.putExtra("hb_count", getUserInfo().hb_count);
  * intent.putExtra("url", huibi_rule_url);
  */
-public class HuibiListActivity extends MyActivity implements View.OnClickListener, SupportLayout.RefreshListener, SupportLayout.LoadMoreListener {
+public class HuibiListActivity extends MyActivity implements View.OnClickListener{
 
     private float hb_count;
     private TextView tv_huibi;
     private TextView tv_all;
     private TextView tv_right;
     private TextView tv_use;
-    private List<HuibiInfo> huibiInfos = new ArrayList<>();
     private int type = 1;//1收入  2支出
     private int page = 1;
     private int is_page = 0;//0没有下一页 1有下一页
-    private RefreshLayout refresh_huibi;
-    private RecyclerView rv_huibi;
-    private HuibiRVAdapter rvAdapter;
+
     private View v_huibi_all;
     private View v_huibi_use;
     private String url;
+    private HuibiFragment huibiFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,8 +40,7 @@ public class HuibiListActivity extends MyActivity implements View.OnClickListene
         setContentView(R.layout.activity_huibilist);
         getIntentData();
         initView();
-        initRC();
-        getData();
+        setFragment();
     }
 
     private void getIntentData() {
@@ -66,8 +54,7 @@ public class HuibiListActivity extends MyActivity implements View.OnClickListene
         tv_all = (TextView) findViewById(R.id.tv_all);
         tv_right = (TextView) findViewById(R.id.tv_right);
         tv_use = (TextView) findViewById(R.id.tv_use);
-        refresh_huibi = (RefreshLayout) findViewById(R.id.refresh_huibi);
-        rv_huibi = (RecyclerView) findViewById(R.id.rv_huibi);
+
         v_huibi_all = findViewById(R.id.v_huibi_all);
         v_huibi_use = findViewById(R.id.v_huibi_use);
         tv_huibi.setText(hb_count + "");
@@ -86,13 +73,39 @@ public class HuibiListActivity extends MyActivity implements View.OnClickListene
         v_huibi_all.setVisibility(View.VISIBLE);
     }
 
+    private void setFragment() {
+        huibiFragment = HuibiFragment.getInstance(type);
+        showFragment(huibiFragment);
+    }
+
+    private void showFragment(Fragment fragment) {
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.add(R.id.fl_huibi_container, fragment);
+        transaction.commit();
+    }
+
+
     @Override
     public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.tv_all:
+            case R.id.tv_use:
+                setTab(v.getId());
+                huibiFragment.setResultData(type);
+                huibiFragment.setSelection(0);
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void setTab(int id) {
         tv_all.setTextColor(getResources().getColor(R.color.myblack));
         tv_use.setTextColor(getResources().getColor(R.color.myblack));
         v_huibi_all.setVisibility(View.INVISIBLE);
         v_huibi_use.setVisibility(View.INVISIBLE);
-        switch (v.getId()) {
+        switch (id) {
             case R.id.tv_all:
                 type = 1;
                 v_huibi_all.setVisibility(View.VISIBLE);
@@ -106,70 +119,7 @@ public class HuibiListActivity extends MyActivity implements View.OnClickListene
             default:
                 break;
         }
-        is_page = 0;
-        page = 1;
-        huibiInfos.clear();
-        getData();
     }
 
-    private void initRC() {
-        refresh_huibi.setOnLoadMoreListener(this);
-        refresh_huibi.setOnRefreshListener(this);
-        rv_huibi.setOverScrollMode(View.OVER_SCROLL_NEVER);
-        GridLayoutManager manager = new GridLayoutManager(this, 1);
-        rv_huibi.setLayoutManager(manager);
-        MyGridDecoration decoration = new MyGridDecoration(BaseValue.dp2px(1), BaseValue
-                .dp2px(0), getResources().getColor(R.color.mybg), false);
-        rv_huibi.addItemDecoration(decoration);
-        rvAdapter = new HuibiRVAdapter(this, huibiInfos);
-        rv_huibi.setAdapter(rvAdapter);
-    }
-
-
-    private void getData() {
-        MyHttp.searchHBinfo(http, null, type, page, new MyHttp.MyHttpResult() {
-            @Override
-            public void httpResult(Integer which, int code, String msg, Object bean) {
-                if(code == 404){
-                    refresh_huibi.setRefreshFailed();
-                    refresh_huibi.setLoadFailed();
-                    return;
-                }
-                if(code != 0){
-                    refresh_huibi.setRefreshFailed();
-                    refresh_huibi.setLoadFailed();
-                    return;
-                }
-                refresh_huibi.setLoadSuccess();
-                refresh_huibi.setRefreshSuccess();
-                HuibiResultInfo huibiResultInfo = (HuibiResultInfo) bean;
-                huibiInfos.addAll(huibiResultInfo.data1);
-                is_page = huibiResultInfo.is_page;
-                if(huibiInfos.size() == 0){
-                    return;
-                }
-                rvAdapter.notifyDataSetChanged();
-                page++;
-
-            }
-        });
-    }
-
-    @Override
-    public void refresh() {
-        page = 1;
-        is_page = 0;
-        huibiInfos.clear();
-        getData();
-    }
-
-    @Override
-    public void loadMore() {
-        if(is_page == 1){
-            getData();
-        }else if(is_page == 0){
-            refresh_huibi.setLoadNodata();
-        }
-    }
 
 }

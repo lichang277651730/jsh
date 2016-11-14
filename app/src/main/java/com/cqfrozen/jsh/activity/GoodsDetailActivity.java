@@ -33,6 +33,7 @@ import com.cqfrozen.jsh.entity.GoodDetailResultInfo;
 import com.cqfrozen.jsh.entity.GoodsInfo;
 import com.cqfrozen.jsh.home.SearchActivity;
 import com.cqfrozen.jsh.main.MyActivity;
+import com.cqfrozen.jsh.util.CustomMiddleToast;
 import com.cqfrozen.jsh.util.CustomToast;
 import com.cqfrozen.jsh.util.MeasureUtil;
 import com.cqfrozen.jsh.volleyhttp.MyHttp;
@@ -96,6 +97,7 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
     private PopupWindow popupWindow;
     private int is_oos;//是否缺货0否，1是
     private RelativeLayout rl_root;
+    private RelativeLayout rl_vp_container;
     private ImageView iv_arrow_ex;
     private ViewGroup.LayoutParams tv_detail_params;
     private boolean isOpen;
@@ -122,6 +124,7 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
 
     private void initView() {
         rl_root = (RelativeLayout) findViewById(R.id.rl_root);
+        rl_vp_container = (RelativeLayout) findViewById(R.id.rl_vp_container);
         scrollview = (ScrollView) findViewById(R.id.scrollview);
         iv_share = (ImageView) findViewById(R.id.iv_share);
         iv_back = (ImageView) findViewById(R.id.iv_back);
@@ -170,6 +173,10 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
             tv_add_cart.setBackgroundColor(getResources().getColor(R.color.main));
         }
         createShotPop();
+
+        ViewGroup.LayoutParams rl_vp_params = rl_vp_container.getLayoutParams();
+        rl_vp_params.height = (int) (BaseValue.screenWidth / 1.5);
+
     }
 
     /**
@@ -412,9 +419,11 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
             addCount = curValue;
         }
         tv_add_cart.setEnabled(false);
+        asv_num.setEnabled(false);
         MyHttp.addcart(http, null, g_id, addCount, new HttpForVolley.HttpTodo() {
             @Override
             public void httpTodo(Integer which, JSONObject response) {
+                asv_num.setEnabled(true);
                 tv_add_cart.setEnabled(true);
                 int code = response.optInt("code");
                 if (code != 0) {
@@ -472,7 +481,7 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
             public void httpResult(Integer which, int code, String msg, Object bean) {
                 if (code != 0) {
 //                    showToast(msg);
-                    CustomToast.getInstance(GoodsDetailActivity.this).showToast(msg);
+                    CustomMiddleToast.getInstance(GoodsDetailActivity.this).showToast(msg);
                     return;
                 }
                 GoodDetailResultInfo resultInfo = (GoodDetailResultInfo) bean;

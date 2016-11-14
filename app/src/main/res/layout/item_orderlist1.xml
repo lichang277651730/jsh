@@ -30,14 +30,21 @@
     </LinearLayout>
 
     <View style="@style/HorizontalDividerLine"/>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_ordergoods"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/mybg"
-        android:scrollbars="none">
-    </android.support.v7.widget.RecyclerView>
+        android:layout_height="wrap_content">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_ordergoods"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/mybg"
+            android:scrollbars="none">
+        </android.support.v7.widget.RecyclerView>
+        <ImageView
+            android:id="@+id/iv_order_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </FrameLayout>
     <TextView
         android:id="@+id/tv_showdetail"
         android:layout_width="match_parent"
