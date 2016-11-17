@@ -2,6 +2,7 @@ package com.cqfrozen.jsh.cart;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.SparseArray;
 
 import com.cqfrozen.jsh.entity.GoodsInfo;
@@ -148,6 +149,18 @@ public class CartManager {
         return cartGoodsInfo;
     }
 
+    public GoodsInfo parseCartGoods(CartGoodsInfo cartGoodsInfo){
+        GoodsInfo goodsInfo = new GoodsInfo();
+        goodsInfo.g_id = cartGoodsInfo.g_id;
+        goodsInfo.g_name = cartGoodsInfo.g_name;
+        goodsInfo.market_price = cartGoodsInfo.market_price;
+        goodsInfo.now_price = cartGoodsInfo.now_price;
+        goodsInfo.pic_url = cartGoodsInfo.pic_url;
+        goodsInfo.is_oos = cartGoodsInfo.is_oos;
+        goodsInfo.sell_count = cartGoodsInfo.sell_count;
+        return goodsInfo;
+    }
+
     /**
      * 购物车有变动，就需commit
      */
@@ -164,6 +177,7 @@ public class CartManager {
 
         if (listener != null) {
             listener.onNumChangeListener(goodsTotalNum);
+
         }
     }
 

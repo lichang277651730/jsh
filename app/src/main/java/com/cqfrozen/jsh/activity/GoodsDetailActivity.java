@@ -33,6 +33,7 @@ import com.cqfrozen.jsh.entity.GoodDetailResultInfo;
 import com.cqfrozen.jsh.entity.GoodsInfo;
 import com.cqfrozen.jsh.home.SearchActivity;
 import com.cqfrozen.jsh.main.MyActivity;
+import com.cqfrozen.jsh.netstate.NetUtils;
 import com.cqfrozen.jsh.util.CustomMiddleToast;
 import com.cqfrozen.jsh.util.CustomToast;
 import com.cqfrozen.jsh.util.MeasureUtil;
@@ -318,38 +319,7 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
                 }
             }
         });
-//        MyHttp.queryCart(http, null, 1, new MyHttp.MyHttpResult() {
-//
-//            @Override
-//            public void httpResult(Integer which, int code, String msg, Object bean) {
-//
-//                if (code == 404) {
-//                    return;
-//                }
-//
-//                if (code != 0) {
-//                    return;
-//                }
-//                CartResultInfo cartResultInfo = (CartResultInfo) bean;
-//                if (cartResultInfo == null || cartResultInfo.data1.size() == 0) {
-//                    return;
-//                }
-//                int count = 0;
-//                for (int i = 0; i < cartResultInfo.data1.size(); i++) {
-//                    count += cartResultInfo.data1.get(i).count;
-//                }
-//                if (count == 0) {
-//                    badgeView.hide();
-//                }
-//                if (count >= 100) {
-//                    badgeView.setText("99+");
-//                    badgeView.show();
-//                } else {
-//                    badgeView.setText(count + "");
-//                    badgeView.show();
-//                }
-//            }
-//        });
+
     }
 
     private void initVP() {
@@ -414,6 +384,10 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
      * 添加到购物车
      */
     private void addCart() {
+        if(!NetUtils.isNetworkConnected(this)){
+            CustomMiddleToast.getInstance(this).showToast("网络不可用");
+            return;
+        }
         int curValue = asv_num.getCurValue();
         if (curValue != 0) {
             addCount = curValue;

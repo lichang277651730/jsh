@@ -138,7 +138,7 @@
             android:text="@string/cart_order"
             style="@style/bigRedButton"/>
         <Button
-            android:id="@+id/btn_del"
+            android:id="@+id/btn_delete_cartgoods"
             android:layout_width="100dp"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"

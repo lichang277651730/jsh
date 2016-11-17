@@ -48,7 +48,7 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
     private CheckBox cb_all;
     private TextView tv_total;
     private Button btn_order;
-    private Button btn_del;
+    private Button btn_delete_cartgoods;
     private List<CartGoodsInfo> cartGoodsInfos = new ArrayList<>();
     private CartRVAdapter cartAdapter;
     private CartManager cartManager;
@@ -118,9 +118,9 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
         cb_all = (CheckBox) view.findViewById(R.id.cb_all);
         tv_total = (TextView) view.findViewById(R.id.tv_total);
         btn_order = (Button) view.findViewById(R.id.btn_order);
-        btn_del = (Button) view.findViewById(R.id.btn_del);
+        btn_delete_cartgoods = (Button) view.findViewById(R.id.btn_delete_cartgoods);
         tv_carr = (TextView) view.findViewById(R.id.tv_carr);
-        btn_del.setOnClickListener(this);
+        btn_delete_cartgoods.setOnClickListener(this);
         iv_shotcut.setOnClickListener(this);
         btn_order.setOnClickListener(this);
 
@@ -269,7 +269,7 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
     @Override
     public void onShow() {
         super.onShow();
-        //购物车数量发生变化,刷新购物车数据
+        cartAdapter.checkAllNone(true);
         int cartGoodsNum = 0;
         for (CartGoodsInfo cartGoodsInfo : cartGoodsInfos){
             cartGoodsNum += cartGoodsInfo.count;
@@ -292,7 +292,7 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
     private void doFinish() {
         btn_edit.setText(mActivity.getString(R.string.cart_finish));
         btn_order.setVisibility(View.GONE);
-        btn_del.setVisibility(View.VISIBLE);
+        btn_delete_cartgoods.setVisibility(View.VISIBLE);
         tv_total.setVisibility(View.GONE);
         tv_carr.setVisibility(View.GONE);
         btn_edit.setTag(TAG_FINISH);
@@ -303,7 +303,7 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
     private void doEdit() {
         btn_edit.setText(mActivity.getString(R.string.cart_edit));
         btn_order.setVisibility(View.VISIBLE);
-        btn_del.setVisibility(View.GONE);
+        btn_delete_cartgoods.setVisibility(View.GONE);
         tv_total.setVisibility(View.VISIBLE);
         tv_carr.setVisibility(View.VISIBLE);
         btn_edit.setTag(TAG_EIDT);
@@ -316,7 +316,7 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_del://点击删除按钮
+            case R.id.btn_delete_cartgoods://点击删除按钮
                 deleteCart();
                 break;
             case R.id.iv_shotcut://点击shotcut图标

@@ -34,8 +34,9 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.MyViewHolder
     private final DisplayImageOptions defaultOptions;
     private CartManager cartManager;
     private final HttpForVolley http;
+    private boolean isAddCartCanClick = true;
 
-    public GoodsAdapter(Context context, List<GoodsInfo> goodsInfos){
+    public GoodsAdapter(Context context, List<GoodsInfo> goodsInfos) {
         this.context = context;
         this.goodsInfos = goodsInfos;
         defaultOptions = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true)
@@ -44,62 +45,72 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.MyViewHolder
                 .showImageOnFail(R.mipmap.img_loading_failed)
                 .build();
         this.http = new HttpForVolley(context);
-        this.cartManager =  CartManager.getInstance(context);
+        this.cartManager = CartManager.getInstance(context);
     }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if(context == null){
+        if (context == null) {
             context = parent.getContext();
         }
         return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.item_goods, null));
     }
 
     @Override
-    public void onBindViewHolder(final MyViewHolder holder, int position) {
+    public void onBindViewHolder(final MyViewHolder holder, final int position) {
         final GoodsInfo goodsInfo = goodsInfos.get(position);
         ImageLoader.getInstance().displayImage(goodsInfo.pic_url, holder.iv_goods, defaultOptions);
         holder.tv_name.setText(goodsInfo.g_name);
         holder.tv_now_price.setText("¥" + goodsInfo.now_price);
         holder.tv_market_price.setText("¥" + goodsInfo.market_price);
-        holder.tv_market_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG|Paint.ANTI_ALIAS_FLAG);
-        if(goodsInfo.is_oos == 0){//不缺货
+        holder.tv_market_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint
+                .ANTI_ALIAS_FLAG);
+        if (goodsInfo.is_oos == 0) {//不缺货
             holder.tv_no_goods.setVisibility(View.GONE);
             holder.iv_add_cart.setImageResource(R.mipmap.icon_cart);
-        }else if(goodsInfo.is_oos == 1){//缺货
+        } else if (goodsInfo.is_oos == 1) {//缺货
             holder.tv_no_goods.setVisibility(View.VISIBLE);
             holder.iv_add_cart.setImageResource(R.mipmap.icon_cart_no_pre);
         }
+
         //点击购物车
         holder.iv_add_cart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(goodsInfo.is_oos == 1){
-                    return;
-                }
-                holder.iv_add_cart.setEnabled(false);
-                holder.iv_add_cart.setImageResource(R.mipmap.icon_cart_no_pre);
-                MyHttp.addcart(http, null, goodsInfo.g_id, 1, new HttpForVolley.HttpTodo() {
-                    @Override
-                    public void httpTodo(Integer which, JSONObject response) {
-                        holder.iv_add_cart.setImageResource(R.mipmap.icon_cart);
-                        holder.iv_add_cart.setEnabled(true);
-                        int code = response.optInt("code");
-                        if(code != 0){
-                            return;
-                        }
-                        CustomToast.getInstance(context).showToast(response.optString("msg"), R.mipmap.icon_add_cart_success);
-                        cartManager.add(goodsInfo);
+                if (isAddCartCanClick) {
+                    isAddCartCanClick = false;
+                    if (goodsInfo.is_oos == 1) {
+                        isAddCartCanClick = true;
+                        return;
                     }
-                });
+                    holder.iv_add_cart.setEnabled(false);
+                    holder.iv_add_cart.setImageResource(R.mipmap.icon_cart_no_pre);
+                    MyHttp.addcart(http, null, goodsInfo.g_id, 1, new HttpForVolley.HttpTodo() {
+                        @Override
+                        public void httpTodo(Integer which, JSONObject response) {
+                            holder.iv_add_cart.setEnabled(true);
+                            holder.iv_add_cart.setImageResource(R.mipmap.icon_cart);
+                            int code = response.optInt("code");
+                            if (code != 0) {
+                                isAddCartCanClick = true;
+                                return;
+                            }
+                            CustomToast.getInstance(context).showToast(response.optString("msg"),
+                                    R.mipmap.icon_add_cart_success);
+                            cartManager.add(goodsInfo);
+                            isAddCartCanClick = true;
+                        }
+                    });
+                }
+
             }
         });
+
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, GoodsDetailActivity.class);
-//                intent.putExtra("g_id", goodsInfo.g_id);
                 intent.putExtra("goodsInfo", goodsInfo);
                 context.startActivity(intent);
             }
@@ -111,7 +122,7 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.MyViewHolder
         return goodsInfos.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder{
+    public class MyViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView iv_goods;
         private TextView tv_name;
@@ -119,6 +130,7 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.MyViewHolder
         private TextView tv_market_price;
         private TextView tv_no_goods;
         private ImageView iv_add_cart;
+
         public MyViewHolder(View itemView) {
             super(itemView);
             iv_goods = (ImageView) itemView.findViewById(R.id.iv_goods);

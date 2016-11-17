@@ -98,7 +98,6 @@ public class ForgetPwdActivity extends MyActivity implements View.OnClickListene
             return;
         }
 
-        //TODO 修改密码
         MyHttp.editPwd(http, null, phoneStr, verifyCodeStr, pwdOnceStr, new HttpForVolley.HttpTodo() {
 
             @Override

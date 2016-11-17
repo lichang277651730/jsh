@@ -2,7 +2,6 @@ package com.cqfrozen.jsh.center;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -229,7 +228,7 @@ public class MineFragment1 extends MyFragment implements View.OnClickListener{
     }
 
     private void showUnLogined() {
-        ll_user_phone_verify.setVisibility(View.GONE);
+        ll_user_phone_verify.setVisibility(View.INVISIBLE);
         //将登陆字符显示
         tv_login.setVisibility(View.VISIBLE);
         //将name隐藏
@@ -477,8 +476,8 @@ public class MineFragment1 extends MyFragment implements View.OnClickListener{
         super.takeSuccess(result);
         TImage image = result.getImage();
         String path = image.getPath();
-        iv_head.setImageBitmap(BitmapFactory.decodeFile(path));
-
+//        iv_head.setImageBitmap(BitmapFactory.decodeFile(path));
+        iv_head.setEnabled(false);
         MyHttp.updateHead(http, null, path, new HttpForVolley.HttpTodo() {
             @Override
             public void httpTodo(Integer which, JSONObject response) {
@@ -497,10 +496,11 @@ public class MineFragment1 extends MyFragment implements View.OnClickListener{
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                MyHttp.user(http, null, new MyHttp.MyHttpResult() {
 
+                MyHttp.user(http, null, new MyHttp.MyHttpResult() {
                     @Override
                     public void httpResult(Integer which, int code, String msg, Object bean) {
+                        iv_head.setEnabled(true);
                         if (code != 0) {
                             showUnLogined();
                             return;

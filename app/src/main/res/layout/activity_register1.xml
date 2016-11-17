@@ -109,7 +109,7 @@
             android:layout_weight="1"
             android:background="@color/transparency"
             android:digits="0123456789abcdefjghigklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-            android:hint="请输入密码"
+            android:hint="输入密码 限数字和字母6-12位"
             android:inputType="textPassword"
             android:maxLength="24"
             android:textColor="@color/black"
@@ -117,7 +117,7 @@
 
         <ImageView
             android:id="@+id/iv_see_once_pwd"
-            android:layout_width="100dp"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:layout_marginRight="16dp"
@@ -148,7 +148,7 @@
             android:layout_weight="1"
             android:background="@color/transparency"
             android:digits="0123456789abcdefjghigklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-            android:hint="请输入密码"
+            android:hint="重复输入密码"
             android:inputType="textPassword"
             android:maxLength="24"
             android:textColor="@color/black"
@@ -156,7 +156,7 @@
 
         <ImageView
             android:id="@+id/iv_see_again_pwd"
-            android:layout_width="100dp"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="16dp"
             android:padding="10dp"

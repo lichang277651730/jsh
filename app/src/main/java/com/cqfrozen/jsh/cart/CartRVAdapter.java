@@ -1,19 +1,21 @@
 package com.cqfrozen.jsh.cart;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.common.http.HttpForVolley;
 import com.cqfrozen.jsh.R;
+import com.cqfrozen.jsh.activity.GoodsDetailActivity;
+import com.cqfrozen.jsh.entity.GoodsInfo;
 import com.cqfrozen.jsh.volleyhttp.MyHttp;
 import com.cqfrozen.jsh.widget.NumberAddSubView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -86,17 +88,19 @@ public class CartRVAdapter extends RecyclerView.Adapter<CartRVAdapter.MyViewHold
         holder.tv_brand.setText("品牌: " + cartGoodsInfo.brand_name);
         holder.tv_size.setText("规格: " + cartGoodsInfo.weight + "kg/件");
 
+
         holder.add_sub_num.setOnSubAddClickListener(new NumberAddSubView.OnSubAddClickListener() {
             @Override
             public void onSubAddClick(View view, final int curVal) {
                 holder.add_sub_num.setEnabled(false);
+
                 MyHttp.editCount(http, null, cartGoodsInfo.c_id, curVal, new HttpForVolley.HttpTodo() {
                     @Override
                     public void httpTodo(Integer which, JSONObject response) {
                         holder.add_sub_num.setEnabled(true);
-//                        ToastUtil.showToast(context, response.optString("msg"));
                         int code = response.optInt("code");
                         if(code != 0){
+                            holder.add_sub_num.setCurValue(cartGoodsInfo.count);
                             return;
                         }
                         holder.add_sub_num.setCurValue(curVal);
@@ -105,49 +109,30 @@ public class CartRVAdapter extends RecyclerView.Adapter<CartRVAdapter.MyViewHold
                         showTotalPrice();
                     }
                 });
-
-//                holder.add_sub_num.setCurValue(curVal);
-//                cartGoodsInfo.count = curVal;
-//                cartManager.update(cartGoodsInfo);
-//                showTotalPrice();
             }
         });
 
-        holder.checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                holder.checkbox.setChecked(!isChecked);
-                Log.d("checkboxcheckbox", "checkbox" + isChecked);
-                cartGoodsInfo.isChecked = isChecked;
+            public void onClick(View v) {
+                Intent intent = new Intent(context, GoodsDetailActivity.class);
+                GoodsInfo goodsInfo = cartManager.parseCartGoods(cartGoodsInfo);
+                intent.putExtra("goodsInfo", goodsInfo);
+                context.startActivity(intent);
+            }
+        });
+
+        holder.ll_cart_cb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                holder.checkbox.setChecked(!holder.checkbox.isChecked());
+                cartGoodsInfo.isChecked = holder.checkbox.isChecked();
                 cartManager.update(cartGoodsInfo);
-//                notifyItemChanged(position);
+                notifyItemChanged(position);
                 allCheckedListen();
                 showTotalPrice();
             }
         });
-
-//        holder.itemView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(context, GoodsDetailActivity.class);
-//                intent.putExtra("g_id", goodsInfo.g_id);
-//                intent.putExtra("goodsInfo", goodsInfo);
-//                context.startActivity(intent);
-//            }
-//        });
-
-
-//        holder.itemView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                holder.checkbox.setChecked(!holder.checkbox.isChecked());
-//                cartGoodsInfo.isChecked = holder.checkbox.isChecked();
-//                cartManager.update(cartGoodsInfo);
-//                notifyItemChanged(position);
-//                allCheckedListen();
-//                showTotalPrice();
-//            }
-//        });
     }
 
     @Override
@@ -163,6 +148,7 @@ public class CartRVAdapter extends RecyclerView.Adapter<CartRVAdapter.MyViewHold
         private TextView tv_brand;
         private TextView tv_size;
         private NumberAddSubView add_sub_num;
+        private LinearLayout ll_cart_cb;
         public MyViewHolder(View itemView) {
             super(itemView);
             checkbox = (CheckBox) itemView.findViewById(R.id.checkbox);
@@ -172,6 +158,7 @@ public class CartRVAdapter extends RecyclerView.Adapter<CartRVAdapter.MyViewHold
             tv_brand = (TextView)itemView.findViewById(R.id.tv_brand);
             tv_size = (TextView)itemView.findViewById(R.id.tv_size);
             add_sub_num = (NumberAddSubView)itemView.findViewById(R.id.add_sub_num);
+            ll_cart_cb = (LinearLayout)itemView.findViewById(R.id.ll_cart_cb);
         }
     }
 
@@ -203,7 +190,6 @@ public class CartRVAdapter extends RecyclerView.Adapter<CartRVAdapter.MyViewHold
             MyHttp.deleteCart(http, null, TYEP_ALL, "", new HttpForVolley.HttpTodo() {
                     @Override
                     public void httpTodo(Integer which, JSONObject response) {
-//                        ToastUtil.showToast(context, response.optString("msg"));
                         int code = response.optInt("code");
                         if(code != 0){
                             return;
@@ -231,8 +217,6 @@ public class CartRVAdapter extends RecyclerView.Adapter<CartRVAdapter.MyViewHold
                 MyHttp.deleteCart(http, null, TYEP_ONE, checkedList.get(0).c_id, new HttpForVolley.HttpTodo() {
                     @Override
                     public void httpTodo(Integer which, JSONObject response) {
-
-//                        ToastUtil.showToast(context, response.optString("msg"));
                         int code = response.optInt("code");
                         if(code != 0){
                             return;
@@ -250,7 +234,6 @@ public class CartRVAdapter extends RecyclerView.Adapter<CartRVAdapter.MyViewHold
                 MyHttp.deleteCart(http, null, TYEP_MORE, c_id_str, new HttpForVolley.HttpTodo() {
                     @Override
                     public void httpTodo(Integer which, JSONObject response) {
-//                        ToastUtil.showToast(context, response.optString("msg"));
                         int code = response.optInt("code");
                         if(code != 0){
                             return;

@@ -924,8 +924,6 @@ public class MyHttp {
         http.goTo(POST, which, params, url, httpTodo);
     }
 
-
-
     private static void toBean(int method, final HttpForVolley http, Integer which,
                                HashMap<String, String> httpMap, String url,
                                final MyHttpResult myHttpResult, final Type bean) {
@@ -933,7 +931,6 @@ public class MyHttp {
 
             @Override
             public void httpTodo(Integer which, JSONObject response) {
-//                Log.d("addAddress_params", response.toString());
                 //统一处理登录逻辑  code 1请求失败  2 登录失败  0请求成功s
                 int code = response.optInt("code", 1);
 //                if(code == 2){
