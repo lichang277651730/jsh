@@ -37,6 +37,7 @@ public class ShopListActivity extends MyActivity implements View.OnClickListener
     private ShopAdapter adapter;
 
     private TextView tv_add;
+    private CustomSimpleDialog deleteDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -84,8 +85,7 @@ public class ShopListActivity extends MyActivity implements View.OnClickListener
         });
     }
 
-//    private AlertDialog deleteDialog;
-    private CustomSimpleDialog deleteDialog;
+
     private void showDeleteDialog(final int position, final String s_id) {
         deleteDialog = new CustomSimpleDialog.Builder(this)
                 .setMessage("确定要删除改地址吗？")
@@ -115,34 +115,7 @@ public class ShopListActivity extends MyActivity implements View.OnClickListener
                 })
                 .create();
         deleteDialog.show();
-//        deleteDialog = new AlertDialog.Builder(this)
-//                .setMessage("确定要删除改地址吗？")
-//                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        MyHttp.deleteStore(http, null, s_id, new HttpForVolley.HttpTodo() {
-//
-//                            @Override
-//                            public void httpTodo(Integer which, JSONObject response) {
-//                                int code = response.optInt("code");
-//                                showToast(response.optString("msg"));
-//                                if (code != 0) {
-//                                    return;
-//                                }
-//                                shopInfos.remove(position);
-//                                adapter.notifyDataSetChanged();
-//                            }
-//                        });
-//                    }
-//                })
-//                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.cancel();
-//                    }
-//                })
-//                .create();
-//        deleteDialog.show();
+
     }
 
     private void getData() {

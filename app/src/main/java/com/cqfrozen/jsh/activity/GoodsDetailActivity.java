@@ -175,8 +175,8 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
         }
         createShotPop();
 
-        ViewGroup.LayoutParams rl_vp_params = rl_vp_container.getLayoutParams();
-        rl_vp_params.height = (int) (BaseValue.screenWidth / 1.5);
+//        ViewGroup.LayoutParams rl_vp_params = rl_vp_container.getLayoutParams();
+//        rl_vp_params.height = (int) (BaseValue.screenWidth / 1.5);
 
     }
 
@@ -517,9 +517,9 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
         tv_save_mode.setText(goodDetailInfo.c_mode);
         is_common = goodDetailInfo.is_common;
         if ("0".equals(goodDetailInfo.pj_count)) {
-            tv_comment_count.setText("商品评论(暂无评论)");
+            tv_comment_count.setText("(0)");
         } else {
-            tv_comment_count.setText("商品评论(" + goodDetailInfo.pj_count + ")");
+            tv_comment_count.setText("(" + goodDetailInfo.pj_count + ")");
         }
         if (goodDetailInfo.is_common == 0) {
             iv_collect.setImageResource(R.mipmap.icon_normal_buy_no);

@@ -1,5 +1,6 @@
 package com.cqfrozen.jsh.home;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,6 +17,7 @@ import com.common.widget.MyTagView;
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.entity.SearchKwdInfo;
 import com.cqfrozen.jsh.main.MyActivity;
+import com.cqfrozen.jsh.util.CustomSimpleDialog;
 import com.cqfrozen.jsh.util.SPUtils;
 import com.cqfrozen.jsh.volleyhttp.MyHttp;
 import com.google.gson.reflect.TypeToken;
@@ -37,6 +39,7 @@ public class SearchActivity extends MyActivity implements View.OnClickListener, 
     private TextView tv_clear;
     private String[] historyAry;
     private List<SearchKwdInfo> searchKwdInfos = new ArrayList<>();
+    private CustomSimpleDialog clearDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,7 +64,10 @@ public class SearchActivity extends MyActivity implements View.OnClickListener, 
         iv_back.setOnClickListener(this);
         tv_gosearch.setOnClickListener(this);
         if(historyAry != null){
-            tag_history.setMyTag(historyAry);
+            tag_history.setMyTag(historyAry, R.drawable.shape_mytagview_fill_bg);
+            tv_clear.setVisibility(View.VISIBLE);
+        }else {
+            tv_clear.setVisibility(View.GONE);
         }
         tag_hot.setOnTagClickListener(this);
         tag_history.setOnTagClickListener(this);
@@ -86,7 +92,7 @@ public class SearchActivity extends MyActivity implements View.OnClickListener, 
                 search();
                 break;
             case R.id.tv_clear://清楚搜索历史
-                clear();
+                showClearDialog();
                 break;
             default:
                 break;
@@ -109,6 +115,7 @@ public class SearchActivity extends MyActivity implements View.OnClickListener, 
                 SPUtils.setServerSearchKwd(kwdJson);
                 tag_hot.clearTag();
                 tag_hot.setMyTag(parseTags(searchKwdInfos));
+
             }
         });
     }
@@ -121,9 +128,26 @@ public class SearchActivity extends MyActivity implements View.OnClickListener, 
         return tagList;
     }
 
-    private void clear() {
-        SPUtils.clearSearchKwd();
-        tag_history.clearTag();
+    private void showClearDialog() {
+        clearDialog = new CustomSimpleDialog.Builder(this)
+                .setMessage("确定要清除搜索记录吗？")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(final DialogInterface dialog, int which) {
+                        SPUtils.clearSearchKwd();
+                        tag_history.clearTag();
+                        tv_clear.setVisibility(View.GONE);
+                        dialog.cancel();
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialog) {
+                        dialog.cancel();
+                    }
+                })
+                .create();
+        clearDialog.show();
     }
 
     @Override
@@ -140,7 +164,9 @@ public class SearchActivity extends MyActivity implements View.OnClickListener, 
             showToast("请输入要搜索内容");
             return;
         }
-
+        if(tv_clear.getVisibility() == View.GONE){
+            tv_clear.setVisibility(View.VISIBLE);
+        }
         //跳至搜索结果页面
         Intent intent = new Intent(this, SearchResultActivity.class);
         intent.putExtra("keyword", keywordStr);
@@ -148,7 +174,7 @@ public class SearchActivity extends MyActivity implements View.OnClickListener, 
 
         //存历史搜索缓存
         SPUtils.setSearchKwd(keywordStr);
-        tag_history.setMyTag(SPUtils.getSearchKwd());
+        tag_history.setMyTag(SPUtils.getSearchKwd(), R.drawable.shape_mytagview_fill_bg);
     }
 
     @Override

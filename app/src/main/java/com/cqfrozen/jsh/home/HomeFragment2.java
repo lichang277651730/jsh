@@ -90,7 +90,7 @@ public class HomeFragment2 extends BaseFragment  implements MyHttp.MyHttpResult 
         iv_search.setOnClickListener(this);
         refresh_home.setOnLoadMoreListener(this);
         refresh_home.setOnRefreshListener(this);
-        tv_location.setText(MyApplication.userInfo.area_name);
+        tv_location.setText(MyApplication.userInfo == null ? "" : MyApplication.userInfo.area_name);
     }
 
 

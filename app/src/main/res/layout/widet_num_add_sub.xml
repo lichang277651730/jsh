@@ -23,7 +23,7 @@
         android:id="@+id/tv_num"
         android:layout_width="40dp"
         android:layout_height="30dp"
-        android:textColor="@color/black"
+        android:textColor="@color/nowPriceColor"
         android:minWidth="50dp"
         android:gravity="center"/>
 

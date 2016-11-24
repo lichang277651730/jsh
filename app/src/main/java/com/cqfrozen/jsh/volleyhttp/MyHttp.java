@@ -524,6 +524,19 @@ public class MyHttp {
         http.goTo(POST, which, params, url, httpTodo);
     }
 
+    /**
+     * 找回密码
+     */
+    public static void getPass(HttpForVolley http,Integer which, String mobile_num, String code,
+                               String pass_word, HttpForVolley.HttpTodo httpTodo) {
+        String url = SERVER + "User/getpass";
+        params.clear();
+        params.put("mobile_num", mobile_num);
+        params.put("code", code);
+        params.put("pass_word", MD5Util.encodeMD5(pass_word));
+        http.goTo(POST, which, params, url, httpTodo);
+    }
+
 
     /**
      * 查看地址列表
@@ -984,6 +997,8 @@ public class MyHttp {
 
         });
     }
+
+
 
     public interface MyHttpResult{
         void httpResult(Integer which, int code, String msg, Object bean);

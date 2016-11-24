@@ -40,14 +40,20 @@
             android:id="@+id/indicator_classify"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:layout_marginRight="40dp"/>
+            android:layout_marginRight="50dp"/>
         <ImageView
             android:id="@+id/iv_pop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
             android:layout_alignParentRight="true"
-            android:padding="4dp"
+            android:padding="8dp"
             android:src="@mipmap/icon_classify_shortcut_press"/>
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="50dp"
+            android:background="@color/backgroundColor"/>
     </RelativeLayout>
     <View style="@style/HorizontalDividerLine"/>
 

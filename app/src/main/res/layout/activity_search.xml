@@ -105,7 +105,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="36dp"
+        android:layout_height="40dp"
         android:background="@color/white"
         android:gravity="center_vertical"
         android:orientation="horizontal">
@@ -115,15 +115,23 @@
             android:layout_height="20dp"
             android:layout_marginLeft="15dp"
             android:visibility="gone"/>
-
+        <View
+            android:layout_width="4dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="6dp"
+            android:layout_marginLeft="2dp"
+            android:background="@color/main"
+            android:visibility="gone"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
+            android:layout_marginLeft="12dp"
             android:text="热门搜索"
-            android:textColor="@color/myblack"
-            android:textSize="15sp"/>
+            android:textColor="@color/textColorPrimary"
+            android:textSize="16sp"/>
     </LinearLayout>
+    <View style="@style/HorizontalDividerLine"/>
 
     <com.common.widget.MyTagView
         android:id="@+id/tag_hot"
@@ -134,8 +142,8 @@
     </com.common.widget.MyTagView>
     <View
         android:layout_width="match_parent"
-        android:layout_height="4dp"
-        android:background="@color/mybg"/>
+        android:layout_height="10dp"
+        android:background="@color/backgroundColor"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
@@ -148,15 +156,22 @@
             android:layout_height="20dp"
             android:layout_marginLeft="15dp"
             android:visibility="gone"/>
-
+        <View
+            android:layout_width="4dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="6dp"
+            android:layout_marginLeft="2dp"
+            android:visibility="gone"
+            android:background="@color/main"/>
         <TextView
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
+            android:layout_marginLeft="12dp"
             android:text="历史搜索"
-            android:textColor="@color/myblack"
-            android:textSize="15sp"/>
+            android:textColor="@color/textColorPrimary"
+            android:textSize="16sp"/>
         <TextView
             android:id="@+id/tv_clear"
             android:layout_width="wrap_content"
@@ -164,7 +179,7 @@
             android:layout_marginRight="16dp"
             android:drawableLeft="@mipmap/icon_search_history_clear"/>
     </LinearLayout>
-
+    <View style="@style/HorizontalDividerLine"/>
     <com.common.widget.MyTagView
         android:id="@+id/tag_history"
         android:layout_width="match_parent"

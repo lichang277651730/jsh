@@ -12,6 +12,8 @@
     <color name="seven_transparency">#aa000000</color>
 
     <color name="textColorPrimary">#252525</color>
+    <color name="b_three">#B3B3B3</color>
+    <color name="c_six">#C6C6C6</color>
     <color name="dividerLine">#e7e7e7</color>
     <color name="backgroundColor">#f5f7f9</color>
     <color name="nowPriceColor">#FF5458</color>

@@ -53,13 +53,12 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
         android:orientation="vertical">
 
         <RelativeLayout
             android:id="@+id/rl_vp_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="170dp"
             android:background="@color/white">
 
             <android.support.v4.view.ViewPager
@@ -89,11 +88,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
-                android:layout_marginTop="8dp"
-                android:maxLength="60"
-                android:maxLines="1"
+                android:layout_marginTop="12dp"
+                android:ellipsize="end"
+                android:maxLines="2"
                 android:text="太湖新鲜小银鱼"
-                android:textColor="@color/myblack"
+                android:textColor="@color/textColorPrimary"
                 android:textSize="16sp"/>
 
             <TextView
@@ -106,7 +105,7 @@
                 android:maxLength="20"
                 android:maxLines="1"
                 android:text="￥998"
-                android:textColor="@color/myred"
+                android:textColor="@color/nowPriceColor"
                 android:textSize="20sp"/>
 
             <ImageView
@@ -132,11 +131,10 @@
                 android:text="分享"/>
         </RelativeLayout>
 
-        <View style="@style/HorizontalDividerLine"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="46dp"
+            android:layout_height="42dp"
             android:background="@color/white">
 
             <TextView
@@ -146,8 +144,8 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="12dp"
                 android:text="规格 10kg/件"
-                android:textColor="@color/myblack"
-                android:textSize="16sp"/>
+                android:textColor="@color/color_nine"
+                android:textSize="14sp"/>
 
             <com.cqfrozen.jsh.widget.NumberAddSubView
                 android:id="@+id/asv_num"
@@ -166,15 +164,15 @@
                 android:layout_marginRight="8dp"
                 android:layout_toLeftOf="@id/asv_num"
                 android:text="购买数量"
-                android:textColor="@color/myblack"
-                android:textSize="16sp"/>
+                android:textColor="@color/textColorPrimary"
+                android:textSize="14sp"/>
         </RelativeLayout>
 
-        <View style="@style/HorizontalDividerLine"/>
+        <View style="@style/HorizontalDivider_ten"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="40dp"
             android:background="@color/white">
 
             <TextView
@@ -182,7 +180,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="12dp"
-                android:textColor="#666666"
+                android:textColor="@color/textColorPrimary"
                 android:text="商品信息"
                 android:textSize="16sp"/>
         </RelativeLayout>
@@ -198,81 +196,77 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginLeft="12dp"
                 android:layout_weight="1"
                 android:orientation="horizontal"
-                android:padding="4dp">
+                android:padding="12dp">
 
                 <TextView
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:text="品牌:"
-                    android:textColor="#666666"
-                    android:textSize="14sp"/>
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="15sp"/>
 
                 <TextView
                     android:id="@+id/tv_brand"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="金锣"
-                    android:textColor="#333333"
-                    android:textSize="14sp"/>
+                    android:textColor="@color/b_three"
+                    android:textSize="15sp"/>
             </LinearLayout>
-
+            <View style="@style/HorizontalDividerLine"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginLeft="12dp"
                 android:layout_weight="1"
                 android:orientation="horizontal"
-                android:padding="4dp">
+                android:padding="12dp">
 
                 <TextView
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:text="保质期:"
-                    android:textColor="#666666"
-                    android:textSize="14sp"/>
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="15sp"/>
 
                 <TextView
                     android:id="@+id/tv_save_life"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="1年"
-                    android:textColor="#333333"
-                    android:textSize="14sp"/>
+                    android:textColor="@color/b_three"
+                    android:textSize="15sp"/>
             </LinearLayout>
-
+            <View style="@style/HorizontalDividerLine"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginLeft="12dp"
                 android:layout_weight="1"
                 android:orientation="horizontal"
-                android:padding="4dp">
+                android:padding="12dp">
 
                 <TextView
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:text="存储方式:"
-                    android:textColor="#666666"
-                    android:textSize="14sp"/>
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="15sp"/>
 
                 <TextView
                     android:id="@+id/tv_save_mode"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="免运费"
-                    android:textColor="#333333"
-                    android:textSize="14sp"/>
+                    android:textColor="@color/b_three"
+                    android:textSize="15sp"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
                 android:orientation="horizontal"
                 android:visibility="gone"
-                android:padding="4dp">
+                android:padding="12dp">
 
                 <TextView
                     android:layout_width="100dp"
@@ -298,23 +292,31 @@
             </LinearLayout>
         </LinearLayout>
 
-        <View style="@style/HorizontalDividerLine"/>
+        <View style="@style/HorizontalDivider_ten"/>
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:background="@color/white">
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:text="商品评论"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="16sp"/>
             <TextView
                 android:id="@+id/tv_comment_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="12dp"
-                android:text="商品评论"
-                android:textColor="#666666"
+                android:layout_marginLeft="2dp"
+                android:text="(1)"
+                android:textColor="@color/main"
                 android:textSize="16sp"/>
-        </RelativeLayout>
+        </LinearLayout>
         <View style="@style/HorizontalDividerLine"/>
         <ListView
             android:id="@+id/lv_comment"
@@ -368,11 +370,12 @@
 
             <TextView
                 android:id="@+id/tv_collect"
-                style="@style/text_16sp_black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:textSize="15sp"
                 android:text="常用采购"
-                android:textColor="@color/mygray"/>
+                android:textColor="@color/textColorPrimary"/>
         </LinearLayout>
         <LinearLayout
             android:id="@+id/ll_cart"
@@ -387,14 +390,14 @@
                 android:layout_width="42dp"
                 android:layout_height="30dp"
                 android:scaleType="fitStart"
-                android:src="@mipmap/tab_gouwuche_h"/>
+                android:src="@mipmap/tab_gouwuche_nor_h"/>
 
             <TextView
-                style="@style/text_16sp_black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="15sp"
                 android:text="购物车"
-                android:textColor="@color/mygray"/>
+                android:textColor="@color/textColorPrimary"/>
         </LinearLayout>
         <TextView
             android:id="@+id/tv_add_cart"

@@ -20,8 +20,8 @@ import java.util.List;
  */
 public class MyTagView extends RelativeLayout implements View.OnClickListener {
     private Context context;
-    private int marginTop = BaseValue.dp2px(10);
-    private int marginLeft = BaseValue.dp2px(10);
+    private int marginTop = BaseValue.dp2px(16);
+    private int marginLeft = BaseValue.dp2px(20);
     private MyTagView.OnTagClickListener l;
 
     public MyTagView(Context context) {
@@ -49,10 +49,25 @@ public class MyTagView extends RelativeLayout implements View.OnClickListener {
                     .view_mytagview, null);
             tagText.setText(texts[i]);
             tagText.setSingleLine(true);
+            tagText.setOnClickListener(this);
             addView(tagText);
+        }
+    }
+
+    public void setMyTag(String[] texts, int backgroundIds) {
+        removeAllViews();
+        for (int i = 0; i < texts.length; i++) {
+            TextView tagText = (TextView) LayoutInflater.from(context).inflate(R.layout
+                    .view_mytagview, null);
+            tagText.setBackgroundResource(backgroundIds);
+            tagText.setText(texts[i]);
+            addView(tagText);
+            tagText.setSingleLine(true);
             tagText.setOnClickListener(this);
         }
     }
+
+
 
     public void clearTag(){
         removeAllViews();
@@ -89,7 +104,6 @@ public class MyTagView extends RelativeLayout implements View.OnClickListener {
         }
         setLayoutParams(layoutParams);
     }
-
 
     @Override
     public void onClick(View v) {

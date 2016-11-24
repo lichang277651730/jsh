@@ -37,7 +37,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
+        android:listSelector="@null"
         android:numColumns="3">
     </GridView>
     <View style="@style/HorizontalDividerLine"/>
+    <View
+        android:id="@+id/v_half_al"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/seven_transparency"
+        android:layout_weight="1"/>
 </LinearLayout>

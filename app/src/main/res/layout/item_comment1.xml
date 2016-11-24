@@ -3,15 +3,14 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
     android:padding="12dp">
 
     <com.common.widget.MyHeadImageView
         android:id="@+id/iv_head"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_centerVertical="true"
         android:scaleType="fitXY"
+        android:layout_centerVertical="true"
         android:src="@mipmap/center_head"/>
 
     <TextView
@@ -25,7 +24,6 @@
         android:textSize="16sp"
         android:textColor="@color/textColorPrimary"
         android:text="157****6292"/>
-
     <TextView
         android:id="@+id/tv_comment"
         android:layout_width="match_parent"
@@ -35,7 +33,7 @@
         android:layout_marginTop="10dp"
         android:textColor="@color/color_nine"
         android:textSize="15sp"
-        android:text="商品评论商品评论商品评论商品评论"/>
+        android:text="商品评论"/>
 
     <TextView
         android:id="@+id/tv_time"
@@ -47,6 +45,7 @@
         android:singleLine="true"
         android:textColor="@color/c_six"
         android:gravity="end"
+        android:textSize="14sp"
         android:text="2016-12-02"/>
     <RatingBar
         android:id="@+id/rb_love"

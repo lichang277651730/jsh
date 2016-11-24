@@ -98,7 +98,19 @@ public class ForgetPwdActivity extends MyActivity implements View.OnClickListene
             return;
         }
 
-        MyHttp.editPwd(http, null, phoneStr, verifyCodeStr, pwdOnceStr, new HttpForVolley.HttpTodo() {
+//        MyHttp.editPwd(http, null, phoneStr, verifyCodeStr, pwdOnceStr, new HttpForVolley.HttpTodo() {
+//
+//            @Override
+//            public void httpTodo(Integer which, JSONObject response) {
+//                int code = response.optInt("code");
+//                showToast(response.optString("msg"));
+//                if(code != 0){
+//                    return;
+//                }
+//                finish();
+//            }
+//        });
+        MyHttp.getPass(http, null, phoneStr, verifyCodeStr, pwdOnceStr, new HttpForVolley.HttpTodo() {
 
             @Override
             public void httpTodo(Integer which, JSONObject response) {
@@ -121,16 +133,15 @@ public class ForgetPwdActivity extends MyActivity implements View.OnClickListene
         }
         MyApplication.downTimer.going();
         MyApplication.downTimer.setTextView(tv_get_verify);
-        //TODO 打开发送验证码接口调用
-//        MyHttp.sendCode(http, null, 1, phoneStr, new HttpForVolley.HttpTodo() {
-//            @Override
-//            public void httpTodo(Integer which, JSONObject response) {
-//                int code = response.optInt("code");
-//                showToast(response.optString("msg"));
-//                if(code != 0){
-//                    MyApplication.downTimer.setInit();
-//                }
-//            }
-//        });
+        MyHttp.sendCode(http, null, 4, phoneStr, new HttpForVolley.HttpTodo() {
+            @Override
+            public void httpTodo(Integer which, JSONObject response) {
+                int code = response.optInt("code");
+                showToast(response.optString("msg"));
+                if(code != 0){
+                    MyApplication.downTimer.setInit();
+                }
+            }
+        });
     }
 }

@@ -34,10 +34,8 @@
         <item name="android:button">@null</item>
         <item name="android:background">@null</item>
         <item name="android:gravity">center</item>
-        <item name="android:paddingBottom">2dp</item>
         <item name="android:textSize">12sp</item>
-        <item name="android:padding">3dp</item>
-        <item name="android:paddingRight">2dp</item>
+        <item name="android:paddingTop">4dp</item>
         <item name="android:textColor">@color/sl_home_rb_txtcolor</item>
     </style>
 
@@ -62,6 +60,13 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>
     </style>
+
+    <style name="HorizontalDivider_ten" parent="DividerLine">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">10dp</item>
+        <item name="android:background">@color/backgroundColor</item>
+    </style>
+
 
     <style name="VerticalDividerLine" parent="DividerLine">
         <item name="android:layout_width">1dp</item>

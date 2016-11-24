@@ -168,6 +168,7 @@ public class ClassifyFragment extends BaseFragment implements MyHttp.MyHttpResul
         View popView = LayoutInflater.from(mActivity).inflate(R.layout.pop_classify, null);
         GridView gv_classify = (GridView) popView.findViewById(R.id.gv_classify);
         ImageView pop_iv_search = (ImageView) popView.findViewById(R.id.iv_search);
+        View v_half_al = (View) popView.findViewById(R.id.v_half_al);
         popupWindow = new PopupWindow(popView, ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
         popupWindow.setBackgroundDrawable(new BitmapDrawable());
@@ -176,6 +177,14 @@ public class ClassifyFragment extends BaseFragment implements MyHttp.MyHttpResul
         popupWindow.setTouchable(true);
 
         gvAdapter = new ClassifyGvAdapter(getActivity(), categoryInfos);
+        v_half_al.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(popupWindow != null || popupWindow.isShowing()){
+                    popupWindow.dismiss();
+                }
+            }
+        });
         pop_iv_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
