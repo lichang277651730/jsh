@@ -93,7 +93,7 @@ public class TakePhotoWindow {
                     popupWindow.dismiss();
                     break;
                 case R.id.pop_btn_photo:
-                    takePhoto.onPickFromDocumentsWithCrop(imageUri,getCropOptions());
+                    takePhoto.onPickFromGalleryWithCrop(imageUri,getCropOptions());
                     popupWindow.dismiss();
                     break;
                 case R.id.pop_btn_no:
@@ -129,7 +129,7 @@ public class TakePhotoWindow {
         CropOptions.Builder builder=new CropOptions.Builder();
 
         builder.setOutputX(width).setOutputY(height);
-        builder.setWithOwnCrop(true);
+        builder.setWithOwnCrop(false);
         return builder.create();
     }
 

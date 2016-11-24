@@ -932,6 +932,7 @@ public class MyHttp {
             @Override
             public void httpTodo(Integer which, JSONObject response) {
                 //统一处理登录逻辑  code 1请求失败  2 登录失败  0请求成功s
+//                Log.d("addAddress_params",response.toString());
                 int code = response.optInt("code", 1);
 //                if(code == 2){
 //                    refreshToken(http, null, SPUtils.getToken(), new MyHttpResult() {

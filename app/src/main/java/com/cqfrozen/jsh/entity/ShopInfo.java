@@ -12,7 +12,7 @@ public class ShopInfo extends BaseEntity {
     public String mobile_num;
     public String s_id;
     public String store_name;
-
+    public int is_main_store;
     public String street_name;
     public String area_name;
 

@@ -4,19 +4,17 @@
               android:layout_width="match_parent"
               android:id="@+id/ll_item"
               android:gravity="center"
-              android:padding="4dp"
+              android:padding="8dp"
               android:background="@drawable/sl_gv_item_bg"
               android:layout_height="wrap_content">
     <ImageView
         android:id="@+id/iv_icon"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:scaleType="fitCenter"
-        android:src="@mipmap/ic_launcher"/>
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:scaleType="fitCenter"/>
     <TextView
         android:id="@+id/tv_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="丸子类"/>
+        android:layout_marginTop="8dp"/>
 </LinearLayout>

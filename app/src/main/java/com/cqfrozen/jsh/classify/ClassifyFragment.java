@@ -156,7 +156,7 @@ public class ClassifyFragment extends BaseFragment implements MyHttp.MyHttpResul
                 startActivity(new Intent(getActivity(), SearchActivity.class));
                 break;
             case R.id.iv_pop:
-                popupWindow.showAtLocation(iv_pop, Gravity.CENTER, 50, BaseValue.dp2px(-100));
+                popupWindow.showAtLocation(iv_pop, Gravity.TOP, 0, 0);
                 break;
             default:
                 break;

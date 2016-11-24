@@ -55,7 +55,7 @@ public class ShopEditActivity extends MyActivity implements View.OnClickListener
     private String area_id;
     private ShopInfo shopInfo;
     private String s_id;
-    private LinearLayout ll_edit_address_root;
+    private LinearLayout ll_shop_edit_root;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -75,7 +75,7 @@ public class ShopEditActivity extends MyActivity implements View.OnClickListener
 
     private void initView() {
         setMyTitle("修改店铺");
-        ll_edit_address_root = (LinearLayout) findViewById(R.id.ll_edit_address_root);
+        ll_shop_edit_root = (LinearLayout) findViewById(R.id.ll_shop_edit_root);
         et_name = (MyEditText) findViewById(R.id.et_name);
         et_phone = (MyEditText) findViewById(R.id.et_phone);
         tv_location = (TextView) findViewById(R.id.tv_location);
@@ -85,7 +85,7 @@ public class ShopEditActivity extends MyActivity implements View.OnClickListener
 
         tv_location.setOnClickListener(this);
         btn_save.setOnClickListener(this);
-        ll_edit_address_root.setOnClickListener(this);
+        ll_shop_edit_root.setOnClickListener(this);
 
         streetOptionsPV = new OptionsPickerView(this);
         streetOptionsPV.setCancelable(true);
@@ -137,7 +137,7 @@ public class ShopEditActivity extends MyActivity implements View.OnClickListener
             case R.id.btn_save:
                 editShop();
                 break;
-            case R.id.ll_edit_address_root:
+            case R.id.ll_shop_edit_root:
                 hideSoftInput(v);
                 break;
             default:

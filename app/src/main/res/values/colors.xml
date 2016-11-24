@@ -10,6 +10,14 @@
     <color name="transparency">#00000000</color>
     <color name="half_transparency">#77000000</color>
     <color name="seven_transparency">#aa000000</color>
+
+    <color name="textColorPrimary">#252525</color>
+    <color name="dividerLine">#e7e7e7</color>
+    <color name="backgroundColor">#f5f7f9</color>
+    <color name="nowPriceColor">#FF5458</color>
+    <color name="marketPriceColor">@color/color_nine</color>
+
+
     <!--主题色-->
     <color name="main">#55B2FF</color>
     <color name="almain">#7755B2FF</color>
@@ -22,6 +30,7 @@
     <color name="vp_dot_sel">#55B2FF</color>
 
     <color name="color_six">#666666</color>
+    <color name="color_nine">#666666</color>
     <color name="color_three">#333333</color>
     <color name="color_c">#cccccc</color>
     <color name="color_b">#bbbbbb</color>
@@ -29,7 +38,8 @@
 
     <color name="alwhite">#ddffffff</color>
     <!--分割线-->
-    <color name="myline">#eeeeee</color>
+    <color name="myline">@color/dividerLine</color>
+    <color name="myLine">#eeeeee</color>
     <!--个人中心页面状态栏颜色-->
     <color name="mine_titlebar">#68C4B9</color>
     <!--黑色字体/图片-->

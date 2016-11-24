@@ -34,9 +34,17 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.MyViewHolder> 
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         final ShopInfo shopInfo = shopInfos.get(position);
-        holder.tv_name.setText("店铺:" + shopInfo.china_name);
+        holder.tv_men_name.setText("店长:" + shopInfo.china_name);
+        holder.tv_shop_name.setText("店铺:" + shopInfo.store_name);
         holder.tv_phone.setText(shopInfo.mobile_num);
         holder.tv_address.setText(shopInfo.address);
+        if(shopInfo.is_main_store == 1){
+            holder.tv_main_shop_no.setVisibility(View.GONE);
+            holder.tv_main_shop_yes.setVisibility(View.VISIBLE);
+        }else if(shopInfo.is_main_store == 0){
+            holder.tv_main_shop_no.setVisibility(View.VISIBLE);
+            holder.tv_main_shop_yes.setVisibility(View.GONE);
+        }
 
         holder.tv_edit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,14 +72,20 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.MyViewHolder> 
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
 
-        private TextView tv_name;
+        private TextView tv_shop_name;
+        private TextView tv_main_shop_yes;
+        private TextView tv_main_shop_no;
+        private TextView tv_men_name;
         private TextView tv_phone;
         private TextView tv_address;
         private TextView tv_edit;
         private TextView tv_delete;
         public MyViewHolder(View itemView) {
             super(itemView);
-            tv_name = (TextView) itemView.findViewById(R.id.tv_name);
+            tv_men_name = (TextView) itemView.findViewById(R.id.tv_men_name);
+            tv_shop_name = (TextView) itemView.findViewById(R.id.tv_shop_name);
+            tv_main_shop_yes = (TextView) itemView.findViewById(R.id.tv_main_shop_yes);
+            tv_main_shop_no = (TextView) itemView.findViewById(R.id.tv_main_shop_no);
             tv_phone = (TextView) itemView.findViewById(R.id.tv_phone);
             tv_address = (TextView) itemView.findViewById(R.id.tv_address);
             tv_edit = (TextView) itemView.findViewById(R.id.tv_edit);

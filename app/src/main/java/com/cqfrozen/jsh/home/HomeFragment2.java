@@ -112,7 +112,7 @@ public class HomeFragment2 extends BaseFragment  implements MyHttp.MyHttpResult 
             }
         });
         GridDecoration newGridDecoration = new GridDecoration(6, BaseValue.dp2px(1),
-                getResources().getColor(R.color.mybg), true);
+                getResources().getColor(R.color.dividerLine), true);
         rv_home.addItemDecoration(newGridDecoration);
         homeAdapter2 = new HomeAdapter2(homeBannerAdapter, homeClassifyAdapter, homeNotifyAdapter, homeRecommendAdapter);
         rv_home.setAdapter(homeAdapter2);

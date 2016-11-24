@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.common.base.BaseValue;
@@ -22,7 +21,6 @@ import com.common.widget.MyGridDecoration;
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.activity.HomeActivity;
 import com.cqfrozen.jsh.entity.CartNotifyInfo;
-import com.cqfrozen.jsh.entity.OrderCartBean;
 import com.cqfrozen.jsh.entity.OrderInfo;
 import com.cqfrozen.jsh.main.MyApplication;
 import com.cqfrozen.jsh.main.MyFragment;
@@ -57,14 +55,12 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
     private TextView tv_carr;
     private LinearLayout include_cartnodatalayout;
     private Button include_cartnodata_btn;
-    private PopupWindow popupWindow;
+//    private PopupWindow popupWindow;
     private ImageView iv_shotcut;
     private LinearLayout ll_notify;
     private TextView tv_notify;
     private RefreshLayout refresh_cart;
-    private List<OrderCartBean> orderCartBeanList = new ArrayList<>();
-//    private int page = 1;
-//    private int is_page = 1;
+//    private List<OrderCartBean> orderCartBeanList = new ArrayList<>();
 
     public static CartFragment getInstance(){
         if(fragment == null){
@@ -260,7 +256,6 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
         include_cartnodata_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO 跳转去逛逛页面
                 ((HomeActivity)mActivity).setClassifyFragment();
             }
         });
@@ -269,7 +264,7 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
     @Override
     public void onShow() {
         super.onShow();
-        cartAdapter.checkAllNone(true);
+        cartAdapter.checkAllNone(true);//此行确定添加购物车存在的商品后，切换到此页面，数量能对上
         int cartGoodsNum = 0;
         for (CartGoodsInfo cartGoodsInfo : cartGoodsInfos){
             cartGoodsNum += cartGoodsInfo.count;
@@ -377,7 +372,6 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
             setNoDataView();
         }
     }
-
 
     @Override
     public void toHttpAgain() {

@@ -15,7 +15,7 @@
             android:id="@+id/iv_goods"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop"/>
+            android:scaleType="fitXY"/>
         <TextView
             android:id="@+id/tv_no_goods"
             android:layout_width="match_parent"
@@ -39,6 +39,7 @@
         android:lineSpacingMultiplier="1.2"
         android:maxLines="2"
         android:minLines="1"
+        android:ellipsize="end"
         android:textColor="@color/myblack"
         android:textSize="14sp"/>
 

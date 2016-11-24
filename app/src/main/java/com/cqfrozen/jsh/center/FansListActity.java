@@ -160,6 +160,11 @@ public class FansListActity extends MyActivity implements View.OnClickListener{
                 fansFragment.setSelection(0);
                 break;
             case R.id.tv_send_invite:
+//                String shareContent = "我在这里买冻品一起来捡耙活！注册就有送，有买就有送，不买也有";
+//                Intent intent = new Intent(Intent.ACTION_SEND); // 启动分享发送的属性
+//                intent.setType("text/plain"); // 分享发送的数据类型
+//                intent.putExtra(Intent.EXTRA_TEXT, shareContent); // 分享的内容
+//                startActivity(Intent.createChooser(intent, "选择分享"));// 目标应用选择对话框的标题
                 InputStream open = null;
                 try {
                     open = getAssets().open("ic_launcher.png");

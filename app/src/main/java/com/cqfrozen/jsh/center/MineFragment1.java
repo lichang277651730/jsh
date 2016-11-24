@@ -1,12 +1,10 @@
 package com.cqfrozen.jsh.center;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +14,6 @@ import android.widget.TextView;
 
 import com.common.base.BaseValue;
 import com.common.http.HttpForVolley;
-import com.common.util.PhotoPopupWindow;
-import com.common.util.PhotoUtil;
 import com.common.widget.MyHeadImageView;
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.entity.HttpUrlInfo;
@@ -76,19 +72,15 @@ public class MineFragment1 extends MyFragment implements View.OnClickListener{
     private List<HttpUrlInfo> httpUrlInfos = new ArrayList<HttpUrlInfo>();
     private Map<Integer, String> urlMap = new HashMap<>();
     private String huibi_rule_url = "";
-    private String user_protocol_url = "";
     private String about_us_url = "";
     private String after_sale_url = "";
     private TextView tv_after_sale;
     private TextView tv_about_us;
-    private PhotoUtil photoUtil;
-    private PhotoPopupWindow photoPopupWindow;
     private TextView tv_server_phone;
     private UserInfo userInfo;
     private LinearLayout ll_server_phone;
     private LinearLayout ll_user_phone_verify;
     private View view_line_under_head;
-    private View view_head_under;
     private LinearLayout ll_head_container;
 
     public interface UrlType{
@@ -150,7 +142,6 @@ public class MineFragment1 extends MyFragment implements View.OnClickListener{
         ll_server_phone = (LinearLayout) view.findViewById(R.id.ll_server_phone);
         ll_head_container = (LinearLayout) view.findViewById(R.id.ll_head_container);
         view_line_under_head = (View) view.findViewById(R.id.view_line_under_head);
-        view_head_under = (View) view.findViewById(R.id.view_head_under);
 
         tv_lookall.setOnClickListener(this);
         iv_setting.setOnClickListener(this);
@@ -170,13 +161,6 @@ public class MineFragment1 extends MyFragment implements View.OnClickListener{
         ll_server_phone.setOnClickListener(this);
 
         initBadgeViews();
-
-//        view_line_under_head.getBottom();
-
-
-//        ViewGroup.LayoutParams ll_head_container_params = ll_head_container.getLayoutParams();
-//        ll_head_container_params.height =  (int)(view_line_under_head.getY() + BaseValue.dp2px(40));
-//        ll_head_container.setLayoutParams(ll_head_container_params);
 
     }
 
@@ -321,11 +305,6 @@ public class MineFragment1 extends MyFragment implements View.OnClickListener{
                 break;
             case R.id.iv_head:
             case R.id.tv_name:
-//                if(needLogin()){
-//                    photoUtil = new PhotoUtil(this, 3, 3);
-//                    photoPopupWindow = new PhotoPopupWindow(getActivity(), photoUtil);
-//                    photoPopupWindow.showpop(v);
-//                }
                 if(needLogin()){
                     TakePhotoWindow takePhotoWindow = new TakePhotoWindow(getActivity(),
                             getTakePhoto());
@@ -421,45 +400,12 @@ public class MineFragment1 extends MyFragment implements View.OnClickListener{
                     urlMap.put(httpUrlInfo.type, httpUrlInfo.http_url);
                 }
                 huibi_rule_url = urlMap.get(UrlType.huibi_rule);
-                user_protocol_url = urlMap.get(UrlType.user_protocol);
                 about_us_url = urlMap.get(UrlType.about_us);
                 after_sale_url = urlMap.get(UrlType.after_sale);
             }
         });
     }
 
-
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        switch (requestCode) {
-            case PhotoUtil.FromWhere.camera:
-            case PhotoUtil.FromWhere.photo:
-                photoUtil.onActivityResult(requestCode, resultCode, data);
-                break;
-            case PhotoUtil.FromWhere.forfex:
-//                iv_head.setImageBitmap(BitmapFactory.decodeFile(photoUtil.getForfexPath()));
-                if (resultCode == Activity.RESULT_OK) {
-                    MyHttp.updateHead(http, null, photoUtil.getForfexPath(), new HttpForVolley.HttpTodo() {
-                        @Override
-                        public void httpTodo(Integer which, JSONObject response) {
-                            if (response.optInt("code",1)!=0){
-//                                showToast("上传图片发生错误!");
-                                return;
-                            }
-                            showToast("修改头像成功!");
-                            String filename = response.optJSONObject("data").optString("head_url");
-                            ImageLoader.getInstance().displayImage(filename, iv_head);
-                            getUserInfo().head_url = filename;
-                        }
-                    });
-                }
-                break;
-        }
-
-    }
 
     @Override
     public void takeCancel() {
@@ -476,17 +422,13 @@ public class MineFragment1 extends MyFragment implements View.OnClickListener{
         super.takeSuccess(result);
         TImage image = result.getImage();
         String path = image.getPath();
-//        iv_head.setImageBitmap(BitmapFactory.decodeFile(path));
         iv_head.setEnabled(false);
         MyHttp.updateHead(http, null, path, new HttpForVolley.HttpTodo() {
             @Override
             public void httpTodo(Integer which, JSONObject response) {
-                Log.d("responseresponse", response.toString());
                 if (response.optInt("code",1)!=0){
-//                    showToast("上传图片发生错误!");
                     return;
                 }
-//                showToast("修改头像成功!");
                 String filename = response.optJSONObject("data").optString("head_url");
                 ImageLoader.getInstance().displayImage(filename, iv_head);
                 getUserInfo().head_url = filename;

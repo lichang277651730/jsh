@@ -29,7 +29,7 @@
         android:layout_width="120dp"
         android:layout_height="92dp"
         android:layout_marginLeft="12dp"
-        android:scaleType="centerCrop"/>
+        android:scaleType="fitXY"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -43,8 +43,7 @@
                 android:layout_weight="1"
                 android:maxLines="2"
                 android:textColor="@color/myblack"
-                android:textSize="14sp"
-                android:text="优质鸡爪"/>
+                android:textSize="14sp"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -56,16 +55,14 @@
                     android:layout_height="wrap_content"
                     android:maxLines="1"
                     android:textColor="@color/mygray"
-                    android:textSize="14sp"
-                    android:text="品牌"/>
+                    android:textSize="14sp"/>
                 <TextView
                     android:id="@+id/tv_size"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLines="1"
                     android:textColor="@color/mygray"
-                    android:textSize="14sp"
-                    android:text="规格"/>
+                    android:textSize="14sp"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -80,8 +77,7 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="right"
                     android:textColor="@color/myred"
-                    android:textSize="16sp"
-                    android:text="￥180.0"/>
+                    android:textSize="16sp"/>
                 <com.cqfrozen.jsh.widget.NumberAddSubView
                     android:id="@+id/add_sub_num"
                     android:layout_width="wrap_content"

@@ -124,6 +124,7 @@ public class GoodsFragment extends MyFragment implements MyHttp.MyHttpResult, My
         normalBuyAdapter = new NormalBuyAdapter(mActivity, goodsInfos);
         rv_goods.setLayoutManager(gvmanager);
         rv_goods.setAdapter(goodsAdapter);
+
     }
 
     private void getData() {

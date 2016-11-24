@@ -39,16 +39,17 @@ public class HomeNotifyAdapter extends RecyclerView.Adapter<HomeNotifyAdapter.My
     public void onBindViewHolder(MyViewHolder holder, int position) {
         if(notifyInfos.size() == 0){
             holder.headLayout.setVisibility(View.GONE);
+            holder.hot_divider.setVisibility(View.GONE);
             return;
         }else {
             holder.headLayout.setVisibility(View.VISIBLE);
+            holder.hot_divider.setVisibility(View.VISIBLE);
         }
         String[] atvs = new String[notifyInfos.size()];
         for(int i = 0; i < notifyInfos.size(); i++){
             atvs[i] = notifyInfos.get(i).title;
         }
         holder.atv_notify.setText(atvs);
-//        holder.atv_notify.setText(null);
     }
 
     @Override
@@ -59,10 +60,12 @@ public class HomeNotifyAdapter extends RecyclerView.Adapter<HomeNotifyAdapter.My
     public class MyViewHolder extends RecyclerView.ViewHolder{
         private AutoTextView atv_notify;
         private LinearLayout headLayout;
+        private View hot_divider;
         public MyViewHolder(View itemView) {
             super(itemView);
             atv_notify = (AutoTextView) itemView.findViewById(R.id.atv_notify);
             headLayout = (LinearLayout) itemView.findViewById(R.id.headLayout);
+            hot_divider = (View) itemView.findViewById(R.id.hot_divider);
         }
     }
 }

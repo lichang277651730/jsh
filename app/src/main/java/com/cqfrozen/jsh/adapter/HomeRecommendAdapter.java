@@ -41,7 +41,7 @@ public class HomeRecommendAdapter  extends RecyclerView.Adapter<HomeRecommendAda
         if(context == null){
             context = parent.getContext();
         }
-        return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.item_home_goods2, null));
+        return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.item_home_goods3, null));
     }
 
     @Override

@@ -25,8 +25,7 @@
             android:layout_height="wrap_content"
             android:maxLines="1"
             android:textColor="@color/myblack"
-            android:textSize="16sp"
-            android:text="优质鸡爪"/>
+            android:textSize="16sp"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -38,16 +37,14 @@
                 android:layout_height="wrap_content"
                 android:maxLines="1"
                 android:textColor="@color/mygray"
-                android:textSize="14sp"
-                android:text="品牌"/>
+                android:textSize="14sp"/>
             <TextView
                 android:id="@+id/tv_size"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
                 android:textColor="@color/mygray"
-                android:textSize="14sp"
-                android:text="规格"/>
+                android:textSize="14sp"/>
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
@@ -60,16 +57,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/myred"
-            android:textSize="16sp"
-            android:text="￥180.0"/>
+            android:textSize="16sp"/>
         <TextView
             android:id="@+id/tv_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:textColor="@color/black"
-            android:textSize="14sp"
-            android:text="X2"/>
+            android:textSize="14sp"/>
 
     </LinearLayout>
 </LinearLayout>

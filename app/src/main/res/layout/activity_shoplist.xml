@@ -29,5 +29,5 @@
         android:gravity="center"
         android:layout_alignParentBottom="true"
         android:background="@color/main"
-        android:text="新增店铺"/>
+        android:text="分店申请"/>
 </RelativeLayout>

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -83,6 +84,9 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
     private UserInfo userInfo;
     private LinearLayout ll_server_phone;
     private LinearLayout ll_user_phone_verify;
+    private View view_line_under_head;
+    private View view_head_under;
+    private LinearLayout ll_head_container;
 
     public interface UrlType{
         int huibi_rule = 4;
@@ -141,6 +145,9 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
         tv_normal_buy = (TextView) view.findViewById(R.id.tv_normal_buy);
         tv_server_phone = (TextView) view.findViewById(R.id.tv_server_phone);
         ll_server_phone = (LinearLayout) view.findViewById(R.id.ll_server_phone);
+        view_line_under_head = (View) view.findViewById(R.id.view_line_under_head);
+        view_head_under = (View) view.findViewById(R.id.view_head_under);
+        ll_head_container = (LinearLayout) view.findViewById(R.id.ll_head_container);
 
         tv_lookall.setOnClickListener(this);
         iv_setting.setOnClickListener(this);
@@ -184,6 +191,10 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
     @Override
     public void onShow() {
         super.onShow();
+        int top = view_line_under_head.getTop();
+        ViewGroup.LayoutParams ll_head_container_params = ll_head_container.getLayoutParams();
+        ll_head_container_params.height =  top + BaseValue.dp2px(40);
+        ll_head_container.setLayoutParams(ll_head_container_params);
         if(isLogined()){//已经登陆的用户，就初始化用户数据
             getUserDataFormServer();
         }else {//没有登陆就将页面置为没有登陆的状态
@@ -416,6 +427,7 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
             case PhotoUtil.FromWhere.forfex:
 //                iv_head.setImageBitmap(BitmapFactory.decodeFile(photoUtil.getForfexPath()));
                 if (resultCode == Activity.RESULT_OK) {
+                    iv_head.setEnabled(false);
                     MyHttp.updateHead(http, null, photoUtil.getForfexPath(), new HttpForVolley.HttpTodo() {
                         @Override
                         public void httpTodo(Integer which, JSONObject response) {
@@ -423,12 +435,30 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
 //                                showToast("上传图片发生错误!");
                                 return;
                             }
-                            showToast("修改头像成功!");
+//                            showToast("修改头像成功!");
                             String filename = response.optJSONObject("data").optString("head_url");
                             ImageLoader.getInstance().displayImage(filename, iv_head);
                             getUserInfo().head_url = filename;
                         }
                     });
+
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            MyHttp.user(http, null, new MyHttp.MyHttpResult() {
+                                @Override
+                                public void httpResult(Integer which, int code, String msg, Object bean) {
+                                    iv_head.setEnabled(true);
+                                    if (code != 0) {
+                                        showUnLogined();
+                                        return;
+                                    }
+                                    ImageLoader.getInstance().displayImage(((UserInfo)bean).head_url ,iv_head);
+                                }
+                            });
+                        }
+                    }, 1000);
                 }
                 break;
         }

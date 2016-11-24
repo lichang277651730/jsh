@@ -13,8 +13,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:textSize="16sp"
-        android:textColor="@color/mygray"
-        android:text="李昌"/>
+        android:textColor="@color/mygray"/>
     <TextView
         android:id="@+id/tv_fans_huibi"
         android:layout_width="0dp"
@@ -22,6 +21,5 @@
         android:gravity="center"
         android:layout_weight="1"
         android:textSize="16sp"
-        android:textColor="@color/myred"
-        android:text="11.34"/>
+        android:textColor="@color/myred"/>
 </LinearLayout>

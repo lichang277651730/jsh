@@ -1,7 +1,6 @@
 package com.cqfrozen.jsh.cart;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -14,8 +13,6 @@ import android.widget.TextView;
 
 import com.common.http.HttpForVolley;
 import com.cqfrozen.jsh.R;
-import com.cqfrozen.jsh.activity.GoodsDetailActivity;
-import com.cqfrozen.jsh.entity.GoodsInfo;
 import com.cqfrozen.jsh.volleyhttp.MyHttp;
 import com.cqfrozen.jsh.widget.NumberAddSubView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -112,15 +109,15 @@ public class CartRVAdapter extends RecyclerView.Adapter<CartRVAdapter.MyViewHold
             }
         });
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, GoodsDetailActivity.class);
-                GoodsInfo goodsInfo = cartManager.parseCartGoods(cartGoodsInfo);
-                intent.putExtra("goodsInfo", goodsInfo);
-                context.startActivity(intent);
-            }
-        });
+//        holder.itemView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(context, GoodsDetailActivity.class);
+//                GoodsInfo goodsInfo = cartManager.parseCartGoods(cartGoodsInfo);
+//                intent.putExtra("goodsInfo", goodsInfo);
+//                context.startActivity(intent);
+//            }
+//        });
 
         holder.ll_cart_cb.setOnClickListener(new View.OnClickListener() {
             @Override

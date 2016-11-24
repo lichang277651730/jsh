@@ -70,10 +70,10 @@ public  class PhotoUtil {
 
 	// 启动相册
 	public void startPhoto() {
-//		Intent intent = new Intent(Intent.ACTION_PICK, null);
-//		intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-		Intent intent = new Intent(Intent.ACTION_GET_CONTENT, null);
-		intent.setType("image/*");
+		Intent intent = new Intent(Intent.ACTION_PICK, null);
+		intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+//		Intent intent = new Intent(Intent.ACTION_GET_CONTENT, null);
+//		intent.setType("image/*");
 
 		if (null!=context1) {
 			context1.startActivityForResult(intent, FromWhere.photo);
