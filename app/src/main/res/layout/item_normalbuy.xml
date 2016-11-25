@@ -14,7 +14,8 @@
         android:layout_width="120dp"
         android:layout_height="92dp"
         android:layout_marginLeft="12dp"
-        android:scaleType="fitXY"/>
+        android:scaleType="fitXY"
+        android:src="@mipmap/img_loading_default"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -27,7 +28,8 @@
             android:layout_height="wrap_content"
             android:maxLines="1"
             android:textColor="@color/myblack"
-            android:textSize="14sp"/>
+            android:textSize="14sp"
+            android:text="商品名称"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -39,14 +41,16 @@
                 android:layout_height="wrap_content"
                 android:maxLines="1"
                 android:textColor="@color/mygray"
-                android:textSize="14sp"/>
+                android:textSize="14sp"
+                android:text="品牌"/>
             <TextView
                 android:id="@+id/tv_size"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
                 android:textColor="@color/mygray"
-                android:textSize="14sp"/>
+                android:textSize="14sp"
+                android:text="规格"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"

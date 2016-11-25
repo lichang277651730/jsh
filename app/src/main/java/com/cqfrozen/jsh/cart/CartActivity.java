@@ -17,8 +17,9 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.common.base.BaseValue;
+import com.common.refresh.SupportLayout;
 import com.common.widget.MyGridDecoration;
-import com.common.widget.RefreshLayout;
+import com.common.refresh.RefreshLayout;
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.activity.HomeActivity;
 import com.cqfrozen.jsh.entity.CartNotifyInfo;
@@ -36,14 +37,15 @@ import java.util.List;
  * Created by Administrator on 2016/10/18.
  * 通过商品详情页点击购物车跳转至此页面
  */
-public class CartActivity extends MyActivity implements View.OnClickListener, RefreshLayout.OnRefreshListener, RefreshLayout.TopOrBottom, MyActivity.HttpFail {
+public class CartActivity extends MyActivity implements View.OnClickListener,
+        MyActivity.HttpFail, CartManager.OnDeleteCartGoodsActivityListener, SupportLayout.RefreshListener, SupportLayout.LoadMoreListener {
 
     private static final int TAG_EIDT = 1;
     private static final int TAG_FINISH = 2;
 
     private static final int REQUEST_CODE_CART_ACTIVITY = 1;
 
-    private static CartFragment fragment;
+//    private static CartFragment fragment;
     private Button btn_edit;
     private RecyclerView rv_cart;
     private CheckBox cb_all;
@@ -71,6 +73,7 @@ public class CartActivity extends MyActivity implements View.OnClickListener, Re
         setContentView(R.layout.activity_cart);
         setTransparencyBar(true);
         cartManager = CartManager.getInstance(this);
+        cartManager.setOnDeleteCartGoodsActivityListener(this);
         initView();
         initTitle();
         initRV();
@@ -94,7 +97,7 @@ public class CartActivity extends MyActivity implements View.OnClickListener, Re
         btn_del.setOnClickListener(this);
         btn_order.setOnClickListener(this);
         iv_shotcut.setOnClickListener(this);
-        refresh_cart.setOnRefreshListener(this);
+
         iv_back.setOnClickListener(this);
 //        cb_all.setChecked(true);
         if(MyApplication.userInfo == null){
@@ -106,6 +109,9 @@ public class CartActivity extends MyActivity implements View.OnClickListener, Re
         if(cartManager.isNull()){
             setNoDataView();
         }
+
+        refresh_cart.setOnRefreshListener(this);
+        refresh_cart.setOnLoadMoreListener(this);
 
     }
 
@@ -135,7 +141,6 @@ public class CartActivity extends MyActivity implements View.OnClickListener, Re
                 .dp2px(0), getResources().getColor(R.color.mybg), false);
         rv_cart.addItemDecoration(decoration);
         rv_cart.setAdapter(cartAdapter);
-        refresh_cart.setRC(rv_cart, this);
 
         cartAdapter.setPriceChangeListener(new CartRVAdapter.PriceChangeListener() {
             @Override
@@ -196,17 +201,20 @@ public class CartActivity extends MyActivity implements View.OnClickListener, Re
 
                 if(code == 404){
                     setHttpFail(CartActivity.this);
-                    refresh_cart.setResultState(RefreshLayout.ResultState.failed);
+                    refresh_cart.setLoadFailed();
+                    refresh_cart.setRefreshFailed();
                     return;
                 }
 
                 if(code != 0){
 //                    showToast(msg);
                     setHttpFail(CartActivity.this);
-                    refresh_cart.setResultState(RefreshLayout.ResultState.failed);
+                    refresh_cart.setLoadFailed();
+                    refresh_cart.setRefreshFailed();
                     return;
                 }
-                refresh_cart.setResultState(RefreshLayout.ResultState.success);
+                refresh_cart.setLoadSuccess();
+                refresh_cart.setRefreshSuccess();
                 CartResultInfo cartResultInfo = (CartResultInfo) bean;
                 is_page = cartResultInfo.is_page;
 
@@ -352,46 +360,6 @@ public class CartActivity extends MyActivity implements View.OnClickListener, Re
     }
 
     @Override
-    public void onRefresh() {
-        is_page = 0;
-        page = 1;
-        cartGoodsInfos.clear();
-        getData();
-    }
-
-    @Override
-    public void gotoTop() {
-
-    }
-
-    @Override
-    public void gotoBottom() {
-        if(is_page == 1){
-            getData();
-        }else if(is_page == 0){
-//            showToast("没有更多数据了!~");
-        }
-    }
-
-    @Override
-    public void move() {
-
-    }
-
-    @Override
-    public void stop() {
-
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if(refresh_cart != null && refresh_cart.isRefreshing){
-            refresh_cart.setResultState(RefreshLayout.ResultState.close);
-        }
-    }
-
-    @Override
     public void toHttpAgain() {
         getData();
     }
@@ -416,6 +384,37 @@ public class CartActivity extends MyActivity implements View.OnClickListener, Re
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == REQUEST_CODE_CART_ACTIVITY && resultCode == RESULT_OK){
             getDataFromServer();
+        }
+    }
+
+    @Override
+    public void onDeleteCartGoods(List<CartGoodsInfo> deleteCartGoodsInfos) {
+        if(cartManager != null && cartGoodsInfos != null){
+            for (CartGoodsInfo goodsinfo : deleteCartGoodsInfos){
+                cartGoodsInfos.remove(goodsinfo);
+                cartAdapter.showTotalPrice();
+                if(cartAdapter.isNull()){
+                    setNoDataView();
+                }
+                cartAdapter.notifyDataSetChanged();
+            }
+        }
+    }
+
+    @Override
+    public void refresh() {
+        is_page = 0;
+        page = 1;
+        cartGoodsInfos.clear();
+        getData();
+    }
+
+    @Override
+    public void loadMore() {
+        if(is_page == 1){
+            getData();
+        }else if(is_page == 0){
+//            showToast("没有更多数据了!~");
         }
     }
 }

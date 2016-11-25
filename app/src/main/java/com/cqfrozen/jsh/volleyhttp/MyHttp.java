@@ -56,8 +56,8 @@ import java.util.List;
  */
 public class MyHttp {
 
-//    private static final String SERVER = "http://test.cqfrozen.com/api/index.php/";//测试api
-    private static final String SERVER = "http://api.cqfrozen.com/v1/index.php/";//正式api
+    private static final String SERVER = "http://test.cqfrozen.com/api/index.php/";//测试api
+//    private static final String SERVER = "http://api.cqfrozen.com/v1/index.php/";//正式api
     private static final int GET = Request.Method.GET;
     private static final int POST = Request.Method.POST;
     private static final int p_type = 1;

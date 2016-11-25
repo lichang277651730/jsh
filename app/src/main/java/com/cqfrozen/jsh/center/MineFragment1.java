@@ -373,7 +373,8 @@ public class MineFragment1 extends MyFragment implements View.OnClickListener{
                 break;
             case R.id.ll_server_phone://关于我们
                 if(needLogin()){
-                    Intent intent = new Intent("android.intent.action.CALL", Uri.parse("tel:" + userInfo.c_phone_num));
+//                    Intent intent = new Intent("android.intent.action.CALL", Uri.parse("tel:" + userInfo.c_phone_num));
+                    Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + userInfo.c_phone_num));
                     startActivity(intent);
                 }
                 break;

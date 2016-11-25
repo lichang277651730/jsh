@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.common.http.HttpForVolley;
@@ -49,7 +50,7 @@ public class NormalBuyAdapter extends RecyclerView.Adapter<NormalBuyAdapter.MyVi
         if(context == null){
             context = parent.getContext();
         }
-        return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.item_normalbuy, parent, false));
+        return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.item_normalbuy1, parent, false));
     }
 
     @Override
@@ -57,23 +58,20 @@ public class NormalBuyAdapter extends RecyclerView.Adapter<NormalBuyAdapter.MyVi
         final GoodsInfo goodsInfo = goodsInfos.get(position);
         ImageLoader.getInstance().displayImage(goodsInfo.pic_url, holder.iv_goods, defaultOptions);
         holder.tv_name.setText(goodsInfo.g_name);
-        holder.tv_brand.setText(goodsInfo.brand_name);
-        holder.tv_size.setText(goodsInfo.weight + "kg/件");
+        holder.tv_brand.setText("品牌:" + goodsInfo.brand_name);
+        holder.tv_size.setText("规格:" + goodsInfo.weight + "kg/" + goodsInfo.unit);
         holder.tv_price.setText("￥" + goodsInfo.now_price);
 
         if(goodsInfo.is_oos == 0){//不缺货
-//            holder.tv_no_goods.setVisibility(View.GONE);
-            holder.iv_cart.setImageResource(R.mipmap.icon_cart);
+            holder.ll_no_goods.setVisibility(View.GONE);
         }else if(goodsInfo.is_oos == 1){//缺货
-//            holder.tv_no_goods.setVisibility(View.VISIBLE);
-            holder.iv_cart.setImageResource(R.mipmap.icon_cart_no_pre);
+            holder.ll_no_goods.setVisibility(View.VISIBLE);
         }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, GoodsDetailActivity.class);
-//                intent.putExtra("g_id", goodsInfo.g_id);
                 intent.putExtra("goodsInfo", goodsInfo);
                 context.startActivity(intent);
             }
@@ -82,13 +80,16 @@ public class NormalBuyAdapter extends RecyclerView.Adapter<NormalBuyAdapter.MyVi
         holder.iv_cart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(goodsInfo.is_oos == 1){
+                    return;
+                }
                 holder.iv_cart.setEnabled(false);
-                holder.iv_cart.setImageResource(R.mipmap.icon_cart_no_pre);
+//                holder.iv_cart.setImageResource(R.mipmap.icon_cart_no_pre);
                 MyHttp.addcart(http, null, goodsInfo.g_id, 1, new HttpForVolley.HttpTodo() {
                     @Override
                     public void httpTodo(Integer which, JSONObject response) {
                         holder.iv_cart.setEnabled(true);
-                        holder.iv_cart.setImageResource(R.mipmap.icon_cart);
+//                        holder.iv_cart.setImageResource(R.mipmap.icon_cart);
 //                        ToastUtil.showToast(context, response.optString("msg"));
                         int code = response.optInt("code");
                         if(code != 0){
@@ -114,9 +115,11 @@ public class NormalBuyAdapter extends RecyclerView.Adapter<NormalBuyAdapter.MyVi
         private TextView tv_size;
         private TextView tv_price;
         private ImageView iv_cart;
+        private LinearLayout ll_no_goods;
         public MyViewHolder(View itemView) {
             super(itemView);
             iv_goods = (ImageView) itemView.findViewById(R.id.iv_goods);
+            ll_no_goods = (LinearLayout) itemView.findViewById(R.id.ll_no_goods);
             tv_name = (TextView) itemView.findViewById(R.id.tv_name);
             tv_brand = (TextView) itemView.findViewById(R.id.tv_brand);
             tv_size = (TextView) itemView.findViewById(R.id.tv_size);

@@ -2,7 +2,6 @@ package com.cqfrozen.jsh.cart;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.SparseArray;
 
 import com.cqfrozen.jsh.entity.GoodsInfo;
@@ -89,9 +88,6 @@ public class CartManager {
         }
     }
 
-
-
-
     /**
      * 添加单个商品购物车
      */
@@ -174,10 +170,8 @@ public class CartManager {
         for (CartGoodsInfo goodsInfo : list) {
             goodsTotalNum += goodsInfo.count;
         }
-
         if (listener != null) {
             listener.onNumChangeListener(goodsTotalNum);
-
         }
     }
 
@@ -249,7 +243,6 @@ public class CartManager {
 
     //根据购物车数组id 删除对应的商品 1101,1102,3005
     public void delete(String carDataAry) {
-
         String[] deleteAry = carDataAry.split(",");
 
         List<String> delete_c_id_list = new ArrayList<>();
@@ -259,17 +252,42 @@ public class CartManager {
         }
 
         List<Long> delete_g_id_list = new ArrayList<>();
+        List<CartGoodsInfo> deleteCartGoodsInfos = new ArrayList<>();
         for(int i = 0; i < cartGoods.size(); i++){
             CartGoodsInfo cartGoodsInfo = cartGoods.valueAt(i);
             String c_id = cartGoodsInfo.c_id;
             if(delete_c_id_list.contains(c_id)){
                 delete_g_id_list.add(cartGoodsInfo.g_id);
+                deleteCartGoodsInfos.add(cartGoodsInfo);
             }
         }
         for(int i = 0; i < delete_g_id_list.size(); i++){
             cartGoods.delete(delete_g_id_list.get(i).intValue());
         }
         commit();
+        if(onDeleteCartGoodsFragmentListener != null){
+            onDeleteCartGoodsFragmentListener.onDeleteCartGoods(deleteCartGoodsInfos);
+        }
+        if(onDeleteCartGoodsActivityListener != null){
+            onDeleteCartGoodsActivityListener.onDeleteCartGoods(deleteCartGoodsInfos);
+        }
+    }
+
+    private OnDeleteCartGoodsFragmentListener onDeleteCartGoodsFragmentListener;
+    public interface OnDeleteCartGoodsFragmentListener{
+        void onDeleteCartGoods(List<CartGoodsInfo> deleteCartGoodsInfos);
+    }
+
+    public void setOnDeleteCartGoodsFragmentListener(OnDeleteCartGoodsFragmentListener onDeleteCartGoodsFragmentListener) {
+        this.onDeleteCartGoodsFragmentListener = onDeleteCartGoodsFragmentListener;
+    }
+    private OnDeleteCartGoodsActivityListener onDeleteCartGoodsActivityListener;
+    public interface OnDeleteCartGoodsActivityListener{
+        void onDeleteCartGoods(List<CartGoodsInfo> deleteCartGoodsInfos);
+    }
+
+    public void setOnDeleteCartGoodsActivityListener(OnDeleteCartGoodsActivityListener onDeleteCartGoodsActivityListener) {
+        this.onDeleteCartGoodsActivityListener = onDeleteCartGoodsActivityListener;
     }
 
     public interface OnNumChangeListener {

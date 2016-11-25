@@ -62,10 +62,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
-                    android:gravity="center"
-                    android:text="购物满399元，立减运费！！"/>
+                    android:gravity="center"/>
         </LinearLayout>
-        <com.common.widget.RefreshLayout
+        <com.common.refresh.RefreshLayout
             android:id="@+id/refresh_cart"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -76,7 +75,7 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rv_cart"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:background="@color/mybg"
                     android:paddingBottom="54dp"
                     android:scrollbars="none">
@@ -86,7 +85,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/mybg"/>
-        </com.common.widget.RefreshLayout>
+        </com.common.refresh.RefreshLayout>
         <View style="@style/HorizontalDividerLine"
               android:layout_alignParentBottom="true"
               android:layout_marginBottom="54dp"/>

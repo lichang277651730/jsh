@@ -4,20 +4,20 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
-    <!--<View style="@style/HorizontalDividerLine"/>-->
-    <View
+    <View style="@style/HorizontalDividerLine"
+          android:id="@+id/hot_divider"/>
+    <RelativeLayout
+        android:id="@+id/rl_hot"
         android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:background="@color/backgroundColor"/>
-    <LinearLayout
-        android:id="@+id/headLayout"
-        android:layout_width="match_parent"
-        android:layout_height="34dp"
-        android:orientation="horizontal"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:padding="4dp">
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingRight="4dp"
+        android:paddingLeft="4dp">
 
         <ImageView
+            android:id="@+id/iv_hot"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
@@ -26,24 +26,17 @@
 
         <com.common.widget.AutoTextView
             android:id="@+id/atv_notify"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:textSize="12sp"
-            android:textColor="@color/color_nine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/iv_hot"
+            android:layout_centerInParent="true"
             android:layout_marginLeft="10dp"/>
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:padding="2dp"
-            android:visibility="gone"
-            android:src="@mipmap/list_gengduo_h"/>
-    </LinearLayout>
 
-    <View style="@style/HorizontalDividerLine"
-        android:id="@+id/hot_divider"/>
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/backgroundColor"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

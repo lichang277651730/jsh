@@ -6,6 +6,7 @@ import android.graphics.Matrix;
 import android.os.Handler;
 import android.text.Html;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
@@ -15,6 +16,8 @@ import android.view.animation.Transformation;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
+
+import com.cqfrozen.jsh.R;
 
 /**
  * 垂直翻滚的跑马灯
@@ -78,10 +81,11 @@ public class AutoTextView extends TextSwitcher implements
     public View makeView() {
         TextView t = new TextView(mContext);
         t.setGravity(Gravity.CENTER_VERTICAL);
-        t.setTextSize(12);
+        t.setTextSize(14);
         t.setMaxLines(1);
+        t.setEllipsize(TextUtils.TruncateAt.END);
         //设置文字颜色
-        t.setTextColor(0xFF323232);
+        t.setTextColor(getResources().getColor(R.color.color_nine));
         return t;
     }
 

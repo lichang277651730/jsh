@@ -35,7 +35,8 @@ import java.util.List;
  * Created by Administrator on 2016/9/12.
  * 导航栏 购物车页面 fragment
  */
-public class CartFragment extends MyFragment implements View.OnClickListener, MyFragment.HttpFail, SupportLayout.RefreshListener, SupportLayout.LoadMoreListener {
+public class CartFragment extends MyFragment implements View.OnClickListener, MyFragment.HttpFail,
+        SupportLayout.RefreshListener, SupportLayout.LoadMoreListener, CartManager.OnDeleteCartGoodsFragmentListener {
 
     private static final int TAG_EIDT = 1;
     private static final int TAG_FINISH = 2;
@@ -78,6 +79,7 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
         if(view == null){
             view = inflater.inflate(R.layout.fragment_cart, null);
             cartManager = CartManager.getInstance(mActivity);
+            cartManager.setOnDeleteCartGoodsFragmentListener(this);
             initView();
             initTitle();
             initRV();
@@ -263,14 +265,15 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
 
     @Override
     public void onShow() {
-        super.onShow();
-        cartAdapter.checkAllNone(true);//此行确定添加购物车存在的商品后，切换到此页面，数量能对上
+//        cartAdapter.checkAllNone(true);//此行确定添加购物车存在的商品后，切换到此页面，数量能对上
         int cartGoodsNum = 0;
         for (CartGoodsInfo cartGoodsInfo : cartGoodsInfos){
             cartGoodsNum += cartGoodsInfo.count;
         }
         //购物车数量没变
         if(cartGoodsNum == cartManager.getCartGoodsNum()){
+            cartAdapter.notifyDataSetChanged();
+            cartAdapter.showTotalPrice();
             return;
         }
         //购物车数量变化
@@ -392,6 +395,20 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
             getData();
         }else if(is_page == 0){
             refresh_cart.setLoadNodata();
+        }
+    }
+
+    @Override
+    public void onDeleteCartGoods(List<CartGoodsInfo> deleteCartGoodsInfos) {
+        if(cartGoodsInfos != null && cartAdapter != null){
+            for (CartGoodsInfo goodsinfo : deleteCartGoodsInfos){
+                cartGoodsInfos.remove(goodsinfo);
+                cartAdapter.showTotalPrice();
+                if(cartAdapter.isNull()){
+                    setNoDataView();
+                }
+                cartAdapter.notifyDataSetChanged();
+            }
         }
     }
 

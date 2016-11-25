@@ -5,7 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.common.widget.AutoTextView;
 import com.cqfrozen.jsh.R;
@@ -25,8 +25,6 @@ public class HomeNotifyAdapter extends RecyclerView.Adapter<HomeNotifyAdapter.My
         this.notifyInfos = notifyInfos;
     }
 
-
-
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if(context == null){
@@ -38,11 +36,11 @@ public class HomeNotifyAdapter extends RecyclerView.Adapter<HomeNotifyAdapter.My
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         if(notifyInfos.size() == 0){
-            holder.headLayout.setVisibility(View.GONE);
+            holder.rl_hot.setVisibility(View.GONE);
             holder.hot_divider.setVisibility(View.GONE);
             return;
         }else {
-            holder.headLayout.setVisibility(View.VISIBLE);
+            holder.rl_hot.setVisibility(View.VISIBLE);
             holder.hot_divider.setVisibility(View.VISIBLE);
         }
         String[] atvs = new String[notifyInfos.size()];
@@ -59,12 +57,12 @@ public class HomeNotifyAdapter extends RecyclerView.Adapter<HomeNotifyAdapter.My
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
         private AutoTextView atv_notify;
-        private LinearLayout headLayout;
+        private RelativeLayout rl_hot;
         private View hot_divider;
         public MyViewHolder(View itemView) {
             super(itemView);
             atv_notify = (AutoTextView) itemView.findViewById(R.id.atv_notify);
-            headLayout = (LinearLayout) itemView.findViewById(R.id.headLayout);
+            rl_hot = (RelativeLayout) itemView.findViewById(R.id.rl_hot);
             hot_divider = (View) itemView.findViewById(R.id.hot_divider);
         }
     }
