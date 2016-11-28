@@ -136,6 +136,20 @@ public class HttpForVolley {
 
 					@Override
 					public void onErrorResponse(VolleyError error) {
+//						NetworkResponse response = error.networkResponse;
+//						try {
+//							Log.d("errorVolley", "errorVolley1:" + new String(response.data, "utf-8") + ":errorVolley1");
+//						} catch (UnsupportedEncodingException e) {
+//							e.printStackTrace();
+//						}
+//						if (error instanceof ServerError && response != null) {
+//							try {
+//								String res = new String(response.data, "utf-8");
+//								Log.d("errorVolley", "errorVolley2:" +  res + ":errorVolley2");
+//							} catch (UnsupportedEncodingException e1) {
+//								e1.printStackTrace();
+//							}
+//						}
 						try {
 							JSONObject object = new JSONObject();
 							object.put("msg", "网络错误");

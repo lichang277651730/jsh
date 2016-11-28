@@ -98,8 +98,9 @@ public class SharePop implements View.OnClickListener {
                 ShareUtilsWX.wxShare(context, 2, title, url, text, image);
                 break;
             case R.id.ll_xlwb: //新浪微博
-                ShareUtilsWX.wxShare(context, 2, title, url, text, image);
+//                ShareUtilsWX.wxShare(context, 2, title, url, text, image);
 //                ShareUtilsWB.wbShare(context,title, text, url, image);
+                ShareNativeUtil.shareIntent(context, "com.sina.weibo", title + url);
                 break;
             case R.id.ll_qqhy: //QQ分享
                 ShareUtilsQQ.ShareQQ(tencent, context, title, text, url, image_url);
@@ -108,8 +109,7 @@ public class SharePop implements View.OnClickListener {
                 ShareUtilsQQ.ShareQQZone(tencent, context, title, text, url, image_url);
                 break;
             case R.id.ll_link: //复制到剪切板
-                ClipboardManager cmb = (ClipboardManager) context
-                        .getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipboardManager cmb = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
                 cmb.setText(url);
                 Toast.makeText(context, "已经复制到粘贴板!", Toast.LENGTH_SHORT).show();
                 break;

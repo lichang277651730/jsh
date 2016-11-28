@@ -37,7 +37,7 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.MyViewHolder> 
         holder.tv_men_name.setText("店长:" + shopInfo.china_name);
         holder.tv_shop_name.setText("店铺:" + shopInfo.store_name);
         holder.tv_phone.setText(shopInfo.mobile_num);
-        holder.tv_address.setText(shopInfo.address);
+        holder.tv_address.setText("收货地址:" + shopInfo.address);
         if(shopInfo.is_main_store == 1){
             holder.tv_main_shop_no.setVisibility(View.GONE);
             holder.tv_main_shop_yes.setVisibility(View.VISIBLE);

@@ -43,5 +43,5 @@
         android:paddingRight="30dp"
         android:paddingLeft="30dp"
         android:textColor="@color/main"
-        android:text="去逛逛"/>
+        android:text="去购物"/>
 </LinearLayout>

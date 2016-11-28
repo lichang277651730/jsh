@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.common.base.BaseValue;
@@ -55,8 +56,8 @@ public class MineFragment1 extends MyFragment implements View.OnClickListener{
     private TextView tv_verify;
     private TextView tv_huibi;
     private TextView tv_fans;
-    private LinearLayout ll_huibi;
-    private LinearLayout ll_fans;
+    private RelativeLayout rl_huibi;
+    private RelativeLayout rl_fans;
     private LinearLayout ll_table1;
     private LinearLayout ll_table2;
     private LinearLayout ll_table3;
@@ -80,8 +81,8 @@ public class MineFragment1 extends MyFragment implements View.OnClickListener{
     private UserInfo userInfo;
     private LinearLayout ll_server_phone;
     private LinearLayout ll_user_phone_verify;
-    private View view_line_under_head;
-    private LinearLayout ll_head_container;
+//    private View view_line_under_head;
+//    private LinearLayout ll_head_container;
 
     public interface UrlType{
         int huibi_rule = 4;
@@ -105,7 +106,7 @@ public class MineFragment1 extends MyFragment implements View.OnClickListener{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         fragment = this;
         if(view == null){
-            view = inflater.inflate(R.layout.fragment_mine, null);
+            view = inflater.inflate(R.layout.fragment_mine1, null);
             initView();
             getUrlData();
         }
@@ -126,9 +127,9 @@ public class MineFragment1 extends MyFragment implements View.OnClickListener{
         tv_name = (TextView) view.findViewById(R.id.tv_name);
         tv_phone = (TextView) view.findViewById(R.id.tv_phone);
         tv_verify = (TextView) view.findViewById(R.id.tv_verify);
-        ll_huibi = (LinearLayout) view.findViewById(R.id.ll_huibi);
+        rl_huibi = (RelativeLayout) view.findViewById(R.id.rl_huibi);
         tv_huibi = (TextView) view.findViewById(R.id.tv_huibi);
-        ll_fans = (LinearLayout) view.findViewById(R.id.ll_fans);
+        rl_fans = (RelativeLayout) view.findViewById(R.id.rl_fans);
         ll_table1 = (LinearLayout) view.findViewById(R.id.ll_table1);
         ll_table2 = (LinearLayout) view.findViewById(R.id.ll_table2);
         ll_table3 = (LinearLayout) view.findViewById(R.id.ll_table3);
@@ -140,8 +141,8 @@ public class MineFragment1 extends MyFragment implements View.OnClickListener{
         tv_normal_buy = (TextView) view.findViewById(R.id.tv_normal_buy);
         tv_server_phone = (TextView) view.findViewById(R.id.tv_server_phone);
         ll_server_phone = (LinearLayout) view.findViewById(R.id.ll_server_phone);
-        ll_head_container = (LinearLayout) view.findViewById(R.id.ll_head_container);
-        view_line_under_head = (View) view.findViewById(R.id.view_line_under_head);
+//        ll_head_container = (LinearLayout) view.findViewById(R.id.ll_head_container);
+//        view_line_under_head = (View) view.findViewById(R.id.view_line_under_head);
 
         tv_lookall.setOnClickListener(this);
         iv_setting.setOnClickListener(this);
@@ -151,8 +152,8 @@ public class MineFragment1 extends MyFragment implements View.OnClickListener{
         iv_head.setOnClickListener(this);
         tv_login.setOnClickListener(this);
         tv_normal_buy.setOnClickListener(this);
-        ll_huibi.setOnClickListener(this);
-        ll_fans.setOnClickListener(this);
+        rl_huibi.setOnClickListener(this);
+        rl_fans.setOnClickListener(this);
         ll_table1.setOnClickListener(this);
         ll_table2.setOnClickListener(this);
         ll_table3.setOnClickListener(this);
@@ -185,10 +186,10 @@ public class MineFragment1 extends MyFragment implements View.OnClickListener{
     @Override
     public void onShow() {
         super.onShow();
-        int top = view_line_under_head.getTop();
-        ViewGroup.LayoutParams ll_head_container_params = ll_head_container.getLayoutParams();
-        ll_head_container_params.height =  top + BaseValue.dp2px(40);
-        ll_head_container.setLayoutParams(ll_head_container_params);
+//        int top = view_line_under_head.getTop();
+//        ViewGroup.LayoutParams ll_head_container_params = ll_head_container.getLayoutParams();
+//        ll_head_container_params.height =  top + BaseValue.dp2px(40);
+//        ll_head_container.setLayoutParams(ll_head_container_params);
         if(isLogined()){//已经登陆的用户，就初始化用户数据
             getUserDataFormServer();
         }else {//没有登陆就将页面置为没有登陆的状态
@@ -314,7 +315,7 @@ public class MineFragment1 extends MyFragment implements View.OnClickListener{
             case R.id.tv_login:
                 needLogin();
                 break;
-            case R.id.ll_huibi://粮票列表
+            case R.id.rl_huibi://粮票列表
                 if(needLogin()){
                     Intent intent = new Intent(mActivity, HuibiListActivity.class);
                     intent.putExtra("hb_count", hb_count_new);
@@ -322,7 +323,7 @@ public class MineFragment1 extends MyFragment implements View.OnClickListener{
                     startActivity(intent);
                 }
                 break;
-            case R.id.ll_fans://粉丝列表
+            case R.id.rl_fans://粉丝列表
                 if(needLogin()){
                     startActivity(new Intent(mActivity, FansListActity.class));
                 }

@@ -30,7 +30,7 @@ public class NumberAddSubView extends LinearLayout implements View.OnClickListen
     private OnSubAddClickListener listener;
     private LayoutInflater mInflater;
 
-    public static final int DEFUALT_MAX=1000;
+    public static final int DEFUALT_MAX = 1000;
     private int curValue;
     private int minValue;
     private int maxValue = DEFUALT_MAX;
@@ -135,6 +135,8 @@ public class NumberAddSubView extends LinearLayout implements View.OnClickListen
         getCurValue();
         if(curValue < maxValue){
             curValue = curValue + 1;
+        }else {
+//            btn_add.setEnabled(false);
         }
         tv_num.setText(curValue + "");
     }
@@ -144,9 +146,9 @@ public class NumberAddSubView extends LinearLayout implements View.OnClickListen
      */
     private void subNum() {
         getCurValue();
-        if(curValue == 2){
+//        if(curValue == 2){
 //            btn_sub.setEnabled(false);
-        }
+//        }
         if(curValue > minValue){
             curValue = curValue - 1;
         }else {
@@ -211,5 +213,7 @@ public class NumberAddSubView extends LinearLayout implements View.OnClickListen
     public interface OnSubAddClickListener{
         void onSubAddClick(View view, int curVal);
     }
+
+
 
 }

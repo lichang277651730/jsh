@@ -328,7 +328,7 @@ public class CartRVAdapter extends RecyclerView.Adapter<CartRVAdapter.MyViewHold
      */
     public void showTotalPrice(){
         float totalPrice = getTotalPrice();
-        tv_total.setText(Html.fromHtml("合计 ￥<span style='color:#eb4f38'>" + totalPrice + "</span>"), TextView.BufferType.SPANNABLE);
+        tv_total.setText(Html.fromHtml("￥<span style='color:#FF5458'>" + totalPrice + "</span>"), TextView.BufferType.SPANNABLE);
         if(priceChangeListener != null){
             priceChangeListener.priceChange(totalPrice);
         }

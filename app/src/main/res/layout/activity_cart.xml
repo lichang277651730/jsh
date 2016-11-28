@@ -52,17 +52,21 @@
             android:id="@+id/ll_notify"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:layout_below="@id/rl_title"
-            android:background="@color/mybg"
-            android:padding="6dp">
+            android:background="@color/white">
 
                 <TextView
                     android:id="@+id/tv_notify"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:drawableLeft="@mipmap/list_zuire_h"
+                    android:drawablePadding="8dp"
                     android:layout_marginLeft="8dp"
-                    android:gravity="center"/>
+                    android:padding="6dp"
+                    android:gravity="center_vertical"/>
+                <View style="@style/HorizontalDivider_ten"
+                      android:layout_marginTop="2dp"/>
         </LinearLayout>
         <com.common.refresh.RefreshLayout
             android:id="@+id/refresh_cart"
@@ -101,42 +105,57 @@
                 <CheckBox
                     android:id="@+id/cb_all"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="8dp"
                     android:checked="true"
                     android:paddingLeft="8dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/sl_tv_cart_check_all"
                     android:text="@string/cart_all"
                     style="@style/customCheckbox"/>
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:gravity="end">
-                        <TextView
-                            android:id="@+id/tv_total"
+                    android:orientation="vertical">
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_toRightOf="@id/cb_all"
-                            android:layout_marginLeft="10dp"
-                            android:layout_centerVertical="true"
-                            android:layout_marginRight="8dp"
-                            android:layout_marginTop="4dp"
-                            android:textSize="18sp"
-                            android:text="@string/cart_total"/>
+                            android:orientation="horizontal">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_toRightOf="@id/cb_all"
+                                    android:layout_marginLeft="20dp"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginTop="4dp"
+                                    android:textSize="16sp"
+                                    android:text="@string/cart_total"/>
+
+                                <TextView
+                                    android:id="@+id/tv_total"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_toRightOf="@id/cb_all"
+                                    android:layout_marginLeft="8dp"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginTop="4dp"
+                                    android:textColor="@color/nowPriceColor"
+                                    android:textSize="16sp"/>
+                        </LinearLayout>
+
                         <TextView
                             android:id="@+id/tv_carr"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_toRightOf="@id/cb_all"
-                            android:layout_marginLeft="10dp"
                             android:layout_centerVertical="true"
                             android:textColor="@color/myblack"
-                            android:textSize="14sp"
-                            android:text="@string/cart_carr"
-                            android:layout_marginRight="8dp"/>
+                            android:layout_marginLeft="60dp"
+                            android:textSize="15sp"
+                            android:text="@string/cart_carr"/>
                 </LinearLayout>
                 <Button
                     android:id="@+id/btn_order"
@@ -145,7 +164,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:text="@string/cart_order"
-                    style="@style/bigRedButton"/>
+                    style="@style/bigBlueButton"/>
                 <Button
                     android:id="@+id/btn_del"
                     android:layout_width="100dp"
@@ -154,6 +173,6 @@
                     android:layout_centerVertical="true"
                     android:visibility="gone"
                     android:text="@string/cart_del"
-                    style="@style/bigRedButton"/>
+                    style="@style/bigBlueButton"/>
         </LinearLayout>
 </RelativeLayout>

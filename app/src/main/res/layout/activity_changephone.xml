@@ -13,36 +13,100 @@
 
     <include
         layout="@layout/include_title"/>
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:background="@color/white"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
         android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingTop="32dp">
-
-        <ImageView
-            android:layout_width="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="70dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="32dp"
-            android:src="@mipmap/icon_register_shop_manager"/>
+            android:text="手机号"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="16sp"
+            android:layout_marginRight="10dp"/>
+
+        <TextView
+            android:id="@+id/tv_phone"
+            style="@style/text_15sp_black"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/textColorPrimary"
+            android:textColorHint="@color/c_nine"/>
+    </LinearLayout>
+    <View style="@style/HorizontalDividerLine"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:text="新手机号"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="16sp"
+            android:layout_marginRight="10dp"/>
 
         <com.common.widget.MyEditText
             android:id="@+id/et_new_phone"
             style="@style/text_15sp_black"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="8dp"
             android:background="@color/transparency"
             android:hint="请输入新手机号"
             android:inputType="phone"
             android:maxLength="11"
-            android:textColor="@color/black"
-            android:textColorHint="@color/myhint"/>
+            android:textColor="@color/textColorPrimary"
+            android:textColorHint="@color/c_nine"/>
     </LinearLayout>
-
     <View style="@style/HorizontalDividerLine"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white"
+        android:paddingLeft="16dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:text="验证码"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="16sp"
+            android:layout_marginRight="10dp"/>
+
+        <com.common.widget.MyEditText
+            android:id="@+id/et_verify_code"
+            style="@style/text_15sp_black"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/transparency"
+            android:digits="0123456789"
+            android:hint="请输入验证码"
+            android:inputType="number"
+            android:maxLength="4"
+            android:textColor="@color/textColorPrimary"
+            android:textColorHint="@color/c_nine"/>
+        <TextView
+            android:id="@+id/tv_get_verify"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/sl_blue2gray_round4_btn_bg"
+            android:padding="4dp"
+            android:text="获取验证码"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="16sp"/>
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
@@ -70,67 +134,22 @@
             android:textColorHint="@color/myhint"/>
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@color/white"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="32dp"
-            android:src="@mipmap/icon_register_verify"/>
-
-        <com.common.widget.MyEditText
-            android:id="@+id/et_verify_code"
-            style="@style/text_15sp_black"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="12dp"
-            android:layout_weight="1"
-            android:background="@color/transparency"
-            android:digits="0123456789"
-            android:hint="请输入验证码"
-            android:inputType="number"
-            android:maxLength="4"
-            android:textColor="@color/black"
-            android:textColorHint="@color/myhint"/>
-
-        <TextView
-            android:id="@+id/tv_get_verify"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="16dp"
-            android:background="@drawable/shape_bule_round_bg"
-            android:padding="4dp"
-            android:text="获取验证码"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:textSize="16sp"/>
-    </LinearLayout>
-
-    <View style="@style/HorizontalDividerLine"/>
-
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="40dp"
+        android:layout_height="150dp"
+        android:padding="16dp"
         android:layout_gravity="center"
-        android:background="@color/white">
+        android:background="@color/backgroundColor">
 
         <Button
             android:id="@+id/btn_change_phone"
             style="@style/text_16sp_white"
-            android:layout_width="150dp"
+            android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_centerInParent="true"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp"
             android:layout_marginTop="10dp"
-            android:background="@drawable/sl_blue2gray_btn_bg"
+            android:background="@drawable/sl_blue2gray_round4_btn_bg"
             android:gravity="center"
             android:text="确定"
             android:textSize="18sp"/>
@@ -139,6 +158,6 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"/>
+        android:background="@color/backgroundColor"/>
 
 </LinearLayout>

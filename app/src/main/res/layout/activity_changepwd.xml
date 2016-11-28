@@ -13,27 +13,27 @@
 
     <include
         layout="@layout/include_title"/>
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:background="@color/white"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
         android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingTop="32dp">
-
-        <ImageView
-            android:layout_width="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="32dp"
-            android:src="@mipmap/icon_register_pwd"/>
+            android:text="旧密码"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="16sp"
+            android:layout_marginRight="10dp"/>
 
         <com.common.widget.MyEditText
             android:id="@+id/et_pwd_old"
             style="@style/text_15sp_black"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginLeft="5dp"
             android:layout_weight="1"
             android:background="@color/transparency"
             android:digits="0123456789abcdefjghigklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -48,33 +48,31 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:layout_marginRight="16dp"
             android:src="@mipmap/icon_register_pwd_see"/>
     </LinearLayout>
-
     <View style="@style/HorizontalDividerLine"/>
-
-
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="50dp"
         android:background="@color/white"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
-
-        <ImageView
-            android:layout_width="wrap_content"
+        <TextView
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="32dp"
-            android:src="@mipmap/icon_register_pwd"/>
+            android:text="新密码"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="16sp"
+            android:layout_marginRight="10dp"/>
 
         <com.common.widget.MyEditText
             android:id="@+id/et_newpwd_once"
             style="@style/text_15sp_black"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginLeft="5dp"
             android:layout_weight="1"
             android:background="@color/transparency"
             android:digits="0123456789abcdefjghigklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -89,31 +87,30 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:layout_marginRight="16dp"
             android:src="@mipmap/icon_register_pwd_see"/>
     </LinearLayout>
-
     <View style="@style/HorizontalDividerLine"/>
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="50dp"
         android:background="@color/white"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
-
-        <ImageView
-            android:layout_width="wrap_content"
+        <TextView
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="32dp"
-            android:src="@mipmap/icon_register_pwd_again"/>
+            android:text="确认新密码"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="16sp"
+            android:layout_marginRight="10dp"/>
 
         <com.common.widget.MyEditText
             android:id="@+id/et_newpwd_again"
             style="@style/text_15sp_black"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginLeft="8dp"
             android:layout_weight="1"
             android:background="@color/transparency"
             android:digits="0123456789abcdefjghigklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -127,10 +124,11 @@
             android:id="@+id/iv_see_again_newpwd"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_marginRight="16dp"
             android:padding="10dp"
             android:src="@mipmap/icon_register_pwd_nosee"/>
     </LinearLayout>
+    <View style="@style/HorizontalDividerLine"/>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -143,7 +141,7 @@
             android:id="@+id/iv_allow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="32dp"
+            android:layout_marginLeft="16dp"
             android:src="@mipmap/icon_register_allow_yes"/>
 
         <TextView
@@ -160,20 +158,19 @@
     </LinearLayout>
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="150dp"
         android:layout_gravity="center"
-        android:background="@color/white">
+        android:padding="16dp"
+        android:background="@color/backgroundColor">
 
         <Button
             android:id="@+id/btn_change"
             style="@style/text_16sp_white"
-            android:layout_width="200dp"
-            android:layout_height="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
             android:layout_centerInParent="true"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp"
             android:layout_marginTop="10dp"
-            android:background="@drawable/sl_blue2gray_btn_bg"
+            android:background="@drawable/sl_blue2gray_round4_btn_bg"
             android:gravity="center"
             android:text="修改密码"
             android:textSize="18sp"/>
@@ -182,6 +179,6 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"/>
+        android:background="@color/backgroundColor"/>
 
 </LinearLayout>

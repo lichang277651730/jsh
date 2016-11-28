@@ -64,7 +64,7 @@
     <style name="HorizontalDivider_ten" parent="DividerLine">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">10dp</item>
-        <item name="android:background">@color/backgroundColor</item>
+        <item name="android:background">@color/dividerLine</item>
     </style>
 
 

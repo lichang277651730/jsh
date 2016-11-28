@@ -153,7 +153,7 @@ public class CartActivity extends MyActivity implements View.OnClickListener,
                     btn_order.setEnabled(true);
                     btn_order.setTextColor(getResources().getColor(R.color.sl_cart_cb_color));
                     btn_order.setBackgroundColor(getResources().getColor(R.color.mygray));
-                    btn_order.setBackgroundResource(R.drawable.sl_btn_red_bg);
+                    btn_order.setBackgroundResource(R.drawable.sl_btn_blue_bg);
                 }
             }
         });

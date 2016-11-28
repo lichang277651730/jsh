@@ -2,7 +2,6 @@ package com.cqfrozen.jsh.volleyhttp;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -128,11 +127,6 @@ public class MyHttp {
         params.put("px_v", px_v + "");
         params.put("asc_desc", asc_desc + "");
         params.put("token", MyApplication.token);
-//        Log.d("addAddress_params", "page:"+ page + "," +
-//                "k_w:"+ k_w + "," +
-//                "px_v:"+ px_v + "," +
-//                "asc_desc:"+ asc_desc + "," +
-//                "token:"+ MyApplication.token);
         Type type = new TypeToken<GoodsResultInfo>(){}.getType();
         toBean(GET, http, which, params, url, myHttpResult, type);
     }
@@ -166,7 +160,6 @@ public class MyHttp {
         String url = SERVER + "User/refreshtoken";
         params.clear();
         params.put("token", token);
-//        Log.d("addAddress_params", "refershtoken");
         toBean(GET, http, which, params, url, myHttpResult, SigninInfo.class);
     }
 
@@ -181,9 +174,6 @@ public class MyHttp {
         params.put("mobile_num", mobile_num);
         params.put("p_type", 1 + "");//android端登陆
         params.put("pass_word", MD5Util.encodeMD5(password));
-        Log.d("addAddress_params", "mobile_num:"+ mobile_num + "," +
-                "p_type:"+ 1 + "," +
-                "pass_word:"+ MD5Util.encodeMD5(password));
         Type type = new TypeToken<SigninInfo>(){}.getType();
         toBean(POST, http, which, params, url, myHttpResult, type);
     }
@@ -356,7 +346,6 @@ public class MyHttp {
         String url = SERVER + "Personal/storelist";
         params.clear();
         params.put("token", MyApplication.token);
-//        Log.d("shopListtoken", MyApplication.token);
         Type type = new TypeToken<List<ShopInfo>>() {
         }.getType();
         toBean(GET, http, which, params, url, myHttpResult, type);
@@ -389,14 +378,6 @@ public class MyHttp {
         params.put("area_id", area_id);
         params.put("store_name", store_name);
         params.put("token", MyApplication.token);
-//        Log.d("addAddress_params", "china_name:"+ china_name + "," +
-//                "mobile_num:"+ mobile_num + "," +
-//                "address:"+ address + "," +
-//                "s_id:"+ s_id + "," +
-//                "area_id:"+ area_id + "," +
-//                "st_id:"+ st_id + "," +
-//                "is_default:"+ is_default + "," +
-//                "token:"+  MyApplication.token);
         http.goTo(POST, which, params, url, httpTodo);
     }
 
@@ -416,14 +397,6 @@ public class MyHttp {
         params.put("area_id", area_id);
         params.put("store_name", store_name);
         params.put("token", MyApplication.token);
-//        Log.d("addAddress_params", "china_name:"+ china_name + "," +
-//                "mobile_num:"+ mobile_num + "," +
-//                "address:"+ address + "," +
-//                "s_id:"+ s_id + "," +
-//                "area_id:"+ area_id + "," +
-//                "st_id:"+ st_id + "," +
-//                "is_default:"+ is_default + "," +
-//                "token:"+  MyApplication.token);
         http.goTo(POST, which, params, url, httpTodo);
     }
 
@@ -470,17 +443,7 @@ public class MyHttp {
         params.put("address", address);
         params.put("msg_code", msg_code);
         params.put("code", code);
-        params.put("p_type", 1 + "");//android端注册
-//        Log.d("register_params", "mobile_num:"+ mobile_num + "," +
-//                "password:"+ password + "," +
-//                "store_name:"+ store_name + "," +
-//                "contacts:"+ contacts + "," +
-//                "area_id:"+ area_id + "," +
-//                "st_id:"+ st_id + "," +
-//                "u_t_id:"+ u_t_id + "," +
-//                "address:"+ address + "," +
-//                "code:"+ code + "," +
-//                "msg_code:"+ msg_code);
+        params.put("p_type", 1 + "");
         http.goTo(POST, which, params, url, httpTodo);
     }
 
@@ -492,8 +455,6 @@ public class MyHttp {
         params.clear();
         params.put("p_type", p_type + "");
         params.put("token", MyApplication.token);
-        //        Log.d("register_params", "p_type:"+ p_type + "," +
-//                "token:"+ token + "," +);
         http.goTo(POST, which, params, url, httpTodo);
     }
 
@@ -566,14 +527,6 @@ public class MyHttp {
         params.put("area_id", area_id);
         params.put("is_default", is_default + "");
         params.put("token", MyApplication.token);
-//        Log.d("addAddress_params", "china_name:"+ china_name + "," +
-//                "mobile_num:"+ mobile_num + "," +
-//                "address:"+ address + "," +
-//                "s_id:"+ s_id + "," +
-//                "area_id:"+ area_id + "," +
-//                "st_id:"+ st_id + "," +
-//                "is_default:"+ is_default + "," +
-//                "token:"+  MyApplication.token);
         http.goTo(POST, which, params, url, httpTodo);
     }
 
@@ -594,15 +547,6 @@ public class MyHttp {
         params.put("area_id", area_id);
         params.put("is_default", is_default + "");
         params.put("token", MyApplication.token);
-//        Log.d("addAddress_params", "china_name:"+ china_name + "," +
-//                "a_id:"+ a_id + "," +
-//                "mobile_num:"+ mobile_num + "," +
-//                "address:"+ address + "," +
-//                "s_id:"+ s_id + "," +
-//                "area_id:"+ area_id + "," +
-//                "st_id:"+ st_id + "," +
-//                "is_default:"+ is_default + "," +
-//                "token:"+  MyApplication.token);
         http.goTo(POST, which, params, url, httpTodo);
     }
 
@@ -626,8 +570,6 @@ public class MyHttp {
         params.clear();
         params.put("a_id", a_id);
         params.put("token", MyApplication.token);
-//                Log.d("addAddress_params", "a_id:"+ a_id + "," +
-//                "token:"+  MyApplication.token);
         http.goTo(POST, which, params, url, httpTodo);
     }
 
@@ -654,10 +596,6 @@ public class MyHttp {
         params.put("token", MyApplication.token);
         String sign = SignUtil.getOrderSignInfo(cartdata, timestamp, MyApplication.token);
         params.put("sign", sign);
-//        Log.d("addAddress_params", "cartdata:"+ cartdata + "," +
-//                "timestamp:"+ timestamp + "," +
-//                "sign:"+ sign + "," +
-//                "token:"+  MyApplication.token);
         Type type = new TypeToken<OrderInfo>() {
         }.getType();
         toBean(POST, http, which, params, url, myHttpResult, type);
@@ -681,15 +619,6 @@ public class MyHttp {
         params.put("token", MyApplication.token);
         String sign = SignUtil.getOrderBuySignInfo(a_id, cartdata, is_use_hb, msg_content, pay_mode, p_type, timestamp, MyApplication.token);
         params.put("sign", sign);
-//        Log.d("addAddress_params", "a_id:"+ a_id + "," +
-//                "cartdata:"+ cartdata + "," +
-//                "is_use_hb:"+ is_use_hb + "," +
-//                "msg_content:"+ msg_content + "," +
-//                "pay_mode:"+ pay_mode + "," +
-//                "p_type:"+ p_type + "," +
-//                "timestamp:"+ timestamp + "," +
-//                "token:"+  MyApplication.token +
-//                "sign:"+ sign);
         Type type = new TypeToken<OrderBuyResultInfo>() {
         }.getType();
         toBean(POST, http, which, params, url, myHttpResult, type);
@@ -704,9 +633,6 @@ public class MyHttp {
         params.put("tv", tv + "");
         params.put("page", page + "");
         params.put("token", MyApplication.token);
-//        Log.d("addAddress_params", "tv:"+ tv + "," +
-//                "page:"+ page + "," +
-//                "token:"+  MyApplication.token);
         Type type = new TypeToken<OrderResultInfo>() {
         }.getType();
         toBean(POST, http, which, params, url, myHttpResult, type);
@@ -721,8 +647,6 @@ public class MyHttp {
         params.clear();
         params.put("o_id", o_id);
         params.put("token", MyApplication.token);
-//        Log.d("addAddress_params", "o_id:"+ o_id + "," +
-//                "token:"+  MyApplication.token);
         Type type = new TypeToken<OrderDetailInfo>() {
         }.getType();
         toBean(GET, http, which, params, url, myHttpResult, type);
@@ -737,8 +661,6 @@ public class MyHttp {
         params.clear();
         params.put("o_id", o_id);
         params.put("token", MyApplication.token);
-//        Log.d("addAddress_params", "o_id:"+ o_id + "," +
-//                "token:"+  MyApplication.token);
         Type type = new TypeToken<OrderDetailPageInfo>() {
         }.getType();
         toBean(GET, http, which, params, url, myHttpResult, type);
@@ -752,8 +674,6 @@ public class MyHttp {
         params.clear();
         params.put("o_id", o_id);
         params.put("token", MyApplication.token);
-//                Log.d("addAddress_params", "o_id:"+ o_id + "," +
-//                "token:"+  MyApplication.token);
         http.goTo(POST, which, params, url, httpTodo);
     }
 
@@ -765,8 +685,6 @@ public class MyHttp {
         params.clear();
         params.put("o_id", o_id);
         params.put("token", MyApplication.token);
-//                Log.d("addAddress_params", "o_id:"+ o_id + "," +
-//                "token:"+  MyApplication.token);
         http.goTo(POST, which, params, url, httpTodo);
     }
 
@@ -778,8 +696,6 @@ public class MyHttp {
         params.clear();
         params.put("o_id", o_id);
         params.put("token", MyApplication.token);
-//                Log.d("addAddress_params", "o_id:"+ o_id + "," +
-//                "token:"+  MyApplication.token);
         http.goTo(GET, which, params, url, httpTodo);
     }
 
@@ -791,8 +707,6 @@ public class MyHttp {
         params.clear();
         params.put("o_id", o_id);
         params.put("token", MyApplication.token);
-//        Log.d("addAddress_params", "o_id:"+ o_id + "," +
-//                "token:"+  MyApplication.token);
         Type beanType = new TypeToken<List<AppraiseInfo>>() {
         }.getType();
         toBean(GET, http, which, params, url, myHttpResult, beanType);
@@ -813,13 +727,6 @@ public class MyHttp {
         params.put("content_list", content_list);
         params.put("is_anonymou", is_anonymou + "");
         params.put("token", MyApplication.token);
-//        Log.d("addAddress_params", "o_id:"+ o_id + "," +
-//                "star_count_list:"+ star_count_list + "," +
-//                "order_info_id_list:"+ order_info_id_list + "," +
-//                "goods_id_list:"+ goods_id_list + "," +
-//                "content_list:"+ content_list + "," +
-//                "is_anonymou:"+ is_anonymou + "," +
-//                "token:"+  MyApplication.token);
         http.goTo(POST, which, params, url, httpTodo);
     }
 
@@ -834,9 +741,6 @@ public class MyHttp {
         params.put("type", type + "");
         params.put("page", page + "");
         params.put("token", MyApplication.token);
-//        Log.d("addAddress_params", "page:"+ page + "," +
-//                "type:"+ type + "," +
-//                "token:"+  MyApplication.token);
         Type beanType = new TypeToken<HuibiResultInfo>() {
         }.getType();
         toBean(GET, http, which, params, url, myHttpResult, beanType);
@@ -864,9 +768,6 @@ public class MyHttp {
         params.put("page", page + "");
         params.put("level", level + "");
         params.put("token", MyApplication.token);
-//        Log.d("addAddress_params","page:"+  page +
-//                  "level:"+  level +
-//                  "token:"+  MyApplication.token);
         Type beanType = new TypeToken<FansResultInfo>() {
         }.getType();
         toBean(GET, http, which, params, url, myHttpResult, beanType);
@@ -916,9 +817,6 @@ public class MyHttp {
         params.put("mobile_num", mobile_num);
         params.put("code", code);
         params.put("token", MyApplication.token);
-//        Log.d("addAddress_params", "mobile_num:"+ mobile_num + "," +
-//                "code:"+ code + "," +
-//                "token:"+  MyApplication.token);
         http.goTo(POST, which, params, url, httpTodo);
     }
 
@@ -931,9 +829,6 @@ public class MyHttp {
         params.put("content", content);
         params.put("p_type", p_type + "");
         params.put("token", MyApplication.token);
-//        Log.d("addAddress_params", "content:"+ content + "," +
-//                "p_type:"+ p_type + "," +
-//                "token:"+  MyApplication.token);
         http.goTo(POST, which, params, url, httpTodo);
     }
 
@@ -945,32 +840,8 @@ public class MyHttp {
             @Override
             public void httpTodo(Integer which, JSONObject response) {
                 //统一处理登录逻辑  code 1请求失败  2 登录失败  0请求成功s
-//                Log.d("addAddress_params",response.toString());
                 int code = response.optInt("code", 1);
-//                if(code == 2){
-//                    refreshToken(http, null, SPUtils.getToken(), new MyHttpResult() {
-//                        @Override
-//                        public void httpResult(Integer which, int code, String msg, Object bean) {
-//                            if(code != 0){
-//                                return;
-//                            }
-//                            SigninInfo signinInfo = (SigninInfo) bean;
-//                            MyApplication.signinInfo = signinInfo;
-//                            MyApplication.token = signinInfo.getToken();
-//                            SPUtils.setToken(signinInfo.getToken());
-//                            user(http, null, new MyHttpResult() {
-//                                @Override
-//                                public void httpResult(Integer which, int code, String msg, Object bean) {
-//                                    if(code != 0){
-//                                        return;
-//                                    }
-//                                    MyApplication.userInfo = (UserInfo) bean;
-//                                }
-//                            });
-//                        }
-//                    });
-//
-//                }
+
                 if(code == 3 && (http.getContext().getClass() != MainActivity.class)){
                     Context context = http.getContext();
                     Toast.makeText(context, "该账号在其他手机登陆过，需重新登录", Toast.LENGTH_SHORT).show();

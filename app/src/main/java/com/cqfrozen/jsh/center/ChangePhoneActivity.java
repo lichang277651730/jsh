@@ -28,6 +28,7 @@ public class ChangePhoneActivity extends MyActivity implements View.OnClickListe
     private Button btn_change_phone;
     private String newPhoneStr;
     private String verifyCodeStr;
+    private TextView tv_phone;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,12 +39,17 @@ public class ChangePhoneActivity extends MyActivity implements View.OnClickListe
 
     private void initView() {
         setMyTitle("更换手机号码");
+        tv_phone = (TextView) findViewById(R.id.tv_phone);
         et_new_phone = (MyEditText) findViewById(R.id.et_new_phone);
         et_verify_code = (MyEditText) findViewById(R.id.et_verify_code);
         tv_get_verify = (TextView) findViewById(R.id.tv_get_verify);
         btn_change_phone = (Button) findViewById(R.id.btn_change_phone);
         btn_change_phone.setOnClickListener(this);
         tv_get_verify.setOnClickListener(this);
+
+        if(getUserInfo() != null){
+            tv_phone.setText(getUserInfo().c_phone_num);
+        }
     }
 
     @Override

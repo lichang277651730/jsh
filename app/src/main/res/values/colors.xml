@@ -14,6 +14,9 @@
     <color name="textColorPrimary">#252525</color>
     <color name="b_three">#B3B3B3</color>
     <color name="c_six">#C6C6C6</color>
+    <color name="c_nine">#C9C9C9</color>
+    <color name="a_seven">#A7A7A7</color>
+    <color name="six_nine">#696969</color>
     <color name="dividerLine">#e7e7e7</color>
     <color name="backgroundColor">#f5f7f9</color>
     <color name="nowPriceColor">#FF5458</color>
@@ -22,6 +25,7 @@
 
     <!--主题色-->
     <color name="main">#55B2FF</color>
+    <color name="mine_bg">#1E1818</color>
     <color name="almain">#7755B2FF</color>
     <color name="al_write">#77ffffff</color>
 

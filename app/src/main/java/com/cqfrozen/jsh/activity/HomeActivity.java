@@ -140,9 +140,9 @@ public class HomeActivity extends BaseActivity implements RadioGroup.OnCheckedCh
             if(rb_homes[i].getId() == checkedId){
                 curFragment = fragments.get(i);
                 vp_home.setCurrentItem(i, false);
+
                 if(i == 3){
-//                    ll_titleBar.setBackgroundColor(getResources().getColor(R.color.mine_titlebar));
-                    ll_titleBar.setBackgroundResource(R.mipmap.img_mine_head_bg);
+                    ll_titleBar.setBackgroundColor(getResources().getColor(R.color.mine_bg));
                 }else {
                     ll_titleBar.setBackgroundColor(getResources().getColor(R.color.main));
                 }
@@ -206,7 +206,7 @@ public class HomeActivity extends BaseActivity implements RadioGroup.OnCheckedCh
             clickCount++;
             if (clickCount == 1) {
                 clickFirstTime = System.currentTimeMillis();
-                Toast.makeText(this, "再按一次退出", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.toast_exit), Toast.LENGTH_SHORT).show();
             } else if (clickCount == 2) {
                 clickSecondTime = System.currentTimeMillis();
                 if (clickSecondTime - clickFirstTime <= 2000) {
@@ -215,12 +215,12 @@ public class HomeActivity extends BaseActivity implements RadioGroup.OnCheckedCh
                 } else {
                     clickCount = 1;
                     clickFirstTime = System.currentTimeMillis();
-                    Toast.makeText(this, "再按一次退出", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getString(R.string.toast_exit), Toast.LENGTH_SHORT).show();
                 }
             } else {
                 clickCount = 1;
                 clickFirstTime = System.currentTimeMillis();
-                Toast.makeText(this, "再按一次退出", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.toast_exit), Toast.LENGTH_SHORT).show();
             }
             return true;
         }

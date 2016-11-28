@@ -28,7 +28,7 @@
                     android:id="@+id/iv_setting"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:layout_marginRight="8dp"
+                    android:layout_marginRight="16dp"
                     android:layout_marginTop="10dp"
                     android:src="@mipmap/center_setting"/>
                 <ImageView
@@ -39,134 +39,158 @@
                     android:layout_marginTop="10dp"
                     android:src="@mipmap/icon_shortcut"/>
             </LinearLayout>
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:gravity="center_horizontal"
-                android:layout_height="90dp">
+                android:gravity="center_vertical"
+                android:layout_height="0dp"
+                android:layout_weight="1">
                 <com.common.widget.MyHeadImageView
                     android:id="@+id/iv_head"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:scaleType="fitXY"
-                    android:layout_marginTop="20dp"
-                    android:src="@mipmap/icon_mine_head_default"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center">
-                <TextView
-                    android:id="@+id/tv_login"
-                    style="@style/text_16sp_white"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="注册/登录"/>
-                <TextView
-                    android:id="@+id/tv_name"
-                    style="@style/text_16sp_white"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:id="@+id/ll_user_phone_verify"
-                android:orientation="horizontal">
-                <TextView
-                    android:id="@+id/tv_phone"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/white"
-                    android:textSize="12sp"/>
-                <ImageView
-                    android:id="@+id/iv_verify"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
-                    android:scaleType="fitXY"/>
-                <TextView
-                    android:id="@+id/tv_verify"
+                    android:src="@mipmap/icon_mine_head_default"/>
+                <LinearLayout
+                    android:id="@+id/ll_login"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/white"
-                    android:textSize="12sp"
-                    android:layout_marginLeft="4dp"/>
-            </LinearLayout>
-            <View
-                android:id="@+id/view_line_under_head"
-                android:layout_marginTop="30dp"
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:background="@color/white"/>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:padding="2dp"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:id="@+id/ll_huibi"
-                    android:layout_width="0px"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
+                    android:layout_toRightOf="@id/iv_head"
+                    android:layout_marginLeft="16dp"
+                    android:orientation="horizontal"
+                    android:gravity="center">
                     <TextView
+                        android:id="@+id/tv_login"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:drawableLeft="@mipmap/icon_mine_huibi"
-                        android:drawablePadding="4dp"
-                        android:text="粮票"
                         android:textColor="@color/white"
-                        android:textSize="16sp"/>
+                        android:layout_marginTop="6dp"
+                        android:textSize="17sp"
+                        android:text="注册/登录"/>
+                    <TextView
+                        android:id="@+id/tv_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:textSize="17sp"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/ll_user_phone_verify"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ll_login"
+                    android:layout_alignLeft="@id/ll_login"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/tv_phone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/color_e"
+                        android:text="ID:157 3610 6292"
+                        android:textSize="14sp"/>
+                    <ImageView
+                        android:id="@+id/iv_verify"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:scaleType="fitXY"
+                        android:src="@mipmap/icon_verify_yes"/>
+                    <TextView
+                        android:id="@+id/tv_verify"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/c_six"
+                        android:textSize="14sp"
+                        android:layout_marginLeft="4dp"/>
+                </LinearLayout>
+            </RelativeLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="6dp"
+                android:background="@color/seven_transparency"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:id="@+id/rl_huibi"
+                    android:layout_width="0px"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="24dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/iv_huibi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@mipmap/icon_mine_huibi"/>
+
+                    <TextView
+                        android:id="@+id/tv_huibi_desc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/iv_huibi"
+                        android:layout_marginLeft="10dp"
+                        android:text="粮票"
+                        android:textColor="@color/a_seven"
+                        android:textSize="12sp"/>
 
                     <TextView
                         android:id="@+id/tv_huibi"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="8dp"
-                        android:textColor="@color/white"
-                        android:textStyle="bold"
-                        android:textSize="15sp"/>
+                        android:layout_below="@id/tv_huibi_desc"
+                        android:layout_alignLeft="@id/tv_huibi_desc"
+                        android:textColor="@color/backgroundColor"
+                        android:layout_marginTop="2dp"
+                        android:textSize="17sp"
+                        android:text="20"/>
 
-                </LinearLayout>
+                </RelativeLayout>
 
                 <View style="@style/VerticalDividerLine"
-                      android:layout_marginTop="4dp"
-                      android:layout_marginBottom="4dp"/>
+                      android:layout_marginTop="8dp"
+                      android:layout_marginBottom="8dp"/>
 
-                <LinearLayout
-                    android:id="@+id/ll_fans"
+                <RelativeLayout
+                    android:id="@+id/rl_fans"
                     android:layout_width="0px"
                     android:layout_height="match_parent"
+                    android:layout_marginLeft="24dp"
                     android:layout_weight="1"
-                    android:gravity="center"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal">
 
+                    <ImageView
+                        android:id="@+id/iv_fans"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@mipmap/icon_mine_fans"/>
+
                     <TextView
+                        android:id="@+id/tv_fans_desc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:drawableLeft="@mipmap/icon_mine_fans"
-                        android:drawablePadding="4dp"
+                        android:layout_toRightOf="@id/iv_fans"
+                        android:layout_marginLeft="10dp"
                         android:text="兄弟伙"
-                        android:textColor="@color/white"
-                        android:textSize="16sp"/>
+                        android:textColor="@color/a_seven"
+                        android:textSize="12sp"/>
 
                     <TextView
                         android:id="@+id/tv_fans"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="8dp"
-                        android:textColor="@color/white"
-                        android:textStyle="bold"
-                        android:textSize="15sp"/>
+                        android:layout_below="@id/tv_fans_desc"
+                        android:layout_alignLeft="@id/tv_fans_desc"
+                        android:layout_marginTop="4dp"
+                        android:textColor="@color/backgroundColor"
+                        android:textSize="17sp"
+                        android:text="20"/>
 
-                </LinearLayout>
+                </RelativeLayout>
 
             </LinearLayout>
         </LinearLayout>
@@ -281,11 +305,7 @@
             </LinearLayout>
 
         </LinearLayout>
-        <View style="@style/HorizontalDividerLine"/>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="4dp"
-            android:background="@color/mybg"/>
+        <View style="@style/HorizontalDivider_ten"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -302,7 +322,8 @@
                 android:gravity="center_vertical"
                 android:padding="@dimen/largePadding"
                 android:text="@string/my_nor_buy"
-                android:textColor="@color/black"/>
+                android:textSize="16sp"
+                android:textColor="@color/textColorPrimary"/>
             <View style="@style/HorizontalDividerLine"/>
 
             <TextView
@@ -316,7 +337,8 @@
                 android:gravity="center_vertical"
                 android:padding="@dimen/largePadding"
                 android:text="@string/my_addresses"
-                android:textColor="@color/black"/>
+                android:textSize="16sp"
+                android:textColor="@color/textColorPrimary"/>
 
             <View style="@style/HorizontalDividerLine"/>
 
@@ -332,7 +354,8 @@
                 android:gravity="center_vertical"
                 android:padding="@dimen/largePadding"
                 android:text="@string/my_shop_manager"
-                android:textColor="@color/black"/>
+                android:textSize="16sp"
+                android:textColor="@color/textColorPrimary"/>
 
             <View style="@style/HorizontalDividerLine"/>
             <TextView
@@ -345,7 +368,8 @@
                 android:drawablePadding="20dp"
                 android:gravity="center_vertical"
                 android:padding="@dimen/largePadding"
-                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textColor="@color/textColorPrimary"
                 android:text="@string/my_after_sale"/>
             <View style="@style/HorizontalDividerLine"/>
 
@@ -363,7 +387,8 @@
                     android:drawablePadding="20dp"
                     android:gravity="center_vertical"
                     android:padding="@dimen/largePadding"
-                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textColor="@color/textColorPrimary"
                     android:text="@string/my_server_phone"/>
                 <TextView
                     android:id="@+id/tv_server_phone"
@@ -392,7 +417,8 @@
                 android:drawablePadding="20dp"
                 android:gravity="center_vertical"
                 android:padding="@dimen/largePadding"
-                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textColor="@color/textColorPrimary"
                 android:text="@string/my_about_us"/>
         </LinearLayout>
     </LinearLayout>

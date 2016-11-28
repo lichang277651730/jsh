@@ -60,8 +60,8 @@ public class ShopListActivity extends MyActivity implements View.OnClickListener
         rv_shoplist.setOverScrollMode(View.OVER_SCROLL_NEVER);
         adapter = new ShopAdapter(this, shopInfos);
         GridLayoutManager manager = new GridLayoutManager(this, 1);
-        MyGridDecoration decoration = new MyGridDecoration(BaseValue.dp2px(8), BaseValue
-                .dp2px(0), getResources().getColor(R.color.mybg), false);
+        MyGridDecoration decoration = new MyGridDecoration(BaseValue.dp2px(10), BaseValue
+                .dp2px(0), getResources().getColor(R.color.dividerLine), false);
         rv_shoplist.addItemDecoration(decoration);
         rv_shoplist.setLayoutManager(manager);
         rv_shoplist.setAdapter(adapter);

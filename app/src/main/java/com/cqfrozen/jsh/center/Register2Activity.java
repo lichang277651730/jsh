@@ -235,6 +235,9 @@ public class Register2Activity extends MyActivity implements View.OnClickListene
                         if(code != 0){
                             return;
                         }
+                        Intent intent = new Intent(Register2Activity.this, LoginActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
                     }
                 });
     }

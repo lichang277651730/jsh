@@ -61,7 +61,7 @@ public class ShopAddActivity extends MyActivity implements View.OnClickListener 
     }
 
     private void initView() {
-        setMyTitle("新增店铺");
+        setMyTitle("分店申请");
         ll_shop_edit_root = (LinearLayout) findViewById(R.id.ll_shop_edit_root);
         et_name = (MyEditText) findViewById(R.id.et_name);
         et_phone = (MyEditText) findViewById(R.id.et_phone);

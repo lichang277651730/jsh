@@ -146,7 +146,7 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
         tv_server_phone = (TextView) view.findViewById(R.id.tv_server_phone);
         ll_server_phone = (LinearLayout) view.findViewById(R.id.ll_server_phone);
         view_line_under_head = (View) view.findViewById(R.id.view_line_under_head);
-        view_head_under = (View) view.findViewById(R.id.view_head_under);
+//        view_head_under = (View) view.findViewById(R.id.view_head_under);
         ll_head_container = (LinearLayout) view.findViewById(R.id.ll_head_container);
 
         tv_lookall.setOnClickListener(this);

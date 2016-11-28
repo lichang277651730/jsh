@@ -136,7 +136,6 @@ public class Register1Activity extends MyActivity implements View.OnClickListene
             public void httpTodo(Integer which, JSONObject response) {
                 int code = response.optInt("code");
                 showToast(response.optString("msg"));
-
                 if(code != 0){
                     MyApplication.downTimer.setInit();
                 }

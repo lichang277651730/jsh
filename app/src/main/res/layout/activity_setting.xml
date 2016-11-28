@@ -122,12 +122,75 @@
                 android:src="@mipmap/toright"/>
         </LinearLayout>
 
+        <View style="@style/HorizontalDivider_ten"/>
+
+        <LinearLayout
+            android:id="@+id/ll_help"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:layout_marginLeft="12dp"
+                android:src="@mipmap/icon_setting_help"/>
+
+            <TextView
+                style="@style/text_16sp_black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:text="意见反馈"
+                android:textSize="17sp"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:src="@mipmap/toright"/>
+        </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:background="@color/myline"/>
+        <LinearLayout
+            android:id="@+id/ll_good"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:layout_marginLeft="12dp"
+                android:src="@mipmap/icon_setting_good"/>
+
+            <TextView
+                style="@style/text_16sp_black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:text="亲，给个好评吧"
+                android:textSize="17sp"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:src="@mipmap/toright"/>
+        </LinearLayout>
+
+        <View style="@style/HorizontalDivider_ten"/>
 
         <LinearLayout
             android:id="@+id/ll_cache"
@@ -153,48 +216,12 @@
                 android:textSize="17sp"/>
             <TextView
                 android:id="@+id/tv_cache"
-                android:textColor="@color/mygray"
-                style="@style/text_16sp_black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/main"
+                android:textSize="15sp"
                 android:text="0 M"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="20dp"
-                android:src="@mipmap/toright"/>
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:background="@color/myline"/>
-
-        <LinearLayout
-            android:id="@+id/ll_help"
-            android:layout_width="match_parent"
-            android:layout_height="44dp"
-            android:background="@color/white"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="26dp"
-                android:layout_height="26dp"
-                android:layout_marginLeft="12dp"
-                android:src="@mipmap/icon_setting_help"/>
-
-            <TextView
-                style="@style/text_16sp_black"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_weight="1"
-                android:text="意见反馈"
-                android:textSize="17sp"/>
-
+                />
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
