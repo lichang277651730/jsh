@@ -49,15 +49,18 @@
                     android:id="@+id/tv_default_address"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:background="@drawable/shape_bule_round4_bg"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="8dp"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"
+                    android:textSize="14sp"
                     android:layout_marginTop="16dp"
                     android:layout_toLeftOf="@id/iv_toright"
                     android:layout_marginRight="8dp"
-                    android:background="@drawable/shape_order_default_bg"
-                    android:paddingLeft="4dp"
-                    android:paddingRight="4dp"
-                    android:text="默认"
                     android:textColor="@color/white"
-                    android:textSize="14sp"/>
+                    android:text="主店"/>
                 <TextView
                     android:id="@+id/tv_phone"
                     android:layout_width="wrap_content"

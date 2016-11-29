@@ -15,5 +15,6 @@ public class ShopInfo extends BaseEntity {
     public int is_main_store;
     public String street_name;
     public String area_name;
+    public int store_status;
 
 }

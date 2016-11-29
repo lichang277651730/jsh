@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.entity.ShopInfo;
+import com.cqfrozen.jsh.util.ToastUtil;
 
 import java.util.List;
 
@@ -38,12 +39,25 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.MyViewHolder> 
         holder.tv_shop_name.setText("店铺:" + shopInfo.store_name);
         holder.tv_phone.setText(shopInfo.mobile_num);
         holder.tv_address.setText("收货地址:" + shopInfo.address);
+
         if(shopInfo.is_main_store == 1){
             holder.tv_main_shop_no.setVisibility(View.GONE);
             holder.tv_main_shop_yes.setVisibility(View.VISIBLE);
         }else if(shopInfo.is_main_store == 0){
             holder.tv_main_shop_no.setVisibility(View.VISIBLE);
             holder.tv_main_shop_yes.setVisibility(View.GONE);
+        }
+
+        switch (shopInfo.store_status) {
+            case 0:
+                holder.tv_shop_status.setText("未审核");
+                break;
+            case 1:
+                holder.tv_shop_status.setText("已通过");
+                break;
+            case 2:
+                holder.tv_shop_status.setText("未通过");
+                break;
         }
 
         holder.tv_edit.setOnClickListener(new View.OnClickListener() {
@@ -54,6 +68,20 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.MyViewHolder> 
                 }
             }
         });
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(shopInfo.store_status != 1){
+                    ToastUtil.showToast(context, "此店铺暂不能修改");
+                    return;
+                }
+                if(onEditClickListener != null){
+                    onEditClickListener.onEdit(position, shopInfo);
+                }
+            }
+        });
+
 
         holder.tv_delete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,6 +103,7 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.MyViewHolder> 
         private TextView tv_shop_name;
         private TextView tv_main_shop_yes;
         private TextView tv_main_shop_no;
+        private TextView tv_shop_status;
         private TextView tv_men_name;
         private TextView tv_phone;
         private TextView tv_address;
@@ -86,6 +115,7 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.MyViewHolder> 
             tv_shop_name = (TextView) itemView.findViewById(R.id.tv_shop_name);
             tv_main_shop_yes = (TextView) itemView.findViewById(R.id.tv_main_shop_yes);
             tv_main_shop_no = (TextView) itemView.findViewById(R.id.tv_main_shop_no);
+            tv_shop_status = (TextView) itemView.findViewById(R.id.tv_shop_status);
             tv_phone = (TextView) itemView.findViewById(R.id.tv_phone);
             tv_address = (TextView) itemView.findViewById(R.id.tv_address);
             tv_edit = (TextView) itemView.findViewById(R.id.tv_edit);

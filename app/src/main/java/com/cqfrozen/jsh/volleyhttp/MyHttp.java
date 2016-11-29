@@ -2,6 +2,7 @@ package com.cqfrozen.jsh.volleyhttp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -55,8 +56,8 @@ import java.util.List;
  */
 public class MyHttp {
 
-    private static final String SERVER = "http://test.cqfrozen.com/api/index.php/";//测试api
-//    private static final String SERVER = "http://api.cqfrozen.com/v1/index.php/";//正式api
+//    private static final String SERVER = "http://test.cqfrozen.com/api/index.php/";//测试api
+    private static final String SERVER = "http://api.cqfrozen.com/v1/index.php/";//正式api
     private static final int GET = Request.Method.GET;
     private static final int POST = Request.Method.POST;
     private static final int p_type = 1;
@@ -389,14 +390,10 @@ public class MyHttp {
                                 HttpForVolley.HttpTodo httpTodo) {
         String url = SERVER + "Personal/updatestore";
         params.clear();
+        params.put("s_id", s_id);
+        params.put("token", MyApplication.token);
         params.put("china_name", china_name);
         params.put("mobile_num", mobile_num);
-        params.put("address", address);
-        params.put("st_id", st_id);
-        params.put("s_id", s_id);
-        params.put("area_id", area_id);
-        params.put("store_name", store_name);
-        params.put("token", MyApplication.token);
         http.goTo(POST, which, params, url, httpTodo);
     }
 
@@ -840,6 +837,7 @@ public class MyHttp {
             @Override
             public void httpTodo(Integer which, JSONObject response) {
                 //统一处理登录逻辑  code 1请求失败  2 登录失败  0请求成功s
+                Log.d("ResponseData", response.toString());
                 int code = response.optInt("code", 1);
 
                 if(code == 3 && (http.getContext().getClass() != MainActivity.class)){

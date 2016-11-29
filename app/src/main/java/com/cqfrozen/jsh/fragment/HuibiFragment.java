@@ -8,10 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.common.base.BaseValue;
 import com.common.refresh.RefreshLayout;
 import com.common.refresh.SupportLayout;
-import com.common.widget.MyGridDecoration;
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.adapter.HuibiRVAdapter;
 import com.cqfrozen.jsh.entity.HuibiInfo;
@@ -74,9 +72,9 @@ public class HuibiFragment extends MyFragment implements SupportLayout.LoadMoreL
         rv_huibi.setOverScrollMode(View.OVER_SCROLL_NEVER);
         GridLayoutManager manager = new GridLayoutManager(getActivity(), 1);
         rv_huibi.setLayoutManager(manager);
-        MyGridDecoration decoration = new MyGridDecoration(BaseValue.dp2px(1), BaseValue
-                .dp2px(0), getResources().getColor(R.color.mybg), false);
-        rv_huibi.addItemDecoration(decoration);
+//        MyGridDecoration decoration = new MyGridDecoration(BaseValue.dp2px(1), BaseValue
+//                .dp2px(0), getResources().getColor(R.color.mybg), false);
+//        rv_huibi.addItemDecoration(decoration);
         rvAdapter = new HuibiRVAdapter(getActivity(), huibiInfos);
         rv_huibi.setAdapter(rvAdapter);
     }

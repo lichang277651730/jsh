@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cqfrozen.jsh.R;
@@ -14,13 +13,13 @@ import com.cqfrozen.jsh.entity.OrderInfo;
 import java.util.List;
 
 /**
- * Created by Administrator on 2016/10/25.
+ * Created by Administrator on 2016/11/29.
  */
-public class OrderAddressAdapter extends RecyclerView.Adapter<OrderAddressAdapter.MyViewHolder> {
+public class OrderShopAdapter extends RecyclerView.Adapter<OrderShopAdapter.MyViewHolder>{
 
     private Context context;
     private List<OrderInfo.OrderAddressBean> orderAddressList;
-    public OrderAddressAdapter(Context context, List<OrderInfo.OrderAddressBean> orderAddressList){
+    public OrderShopAdapter(Context context, List<OrderInfo.OrderAddressBean> orderAddressList){
         this.context = context;
         this.orderAddressList = orderAddressList;
     }
@@ -30,23 +29,23 @@ public class OrderAddressAdapter extends RecyclerView.Adapter<OrderAddressAdapte
         if(context == null){
             context = parent.getContext();
         }
-        return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.item_address, parent, false));
+        return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.item_shop, parent, false));
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         final OrderInfo.OrderAddressBean orderAddressBean = orderAddressList.get(position);
-        holder.tv_shop.setText("店铺:" + orderAddressBean.store_name);
-        holder.tv_name.setText("收货人:" + orderAddressBean.china_name);
+        holder.tv_men_name.setText("店长:" + orderAddressBean.china_name);
+        holder.tv_shop_name.setText("店铺:" + orderAddressBean.store_name);
         holder.tv_phone.setText(orderAddressBean.mobile_num);
         holder.tv_address.setText("收货地址:" + orderAddressBean.address);
         if(orderAddressBean.is_main_store == 1){
-            holder.iv_default.setImageResource(R.mipmap.cart_checked);
-        }else {
-            holder.iv_default.setImageResource(R.mipmap.cart_uncheched);
+            holder.tv_main_shop_no.setVisibility(View.GONE);
+            holder.tv_main_shop_yes.setVisibility(View.VISIBLE);
+        }else if(orderAddressBean.is_main_store == 0){
+            holder.tv_main_shop_no.setVisibility(View.VISIBLE);
+            holder.tv_main_shop_yes.setVisibility(View.GONE);
         }
-        holder.tv_edit.setVisibility(View.GONE);
-        holder.tv_delete.setVisibility(View.GONE);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,22 +63,24 @@ public class OrderAddressAdapter extends RecyclerView.Adapter<OrderAddressAdapte
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
 
-        private TextView tv_shop;
-        private TextView tv_name;
+        private TextView tv_shop_name;
+        private TextView tv_main_shop_yes;
+        private TextView tv_main_shop_no;
+        private TextView tv_men_name;
         private TextView tv_phone;
         private TextView tv_address;
         private TextView tv_edit;
         private TextView tv_delete;
-        private ImageView iv_default;
         public MyViewHolder(View itemView) {
             super(itemView);
-            tv_shop = (TextView) itemView.findViewById(R.id.tv_shop);
-            tv_name = (TextView) itemView.findViewById(R.id.tv_name);
+            tv_men_name = (TextView) itemView.findViewById(R.id.tv_men_name);
+            tv_shop_name = (TextView) itemView.findViewById(R.id.tv_shop_name);
+            tv_main_shop_yes = (TextView) itemView.findViewById(R.id.tv_main_shop_yes);
+            tv_main_shop_no = (TextView) itemView.findViewById(R.id.tv_main_shop_no);
             tv_phone = (TextView) itemView.findViewById(R.id.tv_phone);
             tv_address = (TextView) itemView.findViewById(R.id.tv_address);
             tv_edit = (TextView) itemView.findViewById(R.id.tv_edit);
             tv_delete = (TextView) itemView.findViewById(R.id.tv_delete);
-            iv_default = (ImageView) itemView.findViewById(R.id.iv_default);
         }
     }
 

@@ -129,6 +129,8 @@
                   android:theme="@style/SwipeBackTheme"/>
         <activity android:name=".order.OrderAddressListActivity"
                   android:theme="@style/SwipeBackTheme"/>
+        <activity android:name=".order.OrderShopListActivity"
+                  android:theme="@style/SwipeBackTheme"/>
         <activity android:name=".order.OrderBuyResultActivity"
                   android:theme="@style/SwipeBackTheme"/>
         <activity android:name=".order.OrderDetailActivity"

@@ -83,9 +83,17 @@ public class OrderConfirmActivity extends MyActivity implements View.OnClickList
         carDataAry =  getIntent().getStringExtra("carDataAry");
         addressList = orderInfo.address;
         if(addressList != null){
-            for(int i = 0; i < addressList.size(); i++){
-                if(addressList.get(i).is_default == 1){
-                    defaultAddress = addressList.get(i);
+
+            if(addressList.size() == 1){
+                defaultAddress = addressList.get(0);
+            }else {
+                for(int i = 0; i < addressList.size(); i++){
+                    if(addressList.get(i).is_main_store == 1){
+                        defaultAddress = addressList.get(i);
+                    }
+                }
+                if(defaultAddress == null){
+                    defaultAddress = addressList.get(0);
                 }
             }
         }
@@ -175,7 +183,7 @@ public class OrderConfirmActivity extends MyActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.rl_address://订单选择地址列表
-                Intent intent1 = new Intent(this, OrderAddressListActivity.class);
+                Intent intent1 = new Intent(this, OrderShopListActivity.class);
                 intent1.putExtra("orderInfo", orderInfo);
                 startActivityForResult(intent1, REUEST_CODE_ADDRESS);
                 break;
@@ -229,6 +237,7 @@ public class OrderConfirmActivity extends MyActivity implements View.OnClickList
                     @Override
                     public void httpResult(Integer which, int code, String msg, Object bean) {
                         btn_buy.setEnabled(true);//防止重复提交
+                        showToast(msg);
                         if(code != 0){
                             return;
                         }
@@ -254,10 +263,12 @@ public class OrderConfirmActivity extends MyActivity implements View.OnClickList
             tv_name.setText(orderAddressBean.china_name);
             tv_phone.setText(orderAddressBean.mobile_num);
             tv_address.setText("收货地址:" + orderAddressBean.address);
-            if(orderAddressBean.is_default == 1){
-                tv_default_address.setVisibility(View.VISIBLE);
-            }else {
-                tv_default_address.setVisibility(View.GONE);
+            if(orderAddressBean.is_main_store == 1){//主店
+                tv_default_address.setText("主店");
+                tv_default_address.setBackgroundResource(R.drawable.shape_bule_round4_bg);
+            }else {//分店
+                tv_default_address.setText("分店");
+                tv_default_address.setBackgroundResource(R.drawable.shape_red_round4_bg);
             }
             curAddressId = orderAddressBean.a_id;
         }

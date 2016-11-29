@@ -58,7 +58,7 @@
         <RelativeLayout
             android:id="@+id/rl_vp_container"
             android:layout_width="match_parent"
-            android:layout_height="170dp"
+            android:layout_height="180dp"
             android:background="@color/white">
 
             <android.support.v4.view.ViewPager
@@ -91,7 +91,7 @@
                 android:layout_marginTop="12dp"
                 android:ellipsize="end"
                 android:maxLines="2"
-                android:text="太湖新鲜小银鱼"
+                tools:text="太湖新鲜小银鱼"
                 android:textColor="@color/textColorPrimary"
                 android:textSize="16sp"/>
 
@@ -104,7 +104,7 @@
                 android:layout_marginTop="8dp"
                 android:maxLength="20"
                 android:maxLines="1"
-                android:text="￥998"
+                tools:text="￥998"
                 android:textColor="@color/nowPriceColor"
                 android:textSize="20sp"/>
 
@@ -143,7 +143,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="12dp"
-                android:text="规格 10kg/件"
+                tools:text="规格 10kg/件"
                 android:textColor="@color/color_nine"
                 android:textSize="14sp"/>
 
@@ -211,7 +211,7 @@
                     android:id="@+id/tv_brand"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="金锣"
+                    tools:text="金锣"
                     android:textColor="@color/b_three"
                     android:textSize="15sp"/>
             </LinearLayout>
@@ -234,7 +234,7 @@
                     android:id="@+id/tv_save_life"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="1年"
+                    tools:text="1年"
                     android:textColor="@color/b_three"
                     android:textSize="15sp"/>
             </LinearLayout>
@@ -257,7 +257,7 @@
                     android:id="@+id/tv_save_mode"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="免运费"
+                    tools:text="免运费"
                     android:textColor="@color/b_three"
                     android:textSize="15sp"/>
             </LinearLayout>

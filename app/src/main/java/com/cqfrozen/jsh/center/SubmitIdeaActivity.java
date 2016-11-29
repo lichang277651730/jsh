@@ -4,8 +4,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.common.http.HttpForVolley;
 import com.cqfrozen.jsh.R;
@@ -20,8 +21,9 @@ import org.json.JSONObject;
 public class SubmitIdeaActivity extends MyActivity implements View.OnClickListener {
 
     private EditText et_idea_content;
-    private Button btn_confirm;
+    private TextView tv_submit;
     private String ideaStr;
+    private ImageView iv_back;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -31,17 +33,21 @@ public class SubmitIdeaActivity extends MyActivity implements View.OnClickListen
     }
 
     private void initView() {
-        setMyTitle("意见反馈");
         et_idea_content = (EditText) findViewById(R.id.et_idea_content);
-        btn_confirm = (Button) findViewById(R.id.btn_confirm);
-        btn_confirm.setOnClickListener(this);
+        tv_submit = (TextView) findViewById(R.id.tv_submit);
+        iv_back = (ImageView) findViewById(R.id.iv_back);
+        tv_submit.setOnClickListener(this);
+        iv_back.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_confirm:
+            case R.id.tv_submit:
                 confirmIdea();
+                break;
+            case R.id.iv_back:
+                finish();
                 break;
             default:
                 break;

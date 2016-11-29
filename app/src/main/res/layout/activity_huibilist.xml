@@ -9,24 +9,18 @@
     <include layout="@layout/include_title"/>
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="120dp"
         android:background="@mipmap/img_huibi_bg">
-        <ImageView
-            android:id="@+id/iv_huibi"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_marginBottom="10dp"
-            android:src="@mipmap/icon_huibi"/>
         <TextView
             android:id="@+id/tv_huibi"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/iv_huibi"
+            android:textColor="#BBE5FF"
+            android:layout_alignParentBottom="true"
             android:gravity="center"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:textSize="20sp"/>
+            android:textSize="24sp"
+            android:layout_marginBottom="16dp"
+            android:text="￥100"/>
     </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -73,7 +67,9 @@
             android:visibility="invisible"
             android:background="@color/main"/>
     </LinearLayout>
-    <View style="@style/HorizontalDividerLine"/>
+    <View android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="@color/mybg"/>
     <FrameLayout
         android:id="@+id/fl_huibi_container"
         android:layout_width="match_parent"

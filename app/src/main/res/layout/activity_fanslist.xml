@@ -15,51 +15,44 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:padding="12dp"
-        android:textSize="14sp"
-        android:textColor="@color/myblack"/>
+        android:textColor="@color/color_nine"
+        android:textSize="14sp"/>
+    <View style="@style/HorizontalDivider_ten"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:gravity="center"
         android:orientation="horizontal"
-        android:padding="8dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="贡献粮票:"/>
-        <TextView
-            android:id="@+id/tv_huibi_total"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/myred"
-            android:layout_marginLeft="20dp"
-            android:textSize="20sp"
-            android:textStyle="bold"/>
+        android:padding="12dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:gravity="center_vertical"
+            android:background="@mipmap/img_fans_bg">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:textColor="@color/white"
+                android:layout_marginLeft="8dp"
+                android:text="贡献粮票:"/>
+            <TextView
+                android:id="@+id/tv_huibi_total"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:layout_marginLeft="20dp"
+                android:textSize="18sp"
+                android:text="￥1200"/>
+        </LinearLayout>
+
     </LinearLayout>
+    <View style="@style/HorizontalDivider_ten"/>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:gravity="center"
-        android:padding="4dp">
-        <TextView
-            android:id="@+id/tv_fans_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:background="@drawable/shape_fans_count_bg"
-            android:textSize="16sp"
-            android:textColor="@color/myblack"
-            android:text="邀请好友总计："/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:gravity="center"
         android:background="@color/white"
         android:padding="10dp">
@@ -68,38 +61,64 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            android:textColor="@color/main"
-            android:background="@drawable/shape_bule_round_hollow_bg"
-            android:padding="10dp"
+            android:textColor="@color/white"
+            android:background="@drawable/sl_blue2gray_round4_btn_bg"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingRight="30dp"
+            android:paddingLeft="30dp"
             android:text="发送邀请链接"/>
         <TextView
             android:id="@+id/tv_face_to_face"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
+            android:layout_marginLeft="40dp"
             android:textSize="16sp"
-            android:textColor="@color/main"
-            android:background="@drawable/shape_bule_round_hollow_bg"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:paddingBottom="10dp"
+            android:textColor="@color/white"
+            android:background="@drawable/sl_blue2gray_round4_btn_bg"
             android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingRight="30dp"
+            android:paddingLeft="30dp"
             android:text="面对面邀请"/>
     </LinearLayout>
-    <TextView
-        android:id="@+id/tv_invite_code"
+    <View style="@style/HorizontalDividerLine"/>
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="10dp"
-        android:textSize="16sp"
-        android:textColor="@color/color_six"
         android:background="@color/white"
-        android:text="我的邀请码:"/>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="4dp"
-        android:background="@color/mybg"/>
+        android:orientation="horizontal"
+        android:padding="12dp">
+        <TextView
+            android:id="@+id/tv_invite_code"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@color/textColorPrimary"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@color/color_nine"
+            android:text="邀请好友总计："/>
+        <TextView
+            android:id="@+id/tv_fans_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_marginLeft="2dp"
+            android:textColor="@color/main"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@color/color_nine"
+            android:text="人"/>
+    </LinearLayout>
+
+
+    <View style="@style/HorizontalDivider_ten"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -112,7 +131,7 @@
             android:layout_weight="1"
             android:padding="10dp"
             android:textSize="16sp"
-            android:textColor="@color/myblack"
+            android:textColor="@color/four_nine"
             android:gravity="center"
             android:text="我的兄弟伙()"/>
         <TextView
@@ -123,7 +142,7 @@
             android:textSize="16sp"
             android:gravity="center"
             android:padding="10dp"
-            android:textColor="@color/myblack"
+            android:textColor="@color/four_nine"
             android:text="兄弟伙的兄弟伙()"/>
     </LinearLayout>
     <LinearLayout
@@ -160,18 +179,18 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:padding="6dp"
-            android:textSize="14sp"
-            android:textColor="@color/myblack"
+            android:textSize="15sp"
+            android:textColor="@color/textColorPrimary"
             android:gravity="center"
             android:text="好友店铺"/>
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textSize="14sp"
+            android:textSize="15sp"
             android:gravity="center"
             android:padding="6dp"
-            android:textColor="@color/myblack"
+            android:textColor="@color/textColorPrimary"
             android:text="贡献汇币"/>
     </LinearLayout>
     <View style="@style/HorizontalDividerLine"/>

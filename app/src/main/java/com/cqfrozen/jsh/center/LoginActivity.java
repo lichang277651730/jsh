@@ -32,7 +32,7 @@ import com.cqfrozen.jsh.volleyhttp.MyHttp;
 /**
  * Created by Administrator on 2016/9/12.
  */
-public class LoginActivity extends MyActivity implements View.OnClickListener {
+public class LoginActivity extends MyActivity implements View.OnClickListener, MyEditText.TextChanged {
 
     private static final int TAG_PWD_SHOW = 1;
     private static final int TAG_PWD_HIDDEN = 2;
@@ -55,6 +55,8 @@ public class LoginActivity extends MyActivity implements View.OnClickListener {
     private boolean isEdShow;
     private int height;
     private ImageView iv_log;
+    private ImageView iv_pwd;
+    private ImageView iv_username;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -82,9 +84,15 @@ public class LoginActivity extends MyActivity implements View.OnClickListener {
         tv_regist = (TextView) findViewById(R.id.tv_regist);
         btn_login = (Button) findViewById(R.id.btn_login);
         iv_see_pwd = (ImageView) findViewById(R.id.iv_see_pwd);
+        iv_pwd = (ImageView) findViewById(R.id.iv_pwd);
+        iv_username = (ImageView) findViewById(R.id.iv_username);
         tv_forget.setOnClickListener(this);
         tv_regist.setOnClickListener(this);
         btn_login.setOnClickListener(this);
+
+        et_phone.addMyTextChangedListener(this);
+        et_password.addMyTextChangedListener(this);
+
         String phoneNumCache = SPUtils.getPhoneNum();
         if(!TextUtils.isEmpty(phoneNumCache)){
             et_phone.setText(phoneNumCache);
@@ -252,7 +260,7 @@ public class LoginActivity extends MyActivity implements View.OnClickListener {
             showToast("请输入正确手机号");
             return;
         }
-        if(TextUtils.isEmpty(pwdStr) || pwdStr.length() < 6){
+        if(TextUtils.isEmpty(pwdStr)){
             showToast("请输入登陆密码");
             return;
         }
@@ -338,7 +346,7 @@ public class LoginActivity extends MyActivity implements View.OnClickListener {
             clickCount++;
             if (clickCount == 1) {
                 clickFirstTime = System.currentTimeMillis();
-                Toast.makeText(this, "再按一次退出", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "再按一次退出冻博汇", Toast.LENGTH_SHORT).show();
             } else if (clickCount == 2) {
                 clickSecondTime = System.currentTimeMillis();
                 if (clickSecondTime - clickFirstTime <= 2000) {
@@ -347,15 +355,37 @@ public class LoginActivity extends MyActivity implements View.OnClickListener {
                 } else {
                     clickCount = 1;
                     clickFirstTime = System.currentTimeMillis();
-                    Toast.makeText(this, "再按一次退出", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "再按一次退出冻博汇", Toast.LENGTH_SHORT).show();
                 }
             } else {
                 clickCount = 1;
                 clickFirstTime = System.currentTimeMillis();
-                Toast.makeText(this, "再按一次退出", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "再按一次退出冻博汇", Toast.LENGTH_SHORT).show();
             }
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void textChanged(View view, String s, int start, int before, int count) {
+        switch (view.getId()) {
+            case R.id.et_phone:
+                if(s.length() == 0){
+                    iv_username.setImageResource(R.mipmap.icon_register_user_empty);
+                }else {
+                    iv_username.setImageResource(R.mipmap.icon_register_user);
+                }
+                break;
+            case R.id.et_password:
+                if(s.length() == 0){
+                    iv_pwd.setImageResource(R.mipmap.icon_register_pwd_empty);
+                }else {
+                    iv_pwd.setImageResource(R.mipmap.icon_register_pwd);
+                }
+                break;
+            default:
+                break;
+        }
     }
 }

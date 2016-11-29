@@ -64,7 +64,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/white"
-                        android:layout_marginTop="6dp"
+                        android:paddingTop="16dp"
                         android:textSize="17sp"
                         android:text="注册/登录"/>
                     <TextView
@@ -337,10 +337,9 @@
                 android:gravity="center_vertical"
                 android:padding="@dimen/largePadding"
                 android:text="@string/my_addresses"
+                android:visibility="gone"
                 android:textSize="16sp"
                 android:textColor="@color/textColorPrimary"/>
-
-            <View style="@style/HorizontalDividerLine"/>
 
 
             <TextView
@@ -420,6 +419,10 @@
                 android:textSize="16sp"
                 android:textColor="@color/textColorPrimary"
                 android:text="@string/my_about_us"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/mybg"/>
         </LinearLayout>
     </LinearLayout>
 </com.common.widget.ReboundScrollView>

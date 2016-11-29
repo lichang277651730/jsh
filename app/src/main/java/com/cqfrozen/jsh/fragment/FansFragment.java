@@ -68,7 +68,7 @@ public class FansFragment extends MyFragment implements SupportLayout.LoadMoreLi
         GridLayoutManager manager = new GridLayoutManager(getActivity(), 1);
         rv_fans.setLayoutManager(manager);
         MyGridDecoration decoration = new MyGridDecoration(BaseValue.dp2px(1), BaseValue
-                .dp2px(0), getResources().getColor(R.color.mybg), false);
+                .dp2px(0), getResources().getColor(R.color.dividerLine), false);
         rv_fans.addItemDecoration(decoration);
         fansRVAdapter = new FansRVAdapter(getActivity(), fansInfos);
         rv_fans.setAdapter(fansRVAdapter);

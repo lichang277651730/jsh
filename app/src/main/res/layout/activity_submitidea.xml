@@ -8,59 +8,70 @@
     android:clipToPadding="true"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-    tools:context=".center.Register1Activity">
+    tools:context=".center.SubmitIdeaActivity">
 
-    <include
-        layout="@layout/include_title"/>
-
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:text="意见输入区"
-        android:textSize="16sp"
-        android:padding="16dp"/>
-    <View style="@style/HorizontalDividerLine"/>
-    <EditText
-        android:id="@+id/et_idea_content"
-        android:layout_width="match_parent"
-        android:background="@color/white"
-        android:padding="16dp"
-        android:layout_height="200dp"
-        android:imeOptions="actionDone"
-        android:gravity="start"
-        android:hint="请填写您宝贵的意见"
-        android:textSize="14sp"/>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="8dp"
-        android:background="@color/mybg"/>
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="40dp"
-        android:layout_gravity="center"
-        android:background="@color/white">
+        android:layout_height="44dp"
+        android:background="@color/main">
 
-        <Button
-            android:id="@+id/btn_confirm"
-            style="@style/text_16sp_white"
-            android:layout_width="150dp"
-            android:layout_height="40dp"
-            android:layout_centerInParent="true"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/sl_blue2gray_btn_bg"
-            android:gravity="center"
-            android:text="确定"
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:padding="12dp"
+            android:scaleType="fitCenter"
+            android:src="@mipmap/toleft_white"/>
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_vertical"
+            android:textColor="@color/white"
+            android:text="意见反馈"
             android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/tv_submit"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="12dp"
+            android:padding="10dp"
+            android:gravity="center_vertical"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            android:text="提交"/>
+
+
     </RelativeLayout>
+
+
+    <View style="@style/HorizontalDividerLine"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/mybg">
+        <EditText
+            android:id="@+id/et_idea_content"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@color/white"
+            android:gravity="start"
+            android:layout_margin="16dp"
+            android:hint="@string/edit_idea_hint"
+            android:imeOptions="actionDone"
+            android:padding="16dp"
+            android:textSize="14sp"/>
+    </LinearLayout>
+
 
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"/>
+        android:background="@color/mybg"/>
 
 </LinearLayout>

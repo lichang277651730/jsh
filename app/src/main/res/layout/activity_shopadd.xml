@@ -181,6 +181,7 @@
             android:layout_height="wrap_content"
             android:src="@mipmap/icon_add_shop_info"/>
         <TextView
+            android:id="@+id/tv_desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"

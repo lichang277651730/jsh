@@ -38,6 +38,7 @@ public class HuibiRVAdapter extends RecyclerView.Adapter<HuibiRVAdapter.MyViewHo
         holder.tv_desc.setText(huibiInfo.title);
         holder.tv_time.setText(huibiInfo.add_time);
         holder.tv_count.setText(huibiInfo.hb_count);
+        holder.tv_remark.setText(huibiInfo.remark);
     }
 
     @Override
@@ -49,11 +50,13 @@ public class HuibiRVAdapter extends RecyclerView.Adapter<HuibiRVAdapter.MyViewHo
         private TextView tv_desc;
         private TextView tv_time;
         private TextView tv_count;
+        private TextView tv_remark;
         public MyViewHolder(View itemView) {
             super(itemView);
             tv_desc = (TextView) itemView.findViewById(R.id.tv_desc);
             tv_time = (TextView) itemView.findViewById(R.id.tv_time);
             tv_count = (TextView) itemView.findViewById(R.id.tv_count);
+            tv_remark = (TextView) itemView.findViewById(R.id.tv_remark);
         }
     }
 }

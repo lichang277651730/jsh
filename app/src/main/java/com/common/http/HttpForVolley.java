@@ -154,7 +154,6 @@ public class HttpForVolley {
 							JSONObject object = new JSONObject();
 							object.put("msg", "网络错误");
 							object.put("code", "404");
-							todo.httpTodo(which, object);
 							if (BaseValue.isDebug) {
 								Logger.json(object.toString());
 							}

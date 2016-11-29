@@ -56,6 +56,7 @@ public class ShopEditActivity extends MyActivity implements View.OnClickListener
     private ShopInfo shopInfo;
     private String s_id;
     private LinearLayout ll_shop_edit_root;
+    private TextView tv_desc;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -79,9 +80,15 @@ public class ShopEditActivity extends MyActivity implements View.OnClickListener
         et_name = (MyEditText) findViewById(R.id.et_name);
         et_phone = (MyEditText) findViewById(R.id.et_phone);
         tv_location = (TextView) findViewById(R.id.tv_location);
+        tv_desc = (TextView) findViewById(R.id.tv_desc);
         et_shop = (MyEditText) findViewById(R.id.et_shop);
         et_address = (MyEditText) findViewById(R.id.et_address);
         btn_save = (Button) findViewById(R.id.btn_save);
+
+        et_shop.setEnabled(false);
+        tv_location.setEnabled(false);
+        et_address.setEnabled(false);
+        tv_desc.setText(getString(R.string.edit_shop_info));
 
         tv_location.setOnClickListener(this);
         btn_save.setOnClickListener(this);
@@ -185,7 +192,8 @@ public class ShopEditActivity extends MyActivity implements View.OnClickListener
             return;
         }
 
-        MyHttp.updateStore(http, null, s_id, nameStr, phoneStr, street_id, area_id, shopStr, addressStr, new HttpForVolley.HttpTodo() {
+        MyHttp.updateStore(http, null, s_id, nameStr, phoneStr, street_id, area_id, shopStr, addressStr,
+                new HttpForVolley.HttpTodo() {
 
             @Override
             public void httpTodo(Integer which, JSONObject response) {

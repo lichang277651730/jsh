@@ -428,12 +428,14 @@ public class MineFragment1 extends MyFragment implements View.OnClickListener{
         MyHttp.updateHead(http, null, path, new HttpForVolley.HttpTodo() {
             @Override
             public void httpTodo(Integer which, JSONObject response) {
+//                showToast(response.optString("msg"));
+//                iv_head.setEnabled(true);
                 if (response.optInt("code",1)!=0){
                     return;
                 }
-                String filename = response.optJSONObject("data").optString("head_url");
-                ImageLoader.getInstance().displayImage(filename, iv_head);
-                getUserInfo().head_url = filename;
+//                String filename = response.optJSONObject("data").optString("head_url");
+//                ImageLoader.getInstance().displayImage(filename, iv_head);
+//                getUserInfo().head_url = filename;
             }
         });
 

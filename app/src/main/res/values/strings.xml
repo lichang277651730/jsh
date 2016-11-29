@@ -52,6 +52,8 @@
 
     <string name="toast_exit">再按一次退出冻博汇</string>
     <string name="add_shop_info">该地址即为收货地址,不能修改,请仔细填写。分店申请需要时间审核,请耐心等待。</string>
+    <string name="edit_shop_info">只能修改店长和手机号哦,其他的暂不能修改，请见谅。</string>
+    <string name="edit_idea_hint">如果您对我们有什么建议、想法和期望，请告诉我们~</string>
 
     <string name="test_string">商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情</string>
 

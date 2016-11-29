@@ -15,18 +15,20 @@
     <color name="b_three">#B3B3B3</color>
     <color name="c_six">#C6C6C6</color>
     <color name="c_nine">#C9C9C9</color>
+    <color name="e_seven">#e7e7e7</color>
     <color name="a_seven">#A7A7A7</color>
     <color name="six_nine">#696969</color>
-    <color name="dividerLine">#e7e7e7</color>
+    <color name="four_nine">#494949</color>
+    <color name="dividerLine">#f5f7f9</color>
     <color name="backgroundColor">#f5f7f9</color>
     <color name="nowPriceColor">#FF5458</color>
     <color name="marketPriceColor">@color/color_nine</color>
 
 
     <!--主题色-->
-    <color name="main">#55B2FF</color>
+    <color name="main">#4196FF</color>
     <color name="mine_bg">#1E1818</color>
-    <color name="almain">#7755B2FF</color>
+    <color name="almain">#774196FF</color>
     <color name="al_write">#77ffffff</color>
 
     <color name="rb_txt_pre">#55B2FF</color>
@@ -53,7 +55,8 @@
     <!--红色字体/图片-->
     <color name="myred">#ff2233</color>
     <!--页面背景色-->
-    <color name="mybg">#f2f3f4</color>
+    <!--<color name="mybg">#f2f3f4</color>-->
+    <color name="mybg">#f5f7f9</color>
     <!--输入框hint-->
     <color name="myhint">#aaaaaa</color>
     <!--蓝色字体-->

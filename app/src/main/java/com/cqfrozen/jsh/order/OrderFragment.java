@@ -74,13 +74,10 @@ public class OrderFragment extends MyFragment implements MyFragment.HttpFail, Su
         refresh_order.setRefreshable(true);
         refresh_order.setOnRefreshListener(this);
         refresh_order.setOnLoadMoreListener(this);
-//        refresh_order.setOnRefreshListener(this);
-//        refresh_order.setRefreshble(true);
     }
 
     private void initRV() {
         rv_order.setOverScrollMode(View.OVER_SCROLL_NEVER);
-//        adapter = new OrderListAdapter(mActivity, orderSearchInfos);
         adapter = new OrderListAdapter2(mActivity, orderSearchInfos);
         GridLayoutManager manager = new GridLayoutManager(mActivity, 1);
         MyGridDecoration decoration = new MyGridDecoration(BaseValue.dp2px(4), BaseValue
@@ -88,16 +85,6 @@ public class OrderFragment extends MyFragment implements MyFragment.HttpFail, Su
         rv_order.addItemDecoration(decoration);
         rv_order.setLayoutManager(manager);
         rv_order.setAdapter(adapter);
-//        refresh_order.setRC(rv_order, this);
-//        adapter.setOnItemClickListener(new OrderListAdapter.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(int position, OrderResultInfo.OrderSearchInfo orderSearchInfo) {
-//                Intent intent = new Intent(mActivity, OrderDetailActivity.class);
-//                intent.putExtra("o_id", orderSearchInfo.o_id);
-//                intent.putExtra("from", OrderDetailActivity.FROM.FROM_ORDER_LIST);
-//                startActivity(intent);
-//            }
-//        });
     }
 
     private void getData() {
@@ -110,26 +97,21 @@ public class OrderFragment extends MyFragment implements MyFragment.HttpFail, Su
                     refresh_order.setLoadFailed();
                     refresh_order.setRefreshFailed();
                     setHttpFail(OrderFragment.this);
-//                    refresh_order.setResultState(RefreshLayout.ResultState.failed);
                     return;
                 }
 
                 if(code != 0){
-//                    showToast(msg);
                     refresh_order.setLoadFailed();
                     refresh_order.setRefreshFailed();
                     setHttpFail(OrderFragment.this);
-//                    refresh_order.setResultState(RefreshLayout.ResultState.failed);
                     return;
                 }
-//                refresh_order.setResultState(RefreshLayout.ResultState.success);
                 refresh_order.setRefreshSuccess();
                 refresh_order.setLoadSuccess();
                 OrderResultInfo orderResultInfo = (OrderResultInfo) bean;
                 orderSearchInfos.addAll(orderResultInfo.data1);
                 is_page = orderResultInfo.is_page;
                 if(orderSearchInfos.size() == 0){
-//                    setHttpNotData(OrderFragment.this);
                     setOrderNotData();
                     return;
                 }

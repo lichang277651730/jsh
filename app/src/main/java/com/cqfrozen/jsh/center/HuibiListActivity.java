@@ -57,7 +57,7 @@ public class HuibiListActivity extends MyActivity implements View.OnClickListene
 
         v_huibi_all = findViewById(R.id.v_huibi_all);
         v_huibi_use = findViewById(R.id.v_huibi_use);
-        tv_huibi.setText(hb_count + "");
+        tv_huibi.setText("￥" + hb_count);
         tv_all.setOnClickListener(this);
         tv_use.setOnClickListener(this);
         tv_right.setOnClickListener(new View.OnClickListener() {

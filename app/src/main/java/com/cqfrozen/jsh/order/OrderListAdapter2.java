@@ -21,7 +21,6 @@ import com.cqfrozen.jsh.entity.OrderResultInfo;
 import com.cqfrozen.jsh.util.CustomSimpleDialog;
 import com.cqfrozen.jsh.util.ToastUtil;
 import com.cqfrozen.jsh.volleyhttp.MyHttp;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
 
 import org.json.JSONObject;
 
@@ -46,18 +45,18 @@ public class OrderListAdapter2 extends RecyclerView.Adapter<OrderListAdapter2.My
 
     private Context context;
     private List<OrderResultInfo.OrderSearchInfo> orderSearchInfos;
-    private final DisplayImageOptions defaultOptions;
+//    private final DisplayImageOptions defaultOptions;
     private final HttpForVolley http;
     private int index = -1;
     public OrderListAdapter2(Context context, List<OrderResultInfo.OrderSearchInfo> orderSearchInfos){
         this.context = context;
         this.orderSearchInfos = orderSearchInfos;
         this.http = new HttpForVolley(context);
-        defaultOptions = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true)
-                .showImageOnLoading(R.color.transparency)
-                .showImageForEmptyUri(R.mipmap.img_loading_empty)
-                .showImageOnFail(R.mipmap.img_loading_failed)
-                .build();
+//        defaultOptions = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true)
+//                .showImageOnLoading(R.color.transparency)
+//                .showImageForEmptyUri(R.mipmap.img_loading_empty)
+//                .showImageOnFail(R.mipmap.img_loading_failed)
+//                .build();
     }
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -141,23 +140,23 @@ public class OrderListAdapter2 extends RecyclerView.Adapter<OrderListAdapter2.My
 
          // (0未付款，1已付款，2已完成，3已取消)
 
-        switch (Integer.parseInt(orderSearchInfo.order_status)) {
-            case 0:
-                holder.iv_order_status.setImageResource(R.mipmap.labelview_order_nopay);
-                break;
-            case 1:
-                holder.iv_order_status.setImageResource(R.mipmap.labelview_order_outing);
-                break;
-            case 2:
-                holder.iv_order_status.setImageResource(R.mipmap.labelview_order_sending);
-                break;
-            case 3:
-                holder.iv_order_status.setVisibility(View.GONE);
-                break;
-            default:
-                holder.iv_order_status.setVisibility(View.GONE);
-                break;
-        }
+//        switch (Integer.parseInt(orderSearchInfo.order_status)) {
+//            case 0:
+//                holder.iv_order_status.setImageResource(R.mipmap.labelview_order_nopay);
+//                break;
+//            case 1:
+//                holder.iv_order_status.setImageResource(R.mipmap.labelview_order_outing);
+//                break;
+//            case 2:
+//                holder.iv_order_status.setImageResource(R.mipmap.labelview_order_sending);
+//                break;
+//            case 3:
+//                holder.iv_order_status.setVisibility(View.GONE);
+//                break;
+//            default:
+//                holder.iv_order_status.setVisibility(View.GONE);
+//                break;
+//        }
 
 
         //取消未付款订单

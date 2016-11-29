@@ -149,7 +149,8 @@ public class ShopAddActivity extends MyActivity implements View.OnClickListener 
             return;
         }
 
-        MyHttp.addStore(http, null, nameStr, phoneStr, street_id, area_id, shopStr, addressStr, new HttpForVolley.HttpTodo() {
+        MyHttp.addStore(http, null, nameStr, phoneStr, street_id, area_id, shopStr, addressStr,
+                new HttpForVolley.HttpTodo() {
 
                     @Override
                     public void httpTodo(Integer which, JSONObject response) {

@@ -104,7 +104,7 @@ public class FansListActity extends MyActivity implements View.OnClickListener{
         }
         tv_desc.setText(myFansPageInfo.content);
         tv_huibi_total.setText("￥" + myFansPageInfo.hb_count);
-        tv_fans_count.setText("邀请好友总计：" + myFansPageInfo.intotal_fans_count +"人");
+        tv_fans_count.setText(myFansPageInfo.intotal_fans_count + "");
         tv_invite_code.setText("我的邀请码:" + myFansPageInfo.code);
         tv_one_fans.setText("我的兄弟伙(" + myFansPageInfo.one_fans_count + ")");
         tv_two_fans.setText("兄弟伙的兄弟伙(" + myFansPageInfo.two_fans_count + ")");

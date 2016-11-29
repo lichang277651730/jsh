@@ -137,8 +137,8 @@
                 android:scaleType="fitCenter"
                 android:src="@mipmap/icon_search_price_default"
                 android:layout_marginLeft="10dp"
-                android:layout_width="10dp"
-                android:layout_height="20dp"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
         </LinearLayout>
 
         <View
