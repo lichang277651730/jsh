@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/include_huibinodatalayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/mybg"
+    android:gravity="center"
+    android:padding="10dp"
+    android:visibility="gone"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="40dp"
+        android:src="@mipmap/img_liangpiao_empty"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="您还没有粮票记录哟~"
+        android:textColor="@color/color_six"
+        android:textSize="16sp"/>
+
+</LinearLayout>

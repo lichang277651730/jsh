@@ -16,9 +16,8 @@ import com.cqfrozen.jsh.activity.GoodsDetailActivity;
 import com.cqfrozen.jsh.cart.CartManager;
 import com.cqfrozen.jsh.entity.GoodsInfo;
 import com.cqfrozen.jsh.util.CustomToast;
+import com.cqfrozen.jsh.util.ImageLoader;
 import com.cqfrozen.jsh.volleyhttp.MyHttp;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.json.JSONObject;
 
@@ -31,7 +30,6 @@ public class NormalBuyAdapter extends RecyclerView.Adapter<NormalBuyAdapter.MyVi
 
     private Context context;
     private List<GoodsInfo> goodsInfos;
-    private final DisplayImageOptions defaultOptions;
     private final HttpForVolley http;
     private CartManager cartManager;
     public NormalBuyAdapter(Context context, List<GoodsInfo> goodsInfos){
@@ -39,24 +37,19 @@ public class NormalBuyAdapter extends RecyclerView.Adapter<NormalBuyAdapter.MyVi
         this.goodsInfos = goodsInfos;
         this.http = new HttpForVolley(context);
         this.cartManager =  CartManager.getInstance(context);
-        defaultOptions = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true)
-                .showImageOnLoading(R.color.transparency)
-                .showImageForEmptyUri(R.mipmap.img_loading_empty)
-                .showImageOnFail(R.mipmap.img_loading_failed)
-                .build();
     }
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if(context == null){
             context = parent.getContext();
         }
-        return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.item_normalbuy1, parent, false));
+        return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.item_normalbuy, parent, false));
     }
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         final GoodsInfo goodsInfo = goodsInfos.get(position);
-        ImageLoader.getInstance().displayImage(goodsInfo.pic_url, holder.iv_goods, defaultOptions);
+        ImageLoader.load(context, goodsInfo.pic_url, holder.iv_goods);
         holder.tv_name.setText(goodsInfo.g_name);
         holder.tv_brand.setText("品牌:" + goodsInfo.brand_name);
         holder.tv_size.setText("规格:" + goodsInfo.weight + "kg/" + goodsInfo.unit);
@@ -84,13 +77,10 @@ public class NormalBuyAdapter extends RecyclerView.Adapter<NormalBuyAdapter.MyVi
                     return;
                 }
                 holder.iv_cart.setEnabled(false);
-//                holder.iv_cart.setImageResource(R.mipmap.icon_cart_no_pre);
                 MyHttp.addcart(http, null, goodsInfo.g_id, 1, new HttpForVolley.HttpTodo() {
                     @Override
                     public void httpTodo(Integer which, JSONObject response) {
                         holder.iv_cart.setEnabled(true);
-//                        holder.iv_cart.setImageResource(R.mipmap.icon_cart);
-//                        ToastUtil.showToast(context, response.optString("msg"));
                         int code = response.optInt("code");
                         if(code != 0){
                             return;

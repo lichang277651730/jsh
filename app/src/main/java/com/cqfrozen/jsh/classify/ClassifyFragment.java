@@ -83,7 +83,7 @@ public class ClassifyFragment extends BaseFragment implements MyHttp.MyHttpResul
     private void initVP() {
         vp_classify.setOverScrollMode(View.OVER_SCROLL_NEVER);
         vp_classify.setOffscreenPageLimit(1);
-        indicator_classify.setScrollBar(new ColorBar(mActivity, UIUtils.getColor(R.color.main), BaseValue.dp2px(4)){
+        indicator_classify.setScrollBar(new ColorBar(mActivity, UIUtils.getColor(R.color.main), BaseValue.dp2px(3)){
 
             @Override
             public int getWidth(int tabWidth) {

@@ -35,7 +35,7 @@ public class OrderFragment extends MyFragment implements MyFragment.HttpFail, Su
     private int is_page = 0;
 
     private List<OrderResultInfo.OrderSearchInfo> orderSearchInfos = new ArrayList<>();
-    private OrderListAdapter2 adapter;
+    private OrderListAdapter adapter;
     private LinearLayout include_ordernoorderlayout;
     private Button include_orderondata_btn;
 
@@ -78,7 +78,7 @@ public class OrderFragment extends MyFragment implements MyFragment.HttpFail, Su
 
     private void initRV() {
         rv_order.setOverScrollMode(View.OVER_SCROLL_NEVER);
-        adapter = new OrderListAdapter2(mActivity, orderSearchInfos);
+        adapter = new OrderListAdapter(mActivity, orderSearchInfos);
         GridLayoutManager manager = new GridLayoutManager(mActivity, 1);
         MyGridDecoration decoration = new MyGridDecoration(BaseValue.dp2px(4), BaseValue
                 .dp2px(0), getResources().getColor(R.color.mybg), false);
@@ -133,7 +133,6 @@ public class OrderFragment extends MyFragment implements MyFragment.HttpFail, Su
             }
         });
     }
-
 
     private void showDataView() {
         include_ordernoorderlayout.setVisibility(View.GONE);

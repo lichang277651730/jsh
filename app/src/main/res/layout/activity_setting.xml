@@ -60,7 +60,7 @@
             android:id="@+id/ll_change_pwd"
             android:layout_width="match_parent"
             android:layout_height="44dp"
-            android:background="@color/white"
+            android:background="@drawable/sl_item_bg"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
@@ -96,7 +96,7 @@
             android:id="@+id/ll_change_phone"
             android:layout_width="match_parent"
             android:layout_height="44dp"
-            android:background="@color/white"
+            android:background="@drawable/sl_item_bg"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
@@ -128,7 +128,7 @@
             android:id="@+id/ll_help"
             android:layout_width="match_parent"
             android:layout_height="44dp"
-            android:background="@color/white"
+            android:background="@drawable/sl_item_bg"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
@@ -164,7 +164,7 @@
             android:id="@+id/ll_good"
             android:layout_width="match_parent"
             android:layout_height="44dp"
-            android:background="@color/white"
+            android:background="@drawable/sl_item_bg"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
@@ -196,7 +196,7 @@
             android:id="@+id/ll_cache"
             android:layout_width="match_parent"
             android:layout_height="44dp"
-            android:background="@color/white"
+            android:background="@drawable/sl_item_bg"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 

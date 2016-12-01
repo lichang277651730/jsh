@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.WindowManager;
 
@@ -36,15 +35,11 @@ public class MainActivity extends MyActivity implements MyHttp.MyHttpResult, Han
         if (SPUtils.getFirst()) {
             startActivity(new Intent(this, IndexActivity.class));
         } else {
-//            if(MyApplication.userInfo == null){
-//                startActivity(new Intent(this, LoginActivity.class));
-//            }else {
             if(netResponseCode == 0){
                 startActivity(new Intent(this, HomeActivity.class));
             }else {
                 startActivity(new Intent(this, LoginActivity.class));
             }
-//            }
         }
         finish();
         return false;
@@ -80,8 +75,8 @@ public class MainActivity extends MyActivity implements MyHttp.MyHttpResult, Han
     private void AutoLogin() {
         handler.sendEmptyMessageDelayed(1, 2000);
         String token = SPUtils.getToken();
-        long expireTime = SPUtils.getExpireTime();
-        long curTime = System.currentTimeMillis() / 1000;
+//        long expireTime = SPUtils.getExpireTime();
+//        long curTime = System.currentTimeMillis() / 1000;
 
         if (token.isEmpty() || token.length() < 2) {
             return;
@@ -102,22 +97,25 @@ public class MainActivity extends MyActivity implements MyHttp.MyHttpResult, Han
         if(code == 404){//网络错误
             return;
         }
+
+        if(code == 1){//获取数据错误
+            return;
+        }
         if (code != 0) {
-//            SPUtils.setToken("");
-            if(!TextUtils.isEmpty(SPUtils.getToken())){
-                MyApplication.token = SPUtils.getToken();
-                MyHttp.user(http, GETUSERINFO, this);
-            }else {
-                startActivity(new Intent(this, LoginActivity.class));
-            }
+//            if(!TextUtils.isEmpty(SPUtils.getToken())){
+//                MyApplication.token = SPUtils.getToken();
+//                MyHttp.user(http, GETUSERINFO, this);
+//            }else {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                    }
+                }, 2000);
+//            }
 
             return;
         }
-
-//        if(code == 2){
-//            MyHttp.refreshToken(http, REFRESHTOKEN, SPUtils.getToken(), this);
-//            return;
-//        }
 
         switch (which) {
             case REFRESHTOKEN: //刷新token

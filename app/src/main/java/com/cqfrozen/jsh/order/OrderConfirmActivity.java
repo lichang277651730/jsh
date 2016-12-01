@@ -160,6 +160,17 @@ public class OrderConfirmActivity extends MyActivity implements View.OnClickList
         tv_name.setText(defaultAddress == null ? "" : defaultAddress.china_name);
         tv_phone.setText(defaultAddress == null ? "" : "(" + defaultAddress.mobile_num + ")");
         tv_address.setText(defaultAddress == null ? "收货地址:" : "收货地址:" + defaultAddress.address);
+        if(defaultAddress != null){
+            if(defaultAddress.is_main_store == 1){
+                tv_default_address.setText("主店");
+                tv_default_address.setBackgroundResource(R.drawable.shape_bule_round4_bg);
+            }else {
+                tv_default_address.setText("分店");
+                tv_default_address.setBackgroundResource(R.drawable.shape_red_round4_bg);
+            }
+        }
+
+
         if(goodsList != null){
             goodsList.add(orderInfo.goods.get(0));
             orderConfirmLvAdapter.notifyDataSetChanged();
@@ -170,6 +181,8 @@ public class OrderConfirmActivity extends MyActivity implements View.OnClickList
         }else if(orderInfo.goods.size() > 1){
             rl_order.setVisibility(View.VISIBLE);
         }
+
+
         tv_count.setText(goodsList == null ? "共0件商品" : "共" +orderInfo.goods.size() + "件商品");
         tv_freight.setText(orderInfo == null ? "" : "￥" + orderInfo.weight_amount);
         tv_huibi.setText(orderInfo == null ? "" : "￥" + orderInfo.use_hb_count);

@@ -26,6 +26,7 @@ public class OrderBuyResultActivity extends MyActivity implements View.OnClickLi
     private Button btn_order_detail;
     private Button btn_go_home;
     private String order_id;
+    private TextView tv_right;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,7 +43,7 @@ public class OrderBuyResultActivity extends MyActivity implements View.OnClickLi
 
 
     private void initView() {
-        setMyTitle("支付成功");
+        tv_right = (TextView) findViewById(R.id.tv_right);
         tv_order_num = (TextView) findViewById(R.id.tv_order_num);
         tv_order_time = (TextView) findViewById(R.id.tv_order_time);
         tv_pay_type = (TextView) findViewById(R.id.tv_pay_type);
@@ -52,6 +53,7 @@ public class OrderBuyResultActivity extends MyActivity implements View.OnClickLi
 
         btn_order_detail.setOnClickListener(this);
         btn_go_home.setOnClickListener(this);
+        tv_right.setOnClickListener(this);
     }
 
     private void getData() {
@@ -87,6 +89,9 @@ public class OrderBuyResultActivity extends MyActivity implements View.OnClickLi
                 break;
             case R.id.btn_go_home://返回首页
                 HomeActivity.startActivity(this, 0);
+                break;
+            case R.id.tv_right://返回首页
+                finish();
                 break;
             default:
                 break;

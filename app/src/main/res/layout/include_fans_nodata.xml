@@ -1,26 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/include_ordernoorderlayout"
+    android:id="@+id/include_fansnodatalayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
-    android:gravity="center_horizontal"
+    android:layout_height="wrap_content"
+    android:background="@color/mybg"
+    android:gravity="center"
+    android:padding="10dp"
     android:visibility="gone"
     android:orientation="vertical">
 
     <ImageView
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_marginTop="50dp"
-        android:src="@mipmap/img_no_order"/>
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="10dp"
+        android:src="@mipmap/img_xiongdihuo_empty"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
         android:gravity="center"
-        android:text="您还没有商品订单哟~"
+        android:text="您还没有兄弟伙哟~"
         android:textColor="@color/color_six"
         android:textSize="16sp"/>
     <TextView
@@ -28,28 +29,23 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:gravity="center"
-        android:text="快去挑选商品吧!"
+        android:text="快去寻找吧!"
         android:textColor="@color/color_nine"
         android:textSize="14sp"/>
 
     <Button
-        android:id="@+id/include_orderondata_btn"
+        android:id="@+id/include_fansnodata_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/sl_cart_try_btn_bg"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        android:paddingRight="30dp"
-        android:paddingLeft="30dp"
+        android:paddingRight="40dp"
+        android:paddingLeft="40dp"
         android:textColor="@color/main"
-        android:text="去逛逛"/>
+        android:text="去邀请"/>
     <View
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@color/white"/>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/backgroundColor"/>
+        android:layout_height="10dp"/>
 </LinearLayout>

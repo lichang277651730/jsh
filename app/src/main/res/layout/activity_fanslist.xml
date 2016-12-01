@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:padding="12dp"
+        android:padding="10dp"
         android:textColor="@color/color_nine"
         android:textSize="14sp"/>
     <View style="@style/HorizontalDivider_ten"/>
@@ -24,7 +24,7 @@
         android:background="@color/white"
         android:gravity="center"
         android:orientation="horizontal"
-        android:padding="12dp">
+        android:padding="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -44,15 +44,14 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
                 android:layout_marginLeft="20dp"
-                android:textSize="18sp"
-                android:text="￥1200"/>
+                android:textSize="18sp"/>
         </LinearLayout>
 
     </LinearLayout>
     <View style="@style/HorizontalDivider_ten"/>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:background="@color/white"
         android:padding="10dp">
@@ -88,7 +87,7 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="horizontal"
-        android:padding="12dp">
+        android:padding="10dp">
         <TextView
             android:id="@+id/tv_invite_code"
             android:layout_width="0dp"
@@ -133,7 +132,7 @@
             android:textSize="16sp"
             android:textColor="@color/four_nine"
             android:gravity="center"
-            android:text="我的兄弟伙()"/>
+            android:text="兄弟伙()"/>
         <TextView
             android:id="@+id/tv_two_fans"
             android:layout_width="0dp"
@@ -143,7 +142,7 @@
             android:gravity="center"
             android:padding="10dp"
             android:textColor="@color/four_nine"
-            android:text="兄弟伙的兄弟伙()"/>
+            android:text="二级兄弟伙()"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -198,26 +197,6 @@
         android:id="@+id/fl_fans_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white">
+        android:background="@color/mybg">
     </FrameLayout>
-    <com.common.refresh.RefreshLayout
-        android:id="@+id/refresh_fans"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/ll_notify"
-        android:orientation="vertical">
-        <!--<include layout="@layout/include_httpresult"/>-->
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_fans"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@color/white"
-            android:scrollbars="none">
-        </android.support.v7.widget.RecyclerView>
-    </com.common.refresh.RefreshLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/mybg"/>
 </LinearLayout>

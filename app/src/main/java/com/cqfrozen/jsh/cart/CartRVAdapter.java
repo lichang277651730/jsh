@@ -13,10 +13,9 @@ import android.widget.TextView;
 
 import com.common.http.HttpForVolley;
 import com.cqfrozen.jsh.R;
+import com.cqfrozen.jsh.util.ImageLoader;
 import com.cqfrozen.jsh.volleyhttp.MyHttp;
 import com.cqfrozen.jsh.widget.NumberAddSubView;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.json.JSONObject;
 
@@ -38,7 +37,6 @@ public class CartRVAdapter extends RecyclerView.Adapter<CartRVAdapter.MyViewHold
     private Context context;
     private TextView tv_total;
     private CheckBox cb_all;
-    private final DisplayImageOptions defaultOptions;
     private final CartManager cartManager;
     private final HttpForVolley http;
     private ArrayList<CartGoodsInfo> checkedList = new ArrayList<>();
@@ -51,11 +49,6 @@ public class CartRVAdapter extends RecyclerView.Adapter<CartRVAdapter.MyViewHold
         this.cb_all = cb_all;
         this.http = new HttpForVolley(context);
         cartManager = CartManager.getInstance(context);
-        defaultOptions = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true)
-                .showImageOnLoading(R.color.transparency)
-                .showImageForEmptyUri(R.mipmap.img_loading_empty)
-                .showImageOnFail(R.mipmap.img_loading_failed)
-                .build();
 
         this.cb_all.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,14 +63,14 @@ public class CartRVAdapter extends RecyclerView.Adapter<CartRVAdapter.MyViewHold
         if(context == null){
             context = parent.getContext();
         }
-        return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.item_cart1, parent, false));
+        return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.item_cart, parent, false));
     }
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         final CartGoodsInfo cartGoodsInfo = cartGoodsInfos.get(position);
         holder.checkbox.setChecked(cartGoodsInfo.isChecked);
-        ImageLoader.getInstance().displayImage(cartGoodsInfo.pic_url, holder.iv_goods, defaultOptions);
+        ImageLoader.load(context, cartGoodsInfo.pic_url, holder.iv_goods);
         holder.tv_name.setText(cartGoodsInfo.g_name);
         holder.tv_price.setText("¥" + cartGoodsInfo.now_price);
         holder.add_sub_num.setCurValue(cartGoodsInfo.count);

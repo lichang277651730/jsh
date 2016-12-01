@@ -48,7 +48,7 @@ public class HomeGoodsAdapter extends RecyclerView.Adapter<HomeGoodsAdapter.MyVi
         if(context == null){
             context = parent.getContext();
         }
-        return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.item_home_goods, null));
+        return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.item_home_goods3, null));
     }
 
     @Override

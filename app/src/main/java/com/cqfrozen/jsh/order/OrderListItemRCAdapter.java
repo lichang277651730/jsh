@@ -11,8 +11,7 @@ import android.widget.TextView;
 
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.entity.OrderResultInfo;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.cqfrozen.jsh.util.ImageLoader;
 
 import java.util.List;
 
@@ -23,15 +22,15 @@ public class OrderListItemRCAdapter extends RecyclerView.Adapter<OrderListItemRC
 
     private Context context;
     private List<OrderResultInfo.OrderGoodsInfo> orderGoodsList;
-    private final DisplayImageOptions defaultOptions;
+//    private final DisplayImageOptions defaultOptions;
     public OrderListItemRCAdapter(Context context, List<OrderResultInfo.OrderGoodsInfo> orderGoodsList){
         this.context = context;
         this.orderGoodsList = orderGoodsList;
-        defaultOptions = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true)
-                .showImageOnLoading(R.color.transparency)
-                .showImageForEmptyUri(R.mipmap.img_loading_empty)
-                .showImageOnFail(R.mipmap.img_loading_failed)
-                .build();
+//        defaultOptions = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true)
+//                .showImageOnLoading(R.color.transparency)
+//                .showImageForEmptyUri(R.mipmap.img_loading_empty)
+//                .showImageOnFail(R.mipmap.img_loading_failed)
+//                .build();
     }
 
     @Override
@@ -45,7 +44,8 @@ public class OrderListItemRCAdapter extends RecyclerView.Adapter<OrderListItemRC
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         final OrderResultInfo.OrderGoodsInfo orderGoodsInfo = orderGoodsList.get(position);
-        ImageLoader.getInstance().displayImage(orderGoodsInfo.pic_url, holder.iv_goods, defaultOptions);
+//        ImageLoader.getInstance().displayImage(orderGoodsInfo.pic_url, holder.iv_goods, defaultOptions);
+        ImageLoader.load(context, orderGoodsInfo.pic_url, holder.iv_goods);
         holder.tv_name.setText(orderGoodsInfo.goods_name);
         holder.tv_brand.setText("品牌: " + orderGoodsInfo.brand_name);
         holder.tv_size.setText("规格: " + orderGoodsInfo.weight + "kg/件");

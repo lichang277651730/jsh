@@ -13,6 +13,7 @@ import com.common.util.DataCleanManager;
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.main.MyActivity;
 import com.cqfrozen.jsh.main.MyApplication;
+import com.cqfrozen.jsh.util.AppUtil;
 import com.cqfrozen.jsh.util.SPUtils;
 import com.cqfrozen.jsh.volleyhttp.MyHttp;
 
@@ -29,6 +30,7 @@ public class SettingActivity extends MyActivity implements View.OnClickListener 
     private Button btn_exit;
     private LinearLayout ll_help;
     private LinearLayout ll_change_phone;
+    private LinearLayout ll_good;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,10 +46,12 @@ public class SettingActivity extends MyActivity implements View.OnClickListener 
         tv_cache = (TextView) findViewById(R.id.tv_cache);
         ll_help = (LinearLayout) findViewById(R.id.ll_help);
         ll_change_phone = (LinearLayout) findViewById(R.id.ll_change_phone);
+        ll_good = (LinearLayout) findViewById(R.id.ll_good);
         btn_exit = (Button) findViewById(R.id.btn_exit);
         ll_change_pwd.setOnClickListener(this);
         ll_cache.setOnClickListener(this);
         ll_change_phone.setOnClickListener(this);
+        ll_good.setOnClickListener(this);
         ll_help.setOnClickListener(this);
         btn_exit.setOnClickListener(this);
         try {
@@ -73,6 +77,9 @@ public class SettingActivity extends MyActivity implements View.OnClickListener 
                 break;
             case R.id.ll_change_phone://更换手机号码
                 startActivity(new Intent(this, ChangePhoneActivity.class));
+                break;
+            case R.id.ll_good://去应用市场给好评
+                AppUtil.marketDownload(this, "com.cqfrozen.jsh");
                 break;
             case R.id.ll_help://意见反馈
                 startActivity(new Intent(this, SubmitIdeaActivity.class));

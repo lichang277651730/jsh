@@ -3,13 +3,15 @@ package com.cqfrozen.jsh.order;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.common.http.HttpForVolley;
@@ -19,31 +21,42 @@ import com.cqfrozen.jsh.entity.OrderResultInfo;
 import com.cqfrozen.jsh.util.CustomSimpleDialog;
 import com.cqfrozen.jsh.util.ToastUtil;
 import com.cqfrozen.jsh.volleyhttp.MyHttp;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
- * Created by Administrator on 2016/10/25.
+ * Created by Administrator on 2016/11/8.
  */
 public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.MyViewHolder> implements View.OnClickListener {
 
+    public interface STATE_EX{
+        String EX = "ALL";//展开
+        String UN_EX = "ONE";//收起
+    }
+
+    private Map<Integer, String> exmaps = new HashMap<>();//记录展开，收起状态
+//    private Map<Integer, Integer> btnmaps = new HashMap<>();//记录按钮状态
+    private Map<String, Integer> btnmapList = new HashMap<>();//记录按钮状态
+
     private Context context;
     private List<OrderResultInfo.OrderSearchInfo> orderSearchInfos;
-    private final DisplayImageOptions defaultOptions;
+//    private final DisplayImageOptions defaultOptions;
     private final HttpForVolley http;
+    private int index = -1;
     public OrderListAdapter(Context context, List<OrderResultInfo.OrderSearchInfo> orderSearchInfos){
         this.context = context;
         this.orderSearchInfos = orderSearchInfos;
         this.http = new HttpForVolley(context);
-        defaultOptions = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true)
-                .showImageOnLoading(R.color.transparency)
-                .showImageForEmptyUri(R.mipmap.img_loading_empty)
-                .showImageOnFail(R.mipmap.img_loading_failed)
-                .build();
+//        defaultOptions = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true)
+//                .showImageOnLoading(R.color.transparency)
+//                .showImageForEmptyUri(R.mipmap.img_loading_empty)
+//                .showImageOnFail(R.mipmap.img_loading_failed)
+//                .build();
     }
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -58,24 +71,154 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.MyVi
         final OrderResultInfo.OrderSearchInfo orderSearchInfo = orderSearchInfos.get(position);
         holder.tv_time.setText("下单时间: " + orderSearchInfo.add_time);
         holder.tv_result_status.setText(orderSearchInfo.status_name);
-        final OrderResultInfo.OrderGoodsInfo orderGoodsInfo = orderSearchInfo.orderinfo.get(0);
-        ImageLoader.getInstance().displayImage(orderGoodsInfo.pic_url, holder.iv_goods, defaultOptions);
-        holder.tv_name.setText(orderGoodsInfo.goods_name);
-        holder.tv_brand.setText("品牌: " + orderGoodsInfo.brand_name);
-        holder.tv_size.setText("规格: " + orderGoodsInfo.weight + "kg/件");
-        holder.tv_price.setText("¥" + orderGoodsInfo.now_price);
-        holder.tv_count.setText("X" + orderGoodsInfo.goods_count);
+        final List<OrderResultInfo.OrderGoodsInfo> exRcList = new ArrayList<>();
+        exRcList.addAll(orderSearchInfo.orderinfo.subList(0, 1));
+        GridLayoutManager manager = new GridLayoutManager(context, 1);
+        holder.rv_ordergoods.setLayoutManager(manager);
+        final OrderListItemRCAdapter orderListItemRCAdapter = new OrderListItemRCAdapter(context,
+                exRcList);
+        holder.rv_ordergoods.setAdapter(orderListItemRCAdapter);
+
         holder.tv_order_count.setText(orderSearchInfo.count);
         holder.tv_order_sum.setText("¥" + orderSearchInfo.order_amount);
 
+        if(orderSearchInfo.orderinfo.size() == 1){
+            holder.tv_showdetail.setVisibility(View.GONE);
+        }else {
+            holder.tv_showdetail.setVisibility(View.VISIBLE);
+        }
 
+        String saveExState = exmaps.get(position);
+        if(TextUtils.isEmpty(saveExState)){
+            holder.tv_showdetail.setTag(STATE_EX.UN_EX);
+        }else {
+            holder.tv_showdetail.setTag(saveExState);
+        }
+
+        String curExState = (String) holder.tv_showdetail.getTag();
+        if(STATE_EX.EX.equals(curExState)){
+            exRcList.clear();
+            holder.tv_showdetail.setText("收起商品清单∧");
+            exRcList.addAll(orderSearchInfo.orderinfo);
+            orderListItemRCAdapter.notifyDataSetChanged();
+        }else if (STATE_EX.UN_EX.equals(curExState)){
+            exRcList.clear();
+            holder.tv_showdetail.setText("展开商品清单∨");
+            exRcList.addAll(orderSearchInfo.orderinfo.subList(0, 1));
+            orderListItemRCAdapter.notifyDataSetChanged();
+        }
+
+        holder.tv_showdetail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String tag = (String) v.getTag();
+                exRcList.clear();
+                if(STATE_EX.UN_EX.equals(tag)){
+                    v.setTag(STATE_EX.EX);
+                    exmaps.put(position, STATE_EX.EX);
+                    holder.tv_showdetail.setText("收起商品清单∧");
+                    exRcList.addAll(orderSearchInfo.orderinfo);
+                    orderListItemRCAdapter.notifyDataSetChanged();
+                }else if(STATE_EX.EX.equals(tag)){
+                    v.setTag(STATE_EX.UN_EX);
+                    exmaps.put(position, STATE_EX.UN_EX);
+                    holder.tv_showdetail.setText("展开商品清单∨");
+                    exRcList.addAll(orderSearchInfo.orderinfo.subList(0, 1));
+                    orderListItemRCAdapter.notifyDataSetChanged();
+                }
+
+            }
+        });
+
+
+        Integer saveBtnType = btnmapList.get(orderSearchInfo.o_id);
+        if(saveBtnType != null){
+            initBtnType(saveBtnType, holder);
+        }else {
+            initBtnType(orderSearchInfo.btn_type, holder);
+        }
+
+         // (0未付款，1已付款，2已完成，3已取消)
+
+//        switch (Integer.parseInt(orderSearchInfo.order_status)) {
+//            case 0:
+//                holder.iv_order_status.setImageResource(R.mipmap.labelview_order_nopay);
+//                break;
+//            case 1:
+//                holder.iv_order_status.setImageResource(R.mipmap.labelview_order_outing);
+//                break;
+//            case 2:
+//                holder.iv_order_status.setImageResource(R.mipmap.labelview_order_sending);
+//                break;
+//            case 3:
+//                holder.iv_order_status.setVisibility(View.GONE);
+//                break;
+//            default:
+//                holder.iv_order_status.setVisibility(View.GONE);
+//                break;
+//        }
+
+
+        //取消未付款订单
+        holder.btn_cancel_nopay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cancelNoPayDialog(position, holder, orderSearchInfo);
+            }
+        });
+
+        //去支付
+        holder.btn_go_pay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToastUtil.showToast(context, "此功能暂未开放");
+            }
+        });
+
+        //取消未发货订单
+        holder.btn_cancel_noout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showCancelNoOutDialog(position, holder, orderSearchInfo.o_id);
+            }
+        });
+
+        //确认收货
+        holder.btn_confirm_get.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showConfirmGetDialog(position, holder, orderSearchInfo.o_id);
+            }
+        });
+
+        //去评价
+        holder.btn_go_say.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, AppraiseActivity.class);
+                intent.putExtra("o_id", orderSearchInfo.o_id);
+                context.startActivity(intent);
+            }
+        });
+
+        //删除订单
+        holder.btn_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDeleteDialog(position, holder, orderSearchInfo.o_id);
+            }
+        });
+
+    }
+
+    private void initBtnType(int btn_type, MyViewHolder holder) {
         // 0所有按钮都不显示，
         // 1取消、去支付(未付款),
         // 2取消（货到付款未出库），
         // 3确认收货（已发货）,
         // 4去评价(已收货、未评价)，
         // 5删除（取消订单、已完成评价订单）
-        switch (orderSearchInfo.btn_type) {
+        switch (btn_type) {
             case 0:
                 holder.btn_cancel_nopay.setVisibility(View.GONE);
                 holder.btn_go_pay.setVisibility(View.GONE);
@@ -136,75 +279,6 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.MyVi
                 break;
         }
 
-        //取消未付款订单
-        holder.btn_cancel_nopay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cancelNoPayDialog(position, holder, orderSearchInfo);
-            }
-        });
-
-        //去支付
-        holder.btn_go_pay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ToastUtil.showToast(context, "此功能暂未开放");
-            }
-        });
-
-        //取消未发货订单
-        holder.btn_cancel_noout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showCancelNoOutDialog(position, holder, orderSearchInfo.o_id);
-            }
-        });
-
-        //确认收货
-        holder.btn_confirm_get.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showConfirmGetDialog(position, holder, orderSearchInfo.o_id);
-            }
-        });
-
-        //去评价
-        holder.btn_go_say.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, AppraiseActivity.class);
-                intent.putExtra("o_id", orderSearchInfo.o_id);
-                context.startActivity(intent);
-            }
-        });
-
-        //删除订单
-        holder.btn_delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDeleteDialog(position, holder, orderSearchInfo.o_id);
-            }
-        });
-
-
-        holder.include_item_order_sumbit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(onItemClickListener != null){
-                    onItemClickListener.onItemClick(position, orderSearchInfo);
-                }
-            }
-        });
-
-        holder.tv_showdetail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(onItemClickListener != null){
-                    onItemClickListener.onItemClick(position, orderSearchInfo);
-                }
-            }
-        });
-
     }
 
     private CustomSimpleDialog confirmGetDialog;
@@ -228,6 +302,8 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.MyVi
                                 intent.putExtra("o_id", o_id);
                                 context.startActivity(intent);
 //                                notifyItemChanged(position);
+//                                btnmaps.put(position, 4);
+                                btnmapList.put(o_id, 4);
                             }
                         });
                     }
@@ -242,15 +318,16 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.MyVi
         confirmGetDialog.show();
     }
 
-    //    private AlertDialog cancelNoPayDialog;
     private CustomSimpleDialog cancelNoPayDialog;
     private void cancelNoPayDialog(final int position, final MyViewHolder holder, final OrderResultInfo.OrderSearchInfo orderSearchInfo) {
+        Log.d("OrderListposition", position + ":position cancelNoPayDialog");
         cancelNoPayDialog = new CustomSimpleDialog.Builder(context)
-        .setMessage("确定要取消该订单吗？")
-               .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                   @Override
-                   public void onClick(final DialogInterface dialog, int which) {
-                       MyHttp.cancelOrder(http, null, orderSearchInfo.o_id, new HttpForVolley.HttpTodo() {
+                .setMessage("确定要取消该订单吗？")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(final DialogInterface dialog, int which) {
+
+                        MyHttp.cancelOrder(http, null, orderSearchInfo.o_id, new HttpForVolley.HttpTodo() {
                             @Override
                             public void httpTodo(Integer which, JSONObject response) {
                                 dialog.cancel();
@@ -262,51 +339,26 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.MyVi
                                 holder.btn_cancel_nopay.setVisibility(View.GONE);
                                 holder.btn_delete.setVisibility(View.VISIBLE);
 //                                orderSearchInfo.btn_type = 5;
+//                                btnmaps.put(position, 5);
+                                btnmapList.put(orderSearchInfo.o_id, 4);
 //                                notifyItemChanged(position);
                             }
                         });
-                   }
-               })
+                    }
+                })
                 .setNegativeButton("取消", new DialogInterface.OnCancelListener() {
                     @Override
                     public void onCancel(DialogInterface dialog) {
                         dialog.cancel();
                     }
                 })
-        .create();
+                .create();
         cancelNoPayDialog.show();
-//        cancelNoPayDialog = new AlertDialog.Builder(context)
-//                .setMessage("确定要取消该订单吗？")
-//                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        MyHttp.cancelOrder(http, null, o_id, new HttpForVolley.HttpTodo() {
-//                            @Override
-//                            public void httpTodo(Integer which, JSONObject response) {
-//                                int code = response.optInt("code");
-//                                if(code != 0){
-//                                    ToastUtil.showToast(context, response.optString("msg"));
-//                                    return;
-//                                }
-//                                holder.btn_cancel_nopay.setVisibility(View.GONE);
-//                                holder.btn_delete.setVisibility(View.VISIBLE);
-//                            }
-//                        });
-//                    }
-//                })
-//                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.cancel();
-//                    }
-//                })
-//                .create();
-//        cancelNoPayDialog.show();
+
     }
 
 
 
-//    private AlertDialog cancelNoOutDialog;
     private CustomSimpleDialog cancelNoOutDialog;
     private void showCancelNoOutDialog(final int position, final MyViewHolder holder, final String o_id) {
 
@@ -327,6 +379,8 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.MyVi
                                 holder.btn_cancel_noout.setVisibility(View.GONE);
                                 holder.btn_delete.setVisibility(View.VISIBLE);
 //                                notifyItemChanged(position);
+//                                btnmaps.put(position, 5);
+                                btnmapList.put(o_id, 5);
                             }
                         });
                     }
@@ -339,36 +393,9 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.MyVi
                 })
                 .create();
         cancelNoOutDialog.show();
-//        cancelNoOutDialog = new AlertDialog.Builder(context)
-//                .setMessage("确定要取消该订单吗？")
-//                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        MyHttp.cancelOrder(http, null, o_id, new HttpForVolley.HttpTodo() {
-//                            @Override
-//                            public void httpTodo(Integer which, JSONObject response) {
-//                                int code = response.optInt("code");
-//                                if(code != 0){
-//                                    ToastUtil.showToast(context, response.optString("msg"));
-//                                    return;
-//                                }
-//                                holder.btn_cancel_noout.setVisibility(View.GONE);
-//                                holder.btn_delete.setVisibility(View.VISIBLE);
-//                            }
-//                        });
-//                    }
-//                })
-//                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.cancel();
-//                    }
-//                })
-//                .create();
-//        cancelNoOutDialog.show();
+
     }
 
-//    private AlertDialog deleteDialog;
     private CustomSimpleDialog deleteDialog;
     private void showDeleteDialog(final int position, final MyViewHolder holder, final String o_id) {
         deleteDialog = new CustomSimpleDialog.Builder(context)
@@ -385,8 +412,6 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.MyVi
                                     ToastUtil.showToast(context, response.optString("msg"));
                                     return;
                                 }
-//                        holder.ll_btns.setVisibility(View.GONE);
-//                        v_divider.setVisibility(View.GONE);
                                 orderSearchInfos.remove(position);
                                 notifyItemRemoved(position);
                                 holder.btn_cancel_nopay.setVisibility(View.GONE);
@@ -407,41 +432,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.MyVi
                 })
                 .create();
         deleteDialog.show();
-//        deleteDialog = new AlertDialog.Builder(context)
-//                .setMessage("确定要删除该订单吗？")
-//                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        MyHttp.orderDelete(http, null, o_id, new HttpForVolley.HttpTodo() {
-//                            @Override
-//                            public void httpTodo(Integer which, JSONObject response) {
-//                                int code = response.optInt("code");
-//                                if(code != 0){
-//                                    ToastUtil.showToast(context, response.optString("msg"));
-//                                    return;
-//                                }
-////                        holder.ll_btns.setVisibility(View.GONE);
-////                        v_divider.setVisibility(View.GONE);
-//                                orderSearchInfos.remove(position);
-//                                notifyItemRemoved(position);
-//                                holder.btn_cancel_nopay.setVisibility(View.GONE);
-//                                holder.btn_go_pay.setVisibility(View.GONE);
-//                                holder.btn_cancel_noout.setVisibility(View.GONE);
-//                                holder.btn_confirm_get.setVisibility(View.GONE);
-//                                holder.btn_go_say.setVisibility(View.GONE);
-//                                holder.btn_delete.setVisibility(View.GONE);
-//                            }
-//                        });
-//                    }
-//                })
-//                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.cancel();
-//                    }
-//                })
-//                .create();
-//        deleteDialog.show();
+
     }
 
     @Override
@@ -478,21 +469,17 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.MyVi
         private Button btn_cancel_noout;//未出库取消按钮
         private Button btn_confirm_get;//确认收货按钮
         private Button btn_go_say;//去评价按钮
+        private RecyclerView rv_ordergoods;//取消订单 已完成评价订单 删除按钮
+        private ImageView iv_order_status;//取消订单 已完成评价订单 删除按钮
         private Button btn_delete;//取消订单 已完成评价订单 删除按钮
-        private ImageView iv_goods;
-        private TextView tv_name;
-        private TextView tv_brand;
-        private TextView tv_size;
-        private TextView tv_price;
-        private TextView tv_count;
-        private LinearLayout include_item_order_sumbit;
         private TextView tv_showdetail;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             tv_time = (TextView) itemView.findViewById(R.id.tv_time);
             tv_result_status = (TextView) itemView.findViewById(R.id.tv_result_status);
-            include_item_order_sumbit = (LinearLayout) itemView.findViewById(R.id.include_item_order_sumbit);
+            rv_ordergoods = (RecyclerView) itemView.findViewById(R.id.rv_ordergoods);
+            iv_order_status = (ImageView) itemView.findViewById(R.id.iv_order_status);
             tv_order_count = (TextView) itemView.findViewById(R.id.tv_order_count);
             tv_order_sum = (TextView) itemView.findViewById(R.id.tv_order_sum);
             btn_cancel_nopay = (Button) itemView.findViewById(R.id.btn_cancel_nopay);
@@ -501,12 +488,6 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.MyVi
             btn_confirm_get = (Button) itemView.findViewById(R.id.btn_confirm_get);
             btn_go_say = (Button) itemView.findViewById(R.id.btn_go_say);
             btn_delete = (Button) itemView.findViewById(R.id.btn_delete);
-            iv_goods = (ImageView) itemView.findViewById(R.id.iv_goods);
-            tv_name = (TextView) itemView.findViewById(R.id.tv_name);
-            tv_brand = (TextView) itemView.findViewById(R.id.tv_brand);
-            tv_size = (TextView) itemView.findViewById(R.id.tv_size);
-            tv_price = (TextView) itemView.findViewById(R.id.tv_price);
-            tv_count = (TextView) itemView.findViewById(R.id.tv_count);
             tv_showdetail = (TextView) itemView.findViewById(R.id.tv_showdetail);
         }
     }

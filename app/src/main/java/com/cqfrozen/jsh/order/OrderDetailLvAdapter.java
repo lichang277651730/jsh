@@ -10,8 +10,7 @@ import android.widget.TextView;
 
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.entity.OrderDetailPageInfo;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.cqfrozen.jsh.util.ImageLoader;
 
 import java.util.List;
 
@@ -22,15 +21,15 @@ public class OrderDetailLvAdapter extends BaseAdapter {
 
     private Context context;
     private List<OrderDetailPageInfo.OrderDetailPageBean> orderDetailPageBeanList;
-    private final DisplayImageOptions defaultOptions;
+//    private final DisplayImageOptions defaultOptions;
     public OrderDetailLvAdapter(Context context, List<OrderDetailPageInfo.OrderDetailPageBean> orderDetailPageBeanList){
         this.context = context;
         this.orderDetailPageBeanList = orderDetailPageBeanList;
-        defaultOptions = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true)
-                .showImageOnLoading(R.color.transparency)
-                .showImageForEmptyUri(R.mipmap.img_loading_empty)
-                .showImageOnFail(R.mipmap.img_loading_failed)
-                .build();
+//        defaultOptions = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true)
+//                .showImageOnLoading(R.color.transparency)
+//                .showImageForEmptyUri(R.mipmap.img_loading_empty)
+//                .showImageOnFail(R.mipmap.img_loading_failed)
+//                .build();
     }
 
     @Override
@@ -66,7 +65,8 @@ public class OrderDetailLvAdapter extends BaseAdapter {
         }
         OrderDetailPageInfo.OrderDetailPageBean detailPageBean = orderDetailPageBeanList.get
                 (position);
-        ImageLoader.getInstance().displayImage(detailPageBean.pic_url, holder.iv_goods, defaultOptions);
+//        ImageLoader.getInstance().displayImage(detailPageBean.pic_url, holder.iv_goods, defaultOptions);
+        ImageLoader.load(context, detailPageBean.pic_url, holder.iv_goods);
         holder.tv_name.setText(detailPageBean.g_name);
         holder.tv_brand.setText("品牌: " + detailPageBean.brand_name);
         holder.tv_size.setText("规格: " + detailPageBean.weight + "kg/件");

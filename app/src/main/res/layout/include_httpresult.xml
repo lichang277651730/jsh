@@ -9,11 +9,11 @@
     android:gravity="center">
 
     <LinearLayout
-        android:visibility="gone"
         android:id="@+id/include_faillayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
+        android:visibility="gone"
         android:orientation="vertical">
 
         <ImageView
@@ -25,21 +25,32 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="您来到了一个没有网络的地方,请稍后再试!"
+            android:textColor="@color/color_nine"
+            android:textSize="14sp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:gravity="center"
-            android:text="网络连接错误,请检查网络后重试"
-            android:textColor="@color/mygray"
-            android:textSize="13sp"/>
+            android:text="请重新刷新试试"
+            android:textColor="@color/four_nine"
+            android:textSize="16sp"/>
 
         <Button
             android:id="@+id/include_fail_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:textColor="@color/mygray"
-            android:background="@drawable/sl_try_btn_bg"
-            android:padding="8dp"
-            android:text="刷新试试"/>
+            android:background="@drawable/sl_cart_try_btn_bg"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingRight="30dp"
+            android:paddingLeft="30dp"
+            android:textColor="@color/main"
+            android:text="重新刷新"/>
     </LinearLayout>
 
     <LinearLayout
@@ -54,7 +65,7 @@
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:layout_marginTop="-70dp"
-            android:src="@mipmap/img_http_no_data"/>
+            android:src="@mipmap/http_fail"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -62,17 +73,20 @@
             android:layout_marginTop="10dp"
             android:gravity="center"
             android:text="没有相关数据"
-            android:textColor="@color/mygray"
-            android:textSize="13sp"/>
+            android:textColor="@color/color_nine"
+            android:textSize="14sp"/>
 
         <Button
             android:id="@+id/include_nodata_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:textColor="@color/mygray"
-            android:background="@drawable/sl_try_btn_bg"
-            android:padding="8dp"
-            android:text="刷新试试"/>
+            android:background="@drawable/sl_cart_try_btn_bg"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingRight="30dp"
+            android:paddingLeft="30dp"
+            android:textColor="@color/main"
+            android:text="重新刷新"/>
     </LinearLayout>
 </RelativeLayout>

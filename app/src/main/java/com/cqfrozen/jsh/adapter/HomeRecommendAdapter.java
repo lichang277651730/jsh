@@ -13,8 +13,7 @@ import android.widget.TextView;
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.activity.GoodsDetailActivity;
 import com.cqfrozen.jsh.entity.GoodsInfo;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.cqfrozen.jsh.util.ImageLoader;
 
 import java.util.List;
 
@@ -25,15 +24,9 @@ public class HomeRecommendAdapter  extends RecyclerView.Adapter<HomeRecommendAda
 
     private Context context;
     private List<GoodsInfo> priceGoods;
-    private final DisplayImageOptions defaultOptions;
     public HomeRecommendAdapter(Context context, List<GoodsInfo> priceGoods){
         this.context = context;
         this.priceGoods = priceGoods;
-        defaultOptions = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true)
-                .showImageOnLoading(R.color.transparency)
-                .showImageForEmptyUri(R.mipmap.img_loading_empty)
-                .showImageOnFail(R.mipmap.img_loading_failed)
-                .build();
     }
 
     @Override
@@ -47,7 +40,7 @@ public class HomeRecommendAdapter  extends RecyclerView.Adapter<HomeRecommendAda
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         final GoodsInfo goodsInfo = priceGoods.get(position);
-        ImageLoader.getInstance().displayImage(goodsInfo.pic_url, holder.iv_goods, defaultOptions);
+        ImageLoader.load(context, goodsInfo.pic_url, holder.iv_goods);
         holder.tv_name.setText(goodsInfo.g_name);
         holder.tv_brand.setText("品牌:" + goodsInfo.brand_name);
         holder.tv_size.setText("规格:" + goodsInfo.weight + "kg/" + goodsInfo.unit);
@@ -89,11 +82,5 @@ public class HomeRecommendAdapter  extends RecyclerView.Adapter<HomeRecommendAda
             iv_cart = (ImageView) itemView.findViewById(R.id.iv_cart);
         }
 
-//        private RecyclerView rv_homeprice;
-//        public MyViewHolder(View itemView) {
-//            super(itemView);
-//            rv_homeprice = (RecyclerView) itemView.findViewById(R.id.rv_homeprice);
-
-//        }
     }
 }

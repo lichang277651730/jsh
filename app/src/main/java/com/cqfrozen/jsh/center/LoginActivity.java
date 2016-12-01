@@ -271,7 +271,6 @@ public class LoginActivity extends MyActivity implements View.OnClickListener, M
             public void httpResult(Integer which, int code, String msg, Object bean) {
                 btn_login.setEnabled(true);//防止重复点击登陆
                 if(code != 0){
-//                    SPUtils.setToken("");
                     CustomMiddleToast.getInstance(LoginActivity.this).showToast(msg);
                     return;
                 }

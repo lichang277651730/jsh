@@ -13,19 +13,15 @@
         android:id="@+id/refresh_comment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/ll_notify"
         android:orientation="vertical">
         <include layout="@layout/include_httpresult"/>
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_comment"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/mybg"
             android:scrollbars="none">
         </android.support.v7.widget.RecyclerView>
     </com.common.refresh.RefreshLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white"/>
 </LinearLayout>

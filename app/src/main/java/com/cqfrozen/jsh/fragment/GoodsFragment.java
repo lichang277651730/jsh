@@ -161,16 +161,16 @@ public class GoodsFragment extends MyFragment implements MyHttp.MyHttpResult, My
     @Override
     public void httpResult(Integer which, int code, String msg, Object bean) {
         if(code == 404){
-            setHttpFail(this);
             refresh_goods.setRefreshFailed();
             refresh_goods.setLoadFailed();
+            setHttpFail(this);
             return;
         }
 
         if(code != 0){
-            setHttpFail(this);
             refresh_goods.setLoadFailed();
             refresh_goods.setRefreshFailed();
+            setHttpFail(this);
             return;
         }
         refresh_goods.setRefreshSuccess();

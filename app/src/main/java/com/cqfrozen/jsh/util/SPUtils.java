@@ -154,4 +154,25 @@ public class SPUtils {
 		return MyApplication.userSp.getLong("expire_time", 0L);
 	}
 
+	/**
+	 * 设置兄弟伙页面的规则内容
+	 */
+	public static void setFansListContent(String content) {
+		MyApplication.userSp.edit().putString("fans_content", content).commit();
+	}
+
+	public static String getFansListContent(){
+		return MyApplication.userSp.getString("fans_content", "");
+	}
+
+	/**
+	 * 设置邀请链接
+	 */
+	public static void setInviteUrl(String inviteUrl) {
+		MyApplication.userSp.edit().putString("invite_url", inviteUrl).commit();
+	}
+
+	public static String getInviteUrl(){
+		return MyApplication.userSp.getString("invite_url", "");
+	}
 }

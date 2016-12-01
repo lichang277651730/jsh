@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.common.refresh.RefreshLayout;
 import com.common.refresh.SupportLayout;
@@ -34,6 +35,7 @@ public class HuibiFragment extends MyFragment implements SupportLayout.LoadMoreL
 
     private HuibiRVAdapter rvAdapter;
     private List<HuibiInfo> huibiInfos = new ArrayList<>();
+    private LinearLayout include_huibinodatalayout;
 
     public static HuibiFragment getInstance(int type){
         HuibiFragment fragment = new HuibiFragment();
@@ -64,6 +66,7 @@ public class HuibiFragment extends MyFragment implements SupportLayout.LoadMoreL
     private void initView() {
         refresh_huibi = (RefreshLayout) view.findViewById(R.id.refresh_huibi);
         rv_huibi = (RecyclerView) view.findViewById(R.id.rv_huibi);
+        include_huibinodatalayout = (LinearLayout) view.findViewById(R.id.include_huibinodatalayout);
     }
 
     private void initRV() {
@@ -101,15 +104,26 @@ public class HuibiFragment extends MyFragment implements SupportLayout.LoadMoreL
                 huibiInfos.addAll(huibiResultInfo.data1);
                 is_page = huibiResultInfo.is_page;
                 if(huibiInfos.size() == 0){
-//                    setHttpNotData(HuibiFragment.this);
+                    setHuibiNotData();
                     return;
                 }
+                showDataView();
                 setHttpSuccess();
                 rvAdapter.notifyDataSetChanged();
                 page++;
 
             }
         });
+    }
+
+    private void showDataView() {
+        include_huibinodatalayout.setVisibility(View.GONE);
+        rv_huibi.setVisibility(View.VISIBLE);
+    }
+
+    private void setHuibiNotData() {
+        include_huibinodatalayout.setVisibility(View.VISIBLE);
+        rv_huibi.setVisibility(View.GONE);
     }
 
     @Override

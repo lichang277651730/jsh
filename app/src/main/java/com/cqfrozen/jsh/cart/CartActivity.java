@@ -45,7 +45,6 @@ public class CartActivity extends MyActivity implements View.OnClickListener,
 
     private static final int REQUEST_CODE_CART_ACTIVITY = 1;
 
-//    private static CartFragment fragment;
     private Button btn_edit;
     private RecyclerView rv_cart;
     private CheckBox cb_all;

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +24,7 @@ import com.cqfrozen.jsh.fragment.FansFragment;
 import com.cqfrozen.jsh.main.MyActivity;
 import com.cqfrozen.jsh.share.SharePop;
 import com.cqfrozen.jsh.util.QrCodeUtil;
+import com.cqfrozen.jsh.util.SPUtils;
 import com.cqfrozen.jsh.volleyhttp.MyHttp;
 
 import java.io.IOException;
@@ -75,6 +77,11 @@ public class FansListActity extends MyActivity implements View.OnClickListener{
                     return;
                 }
                 myFansPageInfo = (MyFansPageInfo) bean;
+                if(myFansPageInfo == null){
+                    return;
+                }
+                SPUtils.setFansListContent(myFansPageInfo.content);
+                SPUtils.setInviteUrl(myFansPageInfo.http_url);
                 initViewData(myFansPageInfo);
             }
         });
@@ -106,8 +113,8 @@ public class FansListActity extends MyActivity implements View.OnClickListener{
         tv_huibi_total.setText("￥" + myFansPageInfo.hb_count);
         tv_fans_count.setText(myFansPageInfo.intotal_fans_count + "");
         tv_invite_code.setText("我的邀请码:" + myFansPageInfo.code);
-        tv_one_fans.setText("我的兄弟伙(" + myFansPageInfo.one_fans_count + ")");
-        tv_two_fans.setText("兄弟伙的兄弟伙(" + myFansPageInfo.two_fans_count + ")");
+        tv_one_fans.setText("兄弟伙(" + myFansPageInfo.one_fans_count + ")");
+        tv_two_fans.setText("二级兄弟伙(" + myFansPageInfo.two_fans_count + ")");
         tv_one_fans.setTextColor(getResources().getColor(R.color.main));
     }
 
@@ -129,6 +136,12 @@ public class FansListActity extends MyActivity implements View.OnClickListener{
         tv_two_fans.setOnClickListener(this);
         tv_send_invite.setOnClickListener(this);
         tv_face_to_face.setOnClickListener(this);
+
+        String fansListContent = SPUtils.getFansListContent();
+        if(!TextUtils.isEmpty(fansListContent)){
+            tv_desc.setText(fansListContent);
+        }
+
         createQrPop();
     }
 
@@ -175,9 +188,17 @@ public class FansListActity extends MyActivity implements View.OnClickListener{
                             invite_http_url,
                             "我在这里买冻品一起来捡耙活！注册就有送，有买就有送，不买也有",
                             bitmap,
-                            "http://www.cqfrozen.com/skin/images/logo.png", null);
+                            "http://p18.qhimg.com/t01024fff41e15d3348.png", null);
                 } catch (IOException e) {
                     e.printStackTrace();
+                }finally {
+                    if(open != null){
+                        try {
+                            open.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
 
                 break;

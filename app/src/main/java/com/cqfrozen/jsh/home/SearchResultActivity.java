@@ -155,12 +155,14 @@ public class SearchResultActivity extends MyActivity implements View.OnClickList
         v_sales.setVisibility(View.INVISIBLE);
         switch (id) {
             case R.id.tv_all:
+
                 tv_all.setTextColor(getResources().getColor(R.color.main));
                 v_all.setVisibility(View.VISIBLE);
                 order = OrderType.ASC;
                 sort = SortType.DEFAULT;
                 break;
             case R.id.ll_price:
+
                 tv_price.setTextColor(getResources().getColor(R.color.main));
                 v_price.setVisibility(View.VISIBLE);
                 sort = SortType.PRICE;
@@ -173,6 +175,7 @@ public class SearchResultActivity extends MyActivity implements View.OnClickList
                 }
                 break;
             case R.id.tv_sales:
+
                 tv_sales.setTextColor(getResources().getColor(R.color.main));
                 v_sales.setVisibility(View.VISIBLE);
                 order = OrderType.ASC;

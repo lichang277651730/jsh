@@ -113,7 +113,7 @@ public class HomeBannerAdapter extends RecyclerView.Adapter<HomeBannerAdapter.My
                     }
                 });
             }
-        }, 4000, 4000);
+        }, 5000, 5000);
     }
 
     //viewpager页面滑动监听

@@ -50,13 +50,19 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.MyViewHolder> 
 
         switch (shopInfo.store_status) {
             case 0:
-                holder.tv_shop_status.setText("未审核");
+                holder.tv_verify_ing.setVisibility(View.VISIBLE);
+                holder.tv_verify_yes.setVisibility(View.GONE);
+                holder.tv_verify_no.setVisibility(View.GONE);
                 break;
             case 1:
-                holder.tv_shop_status.setText("已通过");
+                holder.tv_verify_yes.setVisibility(View.VISIBLE);
+                holder.tv_verify_ing.setVisibility(View.GONE);
+                holder.tv_verify_no.setVisibility(View.GONE);
                 break;
             case 2:
-                holder.tv_shop_status.setText("未通过");
+                holder.tv_verify_no.setVisibility(View.VISIBLE);
+                holder.tv_verify_ing.setVisibility(View.GONE);
+                holder.tv_verify_yes.setVisibility(View.GONE);
                 break;
         }
 
@@ -103,8 +109,10 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.MyViewHolder> 
         private TextView tv_shop_name;
         private TextView tv_main_shop_yes;
         private TextView tv_main_shop_no;
-        private TextView tv_shop_status;
         private TextView tv_men_name;
+        private TextView tv_verify_ing;
+        private TextView tv_verify_yes;
+        private TextView tv_verify_no;
         private TextView tv_phone;
         private TextView tv_address;
         private TextView tv_edit;
@@ -115,7 +123,9 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.MyViewHolder> 
             tv_shop_name = (TextView) itemView.findViewById(R.id.tv_shop_name);
             tv_main_shop_yes = (TextView) itemView.findViewById(R.id.tv_main_shop_yes);
             tv_main_shop_no = (TextView) itemView.findViewById(R.id.tv_main_shop_no);
-            tv_shop_status = (TextView) itemView.findViewById(R.id.tv_shop_status);
+            tv_verify_ing = (TextView) itemView.findViewById(R.id.tv_verify_ing);
+            tv_verify_yes = (TextView) itemView.findViewById(R.id.tv_verify_yes);
+            tv_verify_no = (TextView) itemView.findViewById(R.id.tv_verify_no);
             tv_phone = (TextView) itemView.findViewById(R.id.tv_phone);
             tv_address = (TextView) itemView.findViewById(R.id.tv_address);
             tv_edit = (TextView) itemView.findViewById(R.id.tv_edit);

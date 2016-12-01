@@ -16,6 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="12dp"
             android:layout_weight="1"
+            android:textColor="@color/color_nine"
             android:text="下单时间: 2016-9-26 11:15:58"
             android:textSize="12sp"/>
 
@@ -25,20 +26,34 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="16dp"
             android:text="待付款"
-            android:textColor="@color/main"
+            android:textColor="@color/color_nine"
             android:textSize="16sp"/>
     </LinearLayout>
 
     <View style="@style/HorizontalDividerLine"/>
-
-    <include layout="@layout/item_order_submit"
-        android:id="@+id/include_item_order_sumbit"/>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_ordergoods"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/mybg"
+            android:scrollbars="none">
+        </android.support.v7.widget.RecyclerView>
+        <ImageView
+            android:id="@+id/iv_order_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
+    </FrameLayout>
     <TextView
         android:id="@+id/tv_showdetail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="查看商品清单V"
+        android:text="展开商品清单∨"
         android:padding="4dp"
+        android:textColor="@color/textColorPrimary"
         android:gravity="center"/>
     <View style="@style/HorizontalDividerLine"/>
 
@@ -58,6 +73,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
                 android:text="共"
+                android:textColor="@color/textColorPrimary"
                 android:textSize="16sp"/>
 
             <TextView
@@ -65,13 +81,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=" 8 "
-                android:textColor="@color/myred"
+                android:textColor="@color/nowPriceColor"
                 android:textSize="16sp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="件商品"
+                android:textColor="@color/textColorPrimary"
                 android:textSize="16sp"/>
 
             <TextView
@@ -80,7 +97,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="8dp"
                 android:text="总计:"
-                android:textColor="@color/myred"
+                android:textColor="@color/textColorPrimary"
                 android:textSize="16sp"/>
 
             <TextView
@@ -89,9 +106,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="8dp"
                 android:text="￥201"
-                android:textColor="@color/myred"
-                android:textSize="16sp"
-                android:textStyle="bold"/>
+                android:textColor="@color/nowPriceColor"
+                android:textSize="16sp"/>
         </LinearLayout>
 
 

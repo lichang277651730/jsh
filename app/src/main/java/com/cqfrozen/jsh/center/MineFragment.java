@@ -1,6 +1,5 @@
 package com.cqfrozen.jsh.center;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,21 +10,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.common.base.BaseValue;
 import com.common.http.HttpForVolley;
-import com.common.util.PhotoPopupWindow;
-import com.common.util.PhotoUtil;
 import com.common.widget.MyHeadImageView;
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.entity.HttpUrlInfo;
 import com.cqfrozen.jsh.entity.UserInfo;
 import com.cqfrozen.jsh.main.MyFragment;
 import com.cqfrozen.jsh.order.OrderListActivity;
+import com.cqfrozen.jsh.takephoto.TakePhotoWindow;
 import com.cqfrozen.jsh.util.ShortcutPop;
 import com.cqfrozen.jsh.volleyhttp.MyHttp;
 import com.cqfrozen.jsh.widget.BadgeView;
+import com.jph.takephoto.model.TImage;
+import com.jph.takephoto.model.TResult;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -37,8 +38,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by Administrator on 2016/9/12.
- * 个人中心页面 fragment
+ * Created by Administrator on 2016/11/14.
  */
 public class MineFragment extends MyFragment implements View.OnClickListener{
 
@@ -56,8 +56,8 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
     private TextView tv_verify;
     private TextView tv_huibi;
     private TextView tv_fans;
-    private LinearLayout ll_huibi;
-    private LinearLayout ll_fans;
+    private RelativeLayout rl_huibi;
+    private RelativeLayout rl_fans;
     private LinearLayout ll_table1;
     private LinearLayout ll_table2;
     private LinearLayout ll_table3;
@@ -73,20 +73,16 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
     private List<HttpUrlInfo> httpUrlInfos = new ArrayList<HttpUrlInfo>();
     private Map<Integer, String> urlMap = new HashMap<>();
     private String huibi_rule_url = "";
-    private String user_protocol_url = "";
     private String about_us_url = "";
     private String after_sale_url = "";
     private TextView tv_after_sale;
     private TextView tv_about_us;
-    private PhotoUtil photoUtil;
-    private PhotoPopupWindow photoPopupWindow;
     private TextView tv_server_phone;
     private UserInfo userInfo;
     private LinearLayout ll_server_phone;
     private LinearLayout ll_user_phone_verify;
-    private View view_line_under_head;
-    private View view_head_under;
-    private LinearLayout ll_head_container;
+//    private View view_line_under_head;
+//    private LinearLayout ll_head_container;
 
     public interface UrlType{
         int huibi_rule = 4;
@@ -131,9 +127,9 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
         tv_name = (TextView) view.findViewById(R.id.tv_name);
         tv_phone = (TextView) view.findViewById(R.id.tv_phone);
         tv_verify = (TextView) view.findViewById(R.id.tv_verify);
-        ll_huibi = (LinearLayout) view.findViewById(R.id.ll_huibi);
+        rl_huibi = (RelativeLayout) view.findViewById(R.id.rl_huibi);
         tv_huibi = (TextView) view.findViewById(R.id.tv_huibi);
-        ll_fans = (LinearLayout) view.findViewById(R.id.ll_fans);
+        rl_fans = (RelativeLayout) view.findViewById(R.id.rl_fans);
         ll_table1 = (LinearLayout) view.findViewById(R.id.ll_table1);
         ll_table2 = (LinearLayout) view.findViewById(R.id.ll_table2);
         ll_table3 = (LinearLayout) view.findViewById(R.id.ll_table3);
@@ -145,9 +141,8 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
         tv_normal_buy = (TextView) view.findViewById(R.id.tv_normal_buy);
         tv_server_phone = (TextView) view.findViewById(R.id.tv_server_phone);
         ll_server_phone = (LinearLayout) view.findViewById(R.id.ll_server_phone);
-        view_line_under_head = (View) view.findViewById(R.id.view_line_under_head);
-//        view_head_under = (View) view.findViewById(R.id.view_head_under);
-        ll_head_container = (LinearLayout) view.findViewById(R.id.ll_head_container);
+//        ll_head_container = (LinearLayout) view.findViewById(R.id.ll_head_container);
+//        view_line_under_head = (View) view.findViewById(R.id.view_line_under_head);
 
         tv_lookall.setOnClickListener(this);
         iv_setting.setOnClickListener(this);
@@ -157,8 +152,8 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
         iv_head.setOnClickListener(this);
         tv_login.setOnClickListener(this);
         tv_normal_buy.setOnClickListener(this);
-        ll_huibi.setOnClickListener(this);
-        ll_fans.setOnClickListener(this);
+        rl_huibi.setOnClickListener(this);
+        rl_fans.setOnClickListener(this);
         ll_table1.setOnClickListener(this);
         ll_table2.setOnClickListener(this);
         ll_table3.setOnClickListener(this);
@@ -191,10 +186,10 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
     @Override
     public void onShow() {
         super.onShow();
-        int top = view_line_under_head.getTop();
-        ViewGroup.LayoutParams ll_head_container_params = ll_head_container.getLayoutParams();
-        ll_head_container_params.height =  top + BaseValue.dp2px(40);
-        ll_head_container.setLayoutParams(ll_head_container_params);
+//        int top = view_line_under_head.getTop();
+//        ViewGroup.LayoutParams ll_head_container_params = ll_head_container.getLayoutParams();
+//        ll_head_container_params.height =  top + BaseValue.dp2px(40);
+//        ll_head_container.setLayoutParams(ll_head_container_params);
         if(isLogined()){//已经登陆的用户，就初始化用户数据
             getUserDataFormServer();
         }else {//没有登陆就将页面置为没有登陆的状态
@@ -218,7 +213,7 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
     }
 
     private void showUnLogined() {
-        ll_user_phone_verify.setVisibility(View.GONE);
+        ll_user_phone_verify.setVisibility(View.INVISIBLE);
         //将登陆字符显示
         tv_login.setVisibility(View.VISIBLE);
         //将name隐藏
@@ -312,15 +307,15 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
             case R.id.iv_head:
             case R.id.tv_name:
                 if(needLogin()){
-                    photoUtil = new PhotoUtil(this, 3, 3);
-                    photoPopupWindow = new PhotoPopupWindow(getActivity(), photoUtil);
-                    photoPopupWindow.showpop(v);
+                    TakePhotoWindow takePhotoWindow = new TakePhotoWindow(getActivity(),
+                            getTakePhoto());
+                    takePhotoWindow.showpop(v);
                 }
                 break;
             case R.id.tv_login:
                 needLogin();
                 break;
-            case R.id.ll_huibi://粮票列表
+            case R.id.rl_huibi://粮票列表
                 if(needLogin()){
                     Intent intent = new Intent(mActivity, HuibiListActivity.class);
                     intent.putExtra("hb_count", hb_count_new);
@@ -328,7 +323,7 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
                     startActivity(intent);
                 }
                 break;
-            case R.id.ll_fans://粉丝列表
+            case R.id.rl_fans://粉丝列表
                 if(needLogin()){
                     startActivity(new Intent(mActivity, FansListActity.class));
                 }
@@ -379,7 +374,8 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
                 break;
             case R.id.ll_server_phone://关于我们
                 if(needLogin()){
-                    Intent intent = new Intent("android.intent.action.CALL", Uri.parse("tel:" + userInfo.c_phone_num));
+//                    Intent intent = new Intent("android.intent.action.CALL", Uri.parse("tel:" + userInfo.c_phone_num));
+                    Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + userInfo.c_phone_num));
                     startActivity(intent);
                 }
                 break;
@@ -406,7 +402,6 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
                     urlMap.put(httpUrlInfo.type, httpUrlInfo.http_url);
                 }
                 huibi_rule_url = urlMap.get(UrlType.huibi_rule);
-                user_protocol_url = urlMap.get(UrlType.user_protocol);
                 about_us_url = urlMap.get(UrlType.about_us);
                 after_sale_url = urlMap.get(UrlType.after_sale);
             }
@@ -414,58 +409,52 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
     }
 
 
-
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        switch (requestCode) {
-            case PhotoUtil.FromWhere.camera:
-            case PhotoUtil.FromWhere.photo:
-                photoUtil.onActivityResult(requestCode, resultCode, data);
-                break;
-            case PhotoUtil.FromWhere.forfex:
-//                iv_head.setImageBitmap(BitmapFactory.decodeFile(photoUtil.getForfexPath()));
-                if (resultCode == Activity.RESULT_OK) {
-                    iv_head.setEnabled(false);
-                    MyHttp.updateHead(http, null, photoUtil.getForfexPath(), new HttpForVolley.HttpTodo() {
-                        @Override
-                        public void httpTodo(Integer which, JSONObject response) {
-                            if (response.optInt("code",1)!=0){
-//                                showToast("上传图片发生错误!");
-                                return;
-                            }
-//                            showToast("修改头像成功!");
-                            String filename = response.optJSONObject("data").optString("head_url");
-                            ImageLoader.getInstance().displayImage(filename, iv_head);
-                            getUserInfo().head_url = filename;
-                        }
-                    });
-
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-
-                            MyHttp.user(http, null, new MyHttp.MyHttpResult() {
-                                @Override
-                                public void httpResult(Integer which, int code, String msg, Object bean) {
-                                    iv_head.setEnabled(true);
-                                    if (code != 0) {
-                                        showUnLogined();
-                                        return;
-                                    }
-                                    ImageLoader.getInstance().displayImage(((UserInfo)bean).head_url ,iv_head);
-                                }
-                            });
-                        }
-                    }, 1000);
-                }
-                break;
-        }
-
+    public void takeCancel() {
+        super.takeCancel();
     }
 
+    @Override
+    public void takeFail(TResult result, String msg) {
+        super.takeFail(result, msg);
+    }
 
+    @Override
+    public void takeSuccess(TResult result) {
+        super.takeSuccess(result);
+        TImage image = result.getImage();
+        String path = image.getPath();
+        iv_head.setEnabled(false);
+        MyHttp.updateHead(http, null, path, new HttpForVolley.HttpTodo() {
+            @Override
+            public void httpTodo(Integer which, JSONObject response) {
+//                showToast(response.optString("msg"));
+//                iv_head.setEnabled(true);
+                if (response.optInt("code",1)!=0){
+                    return;
+                }
+//                String filename = response.optJSONObject("data").optString("head_url");
+//                ImageLoader.getInstance().displayImage(filename, iv_head);
+//                getUserInfo().head_url = filename;
+            }
+        });
 
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
 
+                MyHttp.user(http, null, new MyHttp.MyHttpResult() {
+                    @Override
+                    public void httpResult(Integer which, int code, String msg, Object bean) {
+                        iv_head.setEnabled(true);
+                        if (code != 0) {
+                            showUnLogined();
+                            return;
+                        }
+                        ImageLoader.getInstance().displayImage(((UserInfo)bean).head_url ,iv_head);
+                    }
+                });
+            }
+        }, 1000);
+    }
 }

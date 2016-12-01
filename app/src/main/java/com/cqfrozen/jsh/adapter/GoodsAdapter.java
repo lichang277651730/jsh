@@ -17,9 +17,8 @@ import com.cqfrozen.jsh.activity.GoodsDetailActivity;
 import com.cqfrozen.jsh.cart.CartManager;
 import com.cqfrozen.jsh.entity.GoodsInfo;
 import com.cqfrozen.jsh.util.CustomToast;
+import com.cqfrozen.jsh.util.ImageLoader;
 import com.cqfrozen.jsh.volleyhttp.MyHttp;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.json.JSONObject;
 
@@ -32,7 +31,7 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.MyViewHolder
 
     private Context context;
     private List<GoodsInfo> goodsInfos;
-    private final DisplayImageOptions defaultOptions;
+//    private final DisplayImageOptions defaultOptions;
     private CartManager cartManager;
     private final HttpForVolley http;
     private boolean isAddCartCanClick = true;
@@ -40,11 +39,11 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.MyViewHolder
     public GoodsAdapter(Context context, List<GoodsInfo> goodsInfos) {
         this.context = context;
         this.goodsInfos = goodsInfos;
-        defaultOptions = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true)
-                .showImageOnLoading(R.color.transparency)
-                .showImageForEmptyUri(R.mipmap.img_loading_empty)
-                .showImageOnFail(R.mipmap.img_loading_failed)
-                .build();
+//        defaultOptions = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true)
+//                .showImageOnLoading(R.color.transparency)
+//                .showImageForEmptyUri(R.mipmap.img_loading_empty)
+//                .showImageOnFail(R.mipmap.img_loading_failed)
+//                .build();
         this.http = new HttpForVolley(context);
         this.cartManager = CartManager.getInstance(context);
     }
@@ -60,7 +59,8 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.MyViewHolder
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         final GoodsInfo goodsInfo = goodsInfos.get(position);
-        ImageLoader.getInstance().displayImage(goodsInfo.pic_url, holder.iv_goods, defaultOptions);
+//        ImageLoader.getInstance().displayImage(goodsInfo.pic_url, holder.iv_goods, defaultOptions);
+        ImageLoader.load(context, goodsInfo.pic_url, holder.iv_goods);
 //        if(goodsInfo.g_name.contains("（")){
 //            goodsInfo.g_name.replace("（", "(");
 //        }

@@ -57,6 +57,12 @@
     <!--页面背景色-->
     <!--<color name="mybg">#f2f3f4</color>-->
     <color name="mybg">#f5f7f9</color>
+    <!--审核中-->
+    <color name="shop_yellow">#f4ab42</color>
+    <!--已审核-->
+    <color name="shop_green">#55d02f</color>
+    <!--未通过-->
+    <color name="shop_gray">@color/color_nine</color>
     <!--输入框hint-->
     <color name="myhint">#aaaaaa</color>
     <!--蓝色字体-->

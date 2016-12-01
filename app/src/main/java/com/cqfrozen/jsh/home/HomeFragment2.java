@@ -128,7 +128,6 @@ public class HomeFragment2 extends BaseFragment  implements MyHttp.MyHttpResult 
     public void httpResult(Integer which, int code, String msg, Object bean) {
         refresh_home.setUrlNum();
         if(code != 0){
-//            showToast(msg);
             refresh_home.setLoadFailed();
             if(refresh_home.getUrlNum() == urlNum){
                 refresh_home.setRefreshFailed();
@@ -148,10 +147,8 @@ public class HomeFragment2 extends BaseFragment  implements MyHttp.MyHttpResult 
                 notifyInfos.clear();
                 notifyInfos.addAll((List<HomeNotifyInfo>) bean);
                 if (notifyInfos.size() == 0) {
-//                    urlNum = 2;
                     return;
                 }
-//                urlNum = 3;
                 break;
             case HomeAdapter2.TYPE_LIST:
                 recommendGoods.clear();
@@ -165,9 +162,9 @@ public class HomeFragment2 extends BaseFragment  implements MyHttp.MyHttpResult 
         }
         homeAdapter2.notifyDataSetChanged();
         refresh_home.setRefreshSuccess();
-//        if(refresh_home.getUrlNum() == urlNum){
-//            refresh_home.setRefreshSuccess();
-//        }
+        if(refresh_home.getUrlNum() == urlNum){
+            refresh_home.setRefreshSuccess();
+        }
     }
 
     @Override
@@ -183,11 +180,6 @@ public class HomeFragment2 extends BaseFragment  implements MyHttp.MyHttpResult 
     @Override
     public void onShow() {
         super.onShow();
-//        if(bannerInfos.size() == 0 || classifyInfos.size() == 0
-//                || notifyInfos.size() == 0 || priceGoods.size() == 0
-//                || recommendGoods.size() == 0 || popGoods.size() == 0){
-//            getData();
-//        }
     }
 
     @Override

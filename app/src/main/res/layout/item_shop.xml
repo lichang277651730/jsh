@@ -48,12 +48,50 @@
             android:visibility="gone"
             android:text="分店"/>
         <TextView
-            android:id="@+id/tv_shop_status"
-            android:layout_width="match_parent"
+            android:id="@+id/tv_verify_ing"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="end"
-            android:textSize="16sp"
-            android:textColor="@color/textColorPrimary"/>
+            android:gravity="center"
+            android:background="@drawable/shape_yellow_round4_bg"
+            android:layout_marginLeft="8dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:visibility="gone"
+            android:text="审核中"/>
+        <TextView
+            android:id="@+id/tv_verify_yes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:background="@drawable/shape_green_round4_bg"
+            android:layout_marginLeft="8dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:visibility="gone"
+            android:text="已审核"/>
+        <TextView
+            android:id="@+id/tv_verify_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:background="@drawable/shape_gray_round4_bg"
+            android:layout_marginLeft="8dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:visibility="gone"
+            android:text="未通过"/>
     </LinearLayout>
     <View style="@style/HorizontalDividerLine"/>
     <LinearLayout

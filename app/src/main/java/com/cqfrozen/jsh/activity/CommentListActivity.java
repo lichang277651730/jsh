@@ -21,6 +21,7 @@ import java.util.List;
 
 /**
  * Created by Administrator on 2016/10/26.
+ * 评论列表界面
  *  intent2.putExtra("g_id", g_id);
  */
 public class CommentListActivity extends MyActivity implements MyActivity.HttpFail, SupportLayout.RefreshListener, SupportLayout.LoadMoreListener {
@@ -31,7 +32,6 @@ public class CommentListActivity extends MyActivity implements MyActivity.HttpFa
     private RecyclerView rv_comment;
     private int is_page = 0;//默认没有下一页
     private int page = 1;
-    private int pageSize;
     private CommentRVAdapter commentRVAdapter;
 
     @Override
@@ -74,16 +74,16 @@ public class CommentListActivity extends MyActivity implements MyActivity.HttpFa
             @Override
             public void httpResult(Integer which, int code, String msg, Object bean) {
                 if(code == 404){
-                    setHttpFail(CommentListActivity.this);
                     refresh_comment.setRefreshFailed();
                     refresh_comment.setLoadFailed();
+                    setHttpFail(CommentListActivity.this);
                     return;
                 }
 
                 if(code != 0){
-                    setHttpFail(CommentListActivity.this);
                     refresh_comment.setRefreshFailed();
                     refresh_comment.setLoadFailed();
+                    setHttpFail(CommentListActivity.this);
                     return;
                 }
                 refresh_comment.setRefreshSuccess();

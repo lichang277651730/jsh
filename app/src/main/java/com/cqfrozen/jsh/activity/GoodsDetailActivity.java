@@ -286,9 +286,9 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
             getCartNumFromServer();
         }
         lv_comment.setFocusable(false);
-//        scrollview.setFocusable(true);
-//        scrollview.setFocusableInTouchMode(true);
-//        scrollview.requestFocus();
+        scrollview.setFocusable(true);
+        scrollview.setFocusableInTouchMode(true);
+        scrollview.requestFocus();
     }
 
     /**
@@ -339,27 +339,26 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
             case R.id.iv_share://分享
 //                setShare();
                 break;
-            case R.id.ll_collect:
+            case R.id.ll_collect://添加常用采购
                 if (!needLogin()) {
                     return;
                 }
-                setNormalBuy();//添加常用采购
+                setNormalBuy();
                 break;
             case R.id.ll_cart://跳转到购物车页面
                 Intent intent = new Intent(getApplicationContext(), CartActivity.class);
                 startActivity(intent);
-//                finish();
                 break;
-            case R.id.tv_add_cart:
+            case R.id.tv_add_cart://添加购物车
                 if (!needLogin()) {
                     return;
                 }
-                addCart();//添加购物车
+                addCart();
                 break;
             case R.id.iv_arrow_ex:
                 toggle();
                 break;
-            case R.id.tv_all_comment:
+            case R.id.tv_all_comment://跳转所有评论界面
                 Intent intent2 = new Intent(this, CommentListActivity.class);
                 intent2.putExtra("g_id", g_id);
                 startActivity(intent2);
@@ -454,7 +453,6 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
             @Override
             public void httpResult(Integer which, int code, String msg, Object bean) {
                 if (code != 0) {
-//                    showToast(msg);
                     CustomMiddleToast.getInstance(GoodsDetailActivity.this).showToast(msg);
                     return;
                 }

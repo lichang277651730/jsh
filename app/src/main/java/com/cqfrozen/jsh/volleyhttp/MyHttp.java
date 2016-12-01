@@ -2,8 +2,6 @@ package com.cqfrozen.jsh.volleyhttp;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.common.base.BaseValue;
@@ -43,6 +41,7 @@ import com.cqfrozen.jsh.main.MyApplication;
 import com.cqfrozen.jsh.util.MD5Util;
 import com.cqfrozen.jsh.util.SPUtils;
 import com.cqfrozen.jsh.util.SignUtil;
+import com.cqfrozen.jsh.util.ToastUtil;
 import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONObject;
@@ -53,6 +52,7 @@ import java.util.List;
 
 /**
  * Created by Administrator on 2016/9/12.
+ * 网络请求接口Api
  */
 public class MyHttp {
 
@@ -60,7 +60,7 @@ public class MyHttp {
     private static final String SERVER = "http://api.cqfrozen.com/v1/index.php/";//正式api
     private static final int GET = Request.Method.GET;
     private static final int POST = Request.Method.POST;
-    private static final int p_type = 1;
+    private static final int p_type = 1;//1是Android端
 
     private static HashMap<String, String> params = new HashMap<String, String>();
 
@@ -837,12 +837,13 @@ public class MyHttp {
             @Override
             public void httpTodo(Integer which, JSONObject response) {
                 //统一处理登录逻辑  code 1请求失败  2 登录失败  0请求成功s
-                Log.d("ResponseData", response.toString());
+//                Log.d("ResponseData", response.toString());
                 int code = response.optInt("code", 1);
 
-                if(code == 3 && (http.getContext().getClass() != MainActivity.class)){
+                if(code == 3 && (http.getContext().getClass() != LoginActivity.class) &&
+                        (http.getContext().getClass() != MainActivity.class) ){
                     Context context = http.getContext();
-                    Toast.makeText(context, "该账号在其他手机登陆过，需重新登录", Toast.LENGTH_SHORT).show();
+                    ToastUtil.showToast(context, "该账号在其他手机登陆过，需重新登录");
                     MyApplication.userInfo = null;
                     MyApplication.token = "";
                     SPUtils.setToken("");
@@ -866,8 +867,6 @@ public class MyHttp {
 
         });
     }
-
-
 
     public interface MyHttpResult{
         void httpResult(Integer which, int code, String msg, Object bean);
