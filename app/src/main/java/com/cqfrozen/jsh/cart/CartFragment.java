@@ -1,5 +1,6 @@
 package com.cqfrozen.jsh.cart;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,8 +20,10 @@ import com.common.refresh.RefreshLayout;
 import com.common.refresh.SupportLayout;
 import com.common.widget.MyGridDecoration;
 import com.cqfrozen.jsh.R;
+import com.cqfrozen.jsh.activity.GoodsDetailActivity;
 import com.cqfrozen.jsh.activity.HomeActivity;
 import com.cqfrozen.jsh.entity.CartNotifyInfo;
+import com.cqfrozen.jsh.entity.GoodsInfo;
 import com.cqfrozen.jsh.entity.OrderInfo;
 import com.cqfrozen.jsh.main.MyApplication;
 import com.cqfrozen.jsh.main.MyFragment;
@@ -40,6 +43,7 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
 
     private static final int TAG_EIDT = 1;
     private static final int TAG_FINISH = 2;
+    private static final int REQUEST_CODE_CART_FRAGMENT_ITEM_CLICK = 100;
 
     private static CartFragment fragment;
     private Button btn_edit;
@@ -62,6 +66,7 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
     private TextView tv_notify;
     private RefreshLayout refresh_cart;
 //    private List<OrderCartBean> orderCartBeanList = new ArrayList<>();
+    private int curClickPosition;
 
     public static CartFragment getInstance(){
         if(fragment == null){
@@ -139,7 +144,7 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
 
     private void initRV() {
         rv_cart.setOverScrollMode(View.OVER_SCROLL_NEVER);
-        GridLayoutManager manager = new GridLayoutManager(mActivity, 1);
+        final GridLayoutManager manager = new GridLayoutManager(mActivity, 1);
         cartAdapter = new CartRVAdapter(mActivity, cartGoodsInfos, tv_total, cb_all);
         rv_cart.setLayoutManager(manager);
         MyGridDecoration decoration = new MyGridDecoration(BaseValue.dp2px(1), BaseValue
@@ -160,6 +165,17 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
                     btn_order.setBackgroundColor(getResources().getColor(R.color.mygray));
                     btn_order.setBackgroundResource(R.drawable.sl_btn_blue_bg);
                 }
+            }
+        });
+
+        cartAdapter.setOnItemClickListener(new CartRVAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(GoodsInfo goodsInfo, int position) {
+                curClickPosition = position;
+                Intent intent = new Intent(mActivity, GoodsDetailActivity.class);
+//                intent.putExtra("goodsInfo", goodsInfo);
+                intent.putExtra("g_id", goodsInfo.g_id);
+                startActivityForResult(intent, REQUEST_CODE_CART_FRAGMENT_ITEM_CLICK);
             }
         });
     }
@@ -261,6 +277,16 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
                 ((HomeActivity)mActivity).setClassifyFragment();
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
     }
 
     @Override
@@ -412,4 +438,22 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
         }
     }
 
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == REQUEST_CODE_CART_FRAGMENT_ITEM_CLICK && resultCode == Activity.RESULT_OK){
+            boolean isAddMore = data.getBooleanExtra("isAddMore", false);
+            if(isAddMore){
+                is_page = 0;
+                page = 1;
+                cartAdapter.clear();
+                cartManager.clear();
+                getData();
+            }else {
+                cartAdapter.notifyDataSetChanged();
+            }
+        }
+
+    }
 }

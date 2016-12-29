@@ -17,6 +17,7 @@ import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.adapter.IndexAdapter;
 import com.cqfrozen.jsh.center.LoginActivity;
 import com.cqfrozen.jsh.util.SPUtils;
+import com.cqfrozen.jsh.util.UMengUtils;
 
 /**
  * Created by Administrator on 2016/9/18.
@@ -107,5 +108,17 @@ public class IndexActivity extends Activity{
         return super.onKeyDown(keyCode, event);
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        UMengUtils.setOnPageStart(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        UMengUtils.setOnonPageEnd(this);
+    }
 
 }

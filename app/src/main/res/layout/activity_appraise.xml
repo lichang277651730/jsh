@@ -39,7 +39,7 @@
             android:orientation="horizontal">
             <CheckBox
                 android:id="@+id/cb_anony"
-                style="@style/customCheckbox"
+                style="@style/customAppraiseCheckbox"
                 android:layout_width="26dp"
                 android:layout_height="32dp"/>
             <TextView

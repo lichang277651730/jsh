@@ -74,6 +74,7 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
     private TextView tv_detail;
     private TextView tv_save_life;
     private TextView tv_save_mode;
+    private TextView tv_introduction;
     private LinearLayout ll_collect;
     private LinearLayout ll_cart;
     private ImageView iv_collect;
@@ -102,6 +103,8 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
     private ImageView iv_arrow_ex;
     private ViewGroup.LayoutParams tv_detail_params;
     private boolean isOpen;
+    private boolean isAddMore;
+    private boolean isCancelNormal = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -111,16 +114,17 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
         cartManager = CartManager.getInstance(this);
         getIntentData();
         initView();
+        getData();
         initBadgeView();
         initVP();
         initLV();
-        getData();
     }
 
     private void getIntentData() {
-        goodsInfo = (GoodsInfo) getIntent().getSerializableExtra("goodsInfo");
-        g_id = goodsInfo.g_id;
-        is_oos = goodsInfo.is_oos;
+//        goodsInfo = (GoodsInfo) getIntent().getSerializableExtra("goodsInfo");
+        g_id =  getIntent().getLongExtra("g_id", 0L);
+//        g_id = goodsInfo.g_id;
+//        is_oos = goodsInfo.is_oos;
     }
 
     private void initView() {
@@ -140,6 +144,7 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
         iv_arrow_ex = (ImageView) findViewById(R.id.iv_arrow_ex);
         tv_save_life = (TextView) findViewById(R.id.tv_save_life);
         tv_save_mode = (TextView) findViewById(R.id.tv_save_mode);
+        tv_introduction = (TextView) findViewById(R.id.tv_introduction);
         vp_goodspics = (ViewPager) findViewById(R.id.vp_goodspics);
         rg_goods = (RadioGroup) findViewById(R.id.rg_goods);
         ll_collect = (LinearLayout) findViewById(R.id.ll_collect);
@@ -174,7 +179,7 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
             tv_add_cart.setBackgroundColor(getResources().getColor(R.color.main));
         }
         createShotPop();
-
+//        asv_num.setBtnEnabled(false);
 //        ViewGroup.LayoutParams rl_vp_params = rl_vp_container.getLayoutParams();
 //        rl_vp_params.height = (int) (BaseValue.screenWidth / 1.5);
 
@@ -324,7 +329,7 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
 
     private void initVP() {
         vp_goodspics.setOverScrollMode(View.OVER_SCROLL_NEVER);
-        vpAdapter = new GoodsDetailVPAdapter(this, picsInfos);
+        vpAdapter = new GoodsDetailVPAdapter(GoodsDetailActivity.this, picsInfos);
         vp_goodspics.setAdapter(vpAdapter);
         vp_goodspics.addOnPageChangeListener(this);
     }
@@ -334,6 +339,7 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_back:
+                setResult(RESULT_OK, new Intent().putExtra("isAddMore", isAddMore).putExtra("isCancelNormal", isCancelNormal));
                 finish();
                 break;
             case R.id.iv_share://分享
@@ -402,9 +408,15 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
                 if (code != 0) {
                     return;
                 }
+                //添加是否大于2的数量
+                if(addCount > 1){
+                    isAddMore = true;
+                }else {
+                    isAddMore = false;
+                }
                 CustomToast.getInstance(GoodsDetailActivity.this).showToast(response.optString("msg"), R.mipmap.icon_add_cart_success);
                 getCartNumFromServer();
-                cartManager.add(goodsInfo);
+                cartManager.add(goodsInfo, addCount);
             }
         });
     }
@@ -434,10 +446,12 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
                 if (type == 1) {
                     iv_collect.setImageResource(R.mipmap.icon_normal_buy_yes);
                     tv_collect.setText("取消常用");
+                    isCancelNormal = false;
                     is_common = 1;
                 } else if (type == 2) {
                     iv_collect.setImageResource(R.mipmap.icon_normal_buy_no);
                     tv_collect.setText("常用采购");
+                    isCancelNormal = true;
                     is_common = 0;
                 }
             }
@@ -453,7 +467,7 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
             @Override
             public void httpResult(Integer which, int code, String msg, Object bean) {
                 if (code != 0) {
-                    CustomMiddleToast.getInstance(GoodsDetailActivity.this).showToast(msg);
+//                    CustomMiddleToast.getInstance(GoodsDetailActivity.this).showToast(msg);
                     return;
                 }
                 GoodDetailResultInfo resultInfo = (GoodDetailResultInfo) bean;
@@ -461,6 +475,9 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
                     return;
                 }
                 GoodDetailResultInfo.GoodDetailInfo goodDetailInfo = resultInfo.data1;
+                goodsInfo = parseGoods(resultInfo);
+                vpAdapter.setGoodsName(goodsInfo.g_name);
+                is_oos = goodDetailInfo.is_oos;
                 setViewInfo(goodDetailInfo);
                 picsInfos.clear();
                 picsInfos.addAll(resultInfo.data2);
@@ -468,7 +485,6 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
                 initPoints(picsInfos);
                 rb_goods[0].setChecked(true);
                 vp_goodspics.setCurrentItem(0, false);
-
             }
         });
 
@@ -502,6 +518,17 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
         });
     }
 
+    private GoodsInfo parseGoods(GoodDetailResultInfo resultInfo) {
+        GoodsInfo goodsInfo = new GoodsInfo();
+        goodsInfo.g_id = resultInfo.data1.g_id;
+        goodsInfo.g_name = resultInfo.data1.g_name;
+        goodsInfo.market_price = resultInfo.data1.market_price;
+        goodsInfo.now_price = resultInfo.data1.now_price;
+        goodsInfo.pic_url = resultInfo.data2.get(0).pic_url;
+        goodsInfo.is_oos = resultInfo.data1.is_oos;
+        return goodsInfo;
+    }
+
     /**
      * 设置页面组件的信息
      */
@@ -513,6 +540,7 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
 //        tv_detail.setText(goodDetailInfo.g_introduction);
         tv_save_life.setText(goodDetailInfo.shelf_life);
         tv_save_mode.setText(goodDetailInfo.c_mode);
+        tv_introduction.setText(goodDetailInfo.g_introduction);//备注说明
         is_common = goodDetailInfo.is_common;
         if ("0".equals(goodDetailInfo.pj_count)) {
             tv_comment_count.setText("(0)");
@@ -598,5 +626,11 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
             parent = (View) parent.getParent();
         }
         return (ScrollView) parent;
+    }
+
+    @Override
+    public void onBackPressed() {
+        setResult(RESULT_OK, new Intent().putExtra("isAddMore", isAddMore).putExtra("isCancelNormal", isCancelNormal));
+        finish();
     }
 }

@@ -1,7 +1,9 @@
 package com.cqfrozen.jsh.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +11,7 @@ import android.widget.RelativeLayout;
 
 import com.common.widget.AutoTextView;
 import com.cqfrozen.jsh.R;
+import com.cqfrozen.jsh.center.WebUrlActivity;
 import com.cqfrozen.jsh.entity.HomeNotifyInfo;
 
 import java.util.List;
@@ -48,6 +51,19 @@ public class HomeNotifyAdapter extends RecyclerView.Adapter<HomeNotifyAdapter.My
             atvs[i] = notifyInfos.get(i).title;
         }
         holder.atv_notify.setText(atvs);
+        holder.atv_notify.setOnItemClickListener(new AutoTextView.OnItemClickListener() {
+            @Override
+            public void onItemClick(int index) {
+                if(!TextUtils.isEmpty(notifyInfos.get(index).content)){
+                    Intent intent = new Intent(context, WebUrlActivity.class);
+                    String title = notifyInfos.get(index).title.length() > 12 ?
+                            notifyInfos.get(index).title.substring(0, 12) + "..." : notifyInfos.get(index).title;
+                    intent.putExtra("title", title);
+                    intent.putExtra("url", notifyInfos.get(index).content);
+                    context.startActivity(intent);
+                }
+            }
+        });
     }
 
     @Override

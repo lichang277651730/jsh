@@ -1,5 +1,6 @@
 package com.cqfrozen.jsh.center;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,10 +12,13 @@ import android.widget.TextView;
 import com.common.http.HttpForVolley;
 import com.common.util.DataCleanManager;
 import com.cqfrozen.jsh.R;
+import com.cqfrozen.jsh.entity.UserInfo;
 import com.cqfrozen.jsh.main.MyActivity;
 import com.cqfrozen.jsh.main.MyApplication;
 import com.cqfrozen.jsh.util.AppUtil;
+import com.cqfrozen.jsh.util.CustomSimpleDialog;
 import com.cqfrozen.jsh.util.SPUtils;
+import com.cqfrozen.jsh.util.UMengUtils;
 import com.cqfrozen.jsh.volleyhttp.MyHttp;
 
 import org.json.JSONObject;
@@ -25,12 +29,14 @@ import org.json.JSONObject;
 public class SettingActivity extends MyActivity implements View.OnClickListener {
 
     private TextView tv_cache;
+    private TextView tv_version;
     private LinearLayout ll_cache;
     private LinearLayout ll_change_pwd;
     private Button btn_exit;
     private LinearLayout ll_help;
     private LinearLayout ll_change_phone;
     private LinearLayout ll_good;
+    private CustomSimpleDialog exitDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,9 +47,12 @@ public class SettingActivity extends MyActivity implements View.OnClickListener 
 
     private void initView() {
         setMyTitle("设置");
+        UserInfo userInfo = null;
+        String mobile_num = userInfo.mobile_num;
         ll_change_pwd = (LinearLayout) findViewById(R.id.ll_change_pwd);
         ll_cache = (LinearLayout) findViewById(R.id.ll_cache);
         tv_cache = (TextView) findViewById(R.id.tv_cache);
+        tv_version = (TextView) findViewById(R.id.tv_version);
         ll_help = (LinearLayout) findViewById(R.id.ll_help);
         ll_change_phone = (LinearLayout) findViewById(R.id.ll_change_phone);
         ll_good = (LinearLayout) findViewById(R.id.ll_good);
@@ -59,6 +68,7 @@ public class SettingActivity extends MyActivity implements View.OnClickListener 
         } catch (Exception e) {
             e.printStackTrace();
         }
+        tv_version.setText("V" + AppUtil.getVersionName(this));
     }
 
     @Override
@@ -85,14 +95,36 @@ public class SettingActivity extends MyActivity implements View.OnClickListener 
                 startActivity(new Intent(this, SubmitIdeaActivity.class));
                 break;
             case R.id.btn_exit://退出
-                loginout();
+                showExitDialog();
+//                loginout();
                 break;
             default:
                 break;
         }
     }
 
+    private void showExitDialog() {
+        exitDialog = new CustomSimpleDialog.Builder(this)
+                .setMessage("确定要退出吗？")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(final DialogInterface dialog, int which) {
+                        loginout();
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialog) {
+                        dialog.cancel();
+                    }
+                })
+                .create();
+        exitDialog.show();
+
+    }
+
     private void loginout() {
+
         MyHttp.loginout(http, null, new HttpForVolley.HttpTodo() {
             @Override
             public void httpTodo(Integer which, JSONObject response) {
@@ -100,12 +132,8 @@ public class SettingActivity extends MyActivity implements View.OnClickListener 
                 MyApplication.token = "";
                 SPUtils.setToken("");
                 finish();
+                UMengUtils.setSignOff(); //友盟退出
                 startActivity(new Intent(SettingActivity.this, LoginActivity.class));
-//                showToast(response.optString("msg"));
-//                int code = response.optInt("code");
-//                if(code != 0){
-//                    return;
-//                }
             }
         });
 

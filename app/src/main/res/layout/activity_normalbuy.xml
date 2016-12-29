@@ -1,26 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/main"
-              android:clipToPadding="true"
-              android:fitsSystemWindows="true">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context=".center.NormalBuyActivity">
+
     <include layout="@layout/include_title"/>
 
     <com.common.refresh.RefreshLayout
         android:id="@+id/refresh_normalbuy"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:orientation="vertical">
+
         <include layout="@layout/include_httpresult"/>
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_normalbuy"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_height="match_parent"
             android:background="@color/mybg"
             android:scrollbars="none">
         </android.support.v7.widget.RecyclerView>
     </com.common.refresh.RefreshLayout>
+
+    <View style="@style/HorizontalDividerLine"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="共采购:"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/tv_total"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_weight="1"
+            android:textColor="@color/main"
+            android:textSize="16sp"
+            tools:text="25件商品"/>
+
+        <Button
+            android:id="@+id/btn_buy_all"
+            style="@style/bigBlueButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="@string/normal_buyall"/>
+
+    </LinearLayout>
 </LinearLayout>

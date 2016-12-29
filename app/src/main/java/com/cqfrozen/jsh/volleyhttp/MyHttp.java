@@ -2,12 +2,15 @@ package com.cqfrozen.jsh.volleyhttp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import com.android.volley.Request;
 import com.common.base.BaseValue;
 import com.common.http.HttpForVolley;
 import com.cqfrozen.jsh.cart.CartResultInfo;
 import com.cqfrozen.jsh.center.LoginActivity;
+import com.cqfrozen.jsh.entity.AdDetailResultInfo;
+import com.cqfrozen.jsh.entity.AdListResultInfo;
 import com.cqfrozen.jsh.entity.AddressInfo;
 import com.cqfrozen.jsh.entity.AppraiseInfo;
 import com.cqfrozen.jsh.entity.AreaStreetInfo;
@@ -19,6 +22,7 @@ import com.cqfrozen.jsh.entity.FansResultInfo;
 import com.cqfrozen.jsh.entity.GoodDetailResultInfo;
 import com.cqfrozen.jsh.entity.GoodsInfo;
 import com.cqfrozen.jsh.entity.GoodsResultInfo;
+import com.cqfrozen.jsh.entity.HomeBannerAdResultInfo;
 import com.cqfrozen.jsh.entity.HomeBannerInfo;
 import com.cqfrozen.jsh.entity.HomeNotifyInfo;
 import com.cqfrozen.jsh.entity.HttpUrlInfo;
@@ -56,8 +60,9 @@ import java.util.List;
  */
 public class MyHttp {
 
-//    private static final String SERVER = "http://test.cqfrozen.com/api/index.php/";//测试api
-    private static final String SERVER = "http://api.cqfrozen.com/v1/index.php/";//正式api
+    //userid 574
+    private static final String SERVER = "http://test.cqfrozen.com/api/index.php/";//测试api
+//    private static final String SERVER = "http://api.cqfrozen.com/v1/index.php/";//正式api
     private static final int GET = Request.Method.GET;
     private static final int POST = Request.Method.POST;
     private static final int p_type = 1;//1是Android端
@@ -76,6 +81,61 @@ public class MyHttp {
         params.put("token", MyApplication.token);
         Type type = new TypeToken<List<HomeBannerInfo>>(){}.getType();
         toBean(GET, http, which, params, url, myHttpResult, type);
+    }
+    /**
+     * 首页banner广告数据
+     */
+    public static void adBannerList(HttpForVolley http, Integer which, int ad_p_id,
+                                  MyHttpResult myHttpResult) {
+        String url = SERVER + "Ad/adbannerlist";
+        params.clear();
+        params.put("token", MyApplication.token);
+        params.put("ad_p_id", ad_p_id + "");
+        Type type = new TypeToken<HomeBannerAdResultInfo>(){}.getType();
+        toBean(GET, http, which, params, url, myHttpResult, type);
+    }
+
+    /**
+     * 去赚粮票列表
+     */
+    public static void adList(HttpForVolley http, Integer which, int page, MyHttpResult myHttpResult) {
+        String url = SERVER + "Ad/adlist";
+        params.clear();
+        params.put("token", MyApplication.token);
+        params.put("page", page + "");
+        Type type = new TypeToken<AdListResultInfo>(){}.getType();
+        toBean(GET, http, which, params, url, myHttpResult, type);
+    }
+
+    /**
+     * 广告详情
+     */
+    public static void adInfo(HttpForVolley http, Integer which, String ad_id, MyHttpResult myHttpResult) {
+        String url = SERVER + "Ad/adinfo";
+        params.clear();
+        params.put("token", MyApplication.token);
+        params.put("ad_id", ad_id);
+        Type type = new TypeToken<AdDetailResultInfo>(){}.getType();
+        toBean(GET, http, which, params, url, myHttpResult, type);
+    }
+
+
+    /**
+     * 点击确定获取粮票
+     */
+    public static void adGetHB(HttpForVolley http, Integer which, String ad_id,  String china_keywrod,
+                               HttpForVolley.HttpTodo httpTodo) {
+        String url = SERVER + "Ad/adgethb";
+        params.clear();
+        params.put("token", MyApplication.token);
+        params.put("ad_id", ad_id);
+        params.put("china_keywrod", china_keywrod);
+        params.put("p_type", p_type + "");
+        Log.e("ParamsToServer", "token:" + MyApplication.token +
+                "ad_id:" + ad_id +
+                "china_keywrod:" + china_keywrod +
+                "p_type:" + p_type);
+        http.goTo(POST, which, params, url, httpTodo);
     }
 
     /**
@@ -335,10 +395,20 @@ public class MyHttp {
         params.clear();
         params.put("page", page + "");
         params.put("token", MyApplication.token);
-        Type type = new TypeToken<GoodsResultInfo>() {
-        }.getType();
+        Type type = new TypeToken<GoodsResultInfo>() {}.getType();
         toBean(POST, http, which, params, url, myHttpResult, type);
     }
+
+    /**
+     * 一键添加常用采购到购物车
+     */
+    public static void addCartMore(HttpForVolley http, Integer which, HttpForVolley.HttpTodo httpTodo) {
+        String url = SERVER + "Cart/addcartmore";
+        params.clear();
+        params.put("token", MyApplication.token);
+        http.goTo(POST, which, params, url, httpTodo);
+    }
+
 
     /**
      * 查看商铺列表
@@ -837,9 +907,8 @@ public class MyHttp {
             @Override
             public void httpTodo(Integer which, JSONObject response) {
                 //统一处理登录逻辑  code 1请求失败  2 登录失败  0请求成功s
-//                Log.d("ResponseData", response.toString());
+                Log.e("ResponseData", response.toString());
                 int code = response.optInt("code", 1);
-
                 if(code == 3 && (http.getContext().getClass() != LoginActivity.class) &&
                         (http.getContext().getClass() != MainActivity.class) ){
                     Context context = http.getContext();
@@ -848,7 +917,7 @@ public class MyHttp {
                     MyApplication.token = "";
                     SPUtils.setToken("");
                     context.startActivity(new Intent(context, LoginActivity.class));
-                    return;
+//                    return;
                 }
 
                 Object data = null;

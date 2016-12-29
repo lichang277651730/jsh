@@ -25,8 +25,10 @@ import com.cqfrozen.jsh.entity.SigninInfo;
 import com.cqfrozen.jsh.entity.UserInfo;
 import com.cqfrozen.jsh.main.MyActivity;
 import com.cqfrozen.jsh.main.MyApplication;
+import com.cqfrozen.jsh.netstate.NetUtils;
 import com.cqfrozen.jsh.util.CustomMiddleToast;
 import com.cqfrozen.jsh.util.SPUtils;
+import com.cqfrozen.jsh.util.UMengUtils;
 import com.cqfrozen.jsh.volleyhttp.MyHttp;
 
 /**
@@ -36,6 +38,9 @@ public class LoginActivity extends MyActivity implements View.OnClickListener, M
 
     private static final int TAG_PWD_SHOW = 1;
     private static final int TAG_PWD_HIDDEN = 2;
+
+    private static final int REFRESHTOKEN = 1;
+    private static final int GETUSERINFO = 2;
 
     private static LoginActivity instance;
 
@@ -297,6 +302,7 @@ public class LoginActivity extends MyActivity implements View.OnClickListener, M
                     showToast(msg);
                     return;
                 }
+                UMengUtils.setSignIn();
                 SPUtils.setToken(MyApplication.token);
                 MyApplication.userInfo = (UserInfo) bean;
                 Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
@@ -387,4 +393,41 @@ public class LoginActivity extends MyActivity implements View.OnClickListener, M
                 break;
         }
     }
+
+    @Override
+    protected void onNetworkConnected(NetUtils.NetType type) {
+        if(!TextUtils.isEmpty(SPUtils.getToken())){
+            String token = SPUtils.getToken();
+            if (token.isEmpty() || token.length() < 2) {
+                return;
+            }
+            MyHttp.refreshToken(http, REFRESHTOKEN, token, new MyHttp.MyHttpResult() {
+                @Override
+                public void httpResult(Integer which, int code, String msg, Object bean) {
+                    if(code != 0){
+                        return;
+                    }
+                    SigninInfo signinInfo = (SigninInfo) bean;
+                    MyApplication.signinInfo = signinInfo;
+                    MyApplication.token = signinInfo.getToken();
+                    SPUtils.setToken(signinInfo.getToken());
+                    MyHttp.user(http, GETUSERINFO, new MyHttp.MyHttpResult() {
+                        @Override
+                        public void httpResult(Integer which, int code, String msg, Object bean) {
+                            if(code != 0){
+                                return;
+                            }
+                            UMengUtils.setSignIn();
+                            MyApplication.userInfo = (UserInfo) bean;
+                            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    });
+                }
+            });
+
+        }
+    }
+
 }

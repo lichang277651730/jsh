@@ -1,13 +1,16 @@
 package com.cqfrozen.jsh.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.cqfrozen.jsh.R;
-import com.cqfrozen.jsh.entity.HomeBannerInfo;
+import com.cqfrozen.jsh.activity.GoodsDetailActivity;
+import com.cqfrozen.jsh.ad.BannerDetailActivity;
+import com.cqfrozen.jsh.entity.HomeBannerAdResultInfo;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -19,12 +22,12 @@ import java.util.List;
 public class HomeBannerVPAdapter extends PagerAdapter{
 
     private Context context;
-    private List<HomeBannerInfo> bannerInfos;
+    private List<HomeBannerAdResultInfo.HomeBannerAdInfo> bannerAdInfos;
     private final DisplayImageOptions defaultOptions;
 
-    public HomeBannerVPAdapter(Context context, List<HomeBannerInfo> bannerInfos){
+    public HomeBannerVPAdapter(Context context, List<HomeBannerAdResultInfo.HomeBannerAdInfo> bannerAdInfos){
         this.context = context;
-        this.bannerInfos = bannerInfos;
+        this.bannerAdInfos = bannerAdInfos;
         defaultOptions = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true)
                 .showImageOnLoading(R.color.transparency)
                 .showImageForEmptyUri(R.mipmap.img_banner_loading)
@@ -44,17 +47,41 @@ public class HomeBannerVPAdapter extends PagerAdapter{
     }
 
     @Override
-    public Object instantiateItem(ViewGroup container, int position) {
-        position = position % bannerInfos.size();
-        final HomeBannerInfo bannerInfo = bannerInfos.get(position);
+    public Object instantiateItem(final ViewGroup container, int position) {
+        position = position % bannerAdInfos.size();
+        final HomeBannerAdResultInfo.HomeBannerAdInfo bannerAdInfo = bannerAdInfos.get(position);
+        final int content_type = bannerAdInfo.content_type;
         ImageView iv_img = newImageView(context);
         iv_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO 首页轮播条的点击事件
+//                1图文，2外链接，3不看详情，4粮票（图文），5粮票（外链），6购买[返回商品id]
+                switch (content_type) {
+                    case 1:
+                    case 2:
+                        Intent intent2 = new Intent(context, BannerDetailActivity.class);
+                        intent2.putExtra("url", bannerAdInfo.content);
+                        intent2.putExtra("title", bannerAdInfo.title);
+                        context.startActivity(intent2);
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                    case 5:
+                        Intent intent = new Intent(context, BannerDetailActivity.class);
+                        intent.putExtra("ad_id", bannerAdInfo.ad_id);
+                        context.startActivity(intent);
+                        break;
+                    case 6:
+                        Intent intent1 = new Intent(context, GoodsDetailActivity.class);
+                        intent1.putExtra("g_id", Long.parseLong(bannerAdInfo.content));
+                        context.startActivity(intent1);
+                        break;
+                }
+
             }
         });
-        ImageLoader.getInstance().displayImage(bannerInfos.get(position).pic_url,
+        ImageLoader.getInstance().displayImage(bannerAdInfos.get(position).pic_url,
                 iv_img,
                 defaultOptions);
         container.addView(iv_img);

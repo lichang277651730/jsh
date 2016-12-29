@@ -1,7 +1,7 @@
 package com.cqfrozen.jsh.adapter;
 
 import android.content.Context;
-import android.content.Intent;
+import android.content.DialogInterface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,9 +12,9 @@ import android.widget.TextView;
 
 import com.common.http.HttpForVolley;
 import com.cqfrozen.jsh.R;
-import com.cqfrozen.jsh.activity.GoodsDetailActivity;
 import com.cqfrozen.jsh.cart.CartManager;
 import com.cqfrozen.jsh.entity.GoodsInfo;
+import com.cqfrozen.jsh.util.CustomSimpleDialog;
 import com.cqfrozen.jsh.util.CustomToast;
 import com.cqfrozen.jsh.util.ImageLoader;
 import com.cqfrozen.jsh.volleyhttp.MyHttp;
@@ -32,12 +32,15 @@ public class NormalBuyAdapter extends RecyclerView.Adapter<NormalBuyAdapter.MyVi
     private List<GoodsInfo> goodsInfos;
     private final HttpForVolley http;
     private CartManager cartManager;
+    private CustomSimpleDialog goodNotDialog;
+
     public NormalBuyAdapter(Context context, List<GoodsInfo> goodsInfos){
         this.context = context;
         this.goodsInfos = goodsInfos;
         this.http = new HttpForVolley(context);
         this.cartManager =  CartManager.getInstance(context);
     }
+
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if(context == null){
@@ -47,7 +50,7 @@ public class NormalBuyAdapter extends RecyclerView.Adapter<NormalBuyAdapter.MyVi
     }
 
     @Override
-    public void onBindViewHolder(final MyViewHolder holder, int position) {
+    public void onBindViewHolder(final MyViewHolder holder, final int position) {
         final GoodsInfo goodsInfo = goodsInfos.get(position);
         ImageLoader.load(context, goodsInfo.pic_url, holder.iv_goods);
         holder.tv_name.setText(goodsInfo.g_name);
@@ -57,16 +60,19 @@ public class NormalBuyAdapter extends RecyclerView.Adapter<NormalBuyAdapter.MyVi
 
         if(goodsInfo.is_oos == 0){//不缺货
             holder.ll_no_goods.setVisibility(View.GONE);
+            holder.iv_cart.setImageResource(R.mipmap.icon_cart);
         }else if(goodsInfo.is_oos == 1){//缺货
             holder.ll_no_goods.setVisibility(View.VISIBLE);
+            holder.iv_cart.setImageResource(R.mipmap.icon_cart_grey);
         }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, GoodsDetailActivity.class);
-                intent.putExtra("goodsInfo", goodsInfo);
-                context.startActivity(intent);
+
+                if(onItemClickListener != null){
+                    onItemClickListener.onItemClick(holder, position);
+                }
             }
         });
 
@@ -74,6 +80,22 @@ public class NormalBuyAdapter extends RecyclerView.Adapter<NormalBuyAdapter.MyVi
             @Override
             public void onClick(View v) {
                 if(goodsInfo.is_oos == 1){
+                    goodNotDialog = new CustomSimpleDialog.Builder(context)
+                            .setMessage("该产品暂时缺货")
+                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(final DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .setNegativeButton("取消", new DialogInterface.OnCancelListener() {
+                                @Override
+                                public void onCancel(DialogInterface dialog) {
+                                    dialog.cancel();
+                                }
+                            })
+                            .create();
+                    goodNotDialog.show();
                     return;
                 }
                 holder.iv_cart.setEnabled(false);
@@ -116,5 +138,15 @@ public class NormalBuyAdapter extends RecyclerView.Adapter<NormalBuyAdapter.MyVi
             tv_price = (TextView) itemView.findViewById(R.id.tv_price);
             iv_cart = (ImageView) itemView.findViewById(R.id.iv_cart);
         }
+    }
+
+    private OnItemClickListener onItemClickListener;
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
+
+    public interface OnItemClickListener{
+        void onItemClick(MyViewHolder holder, int position);
     }
 }

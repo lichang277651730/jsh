@@ -28,6 +28,7 @@ import com.cqfrozen.jsh.adapter.HomePopAdapter;
 import com.cqfrozen.jsh.adapter.HomePriceAdapter;
 import com.cqfrozen.jsh.adapter.HomeRecommendAdapter;
 import com.cqfrozen.jsh.entity.GoodsInfo;
+import com.cqfrozen.jsh.entity.HomeBannerAdResultInfo;
 import com.cqfrozen.jsh.entity.HomeBannerInfo;
 import com.cqfrozen.jsh.entity.HomeClassifyInfo;
 import com.cqfrozen.jsh.entity.HomeNotifyInfo;
@@ -54,6 +55,7 @@ public class HomeFragment extends BaseFragment implements MyHttp.MyHttpResult ,V
     private EditText et_search;
     private LinearLayout ll_search;
     private RefreshLayout refresh_home;
+    private List<HomeBannerAdResultInfo.HomeBannerAdInfo> bannerAdInfos = new ArrayList<>();
 
     private static final int urlNum = 5; //当前页面是刷新的url数量
     private ImageView iv_search;
@@ -101,7 +103,7 @@ public class HomeFragment extends BaseFragment implements MyHttp.MyHttpResult ,V
 
     private void initRV() {
         rv_home.setOverScrollMode(View.OVER_SCROLL_NEVER);
-        HomeBannerAdapter homeBannerAdapter = new HomeBannerAdapter(mActivity, bannerInfos);
+        HomeBannerAdapter homeBannerAdapter = new HomeBannerAdapter(mActivity, bannerAdInfos);
         HomeClassifyAdapter homeClassifyAdapter = new HomeClassifyAdapter(mActivity, classifyInfos);
         HomeNotifyAdapter homeNotifyAdapter = new HomeNotifyAdapter(mActivity, notifyInfos);
         HomePriceAdapter homePriceAdapter = new HomePriceAdapter(mActivity, priceGoods);

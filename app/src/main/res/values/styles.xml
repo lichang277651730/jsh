@@ -73,6 +73,12 @@
         <item name="android:layout_height">match_parent</item>
     </style>
 
+    <style name="HorizontalPlaceHolder">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
     <!-- 字体 -->
     <style name="text_main">
         <item name="android:maxLines">1</item>
@@ -141,6 +147,9 @@
     <style name="customCheckbox" parent="@android:style/Widget.CompoundButton.CheckBox">
         <item name="android:button">@drawable/sl_cart_checkbox</item>
     </style>
+    <style name="customAppraiseCheckbox" parent="@android:style/Widget.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/sl_appraise_checkbox</item>
+    </style>
 
     <style name="bigButton">
         <item name="android:textSize">18sp</item>
@@ -157,6 +166,9 @@
     </style>
     <style name="bigBlueButton" parent="@style/bigButton">
         <item name="android:background">@drawable/sl_btn_blue_bg</item>
+    </style>
+    <style name="bigOrangeButton" parent="@style/bigButton">
+        <item name="android:background">@drawable/sl_btn_orange_bg</item>
     </style>
 
     <style name="Dialog" parent="android:style/Theme.Dialog">

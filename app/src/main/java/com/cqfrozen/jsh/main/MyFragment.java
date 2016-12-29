@@ -11,6 +11,7 @@ import com.common.base.BaseFragment;
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.center.LoginActivity;
 import com.cqfrozen.jsh.entity.UserInfo;
+import com.cqfrozen.jsh.util.UMengUtils;
 
 /**
  * Created by Administrator on 2016/9/18.
@@ -63,9 +64,6 @@ public class MyFragment extends BaseFragment {
         return null;
     }
 
-
-
-
     private void getIncludeView(){
         if(view != null && include_framelayout == null){
             include_framelayout = (RelativeLayout) view.findViewById(R.id.include_framelayout);
@@ -109,5 +107,18 @@ public class MyFragment extends BaseFragment {
 
     public interface HttpFail {
         void toHttpAgain();
+    }
+
+    @Override
+    public void onShow() {
+        super.onShow();
+        UMengUtils.setOnPageStart(this);
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        UMengUtils.setOnonPageEnd(this);
     }
 }

@@ -10,9 +10,9 @@ import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import com.cqfrozen.jsh.R;
 import com.common.base.BaseValue;
-import com.cqfrozen.jsh.entity.HomeBannerInfo;
+import com.cqfrozen.jsh.R;
+import com.cqfrozen.jsh.entity.HomeBannerAdResultInfo;
 
 import java.util.List;
 import java.util.Timer;
@@ -24,14 +24,15 @@ import java.util.TimerTask;
  */
 public class HomeBannerAdapter extends RecyclerView.Adapter<HomeBannerAdapter.MyViewHolder> implements ViewPager.OnPageChangeListener {
 
-    private List<HomeBannerInfo> bannerInfos;
+    private List<HomeBannerAdResultInfo.HomeBannerAdInfo> bannerAdInfos;
     private RadioButton[] rb_points;
     private Timer timer;
     private Context context;
-    public HomeBannerAdapter(Context context, List<HomeBannerInfo> bannerInfos){
+    public HomeBannerAdapter(Context context, List<HomeBannerAdResultInfo.HomeBannerAdInfo> bannerAdInfos){
         this.context = context;
-        this.bannerInfos = bannerInfos;
+        this.bannerAdInfos = bannerAdInfos;
     }
+
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if(context == null){
@@ -42,17 +43,17 @@ public class HomeBannerAdapter extends RecyclerView.Adapter<HomeBannerAdapter.My
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        if(bannerInfos.size() == 0){
+        if(bannerAdInfos.size() == 0){
             return;
         }
         //给vp_homebanner设置adapter
-        holder.vp_homebanner.setAdapter(new HomeBannerVPAdapter(context, bannerInfos));
+        holder.vp_homebanner.setAdapter(new HomeBannerVPAdapter(context, bannerAdInfos));
         //设置圆点数
         setPoints(holder.rg_homebanner);
         //给vp_homebanner设置页面滑动监听事件
         holder.vp_homebanner.addOnPageChangeListener(this);
         //默认第一页 第一个点选中
-        holder.vp_homebanner.setCurrentItem(bannerInfos.size() * 1000, false);
+        holder.vp_homebanner.setCurrentItem(bannerAdInfos.size() * 1000, false);
         rb_points[0].setChecked(true);
         //设置无限轮播
         setLoopPlay(holder.vp_homebanner);
@@ -79,10 +80,10 @@ public class HomeBannerAdapter extends RecyclerView.Adapter<HomeBannerAdapter.My
     private void setPoints(RadioGroup rg_homebanner) {
         RadioGroup.LayoutParams params = new RadioGroup.LayoutParams(BaseValue.dp2px(4),
                 BaseValue.dp2px(4));
-        rb_points = new RadioButton[bannerInfos.size()];
+        rb_points = new RadioButton[bannerAdInfos.size()];
         params.leftMargin = BaseValue.dp2px(2);
         rg_homebanner.removeAllViews();
-        for(int i = 0; i < bannerInfos.size(); i++){
+        for(int i = 0; i < bannerAdInfos.size(); i++){
             RadioButton rb = new RadioButton(context);
             rb.setLayoutParams(params);
             rb.setPadding(BaseValue.dp2px(2), 0, 0, 0);
@@ -123,7 +124,7 @@ public class HomeBannerAdapter extends RecyclerView.Adapter<HomeBannerAdapter.My
 
     @Override
     public void onPageSelected(int position) {
-        rb_points[position % bannerInfos.size()].setChecked(true);
+        rb_points[position % bannerAdInfos.size()].setChecked(true);
     }
 
     @Override

@@ -26,8 +26,6 @@ public class HuibiListActivity extends MyActivity implements View.OnClickListene
     private TextView tv_right;
     private TextView tv_use;
     private int type = 1;//1收入  2支出
-    private int page = 1;
-    private int is_page = 0;//0没有下一页 1有下一页
 
     private View v_huibi_all;
     private View v_huibi_use;

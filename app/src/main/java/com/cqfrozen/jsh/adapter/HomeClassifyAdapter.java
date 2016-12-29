@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cqfrozen.jsh.R;
-import com.cqfrozen.jsh.activity.HomeActivity;
+import com.cqfrozen.jsh.ad.AdListActivity;
 import com.cqfrozen.jsh.center.HuibiListActivity;
 import com.cqfrozen.jsh.center.NormalBuyActivity;
 import com.cqfrozen.jsh.entity.HomeClassifyInfo;
@@ -56,18 +56,19 @@ public class HomeClassifyAdapter extends RecyclerView.Adapter<HomeClassifyAdapte
             @Override
             public void onClick(View v) {
                 switch (position) {
-                    case PAGE_BUY_GOODS:
-                        if(context instanceof HomeActivity){
-                            ((HomeActivity)context).setClassifyFragment();
-                        }
+                    case PAGE_BUY_GOODS://去赚粮票
+//                        if(context instanceof HomeActivity){
+//                            ((HomeActivity)context).setClassifyFragment();
+//                        }
+                        context.startActivity(new Intent(context, AdListActivity.class));
                         break;
-                    case PAGE_NORMAL_BUY:
+                    case PAGE_NORMAL_BUY://常用采购
                         context.startActivity(new Intent(context, NormalBuyActivity.class));
                         break;
-                    case PAGE_HUIBI:
+                    case PAGE_HUIBI://我的粮票
                         context.startActivity(new Intent(context, HuibiListActivity.class));
                         break;
-                    case PAGE_ORDER_LIST:
+                    case PAGE_ORDER_LIST://我的订单
                         context.startActivity(new Intent(context, OrderListActivity.class));
                         break;
                     default:

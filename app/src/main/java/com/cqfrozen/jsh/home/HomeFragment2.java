@@ -28,7 +28,7 @@ import com.cqfrozen.jsh.adapter.HomeClassifyAdapter;
 import com.cqfrozen.jsh.adapter.HomeNotifyAdapter;
 import com.cqfrozen.jsh.adapter.HomeRecommendAdapter;
 import com.cqfrozen.jsh.entity.GoodsInfo;
-import com.cqfrozen.jsh.entity.HomeBannerInfo;
+import com.cqfrozen.jsh.entity.HomeBannerAdResultInfo;
 import com.cqfrozen.jsh.entity.HomeClassifyInfo;
 import com.cqfrozen.jsh.entity.HomeNotifyInfo;
 import com.cqfrozen.jsh.main.MyApplication;
@@ -43,7 +43,8 @@ import java.util.List;
 public class HomeFragment2 extends BaseFragment  implements MyHttp.MyHttpResult ,View.OnTouchListener, View.OnClickListener, SupportLayout.RefreshListener, SupportLayout.LoadMoreListener {
 
     private static HomeFragment2 fragment;
-    private List<HomeBannerInfo> bannerInfos = new ArrayList<>();
+//    private List<HomeBannerInfo> bannerInfos = new ArrayList<>();
+    private List<HomeBannerAdResultInfo.HomeBannerAdInfo> bannerAdInfos = new ArrayList<>();
     private List<HomeClassifyInfo> classifyInfos = new ArrayList<>();
     private List<HomeNotifyInfo> notifyInfos = new ArrayList<>();
     private List<GoodsInfo> recommendGoods = new ArrayList<>();
@@ -96,7 +97,7 @@ public class HomeFragment2 extends BaseFragment  implements MyHttp.MyHttpResult 
 
     private void initRV() {
         rv_home.setOverScrollMode(View.OVER_SCROLL_NEVER);
-        HomeBannerAdapter homeBannerAdapter = new HomeBannerAdapter(mActivity, bannerInfos);
+        HomeBannerAdapter homeBannerAdapter = new HomeBannerAdapter(mActivity, bannerAdInfos);
         HomeClassifyAdapter homeClassifyAdapter = new HomeClassifyAdapter(mActivity, classifyInfos);
         HomeNotifyAdapter homeNotifyAdapter = new HomeNotifyAdapter(mActivity, notifyInfos);
         HomeRecommendAdapter homeRecommendAdapter = new HomeRecommendAdapter(mActivity, recommendGoods);
@@ -119,7 +120,8 @@ public class HomeFragment2 extends BaseFragment  implements MyHttp.MyHttpResult 
     }
 
     private void getData() {
-        MyHttp.homeBanner(http, HomeAdapter2.TYPE_BANNER, this);
+//        MyHttp.homeBanner(http, HomeAdapter2.TYPE_BANNER, this);
+        MyHttp.adBannerList(http, HomeAdapter2.TYPE_BANNER, 1, this);
         MyHttp.noticeList(http, HomeAdapter2.TYPE_TABLE, this);
         MyHttp.homePriceGoods(http, HomeAdapter2.TYPE_LIST, "1", this);
     }
@@ -137,11 +139,12 @@ public class HomeFragment2 extends BaseFragment  implements MyHttp.MyHttpResult 
 
         switch (which) {
             case HomeAdapter2.TYPE_BANNER:
-                bannerInfos.clear();
-                bannerInfos.addAll((List<HomeBannerInfo>) bean);
-                if (bannerInfos.size() == 0) {
+                bannerAdInfos.clear();
+                bannerAdInfos.addAll(((HomeBannerAdResultInfo)bean).data1);
+                if(bannerAdInfos.size() == 0){
                     return;
                 }
+
                 break;
             case HomeAdapter2.TYPE_TABLE:
                 notifyInfos.clear();

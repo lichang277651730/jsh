@@ -14,6 +14,7 @@ import java.util.List;
 
 /**
  * Created by Administrator on 2016/9/22.
+ * 管理购物车，所有购物车的操作都再这里
  */
 public class CartManager {
 
@@ -112,6 +113,32 @@ public class CartManager {
         CartGoodsInfo cartGoodsInfo = parseCartGoods(goodsInfo);
         add(cartGoodsInfo);
     }
+
+    /**
+     * 添加单个商品 商品数量到购物车
+     */
+    public void add(GoodsInfo goodsInfo, int addCount) {
+        CartGoodsInfo cartGoodsInfo = parseCartGoods(goodsInfo);
+        add(cartGoodsInfo, addCount);
+    }
+
+    /**
+     * 添加单个商品购物车
+     */
+    public void add(CartGoodsInfo cartGoodsInfo, int addCount) {
+        Long goodsId = cartGoodsInfo.g_id;
+        CartGoodsInfo temp = cartGoods.get(goodsId.intValue());
+        if (temp != null) {//购物车已存在此商品，数量加1
+            temp.count = temp.count + addCount;
+        } else {//第一次添加的商品
+            temp = cartGoodsInfo;
+            temp.count = 1;
+        }
+        cartGoods.put(goodsId.intValue(), temp);
+        commit();
+    }
+
+
 
     /**
      * 添加一个集合的商品到购物车

@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
@@ -14,39 +14,50 @@
 
         <ImageView
             android:id="@+id/iv_appraise"
-            android:layout_width="80dp"
+            android:layout_width="110dp"
             android:layout_height="80dp"
-            android:scaleType="centerCrop"/>
+            android:scaleType="centerCrop"
+            android:src="@mipmap/img_loading_default"/>
 
         <TextView
+            android:id="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:layout_marginLeft="16dp"
             android:gravity="center"
+            android:layout_toRightOf="@id/iv_appraise"
+            android:textColor="@color/textColorPrimary"
             android:text="描述相符"
             android:textSize="16sp"/>
 
         <RatingBar
             android:id="@+id/rb_appraise"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginLeft="20dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_name"
             android:layout_marginTop="5dp"
+            android:layout_alignLeft="@id/tv_name"
             android:numStars="5"
-            android:progressDrawable="@drawable/custom_love_ratingbar"
+            android:progressDrawable="@drawable/custom_love_ratingbar_big"
             android:rating="5"/>
 
 
-    </LinearLayout>
-
+    </RelativeLayout>
+    <View style="@style/HorizontalDividerLine"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:paddingLeft="16dp"
-        android:paddingRight="16dp">
-
+        android:layout_marginTop="10dp"
+        android:paddingRight="16dp"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="商家评价:"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="15sp"/>
         <EditText
             android:id="@+id/et_appraise"
             android:layout_width="match_parent"
@@ -55,10 +66,12 @@
             android:gravity="top"
             android:hint="请输入商品评价，最多100字"
             android:maxLength="100"
+            android:layout_marginTop="10dp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:paddingTop="20dp"
-            android:textColorHint="#999999"
-            android:textSize="16sp"/>
+            android:textColor="@color/textColorPrimary"
+            android:textColorHint="@color/c_six"
+            android:textSize="15sp"/>
     </LinearLayout>
 </LinearLayout>

@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.common.http.HttpForVolley;
 import com.cqfrozen.jsh.R;
+import com.cqfrozen.jsh.entity.GoodsInfo;
 import com.cqfrozen.jsh.util.ImageLoader;
 import com.cqfrozen.jsh.volleyhttp.MyHttp;
 import com.cqfrozen.jsh.widget.NumberAddSubView;
@@ -102,15 +103,18 @@ public class CartRVAdapter extends RecyclerView.Adapter<CartRVAdapter.MyViewHold
             }
         });
 
-//        holder.itemView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 //                Intent intent = new Intent(context, GoodsDetailActivity.class);
-//                GoodsInfo goodsInfo = cartManager.parseCartGoods(cartGoodsInfo);
+                GoodsInfo goodsInfo = cartManager.parseCartGoods(cartGoodsInfo);
 //                intent.putExtra("goodsInfo", goodsInfo);
 //                context.startActivity(intent);
-//            }
-//        });
+                if(onItemClickListener != null){
+                    onItemClickListener.onItemClick(goodsInfo, position);
+                }
+            }
+        });
 
         holder.ll_cart_cb.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -361,5 +365,19 @@ public class CartRVAdapter extends RecyclerView.Adapter<CartRVAdapter.MyViewHold
 
     public interface PriceChangeListener{
         void priceChange(float price);
+    }
+
+    private OnItemClickListener onItemClickListener;
+    public interface OnItemClickListener{
+        void onItemClick(GoodsInfo goodsInfo, int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
+
+    public void clear(){
+        cartGoodsInfos.clear();
+        notifyDataSetChanged();
     }
 }

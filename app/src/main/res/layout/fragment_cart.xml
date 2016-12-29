@@ -27,15 +27,18 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="16dp"
             android:layout_marginTop="10dp"
-            android:src="@mipmap/icon_shortcut"/>
+            android:src="@mipmap/icon_shortcut"
+            android:visibility="gone"/>
         <Button
             android:id="@+id/btn_edit"
             android:layout_width="60dp"
             android:layout_height="match_parent"
-            android:layout_toLeftOf="@id/iv_shotcut"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="16dp"
             android:gravity="center"
             android:background="@null"
             android:textColor="@color/white"
+            android:textSize="17sp"
             android:text="@string/cart_edit"/>
     </RelativeLayout>
     <LinearLayout
@@ -45,16 +48,22 @@
         android:orientation="vertical"
         android:layout_below="@id/rl_title"
         android:background="@color/white">
-
-        <TextView
-            android:id="@+id/tv_notify"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableLeft="@mipmap/list_zuire_h"
-            android:drawablePadding="8dp"
-            android:layout_marginLeft="8dp"
-            android:padding="6dp"
-            android:gravity="center_vertical"/>
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:src="@mipmap/list_zuire_h"/>
+            <TextView
+                android:id="@+id/tv_notify"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="6dp"/>
+        </LinearLayout>
         <View style="@style/HorizontalDivider_ten"
             android:layout_marginTop="2dp"/>
     </LinearLayout>
@@ -70,7 +79,7 @@
             android:id="@+id/rv_cart"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="54dp"
+            android:layout_marginBottom="60dp"
             android:scrollbars="none">
         </android.support.v7.widget.RecyclerView>
         <View style="@style/HorizontalDividerLine"/>
@@ -82,10 +91,10 @@
 
     <View style="@style/HorizontalDividerLine"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="54dp"/>
+        android:layout_marginBottom="60dp"/>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="54dp"
+        android:layout_height="60dp"
         android:layout_alignParentBottom="true"
         android:paddingLeft="5dp"
         android:background="@color/white"
@@ -120,7 +129,7 @@
                     android:layout_toRightOf="@id/cb_all"
                     android:layout_marginLeft="20dp"
                     android:layout_centerVertical="true"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginTop="18dp"
                     android:textSize="16sp"
                     android:text="@string/cart_total"/>
 
@@ -131,7 +140,7 @@
                     android:layout_toRightOf="@id/cb_all"
                     android:layout_marginLeft="8dp"
                     android:layout_centerVertical="true"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginTop="18dp"
                     android:textColor="@color/nowPriceColor"
                     android:textSize="16sp"/>
             </LinearLayout>
@@ -142,9 +151,9 @@
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/cb_all"
                 android:layout_centerVertical="true"
-                android:textColor="@color/myblack"
-                android:layout_marginLeft="60dp"
-                android:textSize="15sp"
+                android:textColor="@color/color_nine"
+                android:layout_marginLeft="68dp"
+                android:textSize="13sp"
                 android:text="@string/cart_carr"/>
         </LinearLayout>
         <Button

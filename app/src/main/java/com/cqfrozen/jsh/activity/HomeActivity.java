@@ -23,6 +23,7 @@ import com.cqfrozen.jsh.center.MineFragment;
 import com.cqfrozen.jsh.classify.ClassifyFragment;
 import com.cqfrozen.jsh.home.HomeFragment2;
 import com.cqfrozen.jsh.main.MyApplication;
+import com.cqfrozen.jsh.util.UMengUtils;
 import com.cqfrozen.jsh.util.UpdateUtils;
 import com.cqfrozen.jsh.widget.BadgeView;
 
@@ -208,6 +209,7 @@ public class HomeActivity extends BaseActivity implements RadioGroup.OnCheckedCh
             } else if (clickCount == 2) {
                 clickSecondTime = System.currentTimeMillis();
                 if (clickSecondTime - clickFirstTime <= 2000) {
+                    UMengUtils.setKillProcess(this);
                     instance = null;
                     System.exit(0);
                 } else {

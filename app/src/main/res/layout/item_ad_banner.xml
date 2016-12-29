@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <cn.bingoogolapple.bgabanner.BGABanner
+        android:id="@+id/banner_ad"
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:background="#f4f4f4"
+        app:banner_indicatorGravity="right|bottom"
+        app:banner_pointContainerBackground="#90333333"
+        app:banner_pointDrawable="@drawable/sl_ad_banner_point"
+        app:banner_pointTopBottomMargin="5dp"
+        app:banner_tipTextColor="@color/white"
+        app:banner_tipTextSize="15dp"
+        app:banner_transitionEffect="alpha"/>
+</FrameLayout>

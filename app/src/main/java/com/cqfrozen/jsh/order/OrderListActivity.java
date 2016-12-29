@@ -1,6 +1,5 @@
 package com.cqfrozen.jsh.order;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
@@ -36,10 +35,11 @@ public class OrderListActivity extends MyActivity implements View.OnClickListene
     public static final int PAGE_NO_SAY = 3;//待评价
 
     private ScrollIndicatorView indicator_order;
-    private static ViewPager vp_order;
+    private ViewPager vp_order;
     private int page_index;
     private ImageView iv_right;
     private PopupWindow popupWindow;
+    private OrderIndicatorAdapter indicatorAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -95,13 +95,17 @@ public class OrderListActivity extends MyActivity implements View.OnClickListene
 
         IndicatorViewPager indicatorViewPager = new IndicatorViewPager(indicator_order, vp_order);
         indicatorViewPager.setClickIndicatorAnim(false);
-        indicatorViewPager.setAdapter(new OrderIndicatorAdapter(getSupportFragmentManager(), this));
+        indicatorAdapter = new OrderIndicatorAdapter(getSupportFragmentManager(), this);
+        indicatorViewPager.setAdapter(indicatorAdapter);
         vp_order.setCurrentItem(page_index, false);
     }
 
-    public static void startActivity(Context context, int position){
-        Intent intent = new Intent(context, OrderListActivity.class);
-        context.startActivity(intent);
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(indicator_order != null){
+            indicatorAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override

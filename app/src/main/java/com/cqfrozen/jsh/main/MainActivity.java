@@ -15,6 +15,7 @@ import com.cqfrozen.jsh.center.LoginActivity;
 import com.cqfrozen.jsh.entity.SigninInfo;
 import com.cqfrozen.jsh.entity.UserInfo;
 import com.cqfrozen.jsh.util.SPUtils;
+import com.cqfrozen.jsh.util.UMengUtils;
 import com.cqfrozen.jsh.volleyhttp.MyHttp;
 
 /**
@@ -25,7 +26,6 @@ public class MainActivity extends MyActivity implements MyHttp.MyHttpResult, Han
     private static final int REFRESHTOKEN = 1;
     private static final int GETUSERINFO = 2;
 
-    private static MainActivity instance;
     private int netResponseCode = -1;
 
     private Handler handler = new Handler(this);
@@ -51,7 +51,6 @@ public class MainActivity extends MyActivity implements MyHttp.MyHttpResult, Han
         //全屏
         getWindow().setFlags(WindowManager.LayoutParams. FLAG_FULLSCREEN , WindowManager.LayoutParams. FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
-        instance = this;
         setStopHttp(false);
         setSwipeBackEnable(false);
         initView();
@@ -73,6 +72,7 @@ public class MainActivity extends MyActivity implements MyHttp.MyHttpResult, Han
      * 自动登录
      */
     private void AutoLogin() {
+
         handler.sendEmptyMessageDelayed(1, 2000);
         String token = SPUtils.getToken();
 //        long expireTime = SPUtils.getExpireTime();
@@ -126,6 +126,7 @@ public class MainActivity extends MyActivity implements MyHttp.MyHttpResult, Han
                 MyHttp.user(http, GETUSERINFO, this);
                 break;
             case GETUSERINFO: //获得userinfo
+                UMengUtils.setSignIn();
                 MyApplication.userInfo = (UserInfo) bean;
                 break;
         }

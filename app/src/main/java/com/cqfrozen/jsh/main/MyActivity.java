@@ -12,6 +12,7 @@ import com.common.base.BaseActivity;
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.center.LoginActivity;
 import com.cqfrozen.jsh.entity.UserInfo;
+import com.cqfrozen.jsh.util.UMengUtils;
 
 /**
  * Created by Administrator on 2016/9/18.
@@ -147,7 +148,20 @@ public class MyActivity extends BaseActivity {
         void toHttpAgain();
     }
 
-//    @Override
+    @Override
+    protected void onResume() {
+        super.onResume();
+        UMengUtils.setOnPageStart(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        UMengUtils.setOnonPageEnd(this);
+    }
+
+
+    //    @Override
 //    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
 //        super.onSaveInstanceState(outState, outPersistentState);
 //    }

@@ -51,7 +51,7 @@ public class HomeRecommendAdapter  extends RecyclerView.Adapter<HomeRecommendAda
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, GoodsDetailActivity.class);
-                intent.putExtra("goodsInfo", goodsInfo);
+                intent.putExtra("g_id", goodsInfo.g_id);
                 context.startActivity(intent);
             }
         });

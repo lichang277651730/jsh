@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -15,7 +16,10 @@ import android.widget.TextView;
 
 import com.common.http.HttpForVolley;
 import com.cqfrozen.jsh.R;
+import com.cqfrozen.jsh.activity.GoodsDetailActivity;
 import com.cqfrozen.jsh.appraise.AppraiseActivity;
+import com.cqfrozen.jsh.entity.GoodDetailResultInfo;
+import com.cqfrozen.jsh.entity.GoodsInfo;
 import com.cqfrozen.jsh.entity.OrderDetailPageInfo;
 import com.cqfrozen.jsh.main.MyActivity;
 import com.cqfrozen.jsh.util.CustomSimpleDialog;
@@ -48,6 +52,7 @@ public class OrderDetailActivity extends MyActivity implements View.OnClickListe
     private ScrollView scrollview;
     private TextView tv_ex_desc;
     private ImageView iv_ex;
+    private boolean isItemCanClick = true;
 
     public interface FROM{
         int FROM_ORDER_DEFAULT = 0;
@@ -83,9 +88,6 @@ public class OrderDetailActivity extends MyActivity implements View.OnClickListe
 
     private int from = FROM.FROM_ORDER_DEFAULT;
 
-//    private AlertDialog deleteDialog;
-//    private AlertDialog cancelNoOutDialog;
-//    private AlertDialog cancelNoPayDialog;
     private CustomSimpleDialog deleteDialog;
     private CustomSimpleDialog cancelNoOutDialog;
     private CustomSimpleDialog cancelNoPayDialog;
@@ -217,6 +219,49 @@ public class OrderDetailActivity extends MyActivity implements View.OnClickListe
         orderDetailLvAdapter = new OrderDetailLvAdapter(this,
                 orderDetailPageBeanList);
         lv_order.setAdapter(orderDetailLvAdapter);
+        lv_order.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                if(orderDetailPageInfo != null && isItemCanClick){
+                    Long click_g_id = Long.parseLong(orderDetailPageInfo.oinfo.get(i).g_id);
+//
+//                    isItemCanClick = false;
+//                    MyHttp.ginfo(http, null, click_g_id, new MyHttp.MyHttpResult() {
+//                        @Override
+//                        public void httpResult(Integer which, int code, String msg, Object bean) {
+//                            isItemCanClick = true;
+//                            if (code != 0) {
+//                                return;
+//                            }
+//                            GoodDetailResultInfo resultInfo = (GoodDetailResultInfo) bean;
+//                            if (resultInfo == null || resultInfo.data2.size() == 0) {
+//                                return;
+//                            }
+//                            GoodsInfo goodsInfo = parsGoodsInfo(resultInfo);
+                            Intent intent = new Intent(OrderDetailActivity.this, GoodsDetailActivity.class);
+                            intent.putExtra("g_id", click_g_id);
+                            startActivity(intent);
+//                        }
+//                    });
+//
+//                }
+            }
+        });
+    }
+
+    private GoodsInfo parsGoodsInfo(GoodDetailResultInfo resultInfo) {
+        GoodsInfo goodsInfo = new GoodsInfo();
+        goodsInfo.g_id = resultInfo.data1.g_id;
+        goodsInfo.g_name = resultInfo.data1.g_name;
+        goodsInfo.market_price = resultInfo.data1.market_price;
+        goodsInfo.now_price = resultInfo.data1.now_price;
+        goodsInfo.is_oos = resultInfo.data1.is_oos;
+        goodsInfo.is_oos = resultInfo.data1.is_oos;
+        goodsInfo.weight = resultInfo.data1.weight;
+        goodsInfo.unit = resultInfo.data1.unit;
+        goodsInfo.brand_name = resultInfo.data1.brand_name;
+        goodsInfo.pic_url = resultInfo.data2.get(0).pic_url;
+        return goodsInfo;
     }
 
     private void getData() {
@@ -318,6 +363,9 @@ public class OrderDetailActivity extends MyActivity implements View.OnClickListe
      * 收起列表
      */
     private void unexLvList() {
+        if(orderDetailPageInfo == null){
+            return;
+        }
         orderDetailPageBeanList.clear();
         orderDetailPageBeanList.add(orderDetailPageInfo.oinfo.get(0));
         orderDetailLvAdapter.notifyDataSetChanged();
@@ -331,6 +379,9 @@ public class OrderDetailActivity extends MyActivity implements View.OnClickListe
      * 展开列表
      */
     private void exLvList() {
+        if(orderDetailPageInfo == null){
+            return;
+        }
         orderDetailPageBeanList.clear();
         orderDetailPageBeanList.addAll(orderDetailPageInfo.oinfo);
         orderDetailLvAdapter.notifyDataSetChanged();
@@ -428,39 +479,7 @@ public class OrderDetailActivity extends MyActivity implements View.OnClickListe
                 })
                 .create();
         deleteDialog.show();
-//        deleteDialog = new AlertDialog.Builder(this)
-//                .setMessage("确定要删除该订单吗？")
-//                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        MyHttp.orderDelete(http, null, o_id, new HttpForVolley.HttpTodo() {
-//                            @Override
-//                            public void httpTodo(Integer which, JSONObject response) {
-//                                showToast(response.optString("msg"));
-//                                int code = response.optInt("code");
-//                                if(code != 0){
-//                                    return;
-//                                }
-//                                ll_btns.setVisibility(View.GONE);
-//                                v_divider.setVisibility(View.GONE);
-//                                btn_cancel_nopay.setVisibility(View.GONE);
-//                                btn_go_pay.setVisibility(View.GONE);
-//                                btn_cancel_noout.setVisibility(View.GONE);
-//                                btn_confirm_get.setVisibility(View.GONE);
-//                                btn_go_say.setVisibility(View.GONE);
-//                                btn_delete.setVisibility(View.GONE);
-//                            }
-//                        });
-//                    }
-//                })
-//                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.cancel();
-//                    }
-//                })
-//                .create();
-//        deleteDialog.show();
+
     }
 
     //点击取消 没发货订单
@@ -497,33 +516,7 @@ public class OrderDetailActivity extends MyActivity implements View.OnClickListe
                 })
                 .create();
         cancelNoOutDialog.show();
-//        cancelNoOutDialog = new AlertDialog.Builder(this)
-//                .setMessage("确定要取消该订单吗？")
-//                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        MyHttp.cancelOrder(http, null, o_id, new HttpForVolley.HttpTodo() {
-//                            @Override
-//                            public void httpTodo(Integer which, JSONObject response) {
-//                                showToast(response.optString("msg"));
-//                                int code = response.optInt("code");
-//                                if(code != 0){
-//                                    return;
-//                                }
-//                                btn_cancel_noout.setVisibility(View.GONE);
-//                                btn_delete.setVisibility(View.VISIBLE);
-//                            }
-//                        });
-//                    }
-//                })
-//                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.cancel();
-//                    }
-//                })
-//                .create();
-//        cancelNoOutDialog.show();
+
     }
 
     //1取消 未付款订单 点击取消按钮
@@ -560,32 +553,6 @@ public class OrderDetailActivity extends MyActivity implements View.OnClickListe
                 })
                 .create();
         cancelNoPayDialog.show();
-//        cancelNoPayDialog = new AlertDialog.Builder(this)
-//                .setMessage("确定要取消该订单吗？")
-//                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        MyHttp.cancelOrder(http, null, o_id, new HttpForVolley.HttpTodo() {
-//                            @Override
-//                            public void httpTodo(Integer which, JSONObject response) {
-//                                showToast(response.optString("msg"));
-//                                int code = response.optInt("code");
-//                                if(code != 0){
-//                                    return;
-//                                }
-//                                btn_cancel_nopay.setVisibility(View.GONE);
-//                                btn_delete.setVisibility(View.VISIBLE);
-//                            }
-//                        });
-//                    }
-//                })
-//                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.cancel();
-//                    }
-//                })
-//                .create();
-//        cancelNoPayDialog.show();
+
     }
 }

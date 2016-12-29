@@ -69,7 +69,7 @@ public class AutoTextView extends TextSwitcher implements
     private Rotate3dAnimation createAnim(float start, float end, boolean turnIn, boolean turnUp) {
         final Rotate3dAnimation rotation = new Rotate3dAnimation(start, end, turnIn, turnUp);
         //动画持续时间
-        rotation.setDuration(300);
+        rotation.setDuration(600);
         rotation.setFillAfter(false);
         rotation.setInterpolator(new AccelerateInterpolator());
         return rotation;
@@ -86,6 +86,15 @@ public class AutoTextView extends TextSwitcher implements
         t.setEllipsize(TextUtils.TruncateAt.END);
         //设置文字颜色
         t.setTextColor(getResources().getColor(R.color.color_nine));
+        t.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int index = (int) getTag();
+                if(onItemClickListener != null){
+                    onItemClickListener.onItemClick(index);
+                }
+            }
+        });
         return t;
     }
 
@@ -99,7 +108,7 @@ public class AutoTextView extends TextSwitcher implements
         }
         setText(strs[0]);
         if (stop){
-            handler.postDelayed(runnable, 2000);
+            handler.postDelayed(runnable, 3000);
             stop =false;
         }
     }
@@ -109,7 +118,8 @@ public class AutoTextView extends TextSwitcher implements
             if (strs.length > 1) {
                 next();
                 setText(strs[sCount]);
-                handler.postDelayed(this, 2000);
+                setTag(sCount);
+                handler.postDelayed(this, 3000);
                 sCount++;
             }
             if (sCount > strs.length - 1) {
@@ -202,5 +212,15 @@ public class AutoTextView extends TextSwitcher implements
             matrix.preTranslate(-centerX, -centerY);
             matrix.postTranslate(centerX, centerY);
         }
+    }
+
+    private OnItemClickListener onItemClickListener;
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
+
+    public interface OnItemClickListener{
+        void onItemClick(int index);
     }
 }

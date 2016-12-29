@@ -3,7 +3,7 @@
     <string name="app_name">冻博汇</string>
 
     <!--首页 分类-->
-    <string name="home_classify_dh">我要订货</string>
+    <string name="home_classify_dh">去赚粮票</string>
     <string name="home_classify_cg">常用采购</string>
     <string name="home_classify_jf">我的粮票</string>
     <string name="home_classify_dd">我的订单</string>
@@ -47,7 +47,7 @@
     <string name="cart_all">全选</string>
     <string name="cart_total">合计:</string>
     <string name="cart_order">去结算</string>
-    <string name="cart_carr">不含运费</string>
+    <string name="cart_carr">(不含运费)</string>
     <string name="cart_del">删除</string>
 
     <string name="toast_exit">再按一次退出冻博汇</string>
@@ -56,5 +56,6 @@
     <string name="edit_idea_hint">如果您对我们有什么建议、想法和期望，请告诉我们~</string>
 
     <string name="test_string">商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情</string>
+    <string name="normal_buyall">一键采购</string>
 
 </resources>

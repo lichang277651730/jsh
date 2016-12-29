@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -320,7 +319,6 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.MyVi
 
     private CustomSimpleDialog cancelNoPayDialog;
     private void cancelNoPayDialog(final int position, final MyViewHolder holder, final OrderResultInfo.OrderSearchInfo orderSearchInfo) {
-        Log.d("OrderListposition", position + ":position cancelNoPayDialog");
         cancelNoPayDialog = new CustomSimpleDialog.Builder(context)
                 .setMessage("确定要取消该订单吗？")
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {

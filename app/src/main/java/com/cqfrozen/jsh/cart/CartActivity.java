@@ -17,12 +17,14 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.common.base.BaseValue;
+import com.common.refresh.RefreshLayout;
 import com.common.refresh.SupportLayout;
 import com.common.widget.MyGridDecoration;
-import com.common.refresh.RefreshLayout;
 import com.cqfrozen.jsh.R;
+import com.cqfrozen.jsh.activity.GoodsDetailActivity;
 import com.cqfrozen.jsh.activity.HomeActivity;
 import com.cqfrozen.jsh.entity.CartNotifyInfo;
+import com.cqfrozen.jsh.entity.GoodsInfo;
 import com.cqfrozen.jsh.entity.OrderInfo;
 import com.cqfrozen.jsh.home.SearchActivity;
 import com.cqfrozen.jsh.main.MyActivity;
@@ -44,6 +46,7 @@ public class CartActivity extends MyActivity implements View.OnClickListener,
     private static final int TAG_FINISH = 2;
 
     private static final int REQUEST_CODE_CART_ACTIVITY = 1;
+    private static final int REQUEST_CODE_CART_ACTIVITY_ITEM_CLICK = 102;
 
     private Button btn_edit;
     private RecyclerView rv_cart;
@@ -71,7 +74,8 @@ public class CartActivity extends MyActivity implements View.OnClickListener,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
         setTransparencyBar(true);
-        cartManager = CartManager.getInstance(this);
+//        cartManager = CartManager.getInstance(this);
+        cartManager = MyApplication.cartManager;
         cartManager.setOnDeleteCartGoodsActivityListener(this);
         initView();
         initTitle();
@@ -154,6 +158,16 @@ public class CartActivity extends MyActivity implements View.OnClickListener,
                     btn_order.setBackgroundColor(getResources().getColor(R.color.mygray));
                     btn_order.setBackgroundResource(R.drawable.sl_btn_blue_bg);
                 }
+            }
+        });
+
+        cartAdapter.setOnItemClickListener(new CartRVAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(GoodsInfo goodsInfo, int position) {
+                Intent intent = new Intent(CartActivity.this, GoodsDetailActivity.class);
+//                intent.putExtra("goodsInfo", goodsInfo);
+                intent.putExtra("g_id", goodsInfo.g_id);
+                startActivityForResult(intent, REQUEST_CODE_CART_ACTIVITY_ITEM_CLICK);
             }
         });
     }
@@ -384,6 +398,17 @@ public class CartActivity extends MyActivity implements View.OnClickListener,
         if(requestCode == REQUEST_CODE_CART_ACTIVITY && resultCode == RESULT_OK){
             getDataFromServer();
         }
+        if(requestCode == REQUEST_CODE_CART_ACTIVITY_ITEM_CLICK && resultCode == RESULT_OK){
+            boolean isAddMore = data.getBooleanExtra("isAddMore", false);
+            if(isAddMore){
+                is_page = 0;
+                page = 1;
+                cartGoodsInfos.clear();
+                getData();
+            }else {
+                cartAdapter.notifyDataSetChanged();
+            }
+        }
     }
 
     @Override
@@ -415,5 +440,22 @@ public class CartActivity extends MyActivity implements View.OnClickListener,
         }else if(is_page == 0){
 //            showToast("没有更多数据了!~");
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(cartAdapter != null){
+            cartAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        is_page = 0;
+        page = 1;
+        cartGoodsInfos.clear();
+        getData();
     }
 }
