@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -56,11 +57,13 @@ public class BannerDetailActivity extends MyActivity implements View.OnClickList
     private String hanziStr = "";
     private String china_keyword;
     private int keywordLength;
+    private TextView tv_add_huibi;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_banner_detail);
+        setSwipeBackEnable(false);
         getIntentData();
         initView();
         initWebView();
@@ -86,6 +89,14 @@ public class BannerDetailActivity extends MyActivity implements View.OnClickList
     private void initWebView() {
         WebSettings settings = webview_ad.getSettings();
         settings.setJavaScriptEnabled(true);
+        webview_ad.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                // 返回值是true的时候控制去WebView打开，为false调用系统浏览器或第三方浏览器
+                view.loadUrl(url);
+                return true;
+            }
+        });
 //        webview_ad.loadData(url, "text/html;charset=utf-8", null);
     }
 
@@ -94,6 +105,7 @@ public class BannerDetailActivity extends MyActivity implements View.OnClickList
         ll_root = (LinearLayout) popView.findViewById(R.id.ll_root);
         ad_title_view = (AdTitleView) popView.findViewById(R.id.ad_title_view);
         ll_ad_root = (LinearLayout) popView.findViewById(R.id.ll_ad_root);
+        tv_add_huibi = (TextView) popView.findViewById(R.id.tv_add_huibi);
         tv_input = (TextView) popView.findViewById(R.id.tv_input);
         tv_clear = (TextView) popView.findViewById(R.id.tv_clear);
         tv_return = (TextView) popView.findViewById(R.id.tv_return);
@@ -152,10 +164,12 @@ public class BannerDetailActivity extends MyActivity implements View.OnClickList
         AdDetailResultInfo.AdDetailInfo adDetailInfo = detailResultInfo.data1;
         webview_ad.loadUrl(adDetailInfo.content);
         tv_area.setText(adDetailInfo.area_name);
-        tv_price.setText(adDetailInfo.hb_count + "粮票/次");
+        tv_price.setText(adDetailInfo.xf_hb_count + "粮票/次");
         tv_num.setText(adDetailInfo.ad_count + "次");
         setKeyTvs(adDetailInfo.choose_keyword);
         addPopTitleView(adDetailInfo);//添加pop窗口的标题组件
+
+        tv_add_huibi.setText("粮票+" + adDetailInfo.xf_hb_count);
     }
 
     private void addPopTitleView(AdDetailResultInfo.AdDetailInfo adDetailInfo) {
@@ -268,7 +282,7 @@ public class BannerDetailActivity extends MyActivity implements View.OnClickList
             return;
         }
         tv_confirm.setEnabled(false);
-        MyHttp.adGetHB(http, null, ad_id, china_keyword, new HttpForVolley.HttpTodo() {
+        MyHttp.adGetHB(http, null, ad_id, inputStr, new HttpForVolley.HttpTodo() {
             @Override
             public void httpTodo(Integer which, JSONObject response) {
                 tv_confirm.setEnabled(true);

@@ -17,6 +17,7 @@ import com.common.widget.MyGridDecoration;
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.activity.GoodsDetailActivity;
 import com.cqfrozen.jsh.adapter.NormalBuyAdapter;
+import com.cqfrozen.jsh.cart.CartActivity;
 import com.cqfrozen.jsh.cart.CartManager;
 import com.cqfrozen.jsh.entity.GoodsInfo;
 import com.cqfrozen.jsh.entity.GoodsResultInfo;
@@ -181,6 +182,8 @@ public class NormalBuyActivity extends MyActivity implements MyActivity.HttpFail
                 for (GoodsInfo goodsInfo : goodsInfos){
                     cartManager.add(goodsInfo);
                 }
+//                HomeActivity.startActivity(NormalBuyActivity.this, 2);
+                startActivity(new Intent(NormalBuyActivity.this, CartActivity.class));
             }
         });
     }

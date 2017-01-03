@@ -272,4 +272,10 @@ public class HomeActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         super.onDestroy();
         updateUtils.setClose();//关闭自动更新
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        updateUtils.setClose();//关闭自动更新
+    }
 }

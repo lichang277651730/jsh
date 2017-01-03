@@ -6,6 +6,7 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -38,16 +39,18 @@ public class CartRVAdapter extends RecyclerView.Adapter<CartRVAdapter.MyViewHold
     private Context context;
     private TextView tv_total;
     private CheckBox cb_all;
+    private Button btn_order;
     private final CartManager cartManager;
     private final HttpForVolley http;
     private ArrayList<CartGoodsInfo> checkedList = new ArrayList<>();
 
     public CartRVAdapter(Context context, List<CartGoodsInfo> cartGoodsInfos, TextView tv_total,
-                         final CheckBox cb_all){
+                         final CheckBox cb_all, Button btn_order){
         this.context = context;
         this.cartGoodsInfos = cartGoodsInfos;
         this.tv_total = tv_total;
         this.cb_all = cb_all;
+        this.btn_order = btn_order;
         this.http = new HttpForVolley(context);
         cartManager = CartManager.getInstance(context);
 
@@ -79,6 +82,15 @@ public class CartRVAdapter extends RecyclerView.Adapter<CartRVAdapter.MyViewHold
         holder.tv_brand.setText("品牌: " + cartGoodsInfo.brand_name);
         holder.tv_size.setText("规格: " + cartGoodsInfo.weight + "kg/件");
 
+        if(cartGoodsInfo.is_oos == 0){//不缺货
+            holder.ll_no_goods.setVisibility(View.GONE);
+//            holder.checkbox.setChecked(true);
+//            holder.ll_cart_cb.setEnabled(true);
+        }else if(cartGoodsInfo.is_oos == 1){//缺货
+            holder.ll_no_goods.setVisibility(View.VISIBLE);
+//            holder.checkbox.setChecked(false);
+//            holder.ll_cart_cb.setEnabled(false);
+        }
 
         holder.add_sub_num.setOnSubAddClickListener(new NumberAddSubView.OnSubAddClickListener() {
             @Override
@@ -106,10 +118,7 @@ public class CartRVAdapter extends RecyclerView.Adapter<CartRVAdapter.MyViewHold
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(context, GoodsDetailActivity.class);
                 GoodsInfo goodsInfo = cartManager.parseCartGoods(cartGoodsInfo);
-//                intent.putExtra("goodsInfo", goodsInfo);
-//                context.startActivity(intent);
                 if(onItemClickListener != null){
                     onItemClickListener.onItemClick(goodsInfo, position);
                 }
@@ -122,7 +131,7 @@ public class CartRVAdapter extends RecyclerView.Adapter<CartRVAdapter.MyViewHold
                 holder.checkbox.setChecked(!holder.checkbox.isChecked());
                 cartGoodsInfo.isChecked = holder.checkbox.isChecked();
                 cartManager.update(cartGoodsInfo);
-                notifyItemChanged(position);
+//                notifyItemChanged(position);
                 allCheckedListen();
                 showTotalPrice();
             }
@@ -143,6 +152,7 @@ public class CartRVAdapter extends RecyclerView.Adapter<CartRVAdapter.MyViewHold
         private TextView tv_size;
         private NumberAddSubView add_sub_num;
         private LinearLayout ll_cart_cb;
+        private LinearLayout ll_no_goods;
         public MyViewHolder(View itemView) {
             super(itemView);
             checkbox = (CheckBox) itemView.findViewById(R.id.checkbox);
@@ -153,6 +163,7 @@ public class CartRVAdapter extends RecyclerView.Adapter<CartRVAdapter.MyViewHold
             tv_size = (TextView)itemView.findViewById(R.id.tv_size);
             add_sub_num = (NumberAddSubView)itemView.findViewById(R.id.add_sub_num);
             ll_cart_cb = (LinearLayout)itemView.findViewById(R.id.ll_cart_cb);
+            ll_no_goods = (LinearLayout)itemView.findViewById(R.id.ll_no_goods);
         }
     }
 
@@ -326,6 +337,7 @@ public class CartRVAdapter extends RecyclerView.Adapter<CartRVAdapter.MyViewHold
     public void showTotalPrice(){
         float totalPrice = getTotalPrice();
         tv_total.setText(Html.fromHtml("￥<span style='color:#FF5458'>" + totalPrice + "</span>"), TextView.BufferType.SPANNABLE);
+        btn_order.setText("去结算(" + cartManager.getCartGoodsNum() + ")");
         if(priceChangeListener != null){
             priceChangeListener.priceChange(totalPrice);
         }

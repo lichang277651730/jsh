@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/sl_list_item"
@@ -19,7 +19,8 @@
             android:id="@+id/iv_goods"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="fitXY"/>
+            android:scaleType="fitXY"
+            tools:src="@mipmap/img_loading_default"/>
         <LinearLayout
             android:id="@+id/ll_no_goods"
             android:layout_width="match_parent"
@@ -61,7 +62,8 @@
         android:maxLines="2"
         android:ellipsize="end"
         android:textColor="@color/textColorPrimary"
-        android:textSize="15sp"/>
+        android:textSize="15sp"
+        tools:text="商品名称"/>
 
     <LinearLayout
         android:id="@+id/ll_info"
@@ -80,7 +82,8 @@
             android:layout_weight="2"
             android:maxLines="1"
             android:textColor="@color/color_nine"
-            android:textSize="13sp"/>
+            android:textSize="13sp"
+            tools:text="品牌"/>
 
         <TextView
             android:id="@+id/tv_size"
@@ -89,7 +92,8 @@
             android:layout_weight="3"
             android:maxLines="1"
             android:textColor="@color/color_nine"
-            android:textSize="13sp"/>
+            android:textSize="13sp"
+            tools:text="规格"/>
     </LinearLayout>
 
     <LinearLayout
@@ -109,7 +113,8 @@
             android:layout_weight="1"
             android:gravity="center_vertical"
             android:textColor="@color/nowPriceColor"
-            android:textSize="16sp"/>
+            android:textSize="16sp"
+            tools:text="￥100"/>
 
         <TextView
             android:id="@+id/tv_market_price"
@@ -122,6 +127,14 @@
             android:textColor="@color/marketPriceColor"
             android:textSize="12sp"
             android:visibility="gone"/>
+        <ImageView
+            android:id="@+id/iv_collect"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:padding="4dp"
+            android:src="@mipmap/icon_normal_buy_yes"
+            android:layout_marginRight="20dp"
+            android:visibility="visible"/>
 
         <ImageView
             android:id="@+id/iv_cart"

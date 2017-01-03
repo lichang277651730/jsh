@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cqfrozen.jsh.R;
+import com.cqfrozen.jsh.activity.GoodsDetailActivity;
+import com.cqfrozen.jsh.center.WebUrlActivity;
 import com.cqfrozen.jsh.entity.AdListResultInfo;
 import com.cqfrozen.jsh.util.ImageLoader;
 
@@ -56,9 +58,29 @@ public class AdListAdapter extends RecyclerView.Adapter<AdListAdapter.MyViewHold
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, BannerDetailActivity.class);
-                intent.putExtra("ad_id", adListBeanInfo.ad_id);
-                context.startActivity(intent);
+//                1图文，2外链接，3不看详情，4粮票（图文），5粮票（外链），6购买[返回商品id]
+                switch (adListBeanInfo.content_type) {
+                    case 1:
+                    case 2:
+                        Intent intent2 = new Intent(context, WebUrlActivity.class);
+                        intent2.putExtra("title", adListBeanInfo.title);
+                        intent2.putExtra("url", adListBeanInfo.content);
+                        context.startActivity(intent2);
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                    case 5:
+                        Intent intent = new Intent(context, BannerDetailActivity.class);
+                        intent.putExtra("ad_id", adListBeanInfo.ad_id);
+                        context.startActivity(intent);
+                        break;
+                    case 6:
+                        Intent intent1 = new Intent(context, GoodsDetailActivity.class);
+                        intent1.putExtra("g_id", Long.parseLong(adListBeanInfo.content));
+                        context.startActivity(intent1);
+                        break;
+                }
             }
         });
     }

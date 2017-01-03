@@ -12,6 +12,7 @@
         android:id="@+id/iv_ad"
         android:layout_width="120dp"
         android:layout_height="80dp"
+        android:scaleType="fitXY"
         tools:src="@mipmap/img_loading_default"/>
 
     <FrameLayout

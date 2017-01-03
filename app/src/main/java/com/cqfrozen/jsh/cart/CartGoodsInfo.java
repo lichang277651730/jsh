@@ -12,7 +12,8 @@ public class CartGoodsInfo extends BaseEntity {
     public double market_price;//市场价
     public double now_price;//现价
     public String pic_url;
-    public int is_edit;//商品状态：0未上架 1已上架 2已下架
+    public int is_edit;//
+    public int status;//商品状态：0未上架 1已上架 2已下架
     public int is_oos;//是否缺货：0否 1是
     public String sell_count;
     public String brand_name;//品牌名称

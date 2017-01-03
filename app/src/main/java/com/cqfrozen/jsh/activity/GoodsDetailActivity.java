@@ -171,13 +171,6 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
         iv_shotcut.setOnClickListener(this);
         iv_arrow_ex.setOnClickListener(this);
         asv_num.setCurValue(1);
-        if(is_oos == 1){
-            tv_add_cart.setEnabled(false);
-            tv_add_cart.setBackgroundColor(getResources().getColor(R.color.color_b));
-        }else {
-            tv_add_cart.setEnabled(true);
-            tv_add_cart.setBackgroundColor(getResources().getColor(R.color.main));
-        }
         createShotPop();
 //        asv_num.setBtnEnabled(false);
 //        ViewGroup.LayoutParams rl_vp_params = rl_vp_container.getLayoutParams();
@@ -467,7 +460,6 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
             @Override
             public void httpResult(Integer which, int code, String msg, Object bean) {
                 if (code != 0) {
-//                    CustomMiddleToast.getInstance(GoodsDetailActivity.this).showToast(msg);
                     return;
                 }
                 GoodDetailResultInfo resultInfo = (GoodDetailResultInfo) bean;
@@ -506,11 +498,6 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
                     tv_all_comment.setVisibility(View.VISIBLE);
                     commentInfos = commentInfos.subList(0, 5);
                 }
-//                if (commentInfos.size() > 2) {
-//                    tv_all_comment.setVisibility(View.VISIBLE);
-//                    commentInfos = commentInfos.subList(0, 1);
-//                }
-
                 commentAdapter = new CommentAdapter(GoodsDetailActivity.this, commentInfos);
                 lv_comment.setAdapter(commentAdapter);
                 MeasureUtil.setListViewHeightBasedOnChildren(lv_comment);
@@ -553,6 +540,13 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
         } else if (goodDetailInfo.is_common == 1) {
             iv_collect.setImageResource(R.mipmap.icon_normal_buy_yes);
             tv_collect.setText("取消常用");
+        }
+        if(is_oos == 1){//缺货
+            tv_add_cart.setEnabled(false);
+            tv_add_cart.setBackgroundColor(getResources().getColor(R.color.color_b));
+        }else {//不缺货
+            tv_add_cart.setEnabled(true);
+            tv_add_cart.setBackgroundColor(getResources().getColor(R.color.main));
         }
 
     }

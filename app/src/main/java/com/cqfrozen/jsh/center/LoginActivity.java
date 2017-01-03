@@ -283,6 +283,7 @@ public class LoginActivity extends MyActivity implements View.OnClickListener, M
                 MyApplication.signinInfo = signinInfo;
                 MyApplication.token = signinInfo.getToken();
                 String expire_time = signinInfo.getExpire_time();
+                SPUtils.setToken(signinInfo.getToken());
                 SPUtils.setExpireTime(Long.parseLong(expire_time));
                 et_phone.setEnabled(false);
                 getLoginUserInfo();
@@ -303,7 +304,6 @@ public class LoginActivity extends MyActivity implements View.OnClickListener, M
                     return;
                 }
                 UMengUtils.setSignIn();
-                SPUtils.setToken(MyApplication.token);
                 MyApplication.userInfo = (UserInfo) bean;
                 Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                 startActivity(intent);

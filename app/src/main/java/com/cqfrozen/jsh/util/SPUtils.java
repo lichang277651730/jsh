@@ -10,7 +10,7 @@ public class SPUtils {
 	public static boolean getFirst(){
 		return MyApplication.userSp.getBoolean("isFirst", true);
 	}
-	
+
 	public static void setFirst(boolean isFirst){
 		MyApplication.userSp.edit().putBoolean("isFirst", isFirst).commit();
 	}

@@ -10,6 +10,7 @@ import com.cqfrozen.jsh.cart.CartManager;
 import com.cqfrozen.jsh.constants.Constants;
 import com.cqfrozen.jsh.entity.SigninInfo;
 import com.cqfrozen.jsh.entity.UserInfo;
+import com.cqfrozen.jsh.util.SPUtils;
 import com.cqfrozen.jsh.util.UMengUtils;
 import com.umeng.analytics.MobclickAgent;
 
@@ -32,17 +33,18 @@ public class MyApplication extends BaseApplication {
         super.onCreate();
         instance = this;
         downTimer = new CodeCountDownTimer(60000, 100);
-        setInit();
+//        setInit();
+        initMy();
     }
 
     private void setInit() {
-        new Thread(){
-            @Override
-            public void run() {
-                super.run();
-                initMy();
-            }
-        }.start();
+//        new Thread(){
+//            @Override
+//            public void run() {
+//                super.run();
+//                initMy();
+//            }
+//        }.start();
     }
 
     private void initMy(){
@@ -57,6 +59,7 @@ public class MyApplication extends BaseApplication {
     private Thread.UncaughtExceptionHandler restartHandler = new Thread.UncaughtExceptionHandler() {
         @Override
         public void uncaughtException(Thread t, Throwable e) {
+            MyApplication.token = SPUtils.getToken();
             MobclickAgent.reportError(instance, e);
             Intent intent = new Intent(instance, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

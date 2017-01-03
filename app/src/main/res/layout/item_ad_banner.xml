@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="220dp"
         android:background="#f4f4f4"
+        android:overScrollMode="never"
         app:banner_indicatorGravity="right|bottom"
         app:banner_pointContainerBackground="#90333333"
         app:banner_pointDrawable="@drawable/sl_ad_banner_point"

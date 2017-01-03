@@ -164,8 +164,6 @@
                   android:theme="@style/SwipeBackTheme"/>
         <activity android:name=".center.NormalBuyActivity"
                   android:theme="@style/SwipeBackTheme"/>
-        <activity android:name=".center.NormalBuyActivity1"
-                  android:theme="@style/SwipeBackTheme"/>
         <activity android:name=".center.ShopListActivity"
                   android:theme="@style/SwipeBackTheme"/>
         <activity android:name=".center.ShopEditActivity"

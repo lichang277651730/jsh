@@ -67,6 +67,7 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
     private RefreshLayout refresh_cart;
 //    private List<OrderCartBean> orderCartBeanList = new ArrayList<>();
     private int curClickPosition;
+    private TextView tv_total_desc;
 
     public static CartFragment getInstance(){
         if(fragment == null){
@@ -120,6 +121,7 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
         iv_shotcut = (ImageView) view.findViewById(R.id.iv_shotcut);
         cb_all = (CheckBox) view.findViewById(R.id.cb_all);
         tv_total = (TextView) view.findViewById(R.id.tv_total);
+        tv_total_desc = (TextView) view.findViewById(R.id.tv_total_desc);
         btn_order = (Button) view.findViewById(R.id.btn_order);
         btn_delete_cartgoods = (Button) view.findViewById(R.id.btn_delete_cartgoods);
         tv_carr = (TextView) view.findViewById(R.id.tv_carr);
@@ -145,7 +147,7 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
     private void initRV() {
         rv_cart.setOverScrollMode(View.OVER_SCROLL_NEVER);
         final GridLayoutManager manager = new GridLayoutManager(mActivity, 1);
-        cartAdapter = new CartRVAdapter(mActivity, cartGoodsInfos, tv_total, cb_all);
+        cartAdapter = new CartRVAdapter(mActivity, cartGoodsInfos, tv_total, cb_all, btn_order);
         rv_cart.setLayoutManager(manager);
         MyGridDecoration decoration = new MyGridDecoration(BaseValue.dp2px(1), BaseValue
                 .dp2px(0), getResources().getColor(R.color.mybg), false);
@@ -242,7 +244,13 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
                     return;
                 }
                 setHttpSuccess();
-                cartGoodsInfos.addAll(cartResultInfo.data1);
+                //过滤掉下架和缺货商品
+                for(int i = 0; i < cartResultInfo.data1.size(); i++){
+                    CartGoodsInfo cartGoodsInfo = cartResultInfo.data1.get(i);
+                    if(cartGoodsInfo.is_oos == 0 && cartGoodsInfo.status == 1){
+                        cartGoodsInfos.add(cartGoodsInfo);
+                    }
+                }
                 if(cartGoodsInfos == null || cartGoodsInfos.size() == 0){
                     setNoDataView();//购物车为空
                     return;
@@ -292,6 +300,21 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
     @Override
     public void onShow() {
 //        cartAdapter.checkAllNone(true);//此行确定添加购物车存在的商品后，切换到此页面，数量能对上
+//        MyHttp.queryCart(http, null, page, new MyHttp.MyHttpResult() {
+//            @Override
+//            public void httpResult(Integer which, int code, String msg, Object bean) {
+//                if(code != 0){
+//                    return;
+//                }
+//                CartResultInfo cartResultInfo = (CartResultInfo) bean;
+//                if(cartResultInfo == null || cartResultInfo.data1.size() == 0){
+//                    return;
+//                }
+//                for(int i = 0; i < cartResultInfo.data1.size(); i++){
+//
+//                }
+//            }
+//        });
         int cartGoodsNum = 0;
         for (CartGoodsInfo cartGoodsInfo : cartGoodsInfos){
             cartGoodsNum += cartGoodsInfo.count;
@@ -318,8 +341,10 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
         btn_order.setVisibility(View.GONE);
         btn_delete_cartgoods.setVisibility(View.VISIBLE);
         tv_total.setVisibility(View.GONE);
+        tv_total_desc.setVisibility(View.GONE);
         tv_carr.setVisibility(View.GONE);
         btn_edit.setTag(TAG_FINISH);
+//        cartAdapter.checkNone();
         cartAdapter.checkAllNone(false);
     }
 
@@ -328,9 +353,11 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
         btn_edit.setText(mActivity.getString(R.string.cart_edit));
         btn_order.setVisibility(View.VISIBLE);
         btn_delete_cartgoods.setVisibility(View.GONE);
+        tv_total_desc.setVisibility(View.VISIBLE);
         tv_total.setVisibility(View.VISIBLE);
         tv_carr.setVisibility(View.VISIBLE);
         btn_edit.setTag(TAG_EIDT);
+//        cartAdapter.chechAll();
         cartAdapter.checkAllNone(true);
         if(cartAdapter.isNull()){
             setNoDataView();

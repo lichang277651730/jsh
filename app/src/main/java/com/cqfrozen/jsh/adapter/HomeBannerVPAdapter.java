@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.activity.GoodsDetailActivity;
 import com.cqfrozen.jsh.ad.BannerDetailActivity;
+import com.cqfrozen.jsh.center.WebUrlActivity;
 import com.cqfrozen.jsh.entity.HomeBannerAdResultInfo;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -59,9 +60,9 @@ public class HomeBannerVPAdapter extends PagerAdapter{
                 switch (content_type) {
                     case 1:
                     case 2:
-                        Intent intent2 = new Intent(context, BannerDetailActivity.class);
-                        intent2.putExtra("url", bannerAdInfo.content);
+                        Intent intent2 = new Intent(context, WebUrlActivity.class);
                         intent2.putExtra("title", bannerAdInfo.title);
+                        intent2.putExtra("url", bannerAdInfo.content);
                         context.startActivity(intent2);
                         break;
                     case 3:

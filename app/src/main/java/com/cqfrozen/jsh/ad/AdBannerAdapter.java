@@ -62,6 +62,7 @@ public class AdBannerAdapter extends RecyclerView.Adapter<AdBannerAdapter.MyView
             @Override
             public void onBannerItemClick(BGABanner banner, View view, Object model, int position) {
                 HomeBannerAdResultInfo.HomeBannerAdInfo bannerAdInfo = bannerAdInfos.get(position);
+//                1图文，2外链接，3不看详情，4粮票（图文），5粮票（外链），6购买[返回商品id]
                 switch (bannerAdInfo.content_type) {
                     case 1:
                     case 2:

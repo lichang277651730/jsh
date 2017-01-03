@@ -17,6 +17,7 @@ import com.cqfrozen.jsh.entity.GoodsInfo;
 import com.cqfrozen.jsh.util.CustomSimpleDialog;
 import com.cqfrozen.jsh.util.CustomToast;
 import com.cqfrozen.jsh.util.ImageLoader;
+import com.cqfrozen.jsh.util.ToastUtil;
 import com.cqfrozen.jsh.volleyhttp.MyHttp;
 
 import org.json.JSONObject;
@@ -113,6 +114,45 @@ public class NormalBuyAdapter extends RecyclerView.Adapter<NormalBuyAdapter.MyVi
                 });
             }
         });
+
+        holder.iv_collect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showCollectDialog(position, goodsInfo.g_id);
+            }
+        });
+    }
+
+    private CustomSimpleDialog collectDialog;
+    private void showCollectDialog(final int position, final Long g_id) {
+        collectDialog = new CustomSimpleDialog.Builder(context)
+                .setMessage("确定取消此常用采购商品吗？")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(final DialogInterface dialog, int which) {
+                        MyHttp.addCancelComm(http, null, 2, g_id, new HttpForVolley.HttpTodo() {
+                            @Override
+                            public void httpTodo(Integer which, JSONObject response) {
+                                dialog.cancel();
+                                int code = response.optInt("code");
+                                if(code != 0){
+                                    ToastUtil.showToast(context, response.optString("msg"));
+                                    return;
+                                }
+                                goodsInfos.remove(position);
+                                notifyItemRemoved(position);
+                            }
+                        });
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialog) {
+                        dialog.cancel();
+                    }
+                })
+                .create();
+        collectDialog.show();
     }
 
     @Override
@@ -127,6 +167,7 @@ public class NormalBuyAdapter extends RecyclerView.Adapter<NormalBuyAdapter.MyVi
         private TextView tv_size;
         private TextView tv_price;
         private ImageView iv_cart;
+        private ImageView iv_collect;
         private LinearLayout ll_no_goods;
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -137,6 +178,7 @@ public class NormalBuyAdapter extends RecyclerView.Adapter<NormalBuyAdapter.MyVi
             tv_size = (TextView) itemView.findViewById(R.id.tv_size);
             tv_price = (TextView) itemView.findViewById(R.id.tv_price);
             iv_cart = (ImageView) itemView.findViewById(R.id.iv_cart);
+            iv_collect = (ImageView) itemView.findViewById(R.id.iv_collect);
         }
     }
 

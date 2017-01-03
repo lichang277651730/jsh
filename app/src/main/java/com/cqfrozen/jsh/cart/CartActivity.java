@@ -138,7 +138,7 @@ public class CartActivity extends MyActivity implements View.OnClickListener,
     private void initRV() {
         rv_cart.setOverScrollMode(View.OVER_SCROLL_NEVER);
         GridLayoutManager manager = new GridLayoutManager(this, 1);
-        cartAdapter = new CartRVAdapter(this, cartGoodsInfos, tv_total, cb_all);
+        cartAdapter = new CartRVAdapter(this, cartGoodsInfos, tv_total, cb_all, btn_order);
         rv_cart.setLayoutManager(manager);
         MyGridDecoration decoration = new MyGridDecoration(BaseValue.dp2px(1), BaseValue
                 .dp2px(0), getResources().getColor(R.color.mybg), false);
@@ -230,9 +230,19 @@ public class CartActivity extends MyActivity implements View.OnClickListener,
                 refresh_cart.setRefreshSuccess();
                 CartResultInfo cartResultInfo = (CartResultInfo) bean;
                 is_page = cartResultInfo.is_page;
-
+                if(cartResultInfo == null || cartResultInfo.data1.size() == 0){
+                    setNoDataView();//购物车为空
+                    return;
+                }
                 setHttpSuccess();
-                cartGoodsInfos.addAll(cartResultInfo.data1);
+                //过滤掉下架和缺货商品
+                for(int i = 0; i < cartResultInfo.data1.size(); i++){
+                    CartGoodsInfo cartGoodsInfo = cartResultInfo.data1.get(i);
+                    if(cartGoodsInfo.is_oos == 0 && cartGoodsInfo.status == 1){
+                        cartGoodsInfos.add(cartGoodsInfo);
+                    }
+                }
+//                cartGoodsInfos.addAll(cartResultInfo.data1);
                 if(cartGoodsInfos == null || cartGoodsInfos.size() == 0){
                     setNoDataView();//购物车为空
                     return;

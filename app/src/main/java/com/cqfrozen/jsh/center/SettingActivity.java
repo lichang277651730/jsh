@@ -48,7 +48,7 @@ public class SettingActivity extends MyActivity implements View.OnClickListener 
     private void initView() {
         setMyTitle("设置");
         UserInfo userInfo = null;
-        String mobile_num = userInfo.mobile_num;
+        userInfo.mobile_num = "111";
         ll_change_pwd = (LinearLayout) findViewById(R.id.ll_change_pwd);
         ll_cache = (LinearLayout) findViewById(R.id.ll_cache);
         tv_cache = (TextView) findViewById(R.id.tv_cache);

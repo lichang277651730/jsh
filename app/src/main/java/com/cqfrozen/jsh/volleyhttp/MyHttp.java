@@ -59,6 +59,10 @@ import java.util.List;
  * 网络请求接口Api
  */
 public class MyHttp {
+//        Log.e("ParamsToServer", "token:" + MyApplication.token +
+//                "ad_id:" + ad_id +
+//                "china_keywrod:" + china_keywrod +
+//                "p_type:" + p_type);
 
     //userid 574
     private static final String SERVER = "http://test.cqfrozen.com/api/index.php/";//测试api
@@ -89,8 +93,10 @@ public class MyHttp {
                                   MyHttpResult myHttpResult) {
         String url = SERVER + "Ad/adbannerlist";
         params.clear();
-        params.put("token", MyApplication.token);
+        params.put("token", SPUtils.getToken());
         params.put("ad_p_id", ad_p_id + "");
+                Log.e("ParamsToServer", "token:" + SPUtils.getToken() +
+                "ad_p_id:" + ad_p_id);
         Type type = new TypeToken<HomeBannerAdResultInfo>(){}.getType();
         toBean(GET, http, which, params, url, myHttpResult, type);
     }
@@ -131,10 +137,7 @@ public class MyHttp {
         params.put("ad_id", ad_id);
         params.put("china_keywrod", china_keywrod);
         params.put("p_type", p_type + "");
-        Log.e("ParamsToServer", "token:" + MyApplication.token +
-                "ad_id:" + ad_id +
-                "china_keywrod:" + china_keywrod +
-                "p_type:" + p_type);
+
         http.goTo(POST, which, params, url, httpTodo);
     }
 
@@ -221,7 +224,8 @@ public class MyHttp {
         String url = SERVER + "User/refreshtoken";
         params.clear();
         params.put("token", token);
-        toBean(GET, http, which, params, url, myHttpResult, SigninInfo.class);
+        Type type = new TypeToken<SigninInfo>(){}.getType();
+        toBean(GET, http, which, params, url, myHttpResult, type);
     }
 
 
@@ -233,7 +237,7 @@ public class MyHttp {
         String url = SERVER + "User/login";
         params.clear();
         params.put("mobile_num", mobile_num);
-        params.put("p_type", 1 + "");//android端登陆
+        params.put("p_type", p_type + "");//android端登陆
         params.put("pass_word", MD5Util.encodeMD5(password));
         Type type = new TypeToken<SigninInfo>(){}.getType();
         toBean(POST, http, which, params, url, myHttpResult, type);
@@ -663,6 +667,7 @@ public class MyHttp {
         params.put("token", MyApplication.token);
         String sign = SignUtil.getOrderSignInfo(cartdata, timestamp, MyApplication.token);
         params.put("sign", sign);
+
         Type type = new TypeToken<OrderInfo>() {
         }.getType();
         toBean(POST, http, which, params, url, myHttpResult, type);
@@ -907,7 +912,7 @@ public class MyHttp {
             @Override
             public void httpTodo(Integer which, JSONObject response) {
                 //统一处理登录逻辑  code 1请求失败  2 登录失败  0请求成功s
-                Log.e("ResponseData", response.toString());
+//                Log.e("ParamsToServer", response.toString());
                 int code = response.optInt("code", 1);
                 if(code == 3 && (http.getContext().getClass() != LoginActivity.class) &&
                         (http.getContext().getClass() != MainActivity.class) ){
