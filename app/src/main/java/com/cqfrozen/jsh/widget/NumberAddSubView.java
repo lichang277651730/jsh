@@ -31,8 +31,9 @@ public class NumberAddSubView extends LinearLayout implements View.OnClickListen
     private LayoutInflater mInflater;
 
     public static final int DEFUALT_MAX = 1000;
+    public static final int DEFUALT_MIN = 1;
     private int curValue;
-    private int minValue;
+    private int minValue = DEFUALT_MIN;
     private int maxValue = DEFUALT_MAX;
     private Context context;
 
@@ -129,14 +130,14 @@ public class NumberAddSubView extends LinearLayout implements View.OnClickListen
      * 增加1个数
      */
     private void addNum() {
-//        if(!btn_sub.isEnabled()){
-//            btn_sub.setEnabled(true);
-//        }
+        if(!btn_sub.isEnabled()){
+            btn_sub.setEnabled(true);
+        }
         getCurValue();
         if(curValue < maxValue){
             curValue = curValue + 1;
         }else {
-//            btn_add.setEnabled(false);
+            btn_add.setEnabled(false);
         }
         tv_num.setText(curValue + "");
     }
@@ -146,13 +147,16 @@ public class NumberAddSubView extends LinearLayout implements View.OnClickListen
      */
     private void subNum() {
         getCurValue();
-//        if(curValue == 2){
-//            btn_sub.setEnabled(false);
-//        }
+        if(!btn_add.isEnabled()){
+            btn_add.setEnabled(true);
+        }
+        if(curValue == 2){
+            btn_sub.setEnabled(false);
+        }
         if(curValue > minValue){
             curValue = curValue - 1;
         }else {
-//            btn_sub.setEnabled(false);
+            btn_sub.setEnabled(false);
         }
         tv_num.setText(curValue + "");
     }

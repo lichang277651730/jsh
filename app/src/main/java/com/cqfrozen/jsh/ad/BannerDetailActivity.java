@@ -1,21 +1,27 @@
 package com.cqfrozen.jsh.ad;
 
+import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.common.http.HttpForVolley;
+import com.common.widget.MyWebView;
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.entity.AdDetailResultInfo;
 import com.cqfrozen.jsh.main.MyActivity;
@@ -35,13 +41,14 @@ public class BannerDetailActivity extends MyActivity implements View.OnClickList
 
     private Button btn_get_huibi;
     private PopupWindow popupWindow;
-    private WebView webview_ad;
+    private MyWebView webview_ad;
     private String url;
     private String ad_id;
     private TextView tv_area;
     private TextView tv_rule;
     private TextView tv_price;
     private TextView tv_num;
+    private TextView tv_day_num;
     private TextView tv1, tv2, tv3, tv4, tv5, tv6, tv7, tv8, tv9;
     private TextView tv_input;
     private TextView tv_clear;
@@ -49,7 +56,7 @@ public class BannerDetailActivity extends MyActivity implements View.OnClickList
     private String inputStr = "";
     private TextView tv_confirm;
     private TextView tv_skip;
-    private LinearLayout ll_root;
+    private FrameLayout fl_root;
     private LinearLayout ll_ad_root;
     private AdTitleView ad_title_view;
     private TextView[] tvs;
@@ -58,6 +65,9 @@ public class BannerDetailActivity extends MyActivity implements View.OnClickList
     private String china_keyword;
     private int keywordLength;
     private TextView tv_add_huibi;
+    private ImageView iv_gif;
+    private TextView tv_add_anim;
+    private AnimationDrawable gifDrawable;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -79,9 +89,10 @@ public class BannerDetailActivity extends MyActivity implements View.OnClickList
         btn_get_huibi = (Button) findViewById(R.id.btn_get_huibi);
         tv_area = (TextView) findViewById(R.id.tv_area);
         tv_rule = (TextView) findViewById(R.id.tv_rule);
-        webview_ad = (WebView) findViewById(R.id.webview_ad);
+        webview_ad = (MyWebView) findViewById(R.id.webview_ad);
         tv_price = (TextView) findViewById(R.id.tv_price);
         tv_num = (TextView) findViewById(R.id.tv_num);
+        tv_day_num = (TextView) findViewById(R.id.tv_day_num);
         btn_get_huibi.setOnClickListener(this);
         createAdPop();
     }
@@ -89,20 +100,11 @@ public class BannerDetailActivity extends MyActivity implements View.OnClickList
     private void initWebView() {
         WebSettings settings = webview_ad.getSettings();
         settings.setJavaScriptEnabled(true);
-        webview_ad.setWebViewClient(new WebViewClient() {
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                // 返回值是true的时候控制去WebView打开，为false调用系统浏览器或第三方浏览器
-                view.loadUrl(url);
-                return true;
-            }
-        });
-//        webview_ad.loadData(url, "text/html;charset=utf-8", null);
     }
 
     private void createAdPop() {
         View popView = LayoutInflater.from(this).inflate(R.layout.pop_ad_select, null);
-        ll_root = (LinearLayout) popView.findViewById(R.id.ll_root);
+        fl_root = (FrameLayout) popView.findViewById(R.id.fl_root);
         ad_title_view = (AdTitleView) popView.findViewById(R.id.ad_title_view);
         ll_ad_root = (LinearLayout) popView.findViewById(R.id.ll_ad_root);
         tv_add_huibi = (TextView) popView.findViewById(R.id.tv_add_huibi);
@@ -110,7 +112,9 @@ public class BannerDetailActivity extends MyActivity implements View.OnClickList
         tv_clear = (TextView) popView.findViewById(R.id.tv_clear);
         tv_return = (TextView) popView.findViewById(R.id.tv_return);
         tv_confirm = (TextView) popView.findViewById(R.id.tv_confirm);
+        tv_add_anim = (TextView) popView.findViewById(R.id.tv_add_anim);
         tv_skip = (TextView) popView.findViewById(R.id.tv_skip);
+        iv_gif = (ImageView) popView.findViewById(R.id.iv_gif);
         tv1 = (TextView) popView.findViewById(R.id.tv1);
         tv2 = (TextView) popView.findViewById(R.id.tv2);
         tv3 = (TextView) popView.findViewById(R.id.tv3);
@@ -141,7 +145,7 @@ public class BannerDetailActivity extends MyActivity implements View.OnClickList
         tv_return.setOnClickListener(this);
         tv_confirm.setOnClickListener(this);
         tv_skip.setOnClickListener(this);
-        ll_root.setOnClickListener(this);
+        fl_root.setOnClickListener(this);
         ll_ad_root.setOnClickListener(this);
     }
 
@@ -166,10 +170,12 @@ public class BannerDetailActivity extends MyActivity implements View.OnClickList
         tv_area.setText(adDetailInfo.area_name);
         tv_price.setText(adDetailInfo.xf_hb_count + "粮票/次");
         tv_num.setText(adDetailInfo.ad_count + "次");
+        tv_day_num.setText(adDetailInfo.get_count + "次/日");
         setKeyTvs(adDetailInfo.choose_keyword);
         addPopTitleView(adDetailInfo);//添加pop窗口的标题组件
 
         tv_add_huibi.setText("粮票+" + adDetailInfo.xf_hb_count);
+        tv_add_anim.setText("粮票+" + adDetailInfo.xf_hb_count);
     }
 
     private void addPopTitleView(AdDetailResultInfo.AdDetailInfo adDetailInfo) {
@@ -258,7 +264,7 @@ public class BannerDetailActivity extends MyActivity implements View.OnClickList
                     popupWindow.dismiss();
                 }
                 break;
-            case R.id.ll_root:
+            case R.id.fl_root:
                 if(popupWindow != null && popupWindow.isShowing()){
                     popupWindow.dismiss();
                 }
@@ -277,23 +283,52 @@ public class BannerDetailActivity extends MyActivity implements View.OnClickList
     }
 
     private void confirm() {
+        if(TextUtils.isEmpty(inputStr)){
+            CustomMiddleToast.getInstance(this).showToast("请选择核心广告词");
+            return;
+        }
         if(!hanziStr.equals(inputStr)){
-            CustomMiddleToast.getInstance(this).showToast("核心广告词选取有误");
+            CustomMiddleToast.getInstance(this).showToast("选择的核心广告词不匹配");
             return;
         }
         tv_confirm.setEnabled(false);
         MyHttp.adGetHB(http, null, ad_id, inputStr, new HttpForVolley.HttpTodo() {
             @Override
             public void httpTodo(Integer which, JSONObject response) {
-                tv_confirm.setEnabled(true);
                 int code = response.optInt("code");
                 showToast(response.optString("msg"));
                 if(code != 0){
+                    tv_confirm.setEnabled(true);
                     return;
                 }
-                if(popupWindow != null && popupWindow.isShowing()){
-                    popupWindow.dismiss();
+                tv_add_anim.setVisibility(View.VISIBLE);
+                iv_gif.setVisibility(View.VISIBLE);
+                Animation transAnim = AnimationUtils.loadAnimation(BannerDetailActivity.this, R.anim.anim_trans_ad);
+                tv_add_anim.startAnimation(transAnim);
+                if(gifDrawable == null){
+                    iv_gif.setBackgroundResource(R.drawable.ad_gethb_anim);
+                    gifDrawable = (AnimationDrawable) iv_gif.getBackground();
+                    gifDrawable.setOneShot(true);
                 }
+                if(!gifDrawable.isRunning()){
+                    gifDrawable.start();
+                }
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(gifDrawable != null){
+                            if(gifDrawable.isRunning()){
+                                gifDrawable.stop();
+                            }
+                        }
+                        iv_gif.setVisibility(View.GONE);
+                        tv_add_anim.setVisibility(View.GONE);
+                        if(popupWindow != null && popupWindow.isShowing()){
+                            popupWindow.dismiss();
+                        }
+                        tv_confirm.setEnabled(true);
+                    }
+                }, 2000);
             }
         });
     }

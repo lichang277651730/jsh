@@ -65,7 +65,7 @@ public class AdListActivity extends MyActivity implements SupportLayout.LoadMore
 
     private void getData() {
 
-        MyHttp.adBannerList(http, AdPageAdapter.TYPE_BANNER, 1, this);
+        MyHttp.adBannerList(http, AdPageAdapter.TYPE_BANNER, 2, this);
 
         MyHttp.adList(http, AdPageAdapter.TYPE_LIST, page, this);
     }

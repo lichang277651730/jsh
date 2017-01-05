@@ -15,6 +15,10 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
+
 /**
  * Created by Administrator on 2016/9/12.
  */
@@ -24,6 +28,7 @@ public class BaseApplication extends Application {
     private static int mainThreadId;
     private static Handler handler;
     private static BaseApplication instance;
+    private static List<BaseActivity> activities;
 
     @Override
     public void onCreate() {
@@ -34,6 +39,7 @@ public class BaseApplication extends Application {
         /*开启网络广播监听*/
         NetStateReceiver.registerNetworkStateReceiver(this);
         handler = new Handler();
+        activities = new LinkedList<>();
     }
 
     public static void initBa(){
@@ -85,5 +91,29 @@ public class BaseApplication extends Application {
 
     public static int getMainThreadId() {
         return mainThreadId;
+    }
+
+    public void addActivity(BaseActivity activity){
+        activities.add(activity);
+    }
+
+    public void removeActivity(BaseActivity activity){
+        activities.remove(activity);
+    }
+
+    public static void finishActivities(){
+        ListIterator<BaseActivity> iterator = activities.listIterator();
+        BaseActivity activity;
+        while (iterator.hasNext()){
+            activity = iterator.next();
+            if(activity != null){
+                activity.finish();
+            }
+        }
+    }
+
+    public static void quitApp(){
+        finishActivities();
+        System.exit(0);
     }
 }

@@ -28,6 +28,7 @@ public class MyApplication extends BaseApplication {
     public static CartManager cartManager;
     public static CodeCountDownTimer downTimer;
 
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -35,6 +36,7 @@ public class MyApplication extends BaseApplication {
         downTimer = new CodeCountDownTimer(60000, 100);
 //        setInit();
         initMy();
+
     }
 
     private void setInit() {
@@ -67,6 +69,9 @@ public class MyApplication extends BaseApplication {
             android.os.Process.killProcess(android.os.Process.myPid());
         }
     };
+
+
+
 
 
 }

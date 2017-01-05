@@ -202,6 +202,8 @@
                   android:theme="@style/SwipeBackTheme"/>
         <activity android:name=".ad.AdListActivity"
                   android:theme="@style/SwipeBackTheme"/>
+        <activity android:name=".ad.SplashAdActivity"
+                  android:theme="@style/SwipeBackTheme"/>
         <activity android:name=".activity.GoodsVPActivity"/>
     </application>
 

@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.common.base.BaseApplication;
 import com.common.widget.MyEditText;
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.activity.HomeActivity;
@@ -28,6 +29,7 @@ import com.cqfrozen.jsh.main.MyApplication;
 import com.cqfrozen.jsh.netstate.NetUtils;
 import com.cqfrozen.jsh.util.CustomMiddleToast;
 import com.cqfrozen.jsh.util.SPUtils;
+import com.cqfrozen.jsh.util.UIUtils;
 import com.cqfrozen.jsh.util.UMengUtils;
 import com.cqfrozen.jsh.volleyhttp.MyHttp;
 
@@ -357,6 +359,7 @@ public class LoginActivity extends MyActivity implements View.OnClickListener, M
                 if (clickSecondTime - clickFirstTime <= 2000) {
                     instance = null;
                     System.exit(0);
+                    ((BaseApplication) UIUtils.getContext()).quitApp();
                 } else {
                     clickCount = 1;
                     clickFirstTime = System.currentTimeMillis();

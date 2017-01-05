@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.common.http.HttpForVolley;
 import com.common.util.DataCleanManager;
 import com.cqfrozen.jsh.R;
-import com.cqfrozen.jsh.entity.UserInfo;
 import com.cqfrozen.jsh.main.MyActivity;
 import com.cqfrozen.jsh.main.MyApplication;
 import com.cqfrozen.jsh.util.AppUtil;
@@ -47,8 +46,6 @@ public class SettingActivity extends MyActivity implements View.OnClickListener 
 
     private void initView() {
         setMyTitle("设置");
-        UserInfo userInfo = null;
-        userInfo.mobile_num = "111";
         ll_change_pwd = (LinearLayout) findViewById(R.id.ll_change_pwd);
         ll_cache = (LinearLayout) findViewById(R.id.ll_cache);
         tv_cache = (TextView) findViewById(R.id.tv_cache);

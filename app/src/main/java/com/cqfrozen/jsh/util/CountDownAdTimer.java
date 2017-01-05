@@ -21,7 +21,7 @@ public class CountDownAdTimer extends CountDownTimer {
         isGoing = true;
         if (null != text && !init) {
 //            text.setText(millisUntilFinished / 1000 + "s后重新获取");
-            text.setText("" + millisUntilFinished / 1000 + "s跳过");
+            text.setText("" + millisUntilFinished / 1000 + "s");
             text.setEnabled(false);
         }
     }
@@ -30,7 +30,7 @@ public class CountDownAdTimer extends CountDownTimer {
     public void onFinish() {
         isGoing = false;
         if (null != text) {
-            text.setText("跳过");
+            text.setText("");
             text.setEnabled(true);
         }
     }
@@ -61,7 +61,7 @@ public class CountDownAdTimer extends CountDownTimer {
         init = true;
         if (null != text) {
             text.setEnabled(true);
-            text.setText("跳过");
+            text.setText("");
         }
     }
 }

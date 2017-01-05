@@ -12,6 +12,7 @@ import com.common.swipbacklayout.SwipeBackActivity;
 import com.cqfrozen.jsh.netstate.NetChangeObserver;
 import com.cqfrozen.jsh.netstate.NetStateReceiver;
 import com.cqfrozen.jsh.netstate.NetUtils;
+import com.cqfrozen.jsh.util.UIUtils;
 
 /**
  * Created by Administrator on 2016/9/12.
@@ -26,6 +27,7 @@ public class BaseActivity extends SwipeBackActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ((BaseApplication)UIUtils.getContext()).addActivity(this);
         //强制竖屏
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         http = new HttpForVolley(this);
@@ -97,5 +99,6 @@ public class BaseActivity extends SwipeBackActivity {
     protected void onDestroy() {
         super.onDestroy();
         NetStateReceiver.removeRegisterObserver(mNetChangeObserver);
+        ((BaseApplication)UIUtils.getContext()).removeActivity(this);
     }
 }

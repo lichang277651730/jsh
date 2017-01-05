@@ -2,7 +2,6 @@ package com.cqfrozen.jsh.volleyhttp;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
 import com.android.volley.Request;
 import com.common.base.BaseValue;
@@ -65,8 +64,8 @@ public class MyHttp {
 //                "p_type:" + p_type);
 
     //userid 574
-    private static final String SERVER = "http://test.cqfrozen.com/api/index.php/";//测试api
-//    private static final String SERVER = "http://api.cqfrozen.com/v1/index.php/";//正式api
+//    private static final String SERVER = "http://test.cqfrozen.com/api/index.php/";//测试api
+    private static final String SERVER = "http://api.cqfrozen.com/v1/index.php/";//正式api
     private static final int GET = Request.Method.GET;
     private static final int POST = Request.Method.POST;
     private static final int p_type = 1;//1是Android端
@@ -95,8 +94,6 @@ public class MyHttp {
         params.clear();
         params.put("token", SPUtils.getToken());
         params.put("ad_p_id", ad_p_id + "");
-                Log.e("ParamsToServer", "token:" + SPUtils.getToken() +
-                "ad_p_id:" + ad_p_id);
         Type type = new TypeToken<HomeBannerAdResultInfo>(){}.getType();
         toBean(GET, http, which, params, url, myHttpResult, type);
     }
@@ -140,6 +137,19 @@ public class MyHttp {
 
         http.goTo(POST, which, params, url, httpTodo);
     }
+
+    /**
+     * 阅读记录
+     */
+    public static void adRead(HttpForVolley http, Integer which, String ad_id, HttpForVolley.HttpTodo httpTodo) {
+        String url = SERVER + "Ad/adread";
+        params.clear();
+        params.put("token", MyApplication.token);
+        params.put("ad_id", ad_id);
+        params.put("p_type", p_type + "");
+        http.goTo(POST, which, params, url, httpTodo);
+    }
+
 
     /**
      * 首页特价推荐商品

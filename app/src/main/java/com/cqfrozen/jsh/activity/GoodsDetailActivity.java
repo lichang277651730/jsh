@@ -456,12 +456,15 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
 //    }
 
     private void getData() {
+        //防止数据没加载出来，用户就点击添加购物车
+        tv_add_cart.setEnabled(false);
         MyHttp.ginfo(http, null, g_id, new MyHttp.MyHttpResult() {
             @Override
             public void httpResult(Integer which, int code, String msg, Object bean) {
                 if (code != 0) {
                     return;
                 }
+                tv_add_cart.setEnabled(true);
                 GoodDetailResultInfo resultInfo = (GoodDetailResultInfo) bean;
                 if (resultInfo == null || resultInfo.data2.size() == 0) {
                     return;

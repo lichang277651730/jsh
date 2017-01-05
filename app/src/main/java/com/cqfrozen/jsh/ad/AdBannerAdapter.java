@@ -7,10 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.common.http.HttpForVolley;
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.activity.GoodsDetailActivity;
 import com.cqfrozen.jsh.center.WebUrlActivity;
 import com.cqfrozen.jsh.entity.HomeBannerAdResultInfo;
+import com.cqfrozen.jsh.volleyhttp.MyHttp;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +28,10 @@ public class AdBannerAdapter extends RecyclerView.Adapter<AdBannerAdapter.MyView
 
     private Context context;
     private List<HomeBannerAdResultInfo.HomeBannerAdInfo> bannerAdInfos;
+    private final HttpForVolley http;
     public AdBannerAdapter(Context context, List<HomeBannerAdResultInfo.HomeBannerAdInfo> bannerAdInfos){
         this.context = context;
+        this.http = new HttpForVolley(context);
         this.bannerAdInfos = bannerAdInfos;
     }
 
@@ -66,6 +72,11 @@ public class AdBannerAdapter extends RecyclerView.Adapter<AdBannerAdapter.MyView
                 switch (bannerAdInfo.content_type) {
                     case 1:
                     case 2:
+                        MyHttp.adRead(http, null, bannerAdInfo.ad_id, new HttpForVolley.HttpTodo() {
+                            @Override
+                            public void httpTodo(Integer which, JSONObject response) {
+                            }
+                        });
                         Intent intent2 = new Intent(context, WebUrlActivity.class);
                         intent2.putExtra("title", bannerAdInfo.title);
                         intent2.putExtra("url", bannerAdInfo.content);
@@ -75,11 +86,21 @@ public class AdBannerAdapter extends RecyclerView.Adapter<AdBannerAdapter.MyView
                         break;
                     case 4:
                     case 5:
+                        MyHttp.adRead(http, null, bannerAdInfo.ad_id, new HttpForVolley.HttpTodo() {
+                            @Override
+                            public void httpTodo(Integer which, JSONObject response) {
+                            }
+                        });
                         Intent intent = new Intent(context, BannerDetailActivity.class);
                         intent.putExtra("ad_id", bannerAdInfo.ad_id);
                         context.startActivity(intent);
                         break;
                     case 6:
+                        MyHttp.adRead(http, null, bannerAdInfo.ad_id, new HttpForVolley.HttpTodo() {
+                            @Override
+                            public void httpTodo(Integer which, JSONObject response) {
+                            }
+                        });
                         Intent intent1 = new Intent(context, GoodsDetailActivity.class);
                         intent1.putExtra("g_id", Long.parseLong(bannerAdInfo.content));
                         context.startActivity(intent1);

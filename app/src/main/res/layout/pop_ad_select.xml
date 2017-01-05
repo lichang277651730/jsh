@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/ll_root"
+    android:id="@+id/fl_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/half_transparency"
@@ -10,11 +10,11 @@
 
     <LinearLayout
         android:id="@+id/ll_ad_root"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginLeft="46dp"
+        android:layout_marginRight="46dp"
+        android:layout_marginTop="110dp"
         android:background="@drawable/shape_qr_bg"
         android:orientation="vertical"
         android:padding="8dp">
@@ -85,7 +85,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:orientation="horizontal"
-            android:paddingTop="10dp">
+            android:layout_marginTop="10dp">
 
             <TextView
                 android:id="@+id/tv1"
@@ -93,6 +93,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/sl_ad_key_bg"
                 android:gravity="center"
+                android:textSize="16sp"
                 tools:text="光"/>
 
             <TextView
@@ -102,6 +103,7 @@
                 android:layout_marginLeft="16dp"
                 android:background="@drawable/sl_ad_key_bg"
                 android:gravity="center"
+                android:textSize="16sp"
                 tools:text="大"/>
 
             <TextView
@@ -111,6 +113,7 @@
                 android:layout_marginLeft="16dp"
                 android:background="@drawable/sl_ad_key_bg"
                 android:gravity="center"
+                android:textSize="16sp"
                 tools:text="银"/>
 
             <View
@@ -126,6 +129,7 @@
                 android:gravity="center"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
+                android:textSize="16sp"
                 android:text="清空"/>
         </LinearLayout>
 
@@ -135,8 +139,8 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:orientation="horizontal"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp">
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="16dp">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -155,6 +159,7 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/sl_ad_key_bg"
                         android:gravity="center"
+                        android:textSize="16sp"
                         tools:text="光"/>
 
                     <TextView
@@ -164,6 +169,7 @@
                         android:layout_marginLeft="16dp"
                         android:background="@drawable/sl_ad_key_bg"
                         android:gravity="center"
+                        android:textSize="16sp"
                         tools:text="大"/>
 
                     <TextView
@@ -173,13 +179,14 @@
                         android:layout_marginLeft="16dp"
                         android:background="@drawable/sl_ad_key_bg"
                         android:gravity="center"
+                        android:textSize="16sp"
                         tools:text="银"/>
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="16dp"
                     android:orientation="horizontal">
 
                     <TextView
@@ -188,6 +195,7 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/sl_ad_key_bg"
                         android:gravity="center"
+                        android:textSize="16sp"
                         tools:text="光"/>
 
                     <TextView
@@ -197,6 +205,7 @@
                         android:layout_marginLeft="16dp"
                         android:background="@drawable/sl_ad_key_bg"
                         android:gravity="center"
+                        android:textSize="16sp"
                         tools:text="大"/>
 
                     <TextView
@@ -206,6 +215,7 @@
                         android:layout_marginLeft="16dp"
                         android:background="@drawable/sl_ad_key_bg"
                         android:gravity="center"
+                        android:textSize="16sp"
                         tools:text="银"/>
                 </LinearLayout>
             </LinearLayout>
@@ -218,6 +228,7 @@
                 android:gravity="center"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
+                android:textSize="16sp"
                 android:text="回删"/>
         </LinearLayout>
 
@@ -225,6 +236,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
+            android:layout_marginTop="10dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp">
 
@@ -260,4 +272,18 @@
                 android:textSize="16sp"/>
         </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+    <ImageView
+        android:id="@+id/iv_gif"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"/>
+    <TextView
+        android:id="@+id/tv_add_anim"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="粮票+1"
+        android:textColor="@color/nowPriceColor"
+        android:visibility="gone"
+        android:textSize="20sp"
+        android:layout_gravity="bottom|center_horizontal"/>
+</FrameLayout>

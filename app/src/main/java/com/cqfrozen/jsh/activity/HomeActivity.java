@@ -13,6 +13,7 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.common.base.BaseActivity;
+import com.common.base.BaseApplication;
 import com.common.base.BaseFragment;
 import com.common.base.BaseValue;
 import com.common.widget.MyViewPager;
@@ -23,6 +24,7 @@ import com.cqfrozen.jsh.center.MineFragment;
 import com.cqfrozen.jsh.classify.ClassifyFragment;
 import com.cqfrozen.jsh.home.HomeFragment2;
 import com.cqfrozen.jsh.main.MyApplication;
+import com.cqfrozen.jsh.util.UIUtils;
 import com.cqfrozen.jsh.util.UMengUtils;
 import com.cqfrozen.jsh.util.UpdateUtils;
 import com.cqfrozen.jsh.widget.BadgeView;
@@ -212,6 +214,7 @@ public class HomeActivity extends BaseActivity implements RadioGroup.OnCheckedCh
                     UMengUtils.setKillProcess(this);
                     instance = null;
                     System.exit(0);
+                    ((BaseApplication)UIUtils.getContext()).quitApp();
                 } else {
                     clickCount = 1;
                     clickFirstTime = System.currentTimeMillis();
