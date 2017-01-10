@@ -100,7 +100,6 @@ public class NormalBuyActivity extends MyActivity implements MyActivity.HttpFail
                 }
 
                 if(code != 0){
-//                    showToast(msg);
                     refresh_normalbuy.setRefreshFailed();
                     return;
                 }

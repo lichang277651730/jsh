@@ -101,9 +101,14 @@ public class LoginActivity extends MyActivity implements View.OnClickListener, M
         et_password.addMyTextChangedListener(this);
 
         String phoneNumCache = SPUtils.getPhoneNum();
+        String pwdCache = SPUtils.getPwd();
         if(!TextUtils.isEmpty(phoneNumCache)){
             et_phone.setText(phoneNumCache);
             et_phone.setSelection(phoneNumCache.length());
+        }
+        if(!TextUtils.isEmpty(pwdCache)){
+            et_password.setText(pwdCache);
+            et_password.setSelection(pwdCache.length());
         }
         initShowHiddenPwdView();
 
@@ -272,6 +277,7 @@ public class LoginActivity extends MyActivity implements View.OnClickListener, M
             return;
         }
         SPUtils.setPhoneNum(phoneStr);
+        SPUtils.setPwd(pwdStr);
         btn_login.setEnabled(false);//防止重复点击登陆
         MyHttp.userLogin(http, null, phoneStr, pwdStr, new MyHttp.MyHttpResult() {
             @Override

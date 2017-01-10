@@ -267,7 +267,7 @@ public class RefreshLayout extends SupportLayout {
                         if (i == 0) {
                             Thread.sleep(1000);
                         } else {
-                            Thread.sleep((int)((moveLength/4 - i)/4));
+                            Thread.sleep((int)((moveLength/4 - i)/4) < 0 ? 0 : (int)((moveLength/4 - i)/4));
 //                            Thread.sleep((int)(i/1));
 //                            Thread.sleep(20);
                         }

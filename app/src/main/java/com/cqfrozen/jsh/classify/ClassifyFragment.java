@@ -118,8 +118,11 @@ public class ClassifyFragment extends BaseFragment implements MyHttp.MyHttpResul
 //            categoryInfos.clear();
 //        }
 //        getData();
-        if(categoryInfos == null || categoryInfos.size() == 0){
-            getData();
+//        if(categoryInfos == null || categoryInfos.size() == 0){
+//            getData();
+//            adapter.notifyDataSetChanged();
+//        }
+        if(adapter != null){
             adapter.notifyDataSetChanged();
         }
     }

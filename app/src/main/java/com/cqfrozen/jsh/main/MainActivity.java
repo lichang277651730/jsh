@@ -29,14 +29,31 @@ public class MainActivity extends MyActivity implements MyHttp.MyHttpResult, Han
     @Override
     public boolean handleMessage(Message msg) {
         startActivity(new Intent(this, SplashAdActivity.class));
-        finish();
+//        finish();
         return false;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        new Thread(){
+            @Override
+            public void run() {
+                try {
+                    Thread.currentThread().sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                finish();
+            }
+        }.start();
     }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //全屏
+        overridePendingTransition(R.anim.activity_ani_alpha_enter, 0);
         getWindow().setFlags(WindowManager.LayoutParams. FLAG_FULLSCREEN , WindowManager.LayoutParams. FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
         setStopHttp(false);
@@ -96,5 +113,10 @@ public class MainActivity extends MyActivity implements MyHttp.MyHttpResult, Han
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
     }
 }

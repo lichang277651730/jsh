@@ -186,6 +186,11 @@ public class NumberAddSubView extends LinearLayout implements View.OnClickListen
         btn_add.setEnabled(isEnabled);
     }
 
+    public void setBtnClickable(boolean isClick){
+        btn_sub.setClickable(isClick);
+        btn_add.setClickable(isClick);
+    }
+
     public int getMinValue() {
         return minValue;
     }

@@ -79,6 +79,17 @@ public class SPUtils {
 		return MyApplication.userSp.getString("phoneNum", "");
 	}
 
+	/**保存pwd
+	 * @param pwdStr
+	 */
+	public static void setPwd(String pwdStr) {
+		MyApplication.userSp.edit().putString("pwd", pwdStr).commit();
+	}
+
+	public static String getPwd(){
+		return MyApplication.userSp.getString("pwd", "");
+	}
+
 
 	/**
 	 * 保存服务器的热门搜索关键字

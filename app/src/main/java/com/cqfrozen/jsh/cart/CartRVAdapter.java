@@ -95,12 +95,14 @@ public class CartRVAdapter extends RecyclerView.Adapter<CartRVAdapter.MyViewHold
         holder.add_sub_num.setOnSubAddClickListener(new NumberAddSubView.OnSubAddClickListener() {
             @Override
             public void onSubAddClick(View view, final int curVal) {
-                holder.add_sub_num.setEnabled(false);
+//                holder.add_sub_num.setEnabled(false);
+                holder.add_sub_num.setClickable(false);
 
                 MyHttp.editCount(http, null, cartGoodsInfo.c_id, curVal, new HttpForVolley.HttpTodo() {
                     @Override
                     public void httpTodo(Integer which, JSONObject response) {
-                        holder.add_sub_num.setEnabled(true);
+//                        holder.add_sub_num.setEnabled(true);
+                        holder.add_sub_num.setClickable(true);
                         int code = response.optInt("code");
                         if(code != 0){
                             holder.add_sub_num.setCurValue(cartGoodsInfo.count);

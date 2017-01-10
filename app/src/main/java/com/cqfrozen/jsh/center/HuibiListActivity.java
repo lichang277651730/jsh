@@ -6,12 +6,18 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
 import com.cqfrozen.jsh.R;
+import com.cqfrozen.jsh.entity.HttpUrlInfo;
 import com.cqfrozen.jsh.fragment.HuibiFragment;
 import com.cqfrozen.jsh.main.MyActivity;
+import com.cqfrozen.jsh.volleyhttp.MyHttp;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Administrator on 2016/10/24.
@@ -31,6 +37,7 @@ public class HuibiListActivity extends MyActivity implements View.OnClickListene
     private View v_huibi_use;
     private String url;
     private HuibiFragment huibiFragment;
+    private List<HttpUrlInfo> httpUrlInfos = new ArrayList<HttpUrlInfo>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,6 +51,33 @@ public class HuibiListActivity extends MyActivity implements View.OnClickListene
     private void getIntentData() {
         hb_count = getIntent().getFloatExtra("hb_count", 0f);
         url = getIntent().getStringExtra("url");
+        if(TextUtils.isEmpty(url)){
+            getUrlData();
+        }
+        if(hb_count == 0f){
+            hb_count = getUserInfo().hb_count;
+        }
+    }
+
+    private void getUrlData() {
+        MyHttp.searchHttpUrl(http, null, new MyHttp.MyHttpResult() {
+            @Override
+            public void httpResult(Integer which, int code, String msg, Object bean) {
+                if(code != 0){
+                    return;
+                }
+                httpUrlInfos.addAll((List<HttpUrlInfo>)bean);
+                if(httpUrlInfos.size() == 0){
+                    return;
+                }
+                for(int i = 0; i < httpUrlInfos.size(); i++){
+                    HttpUrlInfo httpUrlInfo = httpUrlInfos.get(i);
+                    if(httpUrlInfo.type == 4){
+                        url = httpUrlInfo.http_url;
+                    }
+                }
+            }
+        });
     }
 
     private void initView() {
@@ -69,6 +103,10 @@ public class HuibiListActivity extends MyActivity implements View.OnClickListene
         });
         tv_all.setTextColor(getResources().getColor(R.color.main));
         v_huibi_all.setVisibility(View.VISIBLE);
+    }
+
+    private void getHbCount() {
+
     }
 
     private void setFragment() {

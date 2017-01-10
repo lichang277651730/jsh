@@ -159,6 +159,9 @@ public class HuibiFragment extends MyFragment implements SupportLayout.LoadMoreL
 
     @Override
     public void toHttpAgain() {
+        page = 1;
+        is_page = 0;
+        huibiInfos.clear();
         getData();
     }
 }

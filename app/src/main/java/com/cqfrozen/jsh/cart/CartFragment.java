@@ -431,6 +431,9 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
 
     @Override
     public void toHttpAgain() {
+        is_page = 0;
+        page = 1;
+        cartGoodsInfos.clear();
         getData();
     }
 

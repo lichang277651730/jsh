@@ -30,7 +30,7 @@ public class CountDownAdTimer extends CountDownTimer {
     public void onFinish() {
         isGoing = false;
         if (null != text) {
-            text.setText("");
+            text.setText("0s");
             text.setEnabled(true);
         }
     }

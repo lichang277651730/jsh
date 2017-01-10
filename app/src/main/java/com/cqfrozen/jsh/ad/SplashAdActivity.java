@@ -10,8 +10,11 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.common.base.BaseValue;
 import com.common.http.HttpForVolley;
 import com.cqfrozen.jsh.R;
 import com.cqfrozen.jsh.activity.GoodsDetailActivity;
@@ -31,11 +34,13 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by Administrator on 2017/1/5.
  */
-public class SplashAdActivity extends MyActivity implements Handler.Callback {
+public class SplashAdActivity extends MyActivity implements Handler.Callback, ViewPager.OnPageChangeListener {
 
     private ViewPager vp_ad;
     private TextView tv_count_down;
@@ -45,6 +50,9 @@ public class SplashAdActivity extends MyActivity implements Handler.Callback {
     private LinearLayout ll_count_time;
     private boolean hasAd = false;
     private Handler handler = new Handler(this);
+    private RadioGroup rg_ad_points;
+    private RadioButton[] rb_points;
+    private Timer timer;
 
     @Override
     public boolean handleMessage(Message message) {
@@ -57,14 +65,32 @@ public class SplashAdActivity extends MyActivity implements Handler.Callback {
                 startActivity(new Intent(this, LoginActivity.class));
             }
         }
-        finish();
+
+//        finish();
         return false;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        new Thread(){
+            @Override
+            public void run() {
+                try {
+                    Thread.currentThread().sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                finish();
+            }
+        }.start();
     }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //全屏
+        overridePendingTransition(R.anim.activity_ani_alpha_enter, 0);
         getWindow().setFlags(WindowManager.LayoutParams. FLAG_FULLSCREEN , WindowManager.LayoutParams. FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash_ad);
         setStopHttp(false);
@@ -80,6 +106,7 @@ public class SplashAdActivity extends MyActivity implements Handler.Callback {
         vp_ad = (ViewPager) findViewById(R.id.vp_ad);
         tv_count_down = (TextView) findViewById(R.id.tv_count_down);
         tv_skip = (TextView) findViewById(R.id.tv_skip);
+        rg_ad_points = (RadioGroup) findViewById(R.id.rg_ad_points);
         CountDownAdTimer downTimer = new CountDownAdTimer(4000, 100);
         downTimer.going();
         downTimer.setTextView(tv_count_down);
@@ -150,6 +177,8 @@ public class SplashAdActivity extends MyActivity implements Handler.Callback {
                 finish();
             }
         });
+
+        vp_ad.addOnPageChangeListener(this);
     }
 
     private void getData() {
@@ -169,8 +198,60 @@ public class SplashAdActivity extends MyActivity implements Handler.Callback {
                 }
                 hasAd = true;
                 vpAdapter.notifyDataSetChanged();
+                setPoints(bannerAdInfos);//添加圆点
+                //默认第一页 第一个点选中
+//                vp_ad.setCurrentItem(0, false);
+                rb_points[0].setChecked(true);
+                //设置无限轮播
+                setLoopPlay(vp_ad, bannerAdInfos);
             }
         });
+    }
+
+    private void setLoopPlay(final ViewPager vp_ad, final List<HomeBannerAdResultInfo.HomeBannerAdInfo> bannerAdInfos) {
+        if(timer != null){
+            return;
+        }
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(vp_ad.getCurrentItem() < bannerAdInfos.size()){
+                            vp_ad.setCurrentItem(vp_ad.getCurrentItem() + 1, false);
+                        }else {
+                            handler.removeCallbacksAndMessages(null);
+                            if(isLogined()){
+                                startActivity(new Intent(SplashAdActivity.this, HomeActivity.class));
+                            }else {
+                                startActivity(new Intent(SplashAdActivity.this, LoginActivity.class));
+                            }
+                            finish();
+                        }
+                    }
+                });
+            }
+        }, 2000, 2000);
+    }
+
+    private void setPoints(List<HomeBannerAdResultInfo.HomeBannerAdInfo> bannerAdInfos) {
+        RadioGroup.LayoutParams params = new RadioGroup.LayoutParams(BaseValue.dp2px(8),
+                BaseValue.dp2px(8));
+        rb_points = new RadioButton[bannerAdInfos.size()];
+        params.leftMargin = BaseValue.dp2px(4);
+        rg_ad_points.removeAllViews();
+        for(int i = 0; i < bannerAdInfos.size(); i++) {
+            RadioButton rb = new RadioButton(this);
+            rb.setLayoutParams(params);
+            rb.setPadding(BaseValue.dp2px(2), 0, 0, 0);
+            rb.setBackgroundResource(R.drawable.sl_viewpager_dot);
+            rb.setButtonDrawable(R.color.transparency);
+            rb.setEnabled(false);
+            rb_points[i] = rb;
+            rg_ad_points.addView(rb);
+        }
     }
 
     @Override
@@ -181,4 +262,26 @@ public class SplashAdActivity extends MyActivity implements Handler.Callback {
         return super.onKeyDown(keyCode, event);
     }
 
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        rb_points[position].setChecked(true);
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if(timer != null){
+            timer.cancel();
+        }
+    }
 }
