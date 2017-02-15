@@ -48,7 +48,6 @@ public class SplashAdActivity extends MyActivity implements Handler.Callback, Vi
     private List<HomeBannerAdResultInfo.HomeBannerAdInfo> bannerAdInfos = new ArrayList<>();
     private SplashVPAdapter vpAdapter;
     private LinearLayout ll_count_time;
-    private boolean hasAd = false;
     private Handler handler = new Handler(this);
     private RadioGroup rg_ad_points;
     private RadioButton[] rb_points;
@@ -65,8 +64,6 @@ public class SplashAdActivity extends MyActivity implements Handler.Callback, Vi
                 startActivity(new Intent(this, LoginActivity.class));
             }
         }
-
-//        finish();
         return false;
     }
 
@@ -187,16 +184,13 @@ public class SplashAdActivity extends MyActivity implements Handler.Callback, Vi
             @Override
             public void httpResult(Integer which, int code, String msg, Object bean) {
                 if(code != 0){
-                    hasAd = false;
                     return;
                 }
                 bannerAdInfos.clear();
                 bannerAdInfos.addAll(((HomeBannerAdResultInfo)bean).data1);
                 if(bannerAdInfos.size() == 0){
-                    hasAd = false;
                     return;
                 }
-                hasAd = true;
                 vpAdapter.notifyDataSetChanged();
                 setPoints(bannerAdInfos);//添加圆点
                 //默认第一页 第一个点选中

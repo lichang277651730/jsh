@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -123,6 +124,7 @@ public class UpdateUtils implements MyHttp.MyHttpResult, View.OnClickListener, H
                     }
                     String mSavePath = sdpath + "download";
                     String apkFilePath = mSavePath + "/冻博汇.apk";
+                    Log.e("apkFilePath", apkFilePath);
                     File file = new File(mSavePath);
                     if (!file.exists()) {
                         file.mkdirs();
@@ -150,8 +152,7 @@ public class UpdateUtils implements MyHttp.MyHttpResult, View.OnClickListener, H
                         fos.write(buffer, 0, len);
                         haveSize += len;
                         //已经下载的百分比
-                        int v = (int) (Double.valueOf(String.format("%.2f", haveSize / length)) *
-                                100);
+                        int v = (int) (Double.valueOf(String.format("%.2f", haveSize / length)) * 100);
                         handler.sendEmptyMessage(v);
                     }
                     Message message2 = handler.obtainMessage();
@@ -207,6 +208,8 @@ public class UpdateUtils implements MyHttp.MyHttpResult, View.OnClickListener, H
     }
 
     private void installAPK(String path) {
+        File file = new File(path);
+        Log.e("apkFilePath", file.exists() ? "cunzai" : "bucunzai" );
         String type = "application/vnd.android.package-archive";
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_VIEW);

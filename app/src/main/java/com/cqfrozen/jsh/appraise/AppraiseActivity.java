@@ -32,7 +32,7 @@ public class AppraiseActivity extends MyActivity implements View.OnClickListener
     private CheckBox cb_anony;
     private TextView tv_submit_appraise;
     private List<AppraiseInfo> appraiseInfos = new ArrayList<>();
-    private List<AppraiseItemData> appraiseItemDatas;
+    private List<AppraiseItemData> appraiseItemDatas = new ArrayList<>();
     private AppraiseAdapter appraiseAdapter;
     private String star_count_list = "";
     private String order_info_id_list = "";
@@ -102,6 +102,8 @@ public class AppraiseActivity extends MyActivity implements View.OnClickListener
                     appraiseItemData.content = "";
                     appraiseItemDatas.add(appraiseItemData);
                 }
+                //先构建服务器需要的数据
+                parseData();
                 appraiseAdapter.notifyDataSetChanged();
             }
         });
@@ -119,8 +121,6 @@ public class AppraiseActivity extends MyActivity implements View.OnClickListener
     }
 
     private void submitAppraise() {
-        //先构建服务器需要的数据
-        parseData();
         is_anonymou = cb_anony.isChecked() ? 1 : 0;
         tv_submit_appraise.setEnabled(false);
         MyHttp.addPJ(http, null, o_id, star_count_list, order_info_id_list,
@@ -140,6 +140,9 @@ public class AppraiseActivity extends MyActivity implements View.OnClickListener
     }
 
     private void parseData() {
+        if(appraiseItemDatas == null){
+            return;
+        }
         star_count_list = "";
         order_info_id_list = "";
         goods_id_list = "";

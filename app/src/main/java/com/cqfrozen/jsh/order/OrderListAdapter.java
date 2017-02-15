@@ -44,18 +44,12 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.MyVi
 
     private Context context;
     private List<OrderResultInfo.OrderSearchInfo> orderSearchInfos;
-//    private final DisplayImageOptions defaultOptions;
     private final HttpForVolley http;
     private int index = -1;
     public OrderListAdapter(Context context, List<OrderResultInfo.OrderSearchInfo> orderSearchInfos){
         this.context = context;
         this.orderSearchInfos = orderSearchInfos;
         this.http = new HttpForVolley(context);
-//        defaultOptions = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true)
-//                .showImageOnLoading(R.color.transparency)
-//                .showImageForEmptyUri(R.mipmap.img_loading_empty)
-//                .showImageOnFail(R.mipmap.img_loading_failed)
-//                .build();
     }
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -287,6 +281,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.MyVi
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(final DialogInterface dialog, int which) {
+                        dialog.cancel();
                         MyHttp.orderConfirm(http, null, o_id, new HttpForVolley.HttpTodo() {
                             @Override
                             public void httpTodo(Integer which, JSONObject response) {
@@ -324,11 +319,10 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.MyVi
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(final DialogInterface dialog, int which) {
-
+                        dialog.cancel();
                         MyHttp.cancelOrder(http, null, orderSearchInfo.o_id, new HttpForVolley.HttpTodo() {
                             @Override
                             public void httpTodo(Integer which, JSONObject response) {
-                                dialog.cancel();
                                 int code = response.optInt("code");
                                 if(code != 0){
                                     ToastUtil.showToast(context, response.optString("msg"));
@@ -365,10 +359,10 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.MyVi
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(final DialogInterface dialog, int which) {
+                        dialog.cancel();
                         MyHttp.cancelOrder(http, null, o_id, new HttpForVolley.HttpTodo() {
                             @Override
                             public void httpTodo(Integer which, JSONObject response) {
-                                dialog.cancel();
                                 int code = response.optInt("code");
                                 if(code != 0){
                                     ToastUtil.showToast(context, response.optString("msg"));
@@ -401,17 +395,17 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.MyVi
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(final DialogInterface dialog, int which) {
+                        dialog.cancel();
                         MyHttp.orderDelete(http, null, o_id, new HttpForVolley.HttpTodo() {
                             @Override
                             public void httpTodo(Integer which, JSONObject response) {
-                                dialog.cancel();
                                 int code = response.optInt("code");
                                 if(code != 0){
                                     ToastUtil.showToast(context, response.optString("msg"));
                                     return;
                                 }
-                                orderSearchInfos.remove(position);
-                                notifyItemRemoved(position);
+                                orderSearchInfos.remove(holder.getAdapterPosition());
+                                notifyItemRemoved(holder.getAdapterPosition());
                                 holder.btn_cancel_nopay.setVisibility(View.GONE);
                                 holder.btn_go_pay.setVisibility(View.GONE);
                                 holder.btn_cancel_noout.setVisibility(View.GONE);

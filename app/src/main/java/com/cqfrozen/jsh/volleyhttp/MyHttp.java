@@ -66,6 +66,7 @@ public class MyHttp {
     //userid 574
 //    private static final String SERVER = "http://test.cqfrozen.com/api/index.php/";//测试api
     private static final String SERVER = "http://api.cqfrozen.com/v1/index.php/";//正式api
+//    private static final String SERVER = "http://api.dbohui.com/v1/index.php/";//正式api
     private static final int GET = Request.Method.GET;
     private static final int POST = Request.Method.POST;
     private static final int p_type = 1;//1是Android端
@@ -77,8 +78,7 @@ public class MyHttp {
     /**
      * 首页banner数据
      */
-    public static void homeBanner(HttpForVolley http, Integer which,
-                                  MyHttpResult myHttpResult) {
+    public static void homeBanner(HttpForVolley http, Integer which, MyHttpResult myHttpResult) {
         String url = SERVER + "Home/banner";
         params.clear();
         params.put("token", MyApplication.token);

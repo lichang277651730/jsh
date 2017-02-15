@@ -37,6 +37,7 @@ public class AdListActivity extends MyActivity implements SupportLayout.LoadMore
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_adlist);
+        setSwipeBackEnable(false);
         initView();
         initRV();
         getData();

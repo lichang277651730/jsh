@@ -83,18 +83,23 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         fragment = this;
         if(view == null){
-            view = inflater.inflate(R.layout.fragment_cart, null);
-            cartManager = CartManager.getInstance(mActivity);
-            cartManager.setOnDeleteCartGoodsFragmentListener(this);
-            initView();
-            initTitle();
-            initRV();
-            getData();
+            view = inflater.inflate(R.layout.fragment_cart, container, false);
         }
         return view;
     }
 
-    private void initTitle() {
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        cartManager = CartManager.getInstance(mActivity);
+        cartManager.setOnDeleteCartGoodsFragmentListener(this);
+        initView(view);
+        initTitle(view);
+        initRV();
+        getData();
+    }
+
+    private void initTitle(View view) {
         btn_edit = (Button) view.findViewById(R.id.btn_edit);
 
         btn_edit.setTag(TAG_EIDT);
@@ -111,7 +116,7 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
         });
     }
 
-    private void initView() {
+    private void initView(View view) {
         include_cartnodatalayout = (LinearLayout) view.findViewById(R.id.include_cartnodatalayout);
         ll_notify = (LinearLayout) view.findViewById(R.id.ll_notify);
         tv_notify = (TextView) view.findViewById(R.id.tv_notify);
@@ -299,25 +304,13 @@ public class CartFragment extends MyFragment implements View.OnClickListener, My
 
     @Override
     public void onShow() {
-//        cartAdapter.checkAllNone(true);//此行确定添加购物车存在的商品后，切换到此页面，数量能对上
-//        MyHttp.queryCart(http, null, page, new MyHttp.MyHttpResult() {
-//            @Override
-//            public void httpResult(Integer which, int code, String msg, Object bean) {
-//                if(code != 0){
-//                    return;
-//                }
-//                CartResultInfo cartResultInfo = (CartResultInfo) bean;
-//                if(cartResultInfo == null || cartResultInfo.data1.size() == 0){
-//                    return;
-//                }
-//                for(int i = 0; i < cartResultInfo.data1.size(); i++){
-//
-//                }
-//            }
-//        });
+
         int cartGoodsNum = 0;
         for (CartGoodsInfo cartGoodsInfo : cartGoodsInfos){
             cartGoodsNum += cartGoodsInfo.count;
+        }
+        if(cartManager == null){
+            return;
         }
         //购物车数量没变
         if(cartGoodsNum == cartManager.getCartGoodsNum()){

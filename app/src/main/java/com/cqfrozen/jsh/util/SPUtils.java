@@ -186,4 +186,15 @@ public class SPUtils {
 	public static String getInviteUrl(){
 		return MyApplication.userSp.getString("invite_url", "");
 	}
+
+	/**
+	 * 保存UserInfo
+	 */
+	public static void setUserInfo(String userInfo) {
+		MyApplication.userSp.edit().putString("user_info", userInfo).commit();
+	}
+
+	public static String getUserInfo(){
+		return MyApplication.userSp.getString("user_info", "");
+	}
 }

@@ -86,6 +86,17 @@ public class NormalBuyActivity extends MyActivity implements MyActivity.HttpFail
                 startActivityForResult(intent, FROM_NORMAL_LIST);
             }
         });
+
+        adapter.setOnDataEmptyListener(new NormalBuyAdapter.OnDataEmptyListener() {
+            @Override
+            public void isEmpty(boolean isEmpty) {
+                if(isEmpty){
+                    setHttpNotData(NormalBuyActivity.this);
+                }else {
+                    setHttpSuccess();
+                }
+            }
+        });
     }
 
     private void getData() {

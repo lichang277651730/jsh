@@ -28,6 +28,7 @@ import com.cqfrozen.jsh.main.MyActivity;
 import com.cqfrozen.jsh.main.MyApplication;
 import com.cqfrozen.jsh.netstate.NetUtils;
 import com.cqfrozen.jsh.util.CustomMiddleToast;
+import com.cqfrozen.jsh.util.JSONUtil;
 import com.cqfrozen.jsh.util.SPUtils;
 import com.cqfrozen.jsh.util.UIUtils;
 import com.cqfrozen.jsh.util.UMengUtils;
@@ -311,14 +312,15 @@ public class LoginActivity extends MyActivity implements View.OnClickListener, M
                     showToast(msg);
                     return;
                 }
+                UserInfo userInfo = (UserInfo) bean;
+                MyApplication.userInfo = userInfo;
+                String userInfoJson = JSONUtil.toJson(userInfo);
+                SPUtils.setUserInfo(userInfoJson);
+                startActivity(new Intent(LoginActivity.this, HomeActivity.class));
                 UMengUtils.setSignIn();
-                MyApplication.userInfo = (UserInfo) bean;
-                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                startActivity(intent);
                 finish();
             }
         });
-
     }
 
     /**

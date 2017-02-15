@@ -106,7 +106,7 @@ public class SettingActivity extends MyActivity implements View.OnClickListener 
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(final DialogInterface dialog, int which) {
-                        loginout();
+                        loginout(dialog);
                     }
                 })
                 .setNegativeButton("取消", new DialogInterface.OnCancelListener() {
@@ -120,17 +120,19 @@ public class SettingActivity extends MyActivity implements View.OnClickListener 
 
     }
 
-    private void loginout() {
+    private void loginout(final DialogInterface dialog) {
 
         MyHttp.loginout(http, null, new HttpForVolley.HttpTodo() {
             @Override
             public void httpTodo(Integer which, JSONObject response) {
+                dialog.dismiss();
                 MyApplication.userInfo = null;
                 MyApplication.token = "";
                 SPUtils.setToken("");
-                finish();
-                UMengUtils.setSignOff(); //友盟退出
+                SPUtils.setUserInfo("");
                 startActivity(new Intent(SettingActivity.this, LoginActivity.class));
+                UMengUtils.setSignOff(); //友盟退出
+                finish();
             }
         });
 

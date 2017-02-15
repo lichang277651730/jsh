@@ -4,11 +4,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.util.Base64;
+import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.ServerError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.common.base.BaseValue;
@@ -136,31 +139,31 @@ public class HttpForVolley {
 
 					@Override
 					public void onErrorResponse(VolleyError error) {
-//						NetworkResponse response = error.networkResponse;
-//						try {
-//							Log.d("errorVolley", "errorVolley1:" + new String(response.data, "utf-8") + ":errorVolley1");
-//						} catch (UnsupportedEncodingException e) {
-//							e.printStackTrace();
-//						}
-//						if (error instanceof ServerError && response != null) {
-//							try {
-//								String res = new String(response.data, "utf-8");
-//								Log.d("errorVolley", "errorVolley2:" +  res + ":errorVolley2");
-//							} catch (UnsupportedEncodingException e1) {
-//								e1.printStackTrace();
-//							}
-//						}
+						NetworkResponse response = error.networkResponse;
 						try {
-							JSONObject object = new JSONObject();
-							object.put("msg", "网络错误");
-							object.put("code", "404");
-							todo.httpTodo(which, object);
-							if (BaseValue.isDebug) {
-								Logger.json(object.toString());
-							}
-						} catch (JSONException e) {
+							Log.d("errorVolley", "errorVolley1:" + new String(response.data, "utf-8") + ":errorVolley1");
+						} catch (UnsupportedEncodingException e) {
 							e.printStackTrace();
 						}
+						if (error instanceof ServerError && response != null) {
+							try {
+								String res = new String(response.data, "utf-8");
+								Log.d("errorVolley", "errorVolley2:" +  res + ":errorVolley2");
+							} catch (UnsupportedEncodingException e1) {
+								e1.printStackTrace();
+							}
+						}
+//						try {
+//							JSONObject object = new JSONObject();
+//							object.put("msg", "网络错误");
+//							object.put("code", "404");
+//							todo.httpTodo(which, object);
+//							if (BaseValue.isDebug) {
+//								Logger.json(object.toString());
+//							}
+//						} catch (JSONException e) {
+//							e.printStackTrace();
+//						}
 					}
 				}) {
 			@Override

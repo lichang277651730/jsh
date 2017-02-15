@@ -58,7 +58,7 @@ public class AdBannerAdapter extends RecyclerView.Adapter<AdBannerAdapter.MyView
             holder.banner_ad.setAutoPlayAble(false);
         }else {
             holder.banner_ad.setAutoPlayAble(true);
-            holder.banner_ad.setPageChangeDuration(3000);
+            holder.banner_ad.setPageChangeDuration(4000);
             holder.banner_ad.startAutoPlay();
         }
         holder.banner_ad.setAdapter(new AdBannerVPAdapter(context));

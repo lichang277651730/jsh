@@ -59,15 +59,20 @@ public class FansFragment extends MyFragment implements SupportLayout.LoadMoreLi
     Bundle savedInstanceState) {
         if(view == null){
             getBundleData(getArguments());
-            view = inflater.inflate(R.layout.fragment_fans, null);
-            initView();
-            initRV();
-            getData();
+            view = inflater.inflate(R.layout.fragment_fans, container, false);
         }
         return view;
     }
 
-    private void initView() {
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initView(view);
+        initRV();
+        getData();
+    }
+
+    private void initView(View view) {
         refresh_fans = (RefreshLayout) view.findViewById(R.id.refresh_fans);
         rv_fans = (RecyclerView) view.findViewById(R.id.rv_fans);
         include_fansnodatalayout = (LinearLayout) view.findViewById(R.id.include_fansnodatalayout);

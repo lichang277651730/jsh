@@ -142,6 +142,7 @@ public class SupportLayout extends LinearLayout {
         if (recyclerView == null) {
             return;
         }
+//        recyclerView.setLayoutFrozen(!viewEnable);
         recyclerView.setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {

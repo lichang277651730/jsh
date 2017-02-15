@@ -62,7 +62,9 @@ public class MyViewPager extends ViewPager {
 				if(isHaveFragment){
 					stopMap.get("Fragment").onStop();
 					stopMap.put("Fragment", mFragments.get(position));
-					mFragments.get(position).onShow();
+					if(mFragments.get(position).isResumed()){
+						mFragments.get(position).onShow();
+					}
 				}
 			}
 

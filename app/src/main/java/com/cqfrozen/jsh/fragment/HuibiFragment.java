@@ -51,19 +51,24 @@ public class HuibiFragment extends MyFragment implements SupportLayout.LoadMoreL
     Bundle savedInstanceState) {
         if(view == null){
             getBundleData(getArguments());
-            view = inflater.inflate(R.layout.fragment_huibi, null);
-            initView();
-            initRV();
-            getData();
+            view = inflater.inflate(R.layout.fragment_huibi, container, false);
         }
         return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initView(view);
+        initRV();
+        getData();
     }
 
     private void getBundleData(Bundle bundle) {
         this.type = bundle.getInt("type", 1);
     }
 
-    private void initView() {
+    private void initView(View view) {
         refresh_huibi = (RefreshLayout) view.findViewById(R.id.refresh_huibi);
         rv_huibi = (RecyclerView) view.findViewById(R.id.rv_huibi);
         include_huibinodatalayout = (LinearLayout) view.findViewById(R.id.include_huibinodatalayout);

@@ -84,7 +84,7 @@ public class IndexActivity extends Activity{
                         break;
                     default:
                         break;
-                };
+                }
                 if (position == 2) { //显示按钮
                     btn_go.setVisibility(View.VISIBLE);
                 } else {

@@ -106,14 +106,19 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         fragment = this;
         if(view == null){
-            view = inflater.inflate(R.layout.fragment_mine, null);
-            initView();
-            getUrlData();
+            view = inflater.inflate(R.layout.fragment_mine, container, false);
         }
         return view;
     }
 
-    private void initView() {
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initView(view);
+        getUrlData();
+    }
+
+    private void initView(View view) {
         iv_setting = (ImageView) view.findViewById(R.id.iv_setting);
         iv_shotcut = (ImageView) view.findViewById(R.id.iv_shotcut);
         iv_table1 = (ImageView) view.findViewById(R.id.iv_table1);
@@ -213,7 +218,9 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
     }
 
     private void showUnLogined() {
-        ll_user_phone_verify.setVisibility(View.INVISIBLE);
+        if(ll_user_phone_verify != null){
+            ll_user_phone_verify.setVisibility(View.INVISIBLE);
+        }
         //将登陆字符显示
         tv_login.setVisibility(View.VISIBLE);
         //将name隐藏
@@ -232,7 +239,9 @@ public class MineFragment extends MyFragment implements View.OnClickListener{
     }
 
     private void showLogined(UserInfo userInfo) {
-        ll_user_phone_verify.setVisibility(View.VISIBLE);
+        if(ll_user_phone_verify != null){
+            ll_user_phone_verify.setVisibility(View.VISIBLE);
+        }
         hb_count_new = userInfo.hb_count;
         tv_login.setVisibility(View.GONE);
         tv_name.setVisibility(View.VISIBLE);

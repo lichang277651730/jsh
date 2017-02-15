@@ -118,29 +118,32 @@ public class NormalBuyAdapter extends RecyclerView.Adapter<NormalBuyAdapter.MyVi
         holder.iv_collect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showCollectDialog(position, goodsInfo.g_id);
+                showCollectDialog(holder, position, goodsInfo.g_id);
             }
         });
     }
 
     private CustomSimpleDialog collectDialog;
-    private void showCollectDialog(final int position, final Long g_id) {
+    private void showCollectDialog(final MyViewHolder holder, final int position, final Long g_id) {
         collectDialog = new CustomSimpleDialog.Builder(context)
                 .setMessage("确定取消此常用采购商品吗？")
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(final DialogInterface dialog, int which) {
+                        dialog.cancel();
                         MyHttp.addCancelComm(http, null, 2, g_id, new HttpForVolley.HttpTodo() {
                             @Override
                             public void httpTodo(Integer which, JSONObject response) {
-                                dialog.cancel();
                                 int code = response.optInt("code");
                                 if(code != 0){
                                     ToastUtil.showToast(context, response.optString("msg"));
                                     return;
                                 }
-                                goodsInfos.remove(position);
-                                notifyItemRemoved(position);
+                                goodsInfos.remove(holder.getAdapterPosition());
+                                notifyItemRemoved(holder.getAdapterPosition());
+                                if(onDataEmptyListener != null){
+                                    onDataEmptyListener.isEmpty(goodsInfos.size() == 0);
+                                }
                             }
                         });
                     }
@@ -190,5 +193,15 @@ public class NormalBuyAdapter extends RecyclerView.Adapter<NormalBuyAdapter.MyVi
 
     public interface OnItemClickListener{
         void onItemClick(MyViewHolder holder, int position);
+    }
+
+    private OnDataEmptyListener onDataEmptyListener;
+
+    public void setOnDataEmptyListener(OnDataEmptyListener onDataEmptyListener) {
+        this.onDataEmptyListener = onDataEmptyListener;
+    }
+
+    public interface OnDataEmptyListener{
+        void isEmpty(boolean isEmpty);
     }
 }

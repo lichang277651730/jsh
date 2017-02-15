@@ -1,23 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout 
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-    <android.support.v4.view.ViewPager
+    <cn.bingoogolapple.bgabanner.BGABanner
         android:id="@+id/vp_homebanner"
         android:layout_width="match_parent"
-        android:layout_height="180dp"
-        android:background="@color/white">
-    </android.support.v4.view.ViewPager>
-    <RadioGroup
-        android:id="@+id/rg_homebanner"
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:layout_gravity="bottom"
-        android:layout_marginBottom="4dp"
-        android:gravity="center"
-        android:orientation="horizontal">
-    </RadioGroup>
+        android:layout_height="220dp"
+        android:background="#f4f4f4"
+        android:overScrollMode="never"
+        app:banner_indicatorGravity="center_horizontal|bottom"
+        app:banner_pointDrawable="@drawable/sl_ad_banner_point"
+        app:banner_pointTopBottomMargin="3dp"
+        app:banner_tipTextColor="@color/white"
+        app:banner_tipTextSize="15dp"
+        app:banner_pointContainerBackground="@color/transparency"/>
     <View style="@style/HorizontalDividerLine"
         android:layout_gravity="bottom"/>
 </FrameLayout>

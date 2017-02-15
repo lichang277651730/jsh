@@ -174,7 +174,7 @@ public class OrderConfirmActivity extends MyActivity implements View.OnClickList
         if(goodsList != null){
             goodsList.add(orderInfo.goods.get(0));
             orderConfirmLvAdapter.notifyDataSetChanged();
-            MeasureUtil.setListViewHeightBasedOnChildren(lv_goods);
+            MeasureUtil.setListViewHeightBasedOnChildren(lv_goods, null);
         }
         if(orderInfo.goods.size() == 1){
             rl_order.setVisibility(View.GONE);

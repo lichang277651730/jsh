@@ -34,8 +34,10 @@ public class ShowImgsFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable
     Bundle savedInstanceState) {
-        getBundleData(getArguments());
-        View view = inflater.inflate(R.layout.fragment_showimgs, container, false);
+        if(view == null){
+            getBundleData(getArguments());
+            view = inflater.inflate(R.layout.fragment_showimgs, container, false);
+        }
         return view;
     }
 

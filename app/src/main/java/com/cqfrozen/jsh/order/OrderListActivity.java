@@ -103,9 +103,9 @@ public class OrderListActivity extends MyActivity implements View.OnClickListene
     @Override
     protected void onResume() {
         super.onResume();
-        if(indicator_order != null){
-            indicatorAdapter.notifyDataSetChanged();
-        }
+//        if(indicator_order != null){
+//            indicatorAdapter.notifyDataSetChanged();
+//        }
     }
 
     @Override

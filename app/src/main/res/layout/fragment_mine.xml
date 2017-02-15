@@ -84,10 +84,9 @@
                     android:id="@+id/ll_user_phone_verify"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/ll_login"
+                    android:layout_below="@id/ll_login"
                     android:layout_alignLeft="@id/ll_login"
                     android:layout_marginTop="10dp"
-                    android:visibility="gone"
                     android:orientation="horizontal">
                     <TextView
                         android:id="@+id/tv_phone"

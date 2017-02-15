@@ -8,8 +8,8 @@ android {
         applicationId "com.cqfrozen.jsh"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 7
-        versionName "1.0.7"
+        versionCode 8
+        versionName "1.0.8"
     }
 
     buildTypes {
@@ -58,4 +58,5 @@ dependencies {
     compile 'com.umeng.analytics:analytics:latest.integration'
     compile 'cn.bingoogolapple:bga-banner:2.0.9@aar'
     compile 'com.nineoldandroids:library:2.4.0'
+    compile project(':ptr')
 }

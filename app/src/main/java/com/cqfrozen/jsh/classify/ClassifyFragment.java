@@ -62,15 +62,20 @@ public class ClassifyFragment extends BaseFragment implements MyHttp.MyHttpResul
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         fragment = this;
         if(view == null){
-            view = inflater.inflate(R.layout.fragment_classify, null);
-            initView();
-            initVP();
-            getData();
+            view = inflater.inflate(R.layout.fragment_classify, container, false);
         }
         return view;
     }
 
-    private void initView() {
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initView(view);
+        initVP();
+        getData();
+    }
+
+    private void initView(View view) {
         indicator_classify = (ScrollIndicatorView) view.findViewById(R.id.indicator_classify);
         iv_search = (ImageView) view.findViewById(R.id.iv_search);
         iv_pop = (ImageView) view.findViewById(R.id.iv_pop);
@@ -122,9 +127,7 @@ public class ClassifyFragment extends BaseFragment implements MyHttp.MyHttpResul
 //            getData();
 //            adapter.notifyDataSetChanged();
 //        }
-        if(adapter != null){
-            adapter.notifyDataSetChanged();
-        }
+
     }
 
     @Override

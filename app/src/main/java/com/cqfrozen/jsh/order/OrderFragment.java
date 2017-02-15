@@ -58,15 +58,20 @@ public class OrderFragment extends MyFragment implements MyFragment.HttpFail, Su
     Bundle savedInstanceState) {
         if(view == null){
             getBundleData(getArguments());
-            view = inflater.inflate(R.layout.fragment_order, null);
-            initView();
-            initRV();
-            getData();
+            view = inflater.inflate(R.layout.fragment_order, container, false);
         }
         return view;
     }
 
-    private void initView() {
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initView(view);
+        initRV();
+        getData();
+    }
+
+    private void initView(View view) {
         refresh_order = (RefreshLayout) view.findViewById(R.id.refresh_order);
         include_ordernoorderlayout = (LinearLayout) view.findViewById(R.id.include_ordernoorderlayout);
         include_orderondata_btn = (Button) view.findViewById(R.id.include_orderondata_btn);

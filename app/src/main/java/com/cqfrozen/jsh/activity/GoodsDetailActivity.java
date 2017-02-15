@@ -503,7 +503,7 @@ public class GoodsDetailActivity extends MyActivity implements View.OnClickListe
                 }
                 commentAdapter = new CommentAdapter(GoodsDetailActivity.this, commentInfos);
                 lv_comment.setAdapter(commentAdapter);
-                MeasureUtil.setListViewHeightBasedOnChildren(lv_comment);
+                MeasureUtil.setListViewHeightBasedOnChildren(lv_comment, tv_all_comment);
             }
         });
     }

@@ -62,8 +62,7 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.MyViewHolder
         holder.tv_now_price.setText("¥" + goodsInfo.now_price);
         holder.tv_size.setText(goodsInfo.weight + "kg/" + goodsInfo.unit);
         holder.tv_market_price.setText("¥" + goodsInfo.market_price);
-        holder.tv_market_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint
-                .ANTI_ALIAS_FLAG);
+        holder.tv_market_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
         if (goodsInfo.is_oos == 0) {//不缺货
             holder.ll_no_goods.setVisibility(View.GONE);
             holder.iv_add_cart.setImageResource(R.mipmap.icon_cart);
@@ -127,6 +126,7 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.MyViewHolder
                 Intent intent = new Intent(context, GoodsDetailActivity.class);
 //                intent.putExtra("goodsInfo", goodsInfo);
                 intent.putExtra("g_id", goodsInfo.g_id);
+//                Log.e("gidgidgid", goodsInfo.g_id + "");
                 context.startActivity(intent);
             }
         });

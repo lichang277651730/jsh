@@ -98,15 +98,20 @@ public class GoodsFragment extends MyFragment implements MyHttp.MyHttpResult, My
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if(view == null){
             getBundleData(getArguments());
-            view = inflater.inflate(R.layout.fragment_goods, null);
-            initView();
-            initRV();
-            getData();
+            view = inflater.inflate(R.layout.fragment_goods, container, false);
         }
         return view;
     }
 
-    private void initView() {
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initView(view);
+        initRV();
+        getData();
+    }
+
+    private void initView(View view) {
         refresh_goods = (RefreshLayout) view.findViewById(R.id.refresh_goods);
         rv_goods = (RecyclerView) view.findViewById(R.id.rv_goods);
         refresh_goods.setOnRefreshListener(this);

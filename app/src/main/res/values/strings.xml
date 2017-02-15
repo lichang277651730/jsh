@@ -58,4 +58,13 @@
     <string name="test_string">商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情</string>
     <string name="normal_buyall">一键采购</string>
 
+    <string name="ptr_pull_refresh">下拉刷新</string>
+    <string name="ptr_pull_refreshing">正在刷新...</string>
+    <string name="ptr_pull_enable">释放立即刷新</string>
+    <string name="ptr_pull_disable">下拉刷新</string>
+    <string name="ptr_push_refresh">上拉加载更多...</string>
+    <string name="ptr_push_refreshing">正在加载...</string>
+    <string name="ptr_push_enable">释放立即加载</string>
+    <string name="ptr_push_disable">上拉加载</string>
+
 </resources>

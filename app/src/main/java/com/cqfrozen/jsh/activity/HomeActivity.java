@@ -21,7 +21,7 @@ import com.cqfrozen.jsh.cart.CartFragment;
 import com.cqfrozen.jsh.cart.CartManager;
 import com.cqfrozen.jsh.center.MineFragment;
 import com.cqfrozen.jsh.classify.ClassifyFragment;
-import com.cqfrozen.jsh.home.HomeFragment2;
+import com.cqfrozen.jsh.home.HomeFragment3;
 import com.cqfrozen.jsh.main.MyApplication;
 import com.cqfrozen.jsh.util.UMengUtils;
 import com.cqfrozen.jsh.util.UpdateUtils;
@@ -123,7 +123,8 @@ public class HomeActivity extends BaseActivity implements RadioGroup.OnCheckedCh
 
     private void initFragment() {
         fragments = new ArrayList<>();
-        fragments.add(HomeFragment2.getInstance());
+//        fragments.add(HomeFragment2.getInstance());
+        fragments.add(HomeFragment3.getInstance());
         fragments.add(ClassifyFragment.getInstance());
         fragments.add(CartFragment.getInstance());
         fragments.add(MineFragment.getInstance());
